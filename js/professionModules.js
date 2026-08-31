@@ -393,5 +393,396 @@ class ProfessionModuleManager {
   }
 }
 
+
+  // ==========================================
+  // 5. EĞİTİM KOÇLUĞU & ÖZEL DERS YÖNETİMİ (ÖĞRETMEN)
+  // ==========================================
+  renderOgretmen() {
+    const container = document.getElementById('tab-ogretmen');
+    if (!container) return;
+
+    const students = window.polymorphicStore.getRecords('ogretmen', 'CONTACT');
+    const logs = window.polymorphicStore.getRecords('ogretmen', 'TIMELINE_EVENT');
+    const exams = window.polymorphicStore.getRecords('ogretmen', 'ENTITY').filter(e => e.category === 'DenemeSinavi');
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const todayCalls = students.filter(s => s.customAttributes?.nextCallDate === todayStr);
+
+    container.innerHTML = `
+      <div class="space-y-6">
+        <!-- Üst Başlık ve Hızlı Ekle -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+              <i data-lucide="graduation-cap" class="w-5 h-5 text-blue-400"></i>
+              Eğitim Koçluğu & Özel Ders Portalı
+            </h2>
+            <p class="text-xs text-slate-400">Öğrenci takip dosyaları, günlük arama/ödev kontrolü, deneme netleri ve koçluk performansı.</p>
+          </div>
+          <div class="flex gap-2 w-full md:w-auto">
+            <button onclick="window.professionModules.openAddStudentModal()" 
+                    class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 transition-all flex-1 md:flex-initial">
+              <i data-lucide="user-plus" class="w-4 h-4"></i> Yeni Öğrenci Ekle
+            </button>
+          </div>
+        </div>
+
+        <!-- Özet KPI Kartları -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="glass-card p-5 rounded-3xl border">
+            <p class="text-xs font-semibold text-slate-400 mb-1">Kayıtlı Öğrenciler</p>
+            <h2 class="text-2xl font-bold font-mono text-slate-100">${students.length}</h2>
+            <p class="text-[11px] text-slate-500 mt-1">Aktif Koçluk & Özel Ders</p>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl border ${todayCalls.length > 0 ? 'bg-amber-500/10 border-amber-500/30' : ''}">
+            <p class="text-xs font-semibold text-slate-400 mb-1">Bugün Aranacaklar</p>
+            <h2 class="text-2xl font-bold font-mono ${todayCalls.length > 0 ? 'text-amber-400' : 'text-slate-100'}">${todayCalls.length}</h2>
+            <p class="text-[11px] text-slate-500 mt-1">Ders & Ödev Kontrol Görüşmesi</p>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl border">
+            <p class="text-xs font-semibold text-slate-400 mb-1">Toplam Koçluk Seansı</p>
+            <h2 class="text-2xl font-bold font-mono text-cyan-400">${logs.length}</h2>
+            <p class="text-[11px] text-slate-500 mt-1">Kayıtlı Görüşme Notu</p>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl border">
+            <p class="text-xs font-semibold text-slate-400 mb-1">Girilen Deneme Sınavları</p>
+            <h2 class="text-2xl font-bold font-mono text-purple-400">${exams.length}</h2>
+            <p class="text-[11px] text-slate-500 mt-1">Net & Puan Kaydı</p>
+          </div>
+        </div>
+
+        <!-- Bugün Aranacak Öğrenciler Şeridi (Eğer varsa) -->
+        ${todayCalls.length > 0 ? `
+          <div class="p-5 rounded-3xl bg-amber-500/10 border border-amber-500/30 space-y-3">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="phone-call" class="w-4 h-4"></i>
+              Bugün Ödev & Ders Kontrolü İçin Aranacak Öğrenciler
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              ${todayCalls.map(s => `
+                <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/40 flex justify-between items-center">
+                  <div>
+                    <h4 class="font-bold text-slate-100 text-sm">${escapeHtml(s.displayName)}</h4>
+                    <p class="text-xs text-slate-400 font-mono">Hedef: ${s.customAttributes?.target || 'YKS / LGS'}</p>
+                  </div>
+                  <div class="flex gap-1.5">
+                    <a href="tel:${s.phone}" class="p-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white" title="Ara">
+                      <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                    </a>
+                    <button onclick="window.professionModules.openAddLogModal('${s.id}', '${escapeHtml(s.displayName)}')" 
+                            class="px-2.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">
+                      Not Yaz
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Öğrenci Listesi (360° Koçluk Dosyaları) -->
+        <div class="glass-card p-6 rounded-3xl border space-y-4">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+            <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+              <i data-lucide="users" class="w-4 h-4 text-blue-400"></i>
+              Tüm Öğrenci Koçluk Dosyaları
+            </h3>
+            <input type="text" placeholder="Öğrenci ara veya filtrele..." oninput="window.professionModules.filterStudents(this.value)" 
+                   class="px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-64">
+          </div>
+
+          <div id="studentListContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            ${students.length === 0 ? `
+              <div class="col-span-full py-16 text-center space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto border border-blue-500/20">
+                  <i data-lucide="user-plus" class="w-6 h-6"></i>
+                </div>
+                <p class="text-slate-400 text-sm font-medium">Henüz kayıtlı öğrenciniz yok.</p>
+                <button onclick="window.professionModules.openAddStudentModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">
+                  İlk Öğrenciyi Ekle
+                </button>
+              </div>
+            ` : ''}
+
+            ${students.map(s => {
+              const sLogs = logs.filter(l => l.relatedContactId === s.id);
+              const sExams = exams.filter(e => e.primaryContactId === s.id);
+              const lastLog = sLogs[0];
+              const lastExam = sExams[0];
+
+              // Performans Trendi
+              const trend = s.customAttributes?.performanceTrend || 'Yükselişte';
+              const trendColor = trend === 'Yükselişte' ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-amber-400 bg-amber-500/10 border-amber-500/20';
+
+              return `
+                <div onclick="window.professionModules.openStudentDossier('${s.id}')"
+                     class="cursor-pointer glass-card p-5 rounded-2xl border border-slate-800 hover:border-blue-500/60 transition-all space-y-3.5 group relative">
+                  
+                  <div class="flex justify-between items-start">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-bold flex items-center justify-center text-sm shadow-md">
+                        ${s.displayName.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}
+                      </div>
+                      <div>
+                        <h4 class="font-bold text-slate-100 text-sm group-hover:text-blue-400 transition-colors">${escapeHtml(s.displayName)}</h4>
+                        <p class="text-xs text-slate-400 font-mono">${s.customAttributes?.grade || 'Sınıf Belirtilmedi'} • ${s.customAttributes?.target || 'Hedef Yok'}</p>
+                      </div>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${trendColor}">
+                      ${trend === 'Yükselişte' ? '🔥 Yükselişte' : '⚠️ Takip Gerekli'}
+                    </span>
+                  </div>
+
+                  <!-- Mini İstatistik Çubuğu -->
+                  <div class="grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 text-[11px]">
+                    <div>
+                      <p class="text-slate-500">Son Deneme Neti</p>
+                      <p class="font-mono font-bold text-slate-200">${lastExam ? `${lastExam.valuation?.amount || 0} Net` : 'Henüz Girilmedi'}</p>
+                    </div>
+                    <div>
+                      <p class="text-slate-500">Son Görüşme</p>
+                      <p class="font-mono font-bold text-slate-200">${lastLog ? new Date(lastLog.startAt).toLocaleDateString('tr-TR') : 'Yapılmadı'}</p>
+                    </div>
+                  </div>
+
+                  <!-- Alt Butonlar -->
+                  <div class="flex justify-between items-center pt-1 text-xs">
+                    <span class="text-blue-400 font-semibold flex items-center gap-1 group-hover:underline">
+                      Dosyayı İncele <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <span class="text-slate-500 text-[11px] font-mono">${sLogs.length} Görüşme Notu</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  // ==========================================
+  // ÖĞRENCİ 360° DETAY DOSYASI (DOSSIER MODAL)
+  // ==========================================
+  openStudentDossier(studentId) {
+    const student = window.polymorphicStore.getRecords('ogretmen', 'CONTACT').find(s => s.id === studentId);
+    if (!student) return;
+
+    const modal = document.getElementById('studentDossierModal');
+    if (!modal) return;
+
+    const logs = window.polymorphicStore.getRecords('ogretmen', 'TIMELINE_EVENT')
+      .filter(l => l.relatedContactId === studentId)
+      .sort((a,b) => b.startAt - a.startAt);
+
+    const exams = window.polymorphicStore.getRecords('ogretmen', 'ENTITY')
+      .filter(e => e.primaryContactId === studentId && e.category === 'DenemeSinavi')
+      .sort((a,b) => b.createdAt - a.createdAt);
+
+    const container = document.getElementById('studentDossierContent');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="space-y-6">
+        <!-- Öğrenci Başlık Bilgisi -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-bold flex items-center justify-center text-lg shadow-lg">
+              ${student.displayName.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                ${escapeHtml(student.displayName)}
+                <span class="text-xs font-normal px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono">${student.customAttributes?.target || 'Hedef: YKS'}</span>
+              </h3>
+              <p class="text-xs text-slate-400 font-mono">
+                📱 Öğrenci: ${student.phone || 'Yok'} | 👨‍👩‍👦 Veli: ${student.customAttributes?.parentPhone || 'Yok'}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button onclick="window.professionModules.openAddLogModal('${student.id}', '${escapeHtml(student.displayName)}')" 
+                    class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Görüşme Notu Ekle
+            </button>
+            <button onclick="window.professionModules.openAddExamModal('${student.id}', '${escapeHtml(student.displayName)}')" 
+                    class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md">
+              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> Deneme Neti Gir
+            </button>
+          </div>
+        </div>
+
+        <!-- 2 Sütunlu Detay Alanı -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Sol Sütun: Görüşme & Koçluk Günlüğü -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="message-square" class="w-4 h-4 text-blue-400"></i>
+              Görüşme ve Kontrol Kayıtları (${logs.length})
+            </h4>
+
+            <div class="space-y-2.5 max-h-[45vh] overflow-y-auto pr-1 no-scrollbar">
+              ${logs.length === 0 ? '<p class="text-xs text-slate-500 py-6 text-center">Henüz görüşme notu eklenmemiş.</p>' : ''}
+              ${logs.map(l => `
+                <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold text-slate-200 font-mono">${new Date(l.startAt).toLocaleDateString('tr-TR')} - ${new Date(l.startAt).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'})}</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded font-semibold ${
+                      l.customAttributes?.hwStatus === 'Tam Yapıldı' ? 'bg-emerald-500/20 text-emerald-300' : 
+                      l.customAttributes?.hwStatus === 'Kısmi / Eksik' ? 'bg-amber-500/20 text-amber-300' : 'bg-rose-500/20 text-rose-300'
+                    }">
+                      Ödev: ${l.customAttributes?.hwStatus || 'Kontrol Edildi'}
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-300 leading-relaxed">${escapeHtml(l.title)}</p>
+                  ${l.customAttributes?.nextGoal ? `
+                    <div class="text-[11px] text-blue-300 bg-blue-500/10 p-2 rounded-xl border border-blue-500/20">
+                      🎯 <b>Verilen Hedef:</b> ${escapeHtml(l.customAttributes.nextGoal)}
+                    </div>
+                  ` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Sağ Sütun: Sınav & Deneme Netleri -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i>
+              Deneme Sınavları & Net Trendi (${exams.length})
+            </h4>
+
+            <div class="space-y-2.5 max-h-[45vh] overflow-y-auto pr-1 no-scrollbar">
+              ${exams.length === 0 ? '<p class="text-xs text-slate-500 py-6 text-center">Henüz deneme neti girilmemiş.</p>' : ''}
+              ${exams.map(ex => `
+                <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 flex justify-between items-center">
+                  <div>
+                    <h5 class="text-xs font-bold text-slate-100">${escapeHtml(ex.title)}</h5>
+                    <p class="text-[11px] text-slate-400 font-mono">${new Date(ex.createdAt).toLocaleDateString('tr-TR')} • ${ex.customAttributes?.subDetails || ''}</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-base font-mono font-bold text-purple-400">${ex.valuation?.amount || 0} Net</span>
+                    <p class="text-[10px] text-slate-500">${ex.customAttributes?.rank ? `Sıralama: ${ex.customAttributes.rank}` : 'Puan: ' + (ex.customAttributes?.score || '-')}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex justify-end">
+          <button onclick="window.professionModules.closeStudentDossier()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold">
+            Kapat
+          </button>
+        </div>
+      </div>
+    `;
+
+    modal.classList.remove('hidden');
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  closeStudentDossier() {
+    const modal = document.getElementById('studentDossierModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  // --- MODALLAR: ÖĞRENCİ EKLE, GÖRÜŞME NOTU EKLE, DENEME NETİ EKLE ---
+  openAddStudentModal() {
+    const name = prompt("Öğrenci Adı Soyadı:");
+    if (!name) return;
+    const phone = prompt("Öğrenci Telefon No (Opsiyonel):", "05");
+    const parentPhone = prompt("Veli Telefon No (Opsiyonel):", "05");
+    const target = prompt("Hedef Sınav / Bölüm (Örn: YKS Sayısal / LGS):", "YKS Sayısal");
+    const nextCallDate = prompt("Bir Sonraki Kontrol Arama Tarihi (YYYY-AA-GG):", new Date().toISOString().split('T')[0]);
+
+    window.polymorphicStore.addRecord({
+      moduleId: 'ogretmen',
+      primitiveType: 'CONTACT',
+      displayName: name,
+      phone: phone || '',
+      role: 'Ogrenci',
+      customAttributes: {
+        parentPhone: parentPhone || '',
+        target: target || 'YKS',
+        grade: '12. Sınıf',
+        performanceTrend: 'Yükselişte',
+        nextCallDate: nextCallDate || new Date().toISOString().split('T')[0]
+      }
+    });
+
+    this.renderOgretmen();
+  }
+
+  openAddLogModal(studentId, studentName) {
+    const note = prompt(`${studentName} İçin Görüşme Notu / Ödev Durumu:`);
+    if (!note) return;
+    const hwStatus = prompt("Ödev Durumu? (1: Tam Yapıldı, 2: Kısmi/Eksik, 3: Yapılmadı)", "1");
+    const hwStatusText = hwStatus === '2' ? 'Kısmi / Eksik' : hwStatus === '3' ? 'Yapılmadı' : 'Tam Yapıldı';
+    const nextGoal = prompt("Öğrenciye Verilen Bir Sonraki Hedef / Ödev:");
+    const nextCallDays = parseInt(prompt("Kaç gün sonra tekrar kontrol edilecek? (Örn: 3):", "3")) || 3;
+
+    window.polymorphicStore.addRecord({
+      moduleId: 'ogretmen',
+      primitiveType: 'TIMELINE_EVENT',
+      relatedContactId: studentId,
+      title: note,
+      startAt: Date.now(),
+      endAt: Date.now() + (30 * 60 * 1000),
+      allDay: false,
+      customAttributes: {
+        hwStatus: hwStatusText,
+        nextGoal: nextGoal || '',
+      }
+    });
+
+    // Öğrencinin bir sonraki arama tarihini güncelle
+    const nextDate = new Date(Date.now() + (nextCallDays * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
+    const student = window.polymorphicStore.getRecords('ogretmen', 'CONTACT').find(s => s.id === studentId);
+    if (student) {
+      window.polymorphicStore.updateRecord(studentId, {
+        customAttributes: {
+          ...student.customAttributes,
+          nextCallDate: nextDate
+        }
+      });
+    }
+
+    this.renderOgretmen();
+    this.openStudentDossier(studentId);
+  }
+
+  openAddExamModal(studentId, studentName) {
+    const examName = prompt(`${studentName} İçin Deneme Adı (Örn: Özdebir TYT 3):`, "TYT Deneme");
+    if (!examName) return;
+    const net = parseFloat(prompt("Toplam Net (Örn: 85.5):", "85"));
+    if (isNaN(net)) return;
+    const details = prompt("Ders Detayları (Örn: Mat: 32, Fen: 18, Tr: 35):", "");
+
+    window.polymorphicStore.addRecord({
+      moduleId: 'ogretmen',
+      primitiveType: 'ENTITY',
+      primaryContactId: studentId,
+      title: examName,
+      category: 'DenemeSinavi',
+      valuation: { amount: net },
+      customAttributes: {
+        subDetails: details || '',
+        score: Math.round(net * 3.8 + 100)
+      }
+    });
+
+    this.renderOgretmen();
+    this.openStudentDossier(studentId);
+  }
+
 window.professionModules = new ProfessionModuleManager();
 console.log('[ProfessionModules] ✅ Sektörel Hızlı Modüller Hazır.');
