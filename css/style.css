@@ -1,0 +1,409 @@
+/* ==========================================================================
+   Kişisel Yönetici Asistanı - Göz & Zihin Dinlendirici Zen Tasarım Sistemi
+   Doğal, ergonomik, yapay zeka klişelerinden uzak kişisel üretkenlik teması.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Karanlık Mod - Sıcak Grafit & Obsidyen (Gözü yormayan mat tonlar) */
+  --bg-primary: #121316;
+  --bg-sidebar: #17181d;
+  --bg-card: #1c1e24;
+  --bg-card-hover: #22252c;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.13);
+  
+  /* Vurgular - Doğal Kehribar, Adaçayı Yeşili ve Toprak Tonları */
+  --accent-warm: #d97706;
+  --accent-gold: #f59e0b;
+  --accent-sage: #10b981;
+  --accent-slate: #64748b;
+  
+  --text-main: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+}
+
+/* Yumuşak Özel Kaydırma Çubuğu */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(18, 19, 22, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.35);
+}
+
+/* Kart ve Panel Stilleri - Mat, Yumuşak ve Derinlikli */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25), 0 2px 6px -1px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--border-hover);
+}
+
+.glass-header {
+  background: rgba(18, 19, 22, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Sol Kenar Menüsü (Sidebar) */
+.sidebar-container {
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-subtle);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-nav-item {
+  position: relative;
+  transition: all 0.18s ease;
+}
+
+.sidebar-nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+}
+
+.sidebar-nav-item.active {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.sidebar-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  background: #f59e0b;
+  border-radius: 0 4px 4px 0;
+}
+
+/* To-Do / Görev Satırları - Things 3 / Linear İlhamı */
+.task-row {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.18s ease;
+}
+
+.task-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.task-row.completed {
+  background: rgba(255, 255, 255, 0.01);
+  border-color: rgba(255, 255, 255, 0.03);
+  opacity: 0.55;
+}
+
+/* Öncelik Seviyeleri (Mat ve Sakin) */
+.priority-urgent {
+  background-color: rgba(244, 63, 94, 0.12);
+  color: #fda4af;
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+.priority-high {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.priority-normal {
+  background-color: rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.priority-low {
+  background-color: rgba(100, 116, 139, 0.08);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.15);
+}
+
+/* Animasyonlar */
+@keyframes itemAppear {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item-enter {
+  animation: itemAppear 0.2s ease-out forwards;
+}
+
+/* Hafif Uyarı Parıltısı */
+.pulse-badge {
+  animation: warmPulse 2.5s infinite;
+}
+
+@keyframes warmPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+  }
+}
+
+/* Modal Arka Plan */
+.modal-backdrop {
+  background-color: rgba(10, 11, 14, 0.75);
+  backdrop-filter: blur(8px);
+}
+
+/* ==========================================================================
+   Aydınlık Mod - Sıcak Keten & Krem Kağıt (Göz yormayan organik açık tema)
+   ========================================================================== */
+body.light-theme {
+  --bg-primary: #f8f8f6;
+  --bg-sidebar: #f0f0eb;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fafafa;
+  --border-subtle: #e5e5df;
+  --border-hover: #d4d4cc;
+  --text-main: #1f2328;
+  --text-secondary: #57606a;
+  --text-muted: #8c959f;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+}
+
+body.light-theme .sidebar-container {
+  background: var(--bg-sidebar);
+  border-right-color: var(--border-subtle);
+}
+
+body.light-theme .sidebar-nav-item.active {
+  background: #fef3c7;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+body.light-theme .sidebar-nav-item.active::before {
+  background: #d97706;
+}
+
+body.light-theme .glass-card {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+body.light-theme .glass-header {
+  background: rgba(248, 248, 246, 0.94);
+  border-bottom-color: var(--border-subtle);
+}
+
+body.light-theme .text-slate-400 {
+  color: #57606a;
+}
+
+body.light-theme .text-slate-300 {
+  color: #24292f;
+}
+
+body.light-theme .text-white {
+  color: #1f2328;
+}
+
+body.light-theme .bg-slate-800\/50,
+body.light-theme .bg-slate-800\/60,
+body.light-theme .bg-slate-900\/60,
+body.light-theme .bg-slate-900\/70,
+body.light-theme .bg-slate-900\/80,
+body.light-theme .bg-slate-800 {
+  background-color: #f0f0eb;
+}
+
+body.light-theme .border-slate-700,
+body.light-theme .border-slate-700\/60,
+body.light-theme .border-slate-800 {
+  border-color: #e5e5df;
+}
+
+body.light-theme .task-row {
+  background: #ffffff;
+  border-color: #e5e5df;
+}
+
+body.light-theme .task-row:hover {
+  background: #fafafa;
+  border-color: #d4d4cc;
+}
+
+/* ==========================================================================
+   Sidebar Daraltma (Mini Mod / 3 Çizgi Desteği)
+   ========================================================================== */
+#mainSidebar {
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s ease;
+}
+
+#mainSidebar.sidebar-collapsed {
+  width: 5rem !important; /* 80px */
+  min-width: 5rem !important;
+  max-width: 5rem !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+#mainSidebar.sidebar-collapsed .sidebar-label,
+#mainSidebar.sidebar-collapsed .sidebar-brand-text,
+#mainSidebar.sidebar-collapsed .nav-section-title,
+#mainSidebar.sidebar-collapsed #serverStatusBadge span.truncate,
+#mainSidebar.sidebar-collapsed .sidebar-badge-count {
+  display: none !important;
+}
+
+#mainSidebar.sidebar-collapsed .sidebar-brand-btn {
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+#mainSidebar.sidebar-collapsed .sidebar-nav-item {
+  justify-content: center !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+#mainSidebar.sidebar-collapsed #serverStatusBadge {
+  justify-content: center !important;
+  padding: 0.5rem !important;
+}
+
+#mainSidebar.sidebar-collapsed .sidebar-footer-controls {
+  flex-direction: column !important;
+  gap: 0.4rem !important;
+  align-items: center !important;
+}
+
+/* ==========================================================================
+   Dashboard Widget Sürükle-Bırak (Drag & Drop) Stilleri - Ultra Pürüzsüz
+   ========================================================================== */
+.dashboard-widget-wrapper {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+}
+
+.widget-sortable-ghost {
+  opacity: 0.35 !important;
+  background: rgba(245, 158, 11, 0.06) !important;
+  outline: 2px dashed #f59e0b !important;
+  outline-offset: -2px;
+  border-radius: 1.5rem;
+}
+
+.widget-sortable-chosen {
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(245, 158, 11, 0.4) !important;
+  border-radius: 1.5rem;
+}
+
+.widget-sortable-drag {
+  opacity: 0.95 !important;
+  transform: scale(1.02) !important;
+  cursor: grabbing !important;
+  z-index: 9999 !important;
+}
+
+.drag-grip-handle {
+  cursor: grab !important;
+  user-select: none !important;
+  touch-action: none;
+}
+
+.drag-grip-handle:active {
+  cursor: grabbing !important;
+}
+
+/* ==========================================================================
+   Giriş & Kilit Ekranı (Login / Lock Screen) Efektleri
+   ========================================================================== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+#loginScreenContainer {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ==========================================================================
+   Özel Modal Kaydırma Çubuğu & Parıltı Stilleri
+   ========================================================================== */
+.custom-modal-scroll  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-modal-scroll::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 9999px;
+}
+
+.custom-modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.35);
+  border-radius: 9999px;
+}
+
+.custom-modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.6);
+}
+
+
+/* Pre-render authentication hiding to eliminate FOUC on Ctrl + Shift + R */
+html.auth-authenticated #loginScreenContainer {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

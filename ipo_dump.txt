@@ -1,0 +1,47 @@
+
+      <div class="space-y-5">
+        
+        <!-- ÜST PORTFÖY KPI GÖSTERGELERİ -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          
+          <div class="bg-slate-800/50 rounded-xl p-4">
+            <div class="flex items-center justify-between text-slate-400 text-xs">
+              <span>Toplam Yatırım</span>
+              <i data-lucide="wallet" class="w-4 h-4 text-amber-400"></i>
+            </div>
+            <div class="mt-2 font-mono font-bold text-lg text-white">
+              ${summary.totalCost.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺
+            </div>
+            <p class="text-[10px] text-slate-500 mt-0.5">${summary.activeHoldings} Şirkette Pozisyon</p>
+          </div>
+
+          <div class="bg-slate-800/50 rounded-xl p-4">
+            <div class="flex items-center justify-between text-slate-400 text-xs">
+              <span>Portföy Değeri</span>
+              <i data-lucide="pie-chart" class="w-4 h-4 text-sky-400"></i>
+            </div>
+            <div class="mt-2 font-mono font-bold text-lg text-white">
+              ${summary.currentValue.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺
+            </div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Canlı Borsa Değeri</p>
+          </div>
+
+          <div class="bg-slate-800/60 rounded-xl p-4 ${isProfit ? 'border-emerald-500/25 bg-emerald-500/5' : 'border-rose-500/25 bg-rose-500/5'}">
+            <div class="flex items-center justify-between ${isProfit ? 'text-emerald-300' : 'text-rose-300'} text-xs">
+              <span>Toplam Net Kâr</span>
+              <i data-lucide="${isProfit ? 'trending-up' : 'trending-down'}" class="w-4 h-4"></i>
+            </div>
+            <div class="mt-2 font-mono font-bold text-lg ${isProfit ? 'text-emerald-400' : 'text-rose-400'}">
+              ${isProfit ? '+' : ''}${summary.netProfit.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺
+            </div>
+            <p class="text-[10px] font-mono font-bold ${isProfit ? 'text-emerald-400' : 'text-rose-400'} mt-0.5">
+              ${isProfit ? '+' : ''}${summary.netProfitPct.toFixed(2)}% Toplam
+            </p>
+          </div>
+
+          <div class="bg-slate-800/50 rounded-xl p-4">
+            <div class="flex items-center justify-between text-slate-400 text-xs">
+              <span>Bugünkü Kazanç</span>
+              <i data-lucide="activity" class="w-4 h-4 ${isDayProfit ? 'text-emerald-400' : 'text-rose-400'}"></i>
+            </div>
+   

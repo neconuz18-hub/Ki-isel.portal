@@ -1,0 +1,437 @@
+<main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
+
+      <!-- WELCOME & STATS BANNER -->
+      <section class="glass-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div>
+            <h2 id="greetingText" class="text-2xl lg:text-3xl font-extrabold tracking-tight">
+              İyi çalışmalar, <span class="text-blue-400">Sayın Yöneticim</span> 👋
+            </h2>
+            <p class="text-sm text-slate-400 mt-1 max-w-xl">
+              Bugünkü ajandanız, öncelikli görevleriniz ve önemli toplantı hatırlatıcılarınız hazır.
+            </p>
+          </div>
+
+          <!-- Executive Mini Stats -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3 text-center min-w-[100px]">
+              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Toplam İş</span>
+              <span id="statTotalTasks" class="text-xl font-bold text-white mt-0.5 block">0</span>
+            </div>
+
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3 text-center min-w-[100px]">
+              <span class="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">Tamamlanan</span>
+              <span id="statDoneTasks" class="text-xl font-bold text-emerald-400 mt-0.5 block">0</span>
+            </div>
+
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3 text-center min-w-[100px]">
+              <span class="text-[11px] font-semibold text-amber-400 uppercase tracking-wider block">Bekleyen</span>
+              <span id="statPendingTasks" class="text-xl font-bold text-amber-400 mt-0.5 block">0</span>
+            </div>
+
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3 text-center min-w-[100px]">
+              <span class="text-[11px] font-semibold text-purple-400 uppercase tracking-wider block">Hatırlatıcı</span>
+              <span id="statPendingReminders" class="text-xl font-bold text-purple-400 mt-0.5 block">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Progress Bar -->
+        <div class="mt-6 pt-5 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">Günün Başarı Oranı:</span>
+            <span id="statProgressRate" class="font-bold text-blue-400">%0</span>
+          </div>
+          <div class="w-full sm:w-80 bg-slate-900/80 rounded-full h-2 overflow-hidden border border-slate-800">
+            <div id="dashboardProgressBar" class="bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUICK COMMAND & ADD BAR -->
+      <section class="glass-card rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-center gap-3">
+        <form id="quickAddForm" class="flex-1 w-full flex items-center space-x-2">
+          <div class="relative flex-1">
+            <i data-lucide="plus-circle" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="quickAddInput" 
+              placeholder="Asistanınıza hızlı bir görev tanımlayın... (Enter'a basın)" 
+              class="w-full pl-10 pr-4 py-2.5 bg-slate-900/70 border border-slate-700/60 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all"
+              autocomplete="off"
+            >
+          </div>
+          <button type="submit" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs flex items-center gap-1.5 transition-all shadow-md shadow-blue-600/20 flex-shrink-0">
+            <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Ekle</span>
+          </button>
+        </form>
+
+        <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+          <button onclick="window.app.openModal('newTaskModal')" class="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700/60 text-xs font-semibold flex items-center gap-1.5 transition-all">
+            <i data-lucide="check-square" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span>Detaylı Görev</span>
+          </button>
+          <button onclick="window.app.openModal('newReminderModal')" class="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700/60 text-xs font-semibold flex items-center gap-1.5 transition-all">
+            <i data-lucide="bell" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Hatırlatıcı</span>
+          </button>
+          <button onclick="window.app.openModal('newNoteModal')" class="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700/60 text-xs font-semibold flex items-center gap-1.5 transition-all">
+            <i data-lucide="file-plus" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Not</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB CONTENTS -->
+
+      <!-- TAB 1: DASHBOARD (GENEL BAKIŞ) -->
+      <div id="tab-dashboard" class="tab-pane space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Sol Kolon: Günün Görevleri (2 Kolon Genişlik) -->
+          <div class="lg:col-span-2 space-y-6">
+            
+            <div class="glass-card rounded-3xl p-5 border">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                    <i data-lucide="list-todo" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-base text-white">Günün Öncelikli Görevleri</h3>
+                    <p class="text-xs text-slate-400">Önem sırasına göre sıralı işler</p>
+                  </div>
+                </div>
+
+                <button onclick="window.app.openModal('newTaskModal')" class="text-xs text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Yeni Ekle</span>
+                </button>
+              </div>
+
+              <!-- Task List Container for Dashboard -->
+              <div id="dashboardTaskList" class="space-y-2"></div>
+            </div>
+
+            <!-- Hızlı Notlar / Karalama Özeti -->
+            <div class="glass-card rounded-3xl p-5 border">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                    <i data-lucide="sticky-note" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-base text-white">Önemli Notlar & Fikirler</h3>
+                    <p class="text-xs text-slate-400">Sabitlenen veya son güncellenen notlar</p>
+                  </div>
+                </div>
+                <button onclick="window.app.switchTab('notes')" class="text-xs text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1">
+                  <span>Tümünü Gör</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+              
+              <div id="notesListContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5"></div>
+            </div>
+          </div>
+
+          <!-- Sağ Kolon: Hatırlatıcılar, Rutinler, Pomodoro (1 Kolon Genişlik) -->
+          <div class="space-y-6">
+            
+            <!-- Yaklaşan Hatırlatıcılar -->
+            <div class="glass-card rounded-3xl p-5 border">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-sm text-white">Yaklaşan Hatırlatıcılar</h3>
+                    <p class="text-xs text-slate-400">Zamanlanmış uyarılar</p>
+                  </div>
+                </div>
+                <button onclick="window.app.openModal('newReminderModal')" class="text-xs text-amber-400 hover:text-amber-300 font-medium">
+                  <i data-lucide="plus" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div id="dashboardReminderList" class="space-y-2"></div>
+            </div>
+
+            <!-- Pomodoro / Odaklanma Widget -->
+            <div class="glass-card rounded-3xl p-5 border text-center relative overflow-hidden">
+              <div class="flex items-center justify-between mb-3">
+                <span id="focusModeLabel" class="text-xs font-semibold text-blue-400">🎯 Odaklanma Zamanı</span>
+                <div class="flex items-center gap-1 bg-slate-900/60 rounded-lg p-0.5 border border-slate-800">
+                  <button onclick="window.focusManager.setMode('work')" class="px-2 py-0.5 text-[10px] font-semibold rounded text-slate-300 hover:text-white">25 Dk</button>
+                  <button onclick="window.focusManager.setMode('break')" class="px-2 py-0.5 text-[10px] font-semibold rounded text-slate-300 hover:text-white">5 Dk Mola</button>
+                </div>
+              </div>
+
+              <div class="my-3">
+                <span id="focusTimerDisplay" class="text-4xl font-black font-mono tracking-wider text-white">25:00</span>
+              </div>
+
+              <div class="flex items-center justify-center gap-2 mt-4">
+                <button id="focusToggleBtn" onclick="window.focusManager.isRunning ? window.focusManager.pause() : window.focusManager.start()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center transition-all shadow-lg shadow-blue-500/20">
+                  <i data-lucide="play" class="w-4 h-4 mr-1.5"></i> Başlat
+                </button>
+                <button onclick="window.focusManager.reset()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700/60 transition-all">
+                  <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Günlük Rutinler -->
+            <div class="glass-card rounded-3xl p-5 border">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                    <i data-lucide="check-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-sm text-white">Günlük Rutinler</h3>
+                    <p class="text-[11px] text-slate-400">Her gün otomatik yenilenir</p>
+                  </div>
+                </div>
+              </div>
+
+              <div id="routineListContainer"></div>
+            </div>
+
+            <!-- Hızlı Bağlantılar -->
+            <div class="glass-card rounded-3xl p-5 border">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-400"></i> Hızlı Araçlar
+                </span>
+              </div>
+              <div id="quickLinksContainer" class="grid grid-cols-1 gap-2"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB 2: DETAYLI GÖREV & İŞ TAKİBİ -->
+      <div id="tab-tasks" class="tab-pane hidden space-y-6">
+        <div class="glass-card rounded-3xl p-6 border space-y-6">
+          
+          <!-- Controls Bar: Search, Filters, New Task -->
+          <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div class="relative flex-1">
+              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input 
+                type="text" 
+                id="taskSearchInput" 
+                placeholder="Görevlerde veya kategorilerde ara..." 
+                class="w-full pl-10 pr-4 py-2.5 bg-slate-900/70 border border-slate-700/60 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+              >
+            </div>
+
+            <!-- Filter Pills -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+              <button data-filter="all" class="task-filter-btn px-3.5 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold whitespace-nowrap transition-all">Tümü</button>
+              <button data-filter="pending" class="task-filter-btn px-3.5 py-2 rounded-xl bg-slate-800/80 text-slate-300 hover:text-white text-xs font-semibold whitespace-nowrap transition-all border border-slate-700/60">Bekleyenler</button>
+              <button data-filter="completed" class="task-filter-btn px-3.5 py-2 rounded-xl bg-slate-800/80 text-slate-300 hover:text-white text-xs font-semibold whitespace-nowrap transition-all border border-slate-700/60">Tamamlananlar</button>
+              <button data-filter="urgent" class="task-filter-btn px-3.5 py-2 rounded-xl bg-slate-800/80 text-slate-300 hover:text-white text-xs font-semibold whitespace-nowrap transition-all border border-slate-700/60">Acil İşler</button>
+            </div>
+
+            <button onclick="window.app.openModal('newTaskModal')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 transition-all flex-shrink-0">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Yeni Görev</span>
+            </button>
+          </div>
+
+          <!-- Main Task List Container -->
+          <div id="mainTaskList" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <!-- TAB 3: HATIRLATICILAR -->
+      <div id="tab-reminders" class="tab-pane hidden space-y-6">
+        <div class="glass-card rounded-3xl p-6 border space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white">Zamanlanmış Hatırlatıcılar & Ajanda</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Toplantı, görüşme ve kritik teslim zamanları için sesli/görsel uyarılar</p>
+            </div>
+
+            <button onclick="window.app.openModal('newReminderModal')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Hatırlatıcı Ekle</span>
+            </button>
+          </div>
+
+          <div id="mainReminderList" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <!-- TAB 4: TOPLANTI & NOTLAR -->
+      <div id="tab-notes" class="tab-pane hidden space-y-6">
+        <div class="glass-card rounded-3xl p-6 border space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white">Yönetici Not Defteri</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Hızlı görüşme notları, taslaklar ve toplantı kararları</p>
+            </div>
+
+            <button onclick="window.app.openModal('newNoteModal')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Yeni Not Yaz</span>
+            </button>
+          </div>
+
+          <!-- Grid of Notes -->
+          <div id="notesListFullContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+      </div>
+
+      <!-- TAB 5: ODAKLANMA & RUTİNLER -->
+      <div id="tab-routines" class="tab-pane hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Sol: Rutin Tanımlama ve Yönetimi -->
+          <div class="glass-card rounded-3xl p-6 border space-y-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="check-square" class="w-5 h-5 text-purple-400"></i> Günlük Rutin Yönetimi
+            </h3>
+            <p class="text-xs text-slate-400">Her sabah güne başlarken kontrol edilecek standart iş adımları.</p>
+
+            <form id="newRoutineForm" class="flex gap-2 pt-2">
+              <input 
+                type="text" 
+                id="routineInputTitle" 
+                placeholder="Yeni rutin ekle (Örn: Haftalık raporu hazırla)..." 
+                class="flex-1 px-3.5 py-2 bg-slate-900/70 border border-slate-700/60 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                required
+              >
+              <button type="submit" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1 transition-all">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Ekle
+              </button>
+            </form>
+          </div>
+
+          <!-- Sağ: Pomodoro Rehberi & Odaklanma İpuçları -->
+          <div class="glass-card rounded-3xl p-6 border space-y-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="zap" class="w-5 h-5 text-amber-400"></i> Yönetici Odaklanma Taktikleri
+            </h3>
+            <ul class="space-y-2.5 text-xs text-slate-300">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
+                <span><strong>25/5 Kuralı:</strong> 25 dakika kesintisiz tek bir işle ilgilenin, ardından 5 dakika zihninizi dinlendirin.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
+                <span><strong>Kritik 3 Görev:</strong> Günün en önemli 3 işini sabahın ilk 2 saatinde tamamlayın.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
+                <span><strong>Toplantı Blokları:</strong> Toplantıları günün belirli saatlerine toplayarak odaklanma blokları oluşturun.</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB 6: AYARLAR & MENÜ YÖNETİMİ -->
+      <div id="tab-settings" class="tab-pane hidden space-y-6">
+        
+        <!-- YENİ: DİNAMİK MENÜ YÖNETİMİ BÖLÜMÜ -->
+        <div class="glass-card rounded-3xl p-6 border space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i data-lucide="layout-grid" class="w-5 h-5 text-blue-400"></i> Sol Menü & Navigasyon Yönetimi
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Sol menüdeki sekmeleri yeniden adlandırın, ikonlarını değiştirin, sıralayın, gizleyin veya yeni menü ekleyin.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="window.app.openModal('newMenuModal')" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md shadow-blue-500/20">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Yeni Menü Ekle</span>
+              </button>
+              <button onclick="window.menuManager.resetToDefaults()" title="Varsayılan Menüye Dön" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-medium border border-slate-700/60 transition-all">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Menu Manager Container -->
+          <div id="menuManagerContainer" class="pt-2"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Profil Ayarları -->
+          <div class="glass-card rounded-3xl p-6 border space-y-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="user" class="w-5 h-5 text-blue-400"></i> Profil & Selamlama
+            </h3>
+            
+            <div class="space-y-2">
+              <label class="block text-xs font-semibold text-slate-300">Yönetici İsmi / Hitap</label>
+              <div class="flex gap-2">
+                <input 
+                  type="text" 
+                  id="settingsUserName" 
+                  placeholder="Örn: Sayın Yöneticim veya İsim" 
+                  class="flex-1 px-3.5 py-2 bg-slate-900/70 border border-slate-700/60 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                >
+                <button onclick="window.handleSaveProfile()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold transition-all">
+                  Kaydet
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veri Yedekleme & Geri Yükleme -->
+          <div class="glass-card rounded-3xl p-6 border space-y-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="database" class="w-5 h-5 text-emerald-400"></i> Veri Yedekleme & Geri Yükleme
+            </h3>
+            <p class="text-xs text-slate-400">
+              Tüm görevlerinizi, hatırlatıcılarınızı ve notlarınızı güvenle bilgisayarınıza .json olarak yedekleyin.
+            </p>
+
+            <div class="flex flex-wrap gap-3 pt-2">
+              <button onclick="window.handleExportBackup()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold flex items-center gap-2 transition-all">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Yedek Dosyasını İndir (.json)</span>
+              </button>
+
+              <label class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 rounded-xl text-xs font-semibold flex items-center gap-2 cursor-pointer transition-all">
+                <i data-lucide="upload" class="w-4 h-4 text-blue-400"></i>
+                <span>Yedekten Geri Yükle</span>
+                <input type="file" accept=".json" onchange="window.handleImportFile(this)" class="hidden">
+              </label>
+            </div>
+          </div>
+
+          <!-- Sıfırlama Bölümü -->
+          <div class="md:col-span-2 glass-card rounded-3xl p-6 border border-red-500/20 bg-red-950/10 space-y-3">
+            <h3 class="text-sm font-bold text-red-400 flex items-center gap-2">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i> Fabrika Ayarlarına Sıfırla
+            </h3>
+            <p class="text-xs text-slate-400">
+              Tüm verileri temizleyip paneli ilk kurulum haline döndürür.
+            </p>
+            <button onclick="window.handleResetAll()" class="px-4 py-2 bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/30 rounded-xl text-xs font-semibold transition-all">
+              Tüm Verileri Sıfırla
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    

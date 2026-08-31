@@ -1,0 +1,33 @@
+import json
+
+log_path = r"C:\Users\KIRIKER\.gemini\antigravity\brain\5d5b632b-80c4-4574-8b2c-89fd03d5b802\.system_generated\logs\transcript_full.jsonl"
+
+longest_html = ""
+
+with open(log_path, 'r', encoding='utf-8') as f:
+    for line in f:
+        try:
+            data = json.loads(line)
+            content = data.get("content", "")
+            if isinstance(content, str) and '<html lang="tr">' in content and '</body>' in content:
+                if len(content) > len(longest_html):
+                    longest_html = content
+            
+            # also check arguments of tool calls
+            if "tool_calls" in data:
+                for call in data["tool_calls"]:
+                    if "args" in call and "CodeContent" in call["args"]:
+                        code = call["args"]["CodeContent"]
+                        if '<html lang="tr">' in code and '</body>' in code:
+                            if len(code) > len(longest_html):
+                                longest_html = code
+
+        except Exception:
+            pass
+
+if longest_html:
+    with open(r"C:\Users\KIRIKER\Documents\panel\index_recovered.html", "w", encoding="utf-8") as out:
+        out.write(longest_html)
+    print(f"Recovered to index_recovered.html, length: {len(longest_html)}")
+else:
+    print("Could not find a full index.html in the transcript.")

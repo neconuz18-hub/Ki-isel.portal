@@ -1,0 +1,109 @@
+{
+  "tasks": [
+    {
+      "id": "task_1787837892970",
+      "title": "Annemi ara",
+      "category": "Genel",
+      "priority": "normal",
+      "dueDate": "2026-08-27",
+      "dueTime": "",
+      "completed": true,
+      "createdAt": "2026-08-27T13:38:12.970Z",
+      "status": "completed"
+    },
+    {
+      "id": "task-1",
+      "title": "Haftalık yönetim toplantısı gündemini hazırla",
+      "category": "Toplantı",
+      "priority": "urgent",
+      "dueDate": "2026-08-27",
+      "dueTime": "11:00",
+      "completed": true,
+      "createdAt": "2026-08-27T07:36:08.684Z",
+      "status": "completed"
+    },
+    {
+      "id": "task-3",
+      "title": "Aylık bütçe ve harcama raporunu incele",
+      "category": "Takip",
+      "priority": "normal",
+      "dueDate": "2026-08-27",
+      "dueTime": "16:00",
+      "completed": true,
+      "createdAt": "2026-08-27T07:36:08.684Z",
+      "status": "completed"
+    }
+  ],
+  "reminders": [],
+  "notes": [
+    {
+      "id": "note-1",
+      "title": "Toplantı Notları - Strateji 2026",
+      "content": "1. Yeni operasyonel hedeflerin belirlenmesi.\n2. Otomasyon ve asistan araçlarının aktif kullanımı.\n3. Haftalık ilerleme raporlarının cuma günü toplanması.",
+      "color": "blue",
+      "pinned": true,
+      "updatedAt": "2026-08-27T07:36:08.684Z"
+    }
+  ],
+  "routines": [
+    {
+      "id": "rout-1",
+      "title": "Sabah gelen e-postalarını tara & filtrele",
+      "completed": false
+    },
+    {
+      "id": "rout-2",
+      "title": "Günün öncelikli 3 kritik görevini belirle",
+      "completed": false
+    },
+    {
+      "id": "rout-3",
+      "title": "Önemli toplantı takvimini gözden geçir",
+      "completed": false
+    },
+    {
+      "id": "rout-4",
+      "title": "Gün ortası mola & su tüketimi",
+      "completed": false
+    },
+    {
+      "id": "rout-5",
+      "title": "Gün sonu özetini tamamla & yarını planla",
+      "completed": false
+    }
+  ],
+  "quickLinks": [
+    {
+      "id": "link-1",
+      "title": "Google Takvim",
+      "url": "https://calendar.google.com",
+      "icon": "calendar"
+    },
+    {
+      "id": "link-2",
+      "title": "Gmail / E-posta",
+      "url": "https://mail.google.com",
+      "icon": "mail"
+    },
+    {
+      "id": "link-3",
+      "title": "Google Drive",
+      "url": "https://drive.google.com",
+      "icon": "hard-drive"
+    },
+    {
+      "id": "link-4",
+      "title": "Notion / Notlar",
+      "url": "https://notion.so",
+      "icon": "file-text"
+    }
+  ],
+  "settings": {
+    "assistantName": "Yönetici Asistanı",
+    "userName": "Çağatay",
+    "soundEnabled": true,
+    "theme": "dark",
+    "pomodoroWork": 25,
+    "pomodoroBreak": 5
+  }
+}

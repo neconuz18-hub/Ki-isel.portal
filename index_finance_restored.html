@@ -1,0 +1,36 @@
+import json
+
+log_path = r"C:\Users\KIRIKER\.gemini\antigravity\brain\5d5b632b-80c4-4574-8b2c-89fd03d5b802\.system_generated\logs\transcript_full.jsonl"
+out_path = r"C:\Users\KIRIKER\Documents\panel\index_finance_restored.html"
+
+best_html = ""
+
+with open(log_path, 'r', encoding='utf-8') as f:
+    for line in f:
+        try:
+            data = json.loads(line)
+            # check content
+            c = data.get("content", "")
+            if isinstance(c, str):
+                if 'tab-finance' in c and '<html lang="tr">' in c and '</html>' in c:
+                    if len(c) > len(best_html):
+                        best_html = c
+            
+            # check args
+            if "tool_calls" in data:
+                for call in data["tool_calls"]:
+                    if "args" in call and "CodeContent" in call["args"]:
+                        code = call["args"]["CodeContent"]
+                        if isinstance(code, str):
+                            if 'tab-finance' in code and '<html lang="tr">' in code and '</html>' in code:
+                                if len(code) > len(best_html):
+                                    best_html = code
+        except Exception:
+            pass
+
+if best_html:
+    with open(out_path, "w", encoding="utf-8") as out:
+        out.write(best_html)
+    print(f"FOUND HTML OF LENGTH {len(best_html)}")
+else:
+    print("NOT FOUND")
