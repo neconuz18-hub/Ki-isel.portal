@@ -1,57 +1,100 @@
-# 📊 Kişisel Portal V2 - Canlı Piyasa & Portföy Yönetim Sistemi
+# 🌐 Evrensel Kişisel İşletim Sistemi (Universal Personal OS) — V2
 
-Bu proje, masaüstü ve mobil uyumlu, çok amaçlı bir kişisel yönetim portalıdır. Son yapılan V2 güncellemesi ile **Finans ve Borsa Modülü** tamamen sıfırdan yazılarak gerçek zamanlı veri sağlayan profesyonel bir portföy yönetim aracına dönüştürülmüştür.
-
----
-
-## 🛠 Proje Mimarisi ve Çalışma Mantığı
-
-Proje, hiçbir arka plan (backend) sunucusuna ihtiyaç duymadan, doğrudan tarayıcı üzerinde (frontend) çalışan "Serverless" mantığı ile inşa edilmiştir.
-
-### 1. Veri Kaynağı (Yahoo Finance v8 API)
-Canlı borsa ve döviz verileri, güvenilirliği en yüksek kaynaklardan biri olan **Yahoo Finance v8 API** üzerinden çekilir. 
-- **CORS Proxy Kaskad Sistemi:** Tarayıcıların güvenlik duvarını (CORS) aşmak için veriler direkt olarak çekilmez; `corsproxy.io` ve `allorigins.win` proxy (vekil) sunucuları üzerinden geçirilir. Biri yanıt vermezse sistem otomatik olarak diğerine geçer.
-- **Veri Gecikmesi:** Yasal standartlar gereği Borsa İstanbul (BIST) hisse verileri 15 dakika gecikmeli, döviz ve altın verileri ise anlık (canlı) olarak çekilmektedir.
-- **Önbellek (Caching):** API limitlerine takılmamak ve performansı artırmak için çekilen veriler tarayıcı hafızasında 60 saniye boyunca tutulur (60s TTL).
-
-### 2. Dosya Yapısı ve Görevleri
-Finans modülü üç temel dosya üzerinden çalışır:
-
-* **`marketDataService.js` (Veri Katmanı):** Sadece dış dünyadan (Yahoo Finance) veri çekmek, altın hesaplamaları yapmak ve önbelleği yönetmekle görevlidir. Ekranla (UI) hiçbir bağlantısı yoktur.
-* **`finance_v2.js` (İş Mantığı ve UI Katmanı):** Kullanıcının portföy verilerini (Lot ve Maliyet) `localStorage` üzerinde saklar. `marketDataService`'den aldığı güncel piyasa fiyatları ile kullanıcının maliyetini karşılaştırıp **gerçek zamanlı Kar/Zarar hesabı** yapar ve bunu ekrana basar.
-* **`bist_database.js` (Hisse Veritabanı):** Arama kutusuna hisse adı yazıldığında otomatik tamamlama (autocomplete) yapabilmek için Borsa İstanbul'daki önemli hisselerin ve sektörlerinin tutulduğu statik veri tabanıdır.
+Bu proje; sıradan bir görev veya not alma uygulamasının ötesinde, **kullanıcının mesleğine ve yaşam tarzına göre saniyeler içinde şekil alan, yapay zeka destekli ve modüler bir Kişisel İşletim Sistemi (Personal OS)** olarak inşa edilmiştir.
 
 ---
 
-## 🚀 Öne Çıkan Özellikler (Neler Yapıldı?)
+## 🏛️ 1. Proje Felsefesi ve Mimari Yapı
 
-### 📈 Canlı Piyasa Bandı (Ticker Tape)
-Sayfanın en üstünde, tıpkı ekonomi kanallarında olduğu gibi BIST100, Dolar, Euro ve Gram Altın fiyatlarını saniyelik gösteren dinamik bir bant bulunur. (Yeşil=Yükseliş, Kırmızı=Düşüş).
+Proje, herhangi bir harici backend sunucusuna ihtiyaç duymadan, doğrudan tarayıcı üzerinde **"Offline-First" (İnternetsiz de Çalışabilen)** ve **"Serverless"** mimari ile çalışır.
 
-### 💼 Gerçek Zamanlı Portföy Kar/Zarar
-Eski sistemdeki manuel / sahte rakamlar silindi. Artık "Hisse Ekle" diyerek örneğin 100 Lot `THYAO` (Türk Hava Yolları) girdiğinizde, sistem o anki THYAO hisse fiyatını internetten çeker ve cebinizdeki net kazancı/kaybı kuruşu kuruşuna hesaplar.
+### A. 5 Evrensel Çekirdek Primitif (Polymorphic Engine - `polymorphicStore.js`)
+Farklı mesleklerin (bakkalın veresiyesi, doktorun nöbeti, avukatın duruşması, koçun öğrencisi) verileri tek bir evrensel veri motoru üzerinde yönetilir:
+1. **CONTACT (Kişi):** Müşteri, Hasta, Müvekkil, Öğrenci, Veli, Kiracı.
+2. **TRANSACTION (Para & Akış):** Veresiye Borcu, Tahsilat, Özel Ders Ücreti, Kapora, Aidat.
+3. **TIMELINE_EVENT (Zaman & Takvim):** Nöbet, Duruşma, Özel Ders Saati, Görüşme, Tapu Randevusu.
+4. **COMPLIANCE_EXPIRY (Kritik Süre & Alarm):** Hak Düşürücü Dava Süresi, Araç Muayenesi, Kasko, Pasaport/Vize, İlaç SKT.
+5. **ENTITY (Varlık & Dosya):** Dava Dosyası, Gayrimenkul Portföyü, Hisse Senedi, Teçhizat.
 
-### 🔍 Akıllı Hisse Arama
-Arama kutusuna "Türk Hava" veya "THYAO" yazdığınızda sistem bunu BIST veritabanında bulur. Tek tuşla **Takip Listesine** alabilir veya lot bilgisi girerek **Portföye** ekleyebilirsiniz.
+### B. Akıllı Teşhis Anketi (`onboarding.js`)
+Kullanıcı ilk girişte tam ekran modern bir anketle karşılanır. Mesleğini ve önceliklerini seçtiğinde sol menü ve panolar saniyeler içinde o mesleğe özel olarak yeniden çizilir.
 
-### 💰 Kapsamlı Döviz & Altın Modülü
-Uluslararası piyasadan çekilen (XAUTRY=X) ONS altın verisi üzerinden matematiksel formüllerle **Gerçek Gram Altın, Çeyrek, Yarım ve Tam (Ata) Altın** fiyatları hesaplanır ve "Döviz & Altın" sekmesinde canlı sunulur.
-
-### 📱 Mobil Uyum (Responsive)
-Tüm tablolar ve kartlar, telefondan girildiğinde (Mobil görünüm) taşıma ve daralma yapmayacak şekilde "Grid Kart" sistemine dönüştürülmüştür. Masaüstünde geniş tablolar, mobilde dokunmatik dostu kartlar olarak görünür.
+### C. Dinamik Menü & Modül Mağazası (`menus.js`)
+Sol menünün altında bulunan **`[+ Modül Ekle / Çıkar]`** butonu ile kullanıcı dilediği an hibrit modülleri (Örn: Gündüz çalışan bir Doktorun akşam Borsa Portföyü takip etmesi) tek tıkla açıp kapatabilir.
 
 ---
 
-## 💻 Nasıl Çalıştırılır?
+## 🎯 2. Sektörel ve Mesleki Modüller (Neler Yapıldı?)
 
-Bu bir statik HTML/JS projesi olduğu için çalıştırması oldukça basittir:
+### 🎓 1. Eğitim Koçluğu & Özel Ders Portalı (`ogretmen`)
+* **Bugün Aranacaklar Şeridi:** Gün içerisinde ödev/çalışma kontrolü yapılması gereken öğrencilerin hızlı arama listesi.
+* **360° Öğrenci Koçluk Dosyası:** Öğrenciye tıklandığında açılan detaylı analiz paneli.
+* **Dinamik SVG Net Gelişim Eğrisi:** Öğrencinin girdiği deneme sınavlarının kronolojik net artış/azalış grafiği.
+* **Özel Ders Paket & Finans Defteri:** 10 derslik paket hapları (1, 2, 3... ✓), tamamlanan ve kalan ders saati, ücret takibi.
+* **Haftalık Soru Hedef Çubuğu (Burn-down):** "1200 / 1500 Soru (%80)" haftalık tempo göstergesi.
+* **1-Tıkla WhatsApp Veli Raporu:** Tek tuşla veliye gönderilmeye hazır formatta haftalık durum özeti kopyalama.
 
-1. Bilgisayarınızda projenin bulunduğu klasörde terminali (veya PowerShell'i) açın.
-2. Aşağıdaki komutu yazarak lokal bir sunucu başlatın:
+### 📈 2. Canlı Borsa & Finans V2 (`finance`)
+* **Yahoo Finance v8 API Entegrasyonu:** Borsa İstanbul (BIST), Döviz (USD, EUR, GBP) ve ONS üzerinden matematiksel formüllerle anlık **Gram Altın, Çeyrek, Yarım ve Tam Altın** fiyatları.
+* **CORS Proxy Kaskadı:** `corsproxy.io` ve `allorigins.win` ile kesintisiz veri akışı.
+* **Canlı Ticker Bandı:** Sayfanın en üstünde canlı piyasa verilerini gösteren ekonomi bandı.
+* **Gerçek Kar/Zarar:** Portföye girilen lot ve maliyete göre anlık kar/zarar hesaplama.
+
+### 🛒 3. Bakkal & Esnaf Paketi (`veresiye`)
+* **3 Saniyede Hızlı Veresiye Pedi:** Müşteri seçimi, dev Numpad tuşları ile borç yazma ve tahsilat düşme.
+* **Toptancı Vade Takvimi:** Toptancı faturaları ve ödeme günü uyarıları.
+
+### 🩺 4. Doktor & Sağlık Çalışanı Paketi (`nobet`)
+* **Nöbet Çizelgesi & İcap:** 24 saatlik nöbetleri ve icap görevlerini takvime mühürleme.
+* **Kritik Hasta & Vaka Notları:** Nöbet devirlerinde yatak bazlı kritik uyarılar.
+
+### ⚖️ 5. Avukat & Hukukçu Paketi (`durusma`)
+* **Duruşma Ajandası:** Mahkeme, dosya esas numarası ve duruşma saatleri.
+* **Kritik Süre Sayacı:** İstinaf, itiraz ve temyiz için "Kalan 3 Gün" kırmızı geri sayım alarmları.
+
+### 🏠 6. Emlak & Gayrimenkul Paketi (`emlak`)
+* **İlan Portföyü:** Satılık/kiralık daire listesi, mal sahibi irtibatı ve anahtar durumu.
+* **Alıcı Kriter Eşleştirme:** Bütçe ve oda sayısına göre alıcı-mülk eşleme.
+
+### 🛡️ 7. Asker, Polis & Güvenlik Paketi (`zimmet`)
+* **Vardiya/Devriye Planı:** 12/36 ve döngüsel nöbet takipleri.
+* **Zimmetli Teçhizat Bakımı:** Silah ve teçhizat periyodik bakım takvimi.
+
+---
+
+## 🛠️ 3. Dosya Yapısı ve Görev Dağılımı
+
+| Dosya | Görevi ve Sorumluluğu |
+| :--- | :--- |
+| **`index.html`** | Ana iskelet, TailwindCSS + Glassmorphic UI arayüzü ve modallar. |
+| **`js/polymorphicStore.js`** | 5 çekirdek primitifi yöneten, offline-first yerel veritabanı motoru. |
+| **`js/moduleRegistry.js`** | 8 meslek şablonu, profil ayarları ve modül tanımları. |
+| **`js/onboarding.js`** | Açılıştaki akıllı meslek ve ihtiyaç tespit anketi. |
+| **`js/menus.js`** | Profile göre dinamik sol menü ve Modül Mağazası (`[+ Modül Ekle]`). |
+| **`js/professionModules.js`** | Koçluk, Veresiye, Nöbet, Duruşma ve Emlak hızlı panelleri + GlassModal motoru. |
+| **`js/marketDataService.js`** | Yahoo Finance v8 API, CORS proxy kaskadı ve altın hesaplayıcı. |
+| **`js/finance_v2.js`** | Borsa V2 iş mantığı, portföy hesaplama ve Ticker Tape. |
+| **`js/bist_database.js`** | Borsa İstanbul hisseleri ve sektör veri tabanı. |
+| **`js/app.js`** | Ana uygulama orkestrasyonu, sekme yönlendirmeleri ve depolama. |
+
+---
+
+## 🚀 4. Nasıl Çalıştırılır?
+
+Proje hiçbir kurulum veya sunucu bağımlılığı gerektirmez:
+
+1. Proje klasöründe terminali / PowerShell'i açın.
+2. Yerel sunucuyu başlatın:
    ```bash
    python -m http.server 5050
    ```
-3. Tarayıcınızı açıp `http://localhost:5050` adresine gidin.
-4. Sol menüden **Finans & Borsa** sekmesine tıklayarak canlı piyasayı deneyimleyebilirsiniz.
+3. Tarayıcınızdan `http://localhost:5050` adresine gidin.
+4. Karşılama anketinden dilediğiniz mesleği seçerek asistanınızı hemen kullanmaya başlayabilirsiniz!
 
-> Tüm verileriniz tarayıcınızın LocalStorage belleğinde tutulur. Sunucu (Backend) olmadığı için verileriniz tamamen sizin cihazınızda ve güvendedir.
+---
+
+## 🔒 5. Güvenlik ve Gizlilik
+
+* Tüm verileriniz tarayıcınızın **LocalStorage / IndexedDB** belleğinde güvenle tutulur.
+* Hiçbir kişisel veri, öğrenci notu, müşteri borcu veya portföy bilgisi harici bir sunucuya gönderilmez.
+* Verileriniz tamamen sizin cihazınızda ve kontrolünüzdedir.
