@@ -10,9 +10,11 @@ class OnboardingManager {
   }
 
   init() {
-    // Profil yoksa açılışta onboarding'i tetikle
+    // Profil yoksa ve sadece ADMIN isek onboarding'i tetikle
     const profile = window.moduleRegistry?.profileManager?.loadProfile();
-    if (!profile) {
+    const currentRole = window.authManager ? window.authManager.getRole() : 'USER';
+    
+    if (!profile && currentRole === 'ADMIN') {
       setTimeout(() => this.open(), 300);
     }
   }

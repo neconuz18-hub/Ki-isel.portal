@@ -131,6 +131,15 @@ class AssistantApp {
     this.initTheme();
     this.bindEvents();
 
+    if (window.authManager && !window.authManager.isAuthenticated()) {
+      window.authManager.showGateway();
+      return; // Yetkilendirme (Gateway) ekranındayız, app başlatılmasını beklet.
+    }
+    
+    this.initAfterAuth();
+  }
+
+  initAfterAuth() {
     // Sidebar daraltılmış durumunu geri yükle
     const isSidebarCollapsed = window.appStorage.get('assistant_sidebar_collapsed', false);
     if (isSidebarCollapsed && window.innerWidth >= 1024) {

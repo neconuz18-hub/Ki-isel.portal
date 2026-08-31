@@ -145,37 +145,39 @@ class MenuManager {
       });
     }
 
-    // 4. Modül Ekle / Düzenle Butonu (En altta)
-    html += `
-      <div class="pt-3 mt-2 border-t border-slate-800/80">
-        <button type="button" onclick="window.menuManager.openModuleStore()"
-                class="w-full flex items-center justify-between px-3.5 py-2 rounded-2xl text-xs font-medium text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 transition-all border border-dashed border-blue-500/30">
-          <div class="flex items-center gap-2">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-            <span>Modül Ekle / Çıkar</span>
-          </div>
-          <span class="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/20 font-bold">${enabledModules.length}</span>
-        </button>
-      </div>
-    `;
+    const currentRole = window.authManager ? window.authManager.getRole() : 'USER';
 
-    
-    // 5. Geliştirici & Admin Sekmesi
-    const isAdminActive = (currentTab === 'admin');
-    html += `
-      <div class="pt-2">
-        <button type="button" data-tab="admin"
-                class="tab-btn sidebar-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all group cursor-pointer ${
-                  isAdminActive ? 'bg-purple-600/20 text-purple-300 border border-purple-500/40 shadow-lg' : 'text-slate-400 hover:text-purple-300 hover:bg-purple-950/30'
-                }">
-          <div class="flex items-center gap-2.5">
-            <i data-lucide="terminal" class="w-4 h-4 text-purple-400"></i>
-            <span class="truncate">Geliştirici & Admin</span>
-          </div>
-          <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">DEV</span>
-        </button>
-      </div>
-    `;
+    // 4. Modül Ekle & Geliştirici (SADECE ADMİN GÖREBİLİR)
+    if (currentRole === 'ADMIN') {
+      html += `
+        <div class="pt-3 mt-2 border-t border-slate-800/80">
+          <button type="button" onclick="window.menuManager.openModuleStore()"
+                  class="w-full flex items-center justify-between px-3.5 py-2 rounded-2xl text-xs font-medium text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 transition-all border border-dashed border-blue-500/30">
+            <div class="flex items-center gap-2">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Modül Ekle / Çıkar</span>
+            </div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/20 font-bold">${enabledModules.length}</span>
+          </button>
+        </div>
+      `;
+      
+      const isAdminActive = (currentTab === 'admin');
+      html += `
+        <div class="pt-2">
+          <button type="button" data-tab="admin"
+                  class="tab-btn sidebar-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all group cursor-pointer ${
+                    isAdminActive ? 'bg-purple-600/20 text-purple-300 border border-purple-500/40 shadow-lg' : 'text-slate-400 hover:text-purple-300 hover:bg-purple-950/30'
+                  }">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="terminal" class="w-4 h-4 text-purple-400"></i>
+              <span class="truncate">Geliştirici & Admin</span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">DEV</span>
+          </button>
+        </div>
+      `;
+    }
 
     container.innerHTML = html;
     if (window.lucide) window.lucide.createIcons();
