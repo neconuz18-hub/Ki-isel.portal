@@ -1,3 +1,4 @@
+const escapeHtml = window.escapeHtml || function(str) { if(!str) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
 /**
  * AdminManager — Super Admin & Geliştirici Komuta Merkezi (admin.js)
  * 
