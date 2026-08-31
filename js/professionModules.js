@@ -1,4 +1,3 @@
-const escapeHtml = window.escapeHtml || function(str) { if(!str) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
 /**
  * ProfessionModules — Sektörel / Mesleki Hızlı Yönetim Modülleri (Fast-Pads)
  * 

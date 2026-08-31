@@ -1,3 +1,9 @@
+// Global Güvenli HTML Kaçış Fonksiyonu
+window.escapeHtml = function(str) {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+};
+
 /**
  * Storage Module - LocalStorage ve Python Web Sunucusu REST API Senkronizasyonu
  */

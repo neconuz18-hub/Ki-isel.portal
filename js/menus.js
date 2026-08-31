@@ -1,4 +1,3 @@
-const escapeHtml = window.escapeHtml || function(str) { if(!str) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
 /**
  * Menu Manager Module — Dinamik Profil & Modül Dağıtım Yöneticisi (menus.js)
  */
