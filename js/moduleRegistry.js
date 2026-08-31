@@ -78,7 +78,8 @@ const ALL_PORTAL_MODULES = {
   // --- Genel & Güvenlik ---
   news: { id: 'news', label: 'Gündem & Haberler', icon: 'newspaper', category: 'general', type: 'tab' },
   cityLife: { id: 'cityLife', label: 'Şehir & Yaşam Rehberi', icon: 'map-pin', category: 'general', type: 'tab' },
-  vault: { id: 'vault', label: 'Şifreli Güvenli Kasa', icon: 'lock', category: 'system', type: 'tab' }
+  vault: { id: 'vault', label: 'Şifreli Güvenli Kasa', icon: 'lock', category: 'system', type: 'tab' },
+  admin: { id: 'admin', label: 'Geliştirici & Komuta Merkezi', icon: 'terminal', category: 'system', type: 'tab', desc: 'Rol simülatörü, test verisi yükleme ve sistem denetimi.' }
 };
 
 // 2. 8 TEMEL MESLEK ŞABLONU (PRESETS)

@@ -159,6 +159,24 @@ class MenuManager {
       </div>
     `;
 
+    
+    // 5. Geliştirici & Admin Sekmesi
+    const isAdminActive = (currentTab === 'admin');
+    html += `
+      <div class="pt-2">
+        <button type="button" data-tab="admin"
+                class="tab-btn sidebar-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all group cursor-pointer ${
+                  isAdminActive ? 'bg-purple-600/20 text-purple-300 border border-purple-500/40 shadow-lg' : 'text-slate-400 hover:text-purple-300 hover:bg-purple-950/30'
+                }">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="terminal" class="w-4 h-4 text-purple-400"></i>
+            <span class="truncate">Geliştirici & Admin</span>
+          </div>
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">DEV</span>
+        </button>
+      </div>
+    `;
+
     container.innerHTML = html;
     if (window.lucide) window.lucide.createIcons();
   }
@@ -202,7 +220,25 @@ class MenuManager {
       `;
     });
 
-    if (container) container.innerHTML = html;
+    if (container) 
+    // 5. Geliştirici & Admin Sekmesi
+    const isAdminActive = (currentTab === 'admin');
+    html += `
+      <div class="pt-2">
+        <button type="button" data-tab="admin"
+                class="tab-btn sidebar-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all group cursor-pointer ${
+                  isAdminActive ? 'bg-purple-600/20 text-purple-300 border border-purple-500/40 shadow-lg' : 'text-slate-400 hover:text-purple-300 hover:bg-purple-950/30'
+                }">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="terminal" class="w-4 h-4 text-purple-400"></i>
+            <span class="truncate">Geliştirici & Admin</span>
+          </div>
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">DEV</span>
+        </button>
+      </div>
+    `;
+
+    container.innerHTML = html;
     modal.classList.remove('hidden');
     if (window.lucide) window.lucide.createIcons();
   }
