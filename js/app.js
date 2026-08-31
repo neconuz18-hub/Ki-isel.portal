@@ -35,7 +35,7 @@ class AssistantApp {
     if (hash) {
       try { hash = atob(hash); } catch(e) {}
       if (hash === 'ipo') return 'ipo';
-      const validTabs = ['dashboard', 'finance', 'subscriptions', 'news', 'tasks', 'reminders', 'notes', 'routines', 'vault', 'settings'];
+      const validTabs = ['dashboard', 'finance', 'subscriptions', 'news', 'tasks', 'reminders', 'notes', 'routines', 'vault', 'settings', 'admin', 'veresiye', 'nobet', 'durusma', 'emlak', 'ogretmen', 'varlik_evrak', 'zimmet', 'cityLife'];
       if (validTabs.includes(hash)) return hash;
     }
     return window.appStorage.get('assistant_active_tab', 'dashboard');
@@ -388,13 +388,31 @@ class AssistantApp {
     this.renderHeaderWidgetDock();
     if (window.menuManager) window.menuManager.refreshByProfile();
     
-    // Explicitly check for defined managers before calling render
-    if (window.financeManager && this.currentTab === 'finance') window.financeManagerV2.render();
+    // Finans V2
+    if (window.financeManagerV2 && this.currentTab === 'finance') {
+      if (window.financeManagerV2.refreshAllData) window.financeManagerV2.refreshAllData();
+      else if (window.financeManagerV2.render) window.financeManagerV2.render();
+    }
     if (window.ipoManager && this.currentTab === 'finance') window.ipoManager.render();
     if (window.subscriptionManager && this.currentTab === 'subscriptions') window.subscriptionManager.render();
     if (window.cityLifeManager && this.currentTab === 'cityLife') window.cityLifeManager.render();
     if (window.newsManager && this.currentTab === 'news') window.newsManager.render();
     
+    // Mesleki Modüller
+    if (window.professionModules) {
+      if (this.currentTab === 'veresiye') window.professionModules.renderVeresiye();
+      if (this.currentTab === 'nobet') window.professionModules.renderNobet();
+      if (this.currentTab === 'durusma') window.professionModules.renderDurusma();
+      if (this.currentTab === 'emlak') window.professionModules.renderEmlak();
+      if (this.currentTab === 'ogretmen') window.professionModules.renderOgretmen();
+    }
+
+    // Admin & Geliştirici Komuta Merkezi
+    if (window.adminManager && this.currentTab === 'admin') window.adminManager.render();
+
+    // Vault (Kasa)
+    if (window.vaultManager && this.currentTab === 'vault' && window.vaultManager.render) window.vaultManager.render();
+
     if (window.taskManager) window.taskManager.render();
     if (window.noteManager && window.noteManager.renderNotesList) window.noteManager.renderNotesList();
     if (window.reminderManager) window.reminderManager.render();
@@ -751,7 +769,7 @@ class AssistantApp {
         const type = document.getElementById('menuInputType').value;
         const url = document.getElementById('menuInputUrl').value;
 
-        window.menuManager.addMenu({ label, icon, type, url });
+        if (window.menuManager && window.menuManager.addMenu) window.menuManager.addMenu({ label, icon, type, url });
         this.closeModal('newMenuModal');
         newMenuForm.reset();
         this.renderAll();
@@ -768,7 +786,7 @@ class AssistantApp {
         const name = document.getElementById('stockInputName').value;
         const price = document.getElementById('stockInputPrice').value;
 
-        if (window.financeManager) {
+        if (window.financeManagerV2 && window.financeManagerV2.addStock) {
           window.financeManagerV2.addStock(sym, name, price);
         }
         this.closeModal('newStockModal');

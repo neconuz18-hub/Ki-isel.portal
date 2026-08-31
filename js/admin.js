@@ -210,7 +210,7 @@ class AdminManager {
   switchRole(presetId) {
     window.moduleRegistry.profileManager.setPreset(presetId);
     this.render();
-    if (window.soundManager) window.soundManager.play('click');
+    if (window.soundManager && window.soundManager.playClick) window.soundManager.playClick();
     alert(`✅ Rol başarıyla değiştirildi: ${window.moduleRegistry.PRESETS[presetId]?.title}`);
   }
 

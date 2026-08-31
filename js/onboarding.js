@@ -170,7 +170,7 @@ class OnboardingManager {
     this.close();
 
     // Başarı bildirimi
-    if (window.soundManager) window.soundManager.play('success');
+    if (window.soundManager && window.soundManager.playSuccess) window.soundManager.playSuccess();
     
     // Varsayılan sekmeye geç
     if (window.app) {
