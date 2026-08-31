@@ -396,11 +396,10 @@ class AssistantApp {
     if (window.newsManager && this.currentTab === 'news') window.newsManager.render();
     
     if (window.taskManager) window.taskManager.render();
-    if (window.notesManager) window.notesManager.render();
-    if (window.noteManager) window.noteManager.render();
+    if (window.noteManager && window.noteManager.renderNotesList) window.noteManager.renderNotesList();
     if (window.reminderManager) window.reminderManager.render();
-    if (window.routineManager) window.routineManager.render();
-    if (window.routinesManager) window.routinesManager.render();
+    if (window.routineManager && window.routineManager.renderRoutinesList) window.routineManager.renderRoutinesList();
+    if (window.focusManager && window.focusManager.render) window.focusManager.render();
   }
 
   
