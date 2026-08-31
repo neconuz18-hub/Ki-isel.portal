@@ -289,7 +289,7 @@ class AssistantApp {
       ipoBtn.className = 'px-4 py-2.5 rounded-xl bg-transparent text-slate-400 hover:text-white font-bold text-xs transition-all flex items-center gap-2 cursor-pointer';
       marketsPane.classList.remove('hidden');
       ipoPane.classList.add('hidden');
-      if (window.financeManager) window.financeManager.render();
+      if (window.financeManager) window.financeManagerV2.render();
     } else {
       ipoBtn.className = 'px-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow-md shadow-amber-500/20 transition-all flex items-center gap-2 cursor-pointer';
       marketsBtn.className = 'px-4 py-2.5 rounded-xl bg-transparent text-slate-400 hover:text-white font-bold text-xs transition-all flex items-center gap-2 cursor-pointer';
@@ -389,7 +389,7 @@ class AssistantApp {
     if (window.menuManager) window.menuManager.renderSidebar();
     
     // Explicitly check for defined managers before calling render
-    if (window.financeManager && this.currentTab === 'finance') window.financeManager.render();
+    if (window.financeManager && this.currentTab === 'finance') window.financeManagerV2.render();
     if (window.ipoManager && this.currentTab === 'finance') window.ipoManager.render();
     if (window.subscriptionManager && this.currentTab === 'subscriptions') window.subscriptionManager.render();
     if (window.cityLifeManager && this.currentTab === 'cityLife') window.cityLifeManager.render();
@@ -649,7 +649,7 @@ class AssistantApp {
       modal.classList.add('flex');
 
       if (modalId === 'newStockModal' && window.financeManager) {
-        window.financeManager.setupStockAutocomplete();
+        window.financeManagerV2.setupStockAutocomplete();
         const inp = document.getElementById('stockInputSymbol');
         if (inp) setTimeout(() => inp.focus(), 50);
       }
@@ -769,7 +769,7 @@ class AssistantApp {
         const price = document.getElementById('stockInputPrice').value;
 
         if (window.financeManager) {
-          window.financeManager.addStock(sym, name, price);
+          window.financeManagerV2.addStock(sym, name, price);
         }
         this.closeModal('newStockModal');
         newStockForm.reset();

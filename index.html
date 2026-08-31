@@ -429,9 +429,112 @@
       </div>
 
 
-      <!-- TAB: FINANS -->
+            <!-- TAB: FINANS (V2 YENİDEN YAZIM) -->
       <div id="tab-finance" class="tab-pane hidden space-y-6">
-        <div id="mainIpoContainer"></div>
+        
+        <!-- Canlı Piyasa Bandı (Ticker Tape) -->
+        <div class="glass-card rounded-2xl overflow-hidden border">
+          <div class="flex items-center px-4 py-2 bg-slate-900/50 border-b border-slate-700/50">
+            <span class="relative flex h-2 w-2 mr-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Canlı Piyasalar</h3>
+            <span id="marketStatusBadge" class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Piyasa Açık</span>
+          </div>
+          <div class="overflow-x-auto no-scrollbar bg-slate-950">
+            <div id="tickerTapeContainer" class="flex gap-6 items-center px-4 py-3 min-w-max">
+              <!-- JS ile doldurulacak -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Portföy Özet KPI'ları -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <div class="glass-card p-5 rounded-3xl border relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <p class="text-xs font-medium text-slate-400 mb-1">Toplam Portföy Değeri</p>
+            <div class="flex items-end justify-between">
+              <h2 id="totalPortfolioValue" class="text-2xl font-bold font-mono text-slate-100">0.00 ₺</h2>
+              <button onclick="window.financeManagerV2.togglePrivacy()" class="text-slate-500 hover:text-slate-300 transition-colors">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl border relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <p class="text-xs font-medium text-slate-400 mb-1">Toplam Kar/Zarar</p>
+            <div class="flex items-center gap-2">
+              <h2 id="totalPnLValue" class="text-2xl font-bold font-mono text-slate-100">0.00 ₺</h2>
+              <span id="totalPnLPercent" class="text-xs font-medium px-2 py-1 rounded-lg bg-slate-800 text-slate-400">0.00%</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl border relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <p class="text-xs font-medium text-slate-400 mb-1">Günlük Değişim</p>
+            <div class="flex items-center gap-2">
+              <h2 id="dailyPnLValue" class="text-2xl font-bold font-mono text-slate-100">0.00 ₺</h2>
+              <span id="dailyPnLPercent" class="text-xs font-medium px-2 py-1 rounded-lg bg-slate-800 text-slate-400">0.00%</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-3xl border relative overflow-hidden group flex items-center justify-between">
+             <div>
+               <p class="text-xs font-medium text-slate-400 mb-1">Hızlı İşlemler</p>
+               <button onclick="window.financeManagerV2.openSearchModal()" class="px-4 py-2 mt-1 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 transition-all">
+                 <i data-lucide="search" class="w-4 h-4"></i>
+                 Hisse Ara / Ekle
+               </button>
+             </div>
+          </div>
+
+        </div>
+
+        <!-- Alt Sekmeler Navigasyonu (Portföy / Takip / Döviz / Halka Arz) -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar border-b border-slate-700/50">
+          <button onclick="window.financeManagerV2.switchSubTab('portfolio')" id="subtab-btn-portfolio" class="fin-subtab-btn active px-4 py-2.5 rounded-t-xl text-sm font-semibold text-slate-300 hover:text-white border-b-2 border-transparent transition-all whitespace-nowrap">Portföyüm</button>
+          <button onclick="window.financeManagerV2.switchSubTab('watchlist')" id="subtab-btn-watchlist" class="fin-subtab-btn px-4 py-2.5 rounded-t-xl text-sm font-semibold text-slate-400 hover:text-white border-b-2 border-transparent transition-all whitespace-nowrap">Takip Listem</button>
+          <button onclick="window.financeManagerV2.switchSubTab('forex')" id="subtab-btn-forex" class="fin-subtab-btn px-4 py-2.5 rounded-t-xl text-sm font-semibold text-slate-400 hover:text-white border-b-2 border-transparent transition-all whitespace-nowrap">Döviz & Altın</button>
+          <button onclick="window.financeManagerV2.switchSubTab('ipo')" id="subtab-btn-ipo" class="fin-subtab-btn px-4 py-2.5 rounded-t-xl text-sm font-semibold text-slate-400 hover:text-white border-b-2 border-transparent transition-all whitespace-nowrap">Halka Arz</button>
+        </div>
+
+        <!-- Alt Sekme İçerikleri -->
+        <div class="fin-subtabs-container relative min-h-[400px]">
+          
+          <!-- PORTFÖY -->
+          <div id="fin-subtab-portfolio" class="fin-subtab-pane block space-y-4">
+            <div id="portfolioListContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+               <!-- JS ile doldurulacak -->
+               <div class="text-center py-10 text-slate-500 w-full col-span-full">Yükleniyor...</div>
+            </div>
+          </div>
+
+          <!-- TAKİP LİSTESİ -->
+          <div id="fin-subtab-watchlist" class="fin-subtab-pane hidden space-y-4">
+            <div id="watchlistContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+               <!-- JS ile doldurulacak -->
+            </div>
+          </div>
+
+          <!-- DÖVİZ & ALTIN -->
+          <div id="fin-subtab-forex" class="fin-subtab-pane hidden space-y-4">
+            <div id="forexListContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+               <!-- JS ile doldurulacak -->
+            </div>
+          </div>
+
+          <!-- HALKA ARZ (Eski sistemi buraya gömüyoruz) -->
+          <div id="fin-subtab-ipo" class="fin-subtab-pane hidden space-y-4">
+            <div id="mainIpoContainer">
+              <!-- Eski IPO scripti burayı doldurmaya devam edebilir veya yenileyebiliriz -->
+            </div>
+          </div>
+
+        </div>
+
       </div>
       <!-- TAB: ABONELIK -->
       <div id="tab-subscriptions" class="tab-pane hidden space-y-6"></div>
@@ -1271,8 +1374,9 @@
   <script src="js/notes.js"></script>
   <script src="js/routines.js"></script>
   <script src="js/focus.js"></script>
-  
-  <script src="js/finance.js"></script>
+  <script src="js/bist_database.js"></script>
+  <script src="js/marketDataService.js"></script>
+  <script src="js/finance_v2.js"></script>
   <script src="js/ipo.js"></script>
   <script src="js/cityLife.js"></script>
   <script src="js/subscriptions.js"></script>
