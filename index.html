@@ -429,7 +429,29 @@
       </div>
 
 
-            <!-- TAB: FINANS (V2 YENİDEN YAZIM) -->
+            
+      <!-- TAB: VERESİYE & TOPTANCI (ESNAF) -->
+      <div id="tab-veresiye" class="tab-pane hidden space-y-6"></div>
+
+      <!-- TAB: NÖBET & VARDİYA (DOKTOR / GÜVENLİK) -->
+      <div id="tab-nobet" class="tab-pane hidden space-y-6"></div>
+
+      <!-- TAB: DURUŞMA & SÜRE SAYACI (AVUKAT) -->
+      <div id="tab-durusma" class="tab-pane hidden space-y-6"></div>
+
+      <!-- TAB: EMLAK & PORTFÖY (EMLAKÇI) -->
+      <div id="tab-emlak" class="tab-pane hidden space-y-6"></div>
+
+      <!-- TAB: ÖĞRETMEN & DERS TAKİP -->
+      <div id="tab-ogretmen" class="tab-pane hidden space-y-6"></div>
+
+      <!-- TAB: VARLIK & EVRAK TAKİBİ -->
+      <div id="tab-varlik_evrak" class="tab-pane hidden space-y-6"></div>
+
+      <!-- TAB: ZİMMET & TEÇHİZAT -->
+      <div id="tab-zimmet" class="tab-pane hidden space-y-6"></div>
+
+      <!-- TAB: FINANS (V2 YENİDEN YAZIM) -->
       <div id="tab-finance" class="tab-pane hidden space-y-6">
         
         <!-- Canlı Piyasa Bandı (Ticker Tape) -->
@@ -1368,6 +1390,10 @@
     <!-- APPLICATION SCRIPTS -->
   <script src="js/storage.js"></script>
   <script src="js/sound.js"></script>
+    <script src="js/polymorphicStore.js"></script>
+  <script src="js/moduleRegistry.js"></script>
+  <script src="js/professionModules.js"></script>
+  <script src="js/onboarding.js"></script>
   <script src="js/menus.js"></script>
   <script src="js/tasks.js"></script>
   <script src="js/reminders.js"></script>
@@ -1443,6 +1469,38 @@
       <div class="px-6 py-4 bg-slate-900/50 border-t border-slate-700/50 flex justify-end gap-3">
         <button onclick="window.financeManagerV2.closeAddModal()" class="px-5 py-2.5 rounded-xl font-semibold text-sm text-slate-300 hover:bg-slate-800 transition-colors">İptal</button>
         <button onclick="window.financeManagerV2.saveHolding()" class="px-5 py-2.5 rounded-xl font-semibold text-sm text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: AKILLI KARŞILAMA VE TEŞHİS ANKETİ (ONBOARDING) -->
+  <div id="onboardingModal" class="modal-backdrop hidden fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-2xl rounded-3xl border border-slate-700/60 shadow-2xl p-6 relative overflow-hidden">
+      <div id="onboardingContent"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: MODÜL MAĞAZASI (ADD / REMOVE MODULES) -->
+  <div id="moduleStoreModal" class="modal-backdrop hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-xl rounded-3xl border border-slate-700/60 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-900/60">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-100">Modül Mağazası</h3>
+            <p class="text-xs text-slate-400">İhtiyacınıza göre özellikleri açıp kapatın</p>
+          </div>
+        </div>
+        <button onclick="window.menuManager.closeModuleStore()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="moduleStoreList" class="p-5 space-y-3 overflow-y-auto no-scrollbar flex-1">
+        <!-- JS ile doldurulacak -->
       </div>
     </div>
   </div>

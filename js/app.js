@@ -330,7 +330,7 @@ class AssistantApp {
     if (!sidebar) return;
     const isCollapsed = sidebar.classList.toggle('sidebar-collapsed');
     window.appStorage.save('assistant_sidebar_collapsed', isCollapsed, false);
-    if (window.menuManager) window.menuManager.renderSidebar();
+    if (window.menuManager) window.menuManager.refreshByProfile();
     if (window.lucide) window.lucide.createIcons();
     this.showToast(isCollapsed ? 'Sol menü daraltıldı' : 'Sol menü genişletildi', 'info');
   }
@@ -386,7 +386,7 @@ class AssistantApp {
   renderAll() {
     this.updateDashboardStats();
     this.renderHeaderWidgetDock();
-    if (window.menuManager) window.menuManager.renderSidebar();
+    if (window.menuManager) window.menuManager.refreshByProfile();
     
     // Explicitly check for defined managers before calling render
     if (window.financeManager && this.currentTab === 'finance') window.financeManagerV2.render();
