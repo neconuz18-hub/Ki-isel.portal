@@ -159,20 +159,24 @@
   <div class="flex-1 flex flex-col min-w-0 overflow-x-hidden">
 
     <!-- TOP HEADER -->
-    <header class="glass-header sticky top-0 z-30 px-4 lg:px-8 py-3.5 flex items-center justify-between">
+    <header class="glass-header sticky top-0 z-30 px-4 lg:px-8 py-3.5 flex items-center justify-between gap-4">
       
-      <!-- Left: Mobile Menu Toggle, Title & Profile Badge -->
-      <div class="flex items-center space-x-3">
-        <button onclick="window.app.toggleMobileSidebar()" class="lg:hidden p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 text-slate-300 hover:text-white">
+      <!-- Left: Mobile/Desktop Menu Toggle, Title, Profile Badge & Minimized Widget Dock -->
+      <div class="flex items-center space-x-3 min-w-0">
+        <!-- 3 Çizgili Menü Açma/Kapama Butonu -->
+        <button onclick="window.app.toggleSidebarCollapse()" title="Menüyü Aç / Kapat" class="p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 text-slate-300 hover:text-white hover:border-slate-500 transition-all cursor-pointer flex-shrink-0">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
 
         <!-- Dinamik Profil Rozeti -->
-        <div id="userProfileHeaderBadge" class="hidden sm:block"></div>
+        <div id="userProfileHeaderBadge" class="hidden sm:block flex-shrink-0"></div>
 
-        <div class="hidden sm:block border-l border-slate-700/50 pl-3 ml-1">
+        <div class="hidden md:block border-l border-slate-700/50 pl-3 ml-1 flex-shrink-0">
           <h2 class="text-[11px] font-semibold text-slate-400">Kişisel Portal V2</h2>
         </div>
+
+        <!-- KÜÇÜLTÜLEN WİDGET'LAR DOCK PANELİ (BALONCUKLAR) -->
+        <div id="headerWidgetDock" class="hidden flex items-center gap-2 pl-2 overflow-x-auto"></div>
       </div>
 
       <!-- Center / Right: Live Turkish Clock, Date & Logout -->

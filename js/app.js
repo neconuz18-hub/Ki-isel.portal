@@ -54,10 +54,11 @@ class AssistantApp {
       wrapper.classList.add('hidden');
     }
 
+    if (window.soundManager && window.soundManager.playClick) window.soundManager.playClick();
     this.renderHeaderWidgetDock();
     const meta = WIDGET_META[widgetId];
     if (meta && this.showToast) {
-      this.showToast(`${meta.label} yukarı panele küçültüldü`, 'info');
+      this.showToast(`${meta.label} üst panele baloncuk olarak eklendi`, 'info');
     }
   }
 
@@ -70,13 +71,15 @@ class AssistantApp {
     if (wrapper) {
       wrapper.classList.remove('hidden');
       wrapper.classList.add('animate-fadeIn');
-      setTimeout(() => wrapper.classList.remove('animate-fadeIn'), 500);
+      setTimeout(() => wrapper.classList.remove('animate-fadeIn'), 600);
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
+    if (window.soundManager && window.soundManager.playSuccess) window.soundManager.playSuccess();
     this.renderHeaderWidgetDock();
     const meta = WIDGET_META[widgetId];
     if (meta && this.showToast) {
-      this.showToast(`${meta.label} ana sayfaya geri açıldı`, 'success');
+      this.showToast(`${meta.label} ana sayfada geri açıldı`, 'success');
     }
   }
 
@@ -100,25 +103,29 @@ class AssistantApp {
 
     dock.classList.remove('hidden');
     dock.innerHTML = `
-      <div class="flex items-center gap-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1 pr-1.5 border-r border-slate-800 pointer-events-none">
-        <i data-lucide="layout-grid" class="w-3 h-3 text-amber-400"></i>
-        <span>Dock</span>
+      <div class="flex items-center gap-1.5 pl-1 pr-2 py-0.5 border-r border-slate-700/60 text-[10px] font-bold text-slate-400 uppercase tracking-wider flex-shrink-0">
+        <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i>
+        <span>Küçültülenler:</span>
       </div>
-      ${minimized.map(id => {
-        const meta = WIDGET_META[id] || { label: id, short: id, icon: 'circle', color: 'text-slate-300 border-slate-700 bg-slate-800' };
-        return `
-          <button 
-            type="button"
-            onclick="window.app.restoreWidget('${id}')" 
-            class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl border ${meta.color} text-xs font-semibold transition-all hover:scale-105 cursor-pointer shadow-sm group animate-fadeIn"
-            title="${meta.label} kartını ana sayfada açmak için tıklayın"
-          >
-            <i data-lucide="${meta.icon}" class="w-3.5 h-3.5 group-hover:scale-110 transition-transform"></i>
-            <span class="text-[11px] font-bold">${meta.short}</span>
-            <i data-lucide="maximize-2" class="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 transition-opacity"></i>
-          </button>
-        `;
-      }).join('')}
+      <div class="flex items-center gap-2 overflow-x-auto py-0.5">
+        ${minimized.map(id => {
+          const meta = WIDGET_META[id] || { label: id, short: id, icon: 'circle', color: 'text-slate-300 border-slate-700 bg-slate-800' };
+          return `
+            <button 
+              type="button"
+              onclick="window.app.restoreWidget('${id}')" 
+              class="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700/70 hover:border-blue-500/80 text-xs font-semibold opacity-60 hover:opacity-100 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 cursor-pointer group flex-shrink-0 animate-fadeIn"
+              title="${meta.label} widget'ını geri açmak için tıklayın"
+            >
+              <div class="w-4 h-4 text-blue-400 group-hover:text-white flex items-center justify-center">
+                <i data-lucide="${meta.icon}" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-[11px] font-bold text-slate-300 group-hover:text-white">${meta.short || meta.label}</span>
+              <i data-lucide="plus" class="w-3 h-3 text-slate-500 group-hover:text-blue-400 group-hover:rotate-90 transition-transform"></i>
+            </button>
+          `;
+        }).join('')}
+      </div>
     `;
 
     if (window.lucide) window.lucide.createIcons();
