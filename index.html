@@ -52,25 +52,38 @@
       <p class="text-slate-400 text-sm">Lütfen oturum türünüzü seçin</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md w-full">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md w-full mb-6">
       <!-- Kullanıcı Butonu -->
-      <button onclick="window.authManager.loginUser()" class="group flex flex-col items-center justify-center p-6 rounded-3xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800/80 hover:border-slate-700 transition-all cursor-pointer">
-        <div class="p-3 rounded-full bg-blue-500/10 text-blue-400 mb-3 group-hover:scale-110 transition-transform">
+      <button onclick="window.authManager.loginUser()" class="group flex flex-col items-center justify-center p-5 rounded-3xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800/80 hover:border-slate-700 transition-all cursor-pointer">
+        <div class="p-3 rounded-full bg-blue-500/10 text-blue-400 mb-2 group-hover:scale-110 transition-transform">
           <i data-lucide="user" class="w-6 h-6"></i>
         </div>
-        <span class="font-bold text-slate-200">Normal Kullanıcı</span>
-        <span class="text-xs text-slate-500 mt-1">Sadece kendi modüllerimi göreyim</span>
+        <span class="font-bold text-slate-200 text-sm">Misafir / Hızlı Giriş</span>
+        <span class="text-[11px] text-slate-500 mt-1">Varsayılan modüller</span>
       </button>
 
       <!-- Yönetici Butonu -->
       <div class="relative group">
-        <button onclick="const pin = prompt('Yönetici PIN Kodunu Giriniz (1234):'); if(pin){ window.authManager.loginAdmin(pin) ? null : alert('Hatalı PIN!'); }" class="w-full flex flex-col items-center justify-center p-6 rounded-3xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800/80 hover:border-slate-700 transition-all cursor-pointer">
-          <div class="p-3 rounded-full bg-purple-500/10 text-purple-400 mb-3 group-hover:scale-110 transition-transform">
+        <button onclick="const pin = prompt('Yönetici PIN Kodunu Giriniz (1234):'); if(pin){ window.authManager.loginAdmin(pin) ? null : alert('Hatalı PIN!'); }" class="w-full flex flex-col items-center justify-center p-5 rounded-3xl border border-purple-900/40 bg-purple-950/20 hover:bg-purple-900/40 hover:border-purple-600/50 transition-all cursor-pointer">
+          <div class="p-3 rounded-full bg-purple-500/10 text-purple-400 mb-2 group-hover:scale-110 transition-transform">
             <i data-lucide="key" class="w-6 h-6"></i>
           </div>
-          <span class="font-bold text-slate-200">Sistem Yöneticisi</span>
-          <span class="text-xs text-slate-500 mt-1">Ayarlar ve Yetkilendirme</span>
+          <span class="font-bold text-slate-200 text-sm">Sistem Yöneticisi</span>
+          <span class="text-[11px] text-purple-400/70 mt-1">Modül & Kullanıcı Yönetimi</span>
         </button>
+      </div>
+    </div>
+
+    <!-- Kayıtlı Özel Kullanıcılar -->
+    <div class="max-w-md w-full space-y-2 border-t border-slate-800/80 pt-4">
+      <div class="flex items-center justify-between px-1 mb-2">
+        <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5">
+          <i data-lucide="users" class="w-3.5 h-3.5 text-blue-400"></i> Kayıtlı Profiller / Kullanıcılar
+        </span>
+        <span class="text-[10px] text-slate-500">Yönetici tarafından tanımlı</span>
+      </div>
+      <div id="gatewayUserList" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+        <!-- JS ile dolacak -->
       </div>
     </div>
   </div>
@@ -1432,6 +1445,7 @@
 
     <!-- APPLICATION SCRIPTS -->
   <script src="js/storage.js"></script>
+  <script src="js/userManager.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/sound.js"></script>
     <script src="js/polymorphicStore.js"></script>

@@ -480,23 +480,29 @@ class AssistantApp {
 
   applyWidgetVisibility() {
     const widgets = window.appStorage.get(STORAGE_KEYS.WIDGETS, DEFAULT_WIDGETS);
+    const enabledModules = window.moduleRegistry?.profileManager?.enabledModules || [];
     
-    const toggleEl = (id, visible) => {
+    const toggleEl = (id, moduleKey, visible) => {
       const el = document.getElementById(id);
       if (el) {
+        // Eğer kullanıcı bu modüle yetkili değilse widget'ı kesinlikle gizle
+        if (moduleKey && !enabledModules.includes(moduleKey)) {
+          el.classList.add('hidden');
+          return;
+        }
         if (visible === false) el.classList.add('hidden');
         else el.classList.remove('hidden');
       }
     };
 
-    toggleEl('weatherWidgetWrapper', widgets.weather);
-    toggleEl('financeWidgetWrapper', widgets.finance);
-    toggleEl('newsWidgetWrapper', widgets.news);
-    toggleEl('tasksWidgetWrapper', widgets.tasks);
-    toggleEl('notesWidgetWrapper', widgets.notes);
-    toggleEl('remindersWidgetWrapper', widgets.reminders);
-    toggleEl('focusWidgetWrapper', widgets.focus);
-    toggleEl('routinesWidgetWrapper', widgets.routines);
+    toggleEl('weatherWidgetWrapper', 'cityLife', widgets.weather);
+    toggleEl('financeWidgetWrapper', 'finance', widgets.finance);
+    toggleEl('newsWidgetWrapper', 'news', widgets.news);
+    toggleEl('tasksWidgetWrapper', 'tasks', widgets.tasks);
+    toggleEl('notesWidgetWrapper', 'notes', widgets.notes);
+    toggleEl('remindersWidgetWrapper', 'reminders', widgets.reminders);
+    toggleEl('focusWidgetWrapper', null, widgets.focus);
+    toggleEl('routinesWidgetWrapper', 'routines', widgets.routines);
   }
 
   renderWidgetSettingsUI() {
