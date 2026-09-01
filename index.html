@@ -64,7 +64,7 @@
 
       <!-- Yönetici Butonu -->
       <div class="relative group">
-        <button onclick="const pin = prompt('Yönetici PIN Kodunu Giriniz (1234):'); if(pin){ window.authManager.loginAdmin(pin) ? null : alert('Hatalı PIN!'); }" class="w-full flex flex-col items-center justify-center p-5 rounded-3xl border border-purple-900/40 bg-purple-950/20 hover:bg-purple-900/40 hover:border-purple-600/50 transition-all cursor-pointer">
+        <button onclick="window.authManager.promptAdminLogin()" class="w-full flex flex-col items-center justify-center p-5 rounded-3xl border border-purple-900/40 bg-purple-950/20 hover:bg-purple-900/40 hover:border-purple-600/50 transition-all cursor-pointer">
           <div class="p-3 rounded-full bg-purple-500/10 text-purple-400 mb-2 group-hover:scale-110 transition-transform">
             <i data-lucide="key" class="w-6 h-6"></i>
           </div>
