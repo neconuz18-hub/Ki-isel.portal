@@ -305,29 +305,21 @@ class SubscriptionManager {
     }
 
     container.innerHTML = `
-      <div class="bg-slate-800/40 backdrop-blur-md rounded-2xl border border-slate-800/60 p-4.5 space-y-4 hover:border-amber-500/20 transition-all">
-        <!-- Header -->
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <div class="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
-              <i data-lucide="wallet" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white flex items-center gap-2">
-                Abonelik & Ödeme Radarı
-                ${stats.criticalCount > 0 ? `<span class="px-1.5 py-0.2 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-black">${stats.criticalCount} Yaklaştı</span>` : ''}
-              </h4>
-              <p class="text-[10px] text-slate-400">Aylık Sabit Yük: <strong class="text-amber-400">~${Math.round(stats.monthlyTryTotal).toLocaleString('tr-TR')} ₺</strong></p>
-            </div>
+      <div class="space-y-3">
+        <!-- Mini Info Banner -->
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+          <div class="text-[11px] text-slate-300">
+            Aylık Sabit Yük: <strong class="text-amber-400 font-mono font-bold">~${Math.round(stats.monthlyTryTotal).toLocaleString('tr-TR')} ₺</strong>
+            ${stats.criticalCount > 0 ? `<span class="ml-2 px-1.5 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-black">${stats.criticalCount} Yaklaştı</span>` : ''}
           </div>
-          <button onclick="window.app.switchTab('subscriptions', true)" class="text-[11px] font-bold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1 cursor-pointer">
+          <button onclick="window.app.switchTab('subscriptions', true)" class="text-[11px] font-bold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-0.5 cursor-pointer">
             <span>Tümü</span>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
           </button>
         </div>
 
         <!-- List -->
-        <div class="p-5 space-y-2">
+        <div class="space-y-2">
           ${itemsHtml}
         </div>
       </div>

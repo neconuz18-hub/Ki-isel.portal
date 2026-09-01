@@ -334,8 +334,34 @@
           </div>
 
           <!-- 4. Abonelik & Ödeme Radarı (lg:col-span-1) -->
-          <div id="subscriptionsWidgetWrapper" data-widget-id="subscriptions" class="dashboard-widget-wrapper lg:col-span-1 relative group">
-            <div id="subscriptionsWidgetContainer"></div>
+          <div id="subscriptionsWidgetWrapper" data-widget-id="subscriptions" class="dashboard-widget-wrapper rounded-2xl border border-slate-700/60 shadow-xl overflow-hidden bg-slate-900/40 backdrop-blur-lg lg:col-span-1 relative group">
+            <div class="px-5 py-3.5 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-2.5">
+                <div class="widget-drag-handle drag-grip-handle p-1 text-slate-500 hover:text-amber-400 rounded-lg hover:bg-slate-800 transition-all cursor-grab active:cursor-grabbing" title="Basılı tutup sürükleyerek yerini değiştirin">
+                  <i data-lucide="grip-vertical" class="w-4 h-4 pointer-events-none"></i>
+                </div>
+                <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-sm">
+                  <i data-lucide="credit-card" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm text-white">Abonelik & Ödeme Radarı</h3>
+                  <p class="text-[10px] text-slate-400">Aylık sabit gider takibi</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <button onclick="window.app.minimizeWidget('subscriptions')" title="Yukarı Panele Küçült / Gizle" class="p-1.5 text-slate-400 hover:text-amber-400 hover:bg-slate-800 rounded-lg transition-all cursor-pointer">
+                  <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="window.app.openModal('newSubscriptionModal')" class="px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Yeni Ekle</span>
+                </button>
+              </div>
+            </div>
+            <div class="p-5 space-y-4 widget-collapsible-content">
+              <div id="subscriptionsWidgetContainer"></div>
+            </div>
           </div>
 
           <!-- 5. Canlı Gündem & Haber Akışı (lg:col-span-2) -->
