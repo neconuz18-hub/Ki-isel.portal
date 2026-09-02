@@ -46,7 +46,7 @@ window.Portal = {
     this.safeExec('Briefing', () => this.initDailyBriefing());
     this.safeExec('Tasks', () => this.loadTasks());
     this.safeExec('Notes', () => this.loadNotes());
-    this.safeExec('Finance', () => this.loadFinanceData());
+    this.safeExec('Finance', () => { this.loadFinanceData(); this.refreshAllLiveQuotes(); setInterval(() => this.refreshAllLiveQuotes(), 60000); });
     this.safeExec('Vault', () => this.loadVaultData());
     this.safeExec('Shortcuts', () => this.bindKeyboardShortcuts());
     this.safeExec('Icons', () => { if (window.lucide) window.lucide.createIcons(); });
@@ -407,6 +407,65 @@ window.Portal = {
   deleteDrawerNote() { const id = document.getElementById('drawerNoteId').value; if (id) { this.quickDeleteNote(id); this.closeNoteDrawer(); this.toast('Doküman silindi', 'success'); } },
 
   // --- BORSA & PORTFÖY (MİDAS PRO) ---
+    // ==========================================================
+  // CANLI FİNANS API SİSTEMİ (YAHOO FINANCE & TRUNCGIL LIVE)
+  // ==========================================================
+  async fetchLiveQuote(symbol) {
+    try {
+      // 1. Döviz veya Altın ise
+      if (symbol === 'ALTIN_GRAM' || symbol === 'USD_TRY' || symbol === 'EUR_TRY' || symbol === 'CEYREK_ALTIN') {
+        const res = await fetch('https://finans.truncgil.com/v4/today.json');
+        if (res.ok) {
+          const data = await res.json();
+          if (symbol === 'ALTIN_GRAM' && data['gram-altin']) {
+            return { price: parseFloat(data['gram-altin'].Buying.replace(',', '.')), change: data['gram-altin'].Change || '+0.50%' };
+          }
+          if (symbol === 'USD_TRY' && data['USD']) {
+            return { price: parseFloat(data['USD'].Buying.replace(',', '.')), change: data['USD'].Change || '+0.10%' };
+          }
+          if (symbol === 'EUR_TRY' && data['EUR']) {
+            return { price: parseFloat(data['EUR'].Buying.replace(',', '.')), change: data['EUR'].Change || '+0.15%' };
+          }
+        }
+      }
+
+      // 2. BIST Hissesi ise (Yahoo Finance V8)
+      const yahooSymbol = symbol.includes('.') ? symbol : `${symbol}.IS`;
+      const corsProxy = 'https://api.allorigins.win/raw?url=';
+      const targetUrl = encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${yahooSymbol}?interval=1d&range=1d`);
+      
+      const res = await fetch(`${corsProxy}${targetUrl}`);
+      if (res.ok) {
+        const data = await res.json();
+        const meta = data.chart?.result?.[0]?.meta;
+        if (meta && meta.regularMarketPrice) {
+          const price = meta.regularMarketPrice;
+          const prevClose = meta.chartPreviousClose || price;
+          const changePct = ((price - prevClose) / prevClose) * 100;
+          return {
+            price: price,
+            change: (changePct >= 0 ? '+' : '') + changePct.toFixed(2) + '%'
+          };
+        }
+      }
+    } catch (e) {
+      console.warn(`[Canlı API Uyarısı - ${symbol}]:`, e);
+    }
+    return null;
+  },
+
+  async refreshAllLiveQuotes() {
+    console.log('[Canlı API]: BIST ve Emtia Fiyatları Güncelleniyor...');
+    for (let item of this.bistCatalog) {
+      const live = await this.fetchLiveQuote(item.symbol);
+      if (live && live.price) {
+        item.price = live.price;
+        item.change = live.change;
+      }
+    }
+    this.renderFinance(this.getLocalFallbackFinance());
+  },
+
   getLocalFallbackFinance() {
     return {
       total_value: 65420.00, total_cost: 58000.00, total_profit: 7420.00, total_profit_percent: 12.79,
