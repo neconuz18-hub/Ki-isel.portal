@@ -126,12 +126,14 @@
             </div>
 
             <!-- DİNAMİK MENÜ LİSTESİ -->
-            <nav class="space-y-1.5" id="sidebarNavList">
-                <!-- JS tarafından dinamik doldurulur -->
-            </nav>
+            <nav class="space-y-1.5" id="sidebarNavList"></nav>
         </div>
 
         <div class="pt-4 border-t border-slate-800/80 space-y-2">
+            <button onclick="Portal.openNewMenuModal()" class="w-full py-2.5 px-3 rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span class="sidebar-text">Yeni Menü / Sayfa Ekle</span>
+            </button>
             <div class="sidebar-footer-text flex items-center justify-between text-[11px] text-slate-500 px-1 pt-1">
                 <span>Notion Canvas OS</span>
                 <span>v3.2 PRO</span>
@@ -174,7 +176,7 @@
             </div>
         </header>
 
-        <!-- MAIN PAGES -->
+        <!-- MAIN PAGES CONTAINER -->
         <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
             
             <!-- TAB 1: NOTION NOTLAR -->
@@ -207,11 +209,10 @@
                     </div>
                 </div>
 
-                <!-- NOTION NOTLAR GRİDİ -->
                 <div id="notionNotesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
             </div>
 
-            <!-- TAB 2: GELİŞTİRİCİ MERKEZİ -->
+            <!-- TAB 2: GELİŞTİRİCİ MERKEZİ & MENÜ YÖNETİMİ -->
             <div id="tab-admin" class="tab-pane hidden space-y-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 rounded-3xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-slate-900/50 border border-purple-500/30 shadow-xl">
                     <div class="flex items-center gap-4">
@@ -223,21 +224,28 @@
                                 <h2 class="text-xl font-bold text-white">Menü & Sayfa Geliştirme Havuzu</h2>
                                 <span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 text-[10px] font-mono font-bold border border-purple-500/30">DEV BUILDER</span>
                             </div>
-                            <p class="text-xs text-slate-400 mt-0.5">Sol menüde hangi sayfaların görüneceğini açıp kapatın veya yeni sayfa menüleri tanımlayın.</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Sıfırdan yeni sayfalar ekleyin, mevcut menüleri açıp kapatın veya silin.</p>
                         </div>
                     </div>
+                    <button onclick="Portal.openNewMenuModal()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-blue-500/25 transition-all cursor-pointer">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>+ Sıfırdan Yeni Menü / Sayfa Ekle</span>
+                    </button>
                 </div>
 
                 <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i data-lucide="layout-grid" class="w-4 h-4 text-blue-400"></i> Menü Havuzu (Aç / Kapat)
+                            <i data-lucide="layout-grid" class="w-4 h-4 text-blue-400"></i> Mevcut Menü Havuzu (Aç / Kapat / Yönet)
                         </h3>
                         <span class="text-[11px] text-slate-400">Değişiklik anında sol menüye yansır</span>
                     </div>
                     <div id="adminMenuPoolGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2"></div>
                 </div>
             </div>
+
+            <!-- DİNAMİK ÖZEL SAYFA ALANI (YENİ OLUŞTURULAN SAYFALAR İÇİN) -->
+            <div id="dynamicPageContainer"></div>
 
         </main>
     </div>
@@ -256,11 +264,11 @@
                             📝
                         </button>
                         <div class="flex items-center gap-1.5 pl-2 border-l border-slate-800">
-                            <button onclick="Portal.setDrawerColor('blue')" class="w-4 h-4 rounded-full bg-blue-500 hover:scale-125 transition-transform" title="Mavi"></button>
-                            <button onclick="Portal.setDrawerColor('purple')" class="w-4 h-4 rounded-full bg-purple-500 hover:scale-125 transition-transform" title="Mor"></button>
-                            <button onclick="Portal.setDrawerColor('emerald')" class="w-4 h-4 rounded-full bg-emerald-500 hover:scale-125 transition-transform" title="Zümrüt"></button>
-                            <button onclick="Portal.setDrawerColor('amber')" class="w-4 h-4 rounded-full bg-amber-500 hover:scale-125 transition-transform" title="Kehribar"></button>
-                            <button onclick="Portal.setDrawerColor('rose')" class="w-4 h-4 rounded-full bg-rose-500 hover:scale-125 transition-transform" title="Gül"></button>
+                            <button onclick="Portal.setDrawerColor('blue')" class="w-4 h-4 rounded-full bg-blue-500 hover:scale-125 transition-transform"></button>
+                            <button onclick="Portal.setDrawerColor('purple')" class="w-4 h-4 rounded-full bg-purple-500 hover:scale-125 transition-transform"></button>
+                            <button onclick="Portal.setDrawerColor('emerald')" class="w-4 h-4 rounded-full bg-emerald-500 hover:scale-125 transition-transform"></button>
+                            <button onclick="Portal.setDrawerColor('amber')" class="w-4 h-4 rounded-full bg-amber-500 hover:scale-125 transition-transform"></button>
+                            <button onclick="Portal.setDrawerColor('rose')" class="w-4 h-4 rounded-full bg-rose-500 hover:scale-125 transition-transform"></button>
                         </div>
                     </div>
 
@@ -293,7 +301,6 @@
                         </button>
                     </div>
 
-                    <!-- OTOMATİK GENİŞLEYEN METİN ALANI -->
                     <textarea id="drawerNoteContent" oninput="Portal.handleContentInput(this)" rows="12" placeholder="Buraya yazmaya başlayın... Fikirler, yapılacaklar, bağlantılar veya şablonlar... (Kaydetmek için Ctrl+Enter)" class="w-full bg-slate-950/60 rounded-2xl p-4 border border-slate-800 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-blue-500/50 leading-relaxed font-sans resize-none transition-colors overflow-hidden"></textarea>
                 </form>
             </div>
@@ -314,6 +321,71 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- 6. MODAL: SIFIRDAN YENİ MENÜ & SAYFA TASARIMCISI -->
+    <!-- ========================================================== -->
+    <div id="newMenuModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="font-bold text-base text-white flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-blue-400"></i> Sıfırdan Yeni Menü / Sayfa Oluştur
+                </h3>
+                <button onclick="Portal.closeModal('newMenuModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form onsubmit="Portal.handleCreateMenu(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="font-bold text-slate-300 block mb-1">Menü / Sayfa Başlığı *</label>
+                    <input type="text" id="newMenuLabel" required placeholder="Örn: Projelerim & Dosyalar, Müşteri CRM, Ajanda..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500 text-sm">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-300 block mb-1">Menü İkonu (Lucide)</label>
+                        <select id="newMenuIcon" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none">
+                            <option value="folder">📁 Klasör (folder)</option>
+                            <option value="calendar">📅 Takvim (calendar)</option>
+                            <option value="check-square">✅ Görevler (check-square)</option>
+                            <option value="bar-chart-2">📊 Analiz & Grafik (bar-chart-2)</option>
+                            <option value="book-open">📖 Doküman (book-open)</option>
+                            <option value="wallet">💳 Finans & Cüzdan (wallet)</option>
+                            <option value="users">👥 Kişiler & Müşteriler (users)</option>
+                            <option value="code">💻 Kod / Proje (code)</option>
+                            <option value="target">🎯 Hedefler (target)</option>
+                            <option value="sparkles">✨ Özel Sayfa (sparkles)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-300 block mb-1">Sayfa Şablon Türü</label>
+                        <select id="newMenuType" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none">
+                            <option value="canvas">📝 Zengin Not & Doküman Alanı</option>
+                            <option value="cards">📋 Dinamik Kart / Tablo Listesi</option>
+                            <option value="stats">📊 Metrik & İstatistik Paneli</option>
+                            <option value="blank">🔲 Boş Çalışma Alanı (Blank)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-300 block mb-1">Açıklama (Opsiyonel)</label>
+                    <input type="text" id="newMenuDesc" placeholder="Bu sayfanın kullanım amacı..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none">
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="Portal.closeModal('newMenuModal')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold cursor-pointer">
+                        İptal
+                    </button>
+                    <button type="submit" class="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold cursor-pointer shadow-lg shadow-blue-500/20">
+                        Oluştur ve Menüye Ekle
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 

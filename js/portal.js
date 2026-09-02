@@ -17,25 +17,26 @@ const Portal = {
   },
 
   // ==========================================================
-  // 1. KLAVYE KISAYOLLARI (POWER-USER SHORTCUTS)
+  // 1. KLAVYE KISAYOLLARI
   // ==========================================================
   bindKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
-      // ESC: Not çekmecesini kapat
       if (e.key === 'Escape') {
         const drawer = document.getElementById('notionDrawer');
         if (drawer && !drawer.classList.contains('hidden')) {
           this.closeNoteDrawer();
         }
+        const menuModal = document.getElementById('newMenuModal');
+        if (menuModal && !menuModal.classList.contains('hidden')) {
+          this.closeModal('newMenuModal');
+        }
       }
-      // Ctrl + Enter veya Cmd + Enter: Notu Kaydet
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         const drawer = document.getElementById('notionDrawer');
         if (drawer && !drawer.classList.contains('hidden')) {
           this.saveDrawerNote();
         }
       }
-      // Ctrl + /: Arama kutusuna odaklan
       if ((e.ctrlKey || e.metaKey) && e.key === '/') {
         e.preventDefault();
         const searchInput = document.getElementById('noteSearchInput');
@@ -45,7 +46,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 2. DİNAMİK SOL MENÜ SENKRONİZASYONU (SIDEBAR NAV)
+  // 2. DİNAMİK SOL MENÜ SENKRONİZASYONU
   // ==========================================================
   renderSidebarNav() {
     const nav = document.getElementById('sidebarNavList');
@@ -66,7 +67,7 @@ const Portal = {
           title="${m.label}" 
           class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer ${isActive ? 'active-nav bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-800/60'}"
         >
-          <i data-lucide="${m.icon}" class="w-4 h-4 flex-shrink-0 ${m.id === 'admin' ? 'text-purple-400' : ''}"></i>
+          <i data-lucide="${m.icon || 'folder'}" class="w-4 h-4 flex-shrink-0 ${m.id === 'admin' ? 'text-purple-400' : ''}"></i>
           <span class="truncate sidebar-text">${m.label}</span>
         </button>
       `;
@@ -76,7 +77,147 @@ const Portal = {
   },
 
   // ==========================================================
-  // 3. KALICI OTURUM KONTROLÜ
+  // 3. SIFIRDAN YENİ MENÜ & SAYFA OLUŞTURUCU (BUILDER)
+  // ==========================================================
+  openNewMenuModal() {
+    const labelInput = document.getElementById('newMenuLabel');
+    if (labelInput) labelInput.value = '';
+    const descInput = document.getElementById('newMenuDesc');
+    if (descInput) descInput.value = '';
+    this.openModal('newMenuModal');
+    setTimeout(() => {
+      if (labelInput) labelInput.focus();
+    }, 100);
+  },
+
+  handleCreateMenu(e) {
+    if (e) e.preventDefault();
+    const label = document.getElementById('newMenuLabel').value.trim();
+    const icon = document.getElementById('newMenuIcon').value;
+    const type = document.getElementById('newMenuType').value;
+    const desc = document.getElementById('newMenuDesc').value.trim();
+
+    if (!label) {
+      this.toast('Lütfen bir menü başlığı girin', 'error');
+      return;
+    }
+
+    // Benzersiz ID üret
+    const id = 'page_' + label.toLowerCase().replace(/[^a-z0-9]/g, '_').substring(0, 15) + '_' + Date.now().toString().slice(-4);
+
+    let menus = this.getLocalMenus();
+    menus.push({
+      id,
+      label,
+      icon: icon || 'folder',
+      type: type || 'canvas',
+      desc: desc || `${label} özel çalışma alanı`,
+      is_active: 1,
+      is_custom: true,
+      created_at: new Date().toISOString()
+    });
+
+    localStorage.setItem('portal_menu_pool', JSON.stringify(menus));
+    this.closeModal('newMenuModal');
+    this.renderSidebarNav();
+    this.loadMenuPool();
+    this.toast(`"${label}" sayfası oluşturuldu ve menüye eklendi!`, 'success');
+    
+    // Otomatik olarak yeni oluşturulan sayfaya geç
+    setTimeout(() => {
+      this.switchTab(id);
+    }, 200);
+  },
+
+  deleteCustomMenu(id) {
+    if (!confirm('Bu özel sayfayı ve menüyü silmek istediğinize emin misiniz?')) return;
+    let menus = this.getLocalMenus();
+    menus = menus.filter(m => m.id !== id);
+    localStorage.setItem('portal_menu_pool', JSON.stringify(menus));
+    this.renderSidebarNav();
+    this.loadMenuPool();
+    this.toast('Sayfa ve menü silindi', 'info');
+    if (this.currentTab === id) {
+      this.switchTab('dashboard');
+    }
+  },
+
+  // ==========================================================
+  // 4. DİNAMİK ÖZEL SAYFA RENDER MOTORU (CUSTOM PAGES)
+  // ==========================================================
+  renderCustomPage(menuItem) {
+    const container = document.getElementById('dynamicPageContainer');
+    if (!container) return;
+
+    const typeBadges = {
+      canvas: '📝 Zengin Doküman & Not Alanı',
+      cards: '📋 Dinamik Kart & Liste Paneli',
+      stats: '📊 Metrik & İstatistik Panosu',
+      blank: '🔲 Boş Çalışma Alanı'
+    };
+
+    container.innerHTML = `
+      <div id="tab-${menuItem.id}" class="tab-pane space-y-6">
+        <!-- Başlık Banner -->
+        <div class="glass-card p-6 rounded-3xl border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 text-blue-400 flex items-center justify-center shadow-lg text-xl">
+              <i data-lucide="${menuItem.icon || 'folder'}" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-2xl font-extrabold text-white tracking-tight">${menuItem.label}</h2>
+                <span class="px-2.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 text-[10px] font-bold border border-blue-500/30">
+                  ${typeBadges[menuItem.type] || 'Özel Sayfa'}
+                </span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">${menuItem.desc || 'Bu özel sayfada geliştirmelerinizi yapabilirsiniz.'}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="Portal.toast('Bu sayfa şablonu isteğinize göre geliştirilmeye hazırdır!', 'info')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/20 transition-all cursor-pointer flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <span>Geliştirmeye Başla</span>
+            </button>
+            <button onclick="Portal.deleteCustomMenu('${menuItem.id}')" class="px-3 py-2 rounded-xl bg-rose-950/30 hover:bg-rose-900/50 text-rose-400 border border-rose-900/50 text-xs font-bold transition-all cursor-pointer" title="Sayfayı Sil">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Çalışma Alanı İçeriği -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="glass-card p-6 rounded-3xl border border-slate-800/80 space-y-3 md:col-span-2">
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
+              <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i> Sayfa Çalışma Bloğu
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Bu sayfa şu an <strong>${menuItem.label}</strong> için ayrılmış bağımsız bir çalışma alanıdır. İsteğinize göre buraya özel formlar, tablolar, analiz grafikleri veya veri listeleri inşa edebiliriz.
+            </p>
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 font-mono text-xs text-slate-300">
+              <span class="text-slate-500">// Sayfa Kimliği:</span> ${menuItem.id}<br>
+              <span class="text-slate-500">// Şablon Türü:</span> ${menuItem.type || 'canvas'}<br>
+              <span class="text-slate-500">// Durum:</span> Aktif ve Kullanıma Hazır
+            </div>
+          </div>
+
+          <div class="glass-card p-6 rounded-3xl border border-slate-800/80 space-y-3">
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
+              <i data-lucide="settings-2" class="w-4 h-4 text-purple-400"></i> Sayfa Yapılandırması
+            </h3>
+            <p class="text-xs text-slate-400">
+              Bu menüyü sol menüden geçici olarak gizlemek için Geliştirici Menü Havuzunu kullanabilir veya sağ üstteki çöp kutusu ile tamamen silebilirsiniz.
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  // ==========================================================
+  // 5. KALICI OTURUM KONTROLÜ
   // ==========================================================
   checkPersistentAuth() {
     const session = JSON.parse(localStorage.getItem('portal_active_session') || 'null');
@@ -134,12 +275,11 @@ const Portal = {
   },
 
   // ==========================================================
-  // 4. NOTION ZENGİN NOTLAR MOTORU (CANVAS)
+  // 6. NOTION ZENGİN NOTLAR MOTORU (CANVAS)
   // ==========================================================
   getLocalNotes() {
     const stored = localStorage.getItem('portal_notion_notes');
     if (stored === null) {
-      // Sadece ilk kurulumda 1 adet başlangıç kılavuzu
       const initial = [
         {
           id: 'note_welcome',
@@ -171,8 +311,6 @@ const Portal = {
     if (!rawText) return '<span class="text-slate-600 italic">Boş içerik...</span>';
     let formatted = rawText.substring(0, 160);
     if (rawText.length > 160) formatted += '...';
-    
-    // [x] -> yeşil tik, [ ] -> gri kutu
     formatted = formatted.replace(/\[x\]/gi, '<span class="text-emerald-400 font-bold">✓</span>');
     formatted = formatted.replace(/\[ \]/g, '<span class="text-slate-500 font-bold">◻</span>');
     return formatted;
@@ -254,11 +392,9 @@ const Portal = {
   },
 
   handleContentInput(textarea) {
-    // Auto-grow textarea
     textarea.style.height = 'auto';
     textarea.style.height = (textarea.scrollHeight) + 'px';
 
-    // Live word & character count
     const text = textarea.value.trim();
     const words = text ? text.split(/\s+/).length : 0;
     const chars = textarea.value.length;
@@ -398,7 +534,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 5. MENÜ HAVUZU & CANLI SIDEBAR BAĞLANTISI
+  // 7. MENÜ HAVUZU (LOCAL & DİNAMİK)
   // ==========================================================
   getLocalMenus() {
     const def = [
@@ -417,16 +553,23 @@ const Portal = {
       <div class="p-4 rounded-2xl bg-slate-900/80 border ${m.is_active == 1 ? 'border-blue-500/40' : 'border-slate-800'} flex items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <div class="w-9 h-9 rounded-xl ${m.is_active == 1 ? 'bg-blue-600/20 text-blue-400' : 'bg-slate-800 text-slate-500'} flex items-center justify-center flex-shrink-0">
-            <i data-lucide="${m.icon}" class="w-4 h-4"></i>
+            <i data-lucide="${m.icon || 'folder'}" class="w-4 h-4"></i>
           </div>
           <div class="min-w-0">
             <h4 class="text-xs font-bold text-white truncate">${m.label}</h4>
             <p class="text-[10px] text-slate-400 truncate">${m.desc || m.id}</p>
           </div>
         </div>
-        <button onclick="Portal.toggleMenu('${m.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${m.is_active == 1 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
-          ${m.is_active == 1 ? 'Aktif' : 'Pasif'}
-        </button>
+        <div class="flex items-center gap-1.5">
+          <button onclick="Portal.toggleMenu('${m.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${m.is_active == 1 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
+            ${m.is_active == 1 ? 'Aktif' : 'Pasif'}
+          </button>
+          ${m.is_custom ? `
+            <button onclick="Portal.deleteCustomMenu('${m.id}')" class="p-1.5 rounded-xl bg-rose-950/30 hover:bg-rose-900/50 text-rose-400 border border-rose-900/50 text-xs transition-all cursor-pointer" title="Menüyü Sil">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          ` : ''}
+        </div>
       </div>
     `).join('');
 
@@ -443,8 +586,33 @@ const Portal = {
   },
 
   // ==========================================================
-  // 6. SOL MENÜ DARALTMA & SEKME GEÇİŞİ
+  // 8. SEKME & SAYFA YÖNLENDİRİCİ
   // ==========================================================
+  switchTab(tabId) {
+    this.currentTab = tabId;
+    document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30'));
+
+    let tabEl = document.getElementById('tab-' + tabId);
+
+    // Eğer dinamik özel bir sayfaysa ve DOM'da yoksa render et
+    if (!tabEl) {
+      const customMenu = this.getLocalMenus().find(m => m.id === tabId);
+      if (customMenu) {
+        this.renderCustomPage(customMenu);
+        tabEl = document.getElementById('tab-' + tabId);
+      }
+    }
+
+    if (tabEl) tabEl.classList.remove('hidden');
+
+    const navBtn = document.getElementById('nav-btn-' + tabId);
+    if (navBtn) navBtn.classList.add('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30');
+
+    this.closeMobileSidebar();
+    if (window.lucide) window.lucide.createIcons();
+  },
+
   toggleSidebar() {
     const sidebar = document.getElementById('mainSidebar');
     if (!sidebar) return;
@@ -466,23 +634,8 @@ const Portal = {
     }
   },
 
-  switchTab(tabId) {
-    this.currentTab = tabId;
-    document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30'));
-
-    const tabEl = document.getElementById('tab-' + tabId);
-    if (tabEl) tabEl.classList.remove('hidden');
-
-    const navBtn = document.getElementById('nav-btn-' + tabId);
-    if (navBtn) navBtn.classList.add('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30');
-
-    this.closeMobileSidebar();
-    if (window.lucide) window.lucide.createIcons();
-  },
-
   // ==========================================================
-  // 7. YÜZEN WİDGET BALONCUKLARI DOCK'U
+  // 9. YÜZEN WİDGET BALONCUK DOCK'U
   // ==========================================================
   minimizeWidget(id, label = 'Widget') {
     if (!this.minimizedWidgets.find(w => w.id === id)) {
@@ -538,6 +691,16 @@ const Portal = {
       </div>
     `;
     if (window.lucide) window.lucide.createIcons();
+  },
+
+  openModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('hidden');
+  },
+
+  closeModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hidden');
   },
 
   initClock() {
