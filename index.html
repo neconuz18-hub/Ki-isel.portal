@@ -139,7 +139,7 @@
             </button>
             <div class="sidebar-footer-text flex items-center justify-between text-[11px] text-slate-500 px-1 pt-1">
                 <span>Notion Canvas OS</span>
-                <span>v3.5 PRO</span>
+                <span>v3.6 PRO</span>
             </div>
         </div>
     </aside>
@@ -187,11 +187,15 @@
         <!-- MAIN PAGES CONTAINER -->
         <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
             
-            <!-- TAB 1: NOTION ÇALIŞMA ALANI & 2. FOTOĞRAFTAKİ YAN YANA WIDGET IZGARASI -->
+            <!-- TAB 1: KİŞİSEL PORTAL — GÖREVLER VE NOTLARIM (FOTOĞRAFTAKİ BİREBİR İKİLİ IZGARA) -->
             <div id="tab-dashboard" class="tab-pane space-y-6">
                 
                 <!-- ÜST ARAÇ ÇUBUĞU (SIRALAMAYI SIFIRLA) -->
-                <div class="flex justify-end items-center">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">⚡</span>
+                        <h2 class="text-base font-bold text-white">Kişisel Çalışma Alanı</h2>
+                    </div>
                     <button onclick="Portal.resetToFactory()" class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer">
                         <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
                         <span>Sıralamayı Sıfırla</span>
@@ -199,58 +203,59 @@
                 </div>
 
                 <!-- ========================================================== -->
-                <!-- 2. FOTOĞRAFTAKİ BİREBİR YAN YANA MODÜLER WIDGET KARTLARI -->
+                <!-- YAN YANA EŞİT İKİLİ IZGARA: GÖREVLER & NOTLARIM -->
                 <!-- ========================================================== -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     
-                    <!-- 1. SOL WIDGET: RUTİNLER (YEŞİL ROZETLİ KART) -->
-                    <div id="routinesWidgetWrapper" class="glass-card p-5 sm:p-6 space-y-5 flex flex-col justify-between min-h-[420px]">
+                    <!-- ====================================================== -->
+                    <!-- 1. SOL KART: GÖREVLER (FOTOĞRAFTAKİ TARİH VE AKORDİYON MOTORU) -->
+                    <!-- ====================================================== -->
+                    <div id="tasksWidgetWrapper" class="glass-card overflow-hidden flex flex-col justify-between min-h-[480px]">
                         <div>
                             <!-- Header -->
-                            <div class="flex items-center justify-between pb-4 border-b border-slate-800/80">
-                                <div class="flex items-center gap-3.5">
-                                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/25 flex-shrink-0">
-                                        <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+                            <div class="p-5 sm:p-6 pb-4 flex items-center justify-between gap-4 border-b border-slate-800/80 bg-slate-900/30">
+                                <div class="flex items-center gap-3.5 min-w-0">
+                                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/25 flex-shrink-0">
+                                        <i data-lucide="calendar-check" class="w-5 h-5"></i>
                                     </div>
-                                    <div>
-                                        <h3 class="text-sm font-extrabold text-white uppercase tracking-wider">RUTİNLER</h3>
-                                        <span class="text-[11px] text-slate-400">Prosedür takibi</span>
+                                    <div class="min-w-0">
+                                        <h3 class="text-sm font-extrabold text-white uppercase tracking-wider">GÖREVLER</h3>
+                                        <span class="text-[11px] text-slate-400 block mt-0.5">Tarih bazlı görev takibi</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-2 text-slate-400">
-                                    <button onclick="Portal.toast('Rutin ayarları', 'info')" title="Ayarlar" class="p-1.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors">
-                                        <i data-lucide="settings" class="w-4 h-4"></i>
+
+                                <div class="flex items-center gap-1.5 text-slate-400">
+                                    <button onclick="Portal.minimizeWidget('tasks', 'Görevler')" title="Küçült" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
+                                        <i data-lucide="minus" class="w-3.5 h-3.5"></i>
                                     </button>
-                                    <button onclick="Portal.minimizeWidget('routines', 'Rutinler')" title="Küçült" class="p-1.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors">
-                                        <i data-lucide="minus" class="w-4 h-4"></i>
+                                    <button onclick="Portal.openNewTaskModal()" title="Yeni Görev Grubu Ekle" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
+                                        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                     </button>
-                                    <button onclick="Portal.toast('Rutinler yenilendi', 'success')" title="Yenile" class="p-1.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors">
-                                        <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+                                    <button onclick="Portal.toggleAllTaskGroups()" title="Hepsini Aç / Kapat" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
+                                        <i data-lucide="chevrons-up-down" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                    <button onclick="Portal.loadNotes()" title="Yenile" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
+                                        <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Body: Kupa İllüstrasyonu ve Tebrik -->
-                            <div class="py-12 flex flex-col items-center text-center space-y-3">
-                                <div class="text-5xl select-none mb-1">🏆</div>
-                                <h4 class="text-base font-bold text-white tracking-tight">Harika İş Çıkardınız Ekip! 🎉</h4>
-                                <p class="text-xs text-slate-400 max-w-xs leading-relaxed">
-                                    Departmanınızdaki bekleyen tüm prosedürler başarıyla tamamlandı. Harika bir takım çalışması!
-                                </p>
+                            <!-- Görevler Dikey Akordiyon Listesi (Fotoğraftaki Birebir Yapı) -->
+                            <div class="p-4 sm:p-5 space-y-2.5 max-h-[560px] overflow-y-auto" id="tasksAccordionContainer">
+                                <!-- Dinamik Render -->
                             </div>
                         </div>
 
-                        <!-- Alt Aksiyon Barı -->
-                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
-                            <span>Tüm rutinler tamamlandı</span>
-                            <span class="text-emerald-400 font-bold flex items-center gap-1">
-                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> %100 Hazır
-                            </span>
+                        <div class="px-5 py-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500 bg-slate-950/20">
+                            <span id="tasksTotalBadge">0 Görev</span>
+                            <button onclick="Portal.openNewTaskModal()" class="text-blue-400 hover:underline font-bold">+ Yeni Görev Listesi Ekle</button>
                         </div>
                     </div>
 
-                    <!-- 2. SAĞ WIDGET: NOTLARIM (SARI ROZETLİ KART) -->
-                    <div id="notesWidgetWrapper" class="glass-card overflow-hidden flex flex-col justify-between min-h-[420px]">
+                    <!-- ====================================================== -->
+                    <!-- 2. SAĞ KART: NOTLARIM (NOTION METİN VE DOKÜMAN KARTI) -->
+                    <!-- ====================================================== -->
+                    <div id="notesWidgetWrapper" class="glass-card overflow-hidden flex flex-col justify-between min-h-[480px]">
                         <div>
                             <!-- Header -->
                             <div class="p-5 sm:p-6 pb-4 flex items-center justify-between gap-4 border-b border-slate-800/80 bg-slate-900/30">
@@ -268,7 +273,7 @@
                                     <button onclick="Portal.toggleWidgetSearch()" title="Ara" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
                                         <i data-lucide="search" class="w-3.5 h-3.5"></i>
                                     </button>
-                                    <button onclick="Portal.toggleSortNotes()" title="Tarihe Göre Sırala" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
+                                    <button onclick="Portal.toggleSortNotes()" title="Sırala" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
                                         <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
                                     </button>
                                     <button onclick="Portal.minimizeWidget('notes', 'Notlarım')" title="Küçült" class="p-2 rounded-xl bg-slate-900 hover:text-white border border-slate-800 transition-colors">
@@ -280,25 +285,20 @@
                                 </div>
                             </div>
 
-                            <!-- Sub-header Filter Bar (2. Fotoğraftaki) -->
+                            <!-- Sub-header Filter Bar -->
                             <div class="px-5 py-3 bg-slate-950/40 border-b border-slate-800/80 flex items-center justify-between gap-3 text-xs">
                                 <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
                                     <button onclick="Portal.setNoteFilterTab('active')" id="filterTabActive" class="p-1.5 rounded-lg bg-blue-600 text-white transition-colors" title="Aktif Notlar">
                                         <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
                                     </button>
-                                    <button onclick="Portal.setNoteFilterTab('pinned')" id="filterTabPinned" class="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors" title="Sabitlenenler / Arşiv">
-                                        <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+                                    <button onclick="Portal.setNoteFilterTab('pinned')" id="filterTabPinned" class="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors" title="Sabitlenenler">
+                                        <i data-lucide="pin" class="w-3.5 h-3.5 text-amber-400"></i>
                                     </button>
                                 </div>
 
-                                <div class="flex items-center gap-2">
-                                    <button class="p-1.5 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30">
-                                        <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-                                    </button>
-                                    <div class="px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold flex items-center gap-1.5">
-                                        <span>Kategorisiz</span>
-                                        <span id="notesSubBadgeCount" class="w-4 h-4 rounded-full bg-slate-800 text-slate-400 text-[10px] flex items-center justify-center font-mono">0</span>
-                                    </div>
+                                <div class="px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-bold flex items-center gap-1.5">
+                                    <span>Tüm Notlar</span>
+                                    <span id="notesSubBadgeCount" class="w-4 h-4 rounded-full bg-slate-800 text-slate-400 text-[10px] flex items-center justify-center font-mono">0</span>
                                 </div>
                             </div>
 
@@ -310,14 +310,14 @@
                                 </div>
                             </div>
 
-                            <!-- Body: Notlar Listesi veya Boş Durum İkonu -->
-                            <div class="p-5" id="notionNotesGrid">
+                            <!-- Body: Notlar Listesi -->
+                            <div class="p-4 sm:p-5 max-h-[560px] overflow-y-auto space-y-3" id="notionNotesGrid">
                                 <!-- Dinamik Notlar -->
                             </div>
                         </div>
 
-                        <div class="px-5 py-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
-                            <span id="notesFooterInfo">Notion Blok OS</span>
+                        <div class="px-5 py-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500 bg-slate-950/20">
+                            <span>Notion Blok OS</span>
                             <button onclick="Portal.openNewNoteDrawer()" class="text-amber-400 hover:underline font-bold">+ Yeni Not Yaz</button>
                         </div>
                     </div>
@@ -432,7 +432,7 @@
     <!-- 4. YÜZEN BALONCUKLAR DOCK'U (SAĞ ALT) -->
     <div id="floatingWidgetDock" class="hidden flex flex-col items-end gap-2 pointer-events-auto"></div>
 
-    <!-- 5. NOTION DRAWER (DÜZELTİLMİŞ & TAŞMASIZ) -->
+    <!-- 5. NOTION DRAWER -->
     <div id="notionDrawer" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex justify-end transition-opacity duration-300">
         <div class="w-full max-w-xl bg-[#0d121f] border-l border-slate-800 h-full p-6 sm:p-8 flex flex-col justify-between shadow-2xl overflow-y-auto transform transition-transform duration-300 translate-x-full" id="notionDrawerContent">
             
@@ -466,16 +466,7 @@
                     <input type="hidden" id="drawerNoteColor" value="amber">
                     <input type="hidden" id="drawerNotePinned" value="0">
 
-                    <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between pb-2 border-b border-slate-800">
-                        <input type="text" id="drawerNoteTitle" placeholder="Başlıksız Not..." class="w-full bg-transparent text-2xl font-extrabold text-white placeholder-slate-600 focus:outline-none transition-all">
-                        <select id="drawerNoteCategory" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs font-bold focus:outline-none focus:border-amber-500">
-                            <option value="Tümü">📁 Genel / Kategorisiz</option>
-                            <option value="İş & Proje">💼 İş & Proje</option>
-                            <option value="Kişisel">🌟 Kişisel</option>
-                            <option value="Fikirler">💡 Fikirler</option>
-                            <option value="Görevler">✅ Yapılacaklar</option>
-                        </select>
-                    </div>
+                    <input type="text" id="drawerNoteTitle" placeholder="Başlıksız Not..." class="w-full bg-transparent text-2xl font-extrabold text-white placeholder-slate-600 focus:outline-none border-b border-transparent focus:border-slate-800 pb-2 transition-all">
 
                     <div class="flex items-center gap-1.5 py-1 overflow-x-auto text-[11px]">
                         <button type="button" onclick="Portal.insertNoteTemplate('todo')" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex items-center gap-1 transition-colors cursor-pointer">
@@ -512,7 +503,42 @@
         </div>
     </div>
 
-    <!-- 6. MODAL: SIFIRDAN YENİ MENÜ & SAYFA TASARIMCISI -->
+    <!-- 6. MODAL: YENİ GÖREV GRUBU EKLE -->
+    <div id="newTaskModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="font-bold text-base text-white flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-blue-400"></i> Yeni Görev Grubu / Tarih Ekle
+                </h3>
+                <button onclick="Portal.closeModal('newTaskModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form onsubmit="Portal.handleCreateTaskGroup(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="font-bold text-slate-300 block mb-1">Grup Başlığı veya Tarih *</label>
+                    <input type="text" id="newTaskGroupTitle" required placeholder="Örn: 15 Eylül Salı, Haftalık Hedefler, Portal Yapılacaklar..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500 text-sm">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-300 block mb-1">İlk Görev (Opsiyonel)</label>
+                    <input type="text" id="newTaskFirstItem" placeholder="Örn: Raporu hazırla..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none text-xs">
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="Portal.closeModal('newTaskModal')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold cursor-pointer">
+                        İptal
+                    </button>
+                    <button type="submit" class="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold cursor-pointer shadow-lg shadow-blue-500/20">
+                        Oluştur
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 7. MODAL: SIFIRDAN YENİ MENÜ & SAYFA TASARIMCISI -->
     <div id="newMenuModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -527,7 +553,7 @@
             <form onsubmit="Portal.handleCreateMenu(event)" class="space-y-4 text-xs">
                 <div>
                     <label class="font-bold text-slate-300 block mb-1">Menü / Sayfa Başlığı *</label>
-                    <input type="text" id="newMenuLabel" required placeholder="Örn: Projelerim & Dosyalar, Müşteri CRM, Ajanda..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500 text-sm">
+                    <input type="text" id="newMenuLabel" required placeholder="Örn: Finans Portföyü, Takvim, Projeler..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500 text-sm">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">

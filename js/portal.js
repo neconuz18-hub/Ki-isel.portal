@@ -1,14 +1,13 @@
 const Portal = {
-  version: '3.6.0-Enterprise',
+  version: '3.7.0-Enterprise',
   currentTab: 'dashboard',
   noteIcons: ['📝', '💡', '🚀', '📌', '⚡', '🎯', '📊', '🔥', '🌟', '📚'],
   currentIconIndex: 0,
   minimizedWidgets: [],
   searchQuery: '',
   noteFilterTab: 'active', // 'active' | 'pinned'
-  notesViewMode: 'grid',   // 'grid' | 'list'
   sortDescending: true,
-  selectedCategory: 'Tümü', // 'Tümü' | 'Görevler' | 'Projeler'
+  openTaskGroups: {}, // id: boolean
 
   // Pomodoro State
   pomodoroMinutes: 25,
@@ -22,6 +21,7 @@ const Portal = {
       this.checkPersistentAuth();
       this.initClock();
       this.renderSidebarNav();
+      this.loadTasks();
       this.loadNotes();
       this.loadMenuPool();
       this.renderFloatingWidgetDock();
@@ -77,103 +77,301 @@ const Portal = {
   },
 
   // ==========================================================
-  // 2. TEMİZ VE İŞLEVSEL KATEGORİ SEÇİCİ (GÖREVLER vs NOTLAR)
+  // 2. GÖREVLER (TASKS) AKORDİYON MOTORU (FOTOĞRAFTAKİ BİREBİR)
   // ==========================================================
-  renderCategoryPills(allNotes) {
-    const container = document.getElementById('categoryPillsContainer');
-    if (!container) return;
-
-    // Sadece amaca uygun ve net kategoriler
-    const categories = [
-      { id: 'Tümü', label: 'Tüm Notlar & Fikirler', icon: 'file-text' },
-      { id: 'Görevler', label: '✅ Görevler & Yapılacaklar', icon: 'check-square' },
-      { id: 'Projeler', label: '💼 İş & Projeler', icon: 'folder' }
-    ];
-    
-    const counts = {
-      'Tümü': allNotes.filter(n => (n.category || 'Tümü') !== 'Görevler').length,
-      'Görevler': allNotes.filter(n => (n.category || 'Tümü') === 'Görevler').length,
-      'Projeler': allNotes.filter(n => (n.category || 'Tümü') === 'Projeler').length
-    };
-
-    container.innerHTML = categories.map(cat => {
-      const isSelected = this.selectedCategory === cat.id;
-      const count = cat.id === 'Tümü' ? allNotes.length : counts[cat.id] || 0;
-
-      return `
-        <button 
-          type="button" 
-          onclick="Portal.setNoteCategory('${cat.id}')" 
-          class="px-3.5 py-1.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${isSelected ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-sm shadow-amber-500/10' : 'bg-slate-900/90 text-slate-400 hover:text-slate-200 border border-slate-800'}"
-        >
-          <span>${cat.label}</span>
-          <span class="px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-amber-400 text-slate-950 font-black' : 'bg-slate-800 text-slate-400'} text-[10px] font-mono">${count}</span>
-        </button>
-      `;
-    }).join('');
-
-    if (window.lucide) window.lucide.createIcons();
-  },
-
-  setNoteCategory(cat) {
-    this.selectedCategory = cat;
-    this.loadNotes();
-  },
-
-  // ==========================================================
-  // 3. GÖREVLER (CHECKLIST) İNTERAKTİF TIKLAMA VE YÖNETİMİ
-  // ==========================================================
-  toggleTaskItem(noteId, taskIndex, event) {
-    if (event) event.stopPropagation();
-    let notes = this.getLocalNotes();
-    const note = notes.find(n => n.id === noteId);
-    if (!note || !note.content) return;
-
-    let lines = note.content.split('\n');
-    let currentIndex = 0;
-    
-    lines = lines.map(line => {
-      if (line.includes('[x]') || line.includes('[ ]')) {
-        if (currentIndex === taskIndex) {
-          if (line.includes('[x]')) {
-            line = line.replace(/\[x\]/gi, '[ ]');
-          } else {
-            line = line.replace(/\[ \]/g, '[x]');
+  getLocalTasks() {
+    try {
+      const stored = localStorage.getItem('portal_tasks_data');
+      if (stored === null) {
+        const initial = [
+          {
+            id: 'tg_portal',
+            title: 'PORTAL YAPILACAKLAR',
+            iconType: 'pin', // 'pin' | 'undated' | 'red_date' | 'purple_date'
+            color: 'emerald',
+            items: [
+              { text: 'Kişisel Portal arayüzünü incele', done: true },
+              { text: 'Yeni görev grubu oluştur', done: false },
+              { text: 'Mobil uyumluluğu test et', done: false }
+            ]
+          },
+          {
+            id: 'tg_undated',
+            title: 'Tarihsiz Görevler',
+            iconType: 'undated',
+            color: 'slate',
+            items: [
+              { text: 'Kitap oku ve not çıkar', done: true },
+              { text: 'Haftalık bütçe planını gözden geçir', done: false }
+            ]
+          },
+          {
+            id: 'tg_today',
+            title: 'Bugünün Öncelikli Görevleri',
+            iconType: 'red_date',
+            color: 'rose',
+            items: [
+              { text: 'Ekip toplantısı hazırla', done: false }
+            ]
           }
-        }
-        currentIndex++;
+        ];
+        this.safeSetItem('portal_tasks_data', JSON.stringify(initial));
+        return initial;
       }
-      return line;
-    });
-
-    note.content = lines.join('\n');
-    note.updated_at = new Date().toISOString();
-    this.saveLocalNotes(notes);
-    this.loadNotes();
-    this.toast('Görev durumu güncellendi! ✓', 'info');
+      return JSON.parse(stored);
+    } catch (e) {
+      return [];
+    }
   },
 
-  addQuickTask(noteId, inputEl, event) {
+  saveLocalTasks(tasks) {
+    try {
+      this.safeSetItem('portal_tasks_data', JSON.stringify(tasks));
+    } catch (e) {
+      console.error('Görev kaydetme hatası:', e);
+    }
+  },
+
+  loadTasks() {
+    try {
+      const tasks = this.getLocalTasks();
+      const container = document.getElementById('tasksAccordionContainer');
+      const badgeTotal = document.getElementById('tasksTotalBadge');
+
+      let totalTasksCount = 0;
+      let totalDoneCount = 0;
+
+      tasks.forEach(g => {
+        (g.items || []).forEach(item => {
+          totalTasksCount++;
+          if (item.done) totalDoneCount++;
+        });
+      });
+
+      if (badgeTotal) badgeTotal.textContent = `${totalDoneCount}/${totalTasksCount} Görev Tamamlandı`;
+      if (!container) return;
+
+      if (tasks.length === 0) {
+        container.innerHTML = `
+          <div class="py-12 text-center text-slate-500">
+            <span class="text-3xl block mb-2 opacity-50">📅</span>
+            <p class="text-xs">Henüz bir görev grubu oluşturulmadı.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = tasks.map(g => {
+        const items = g.items || [];
+        const doneCount = items.filter(i => i.done).length;
+        const totalCount = items.length;
+        const isOpen = this.openTaskGroups[g.id] !== false; // Varsayılan açık
+
+        // İkon Stilleri (Fotoğraftaki gibi)
+        let iconHtml = '';
+        if (g.iconType === 'pin') {
+          iconHtml = `<div class="w-7 h-7 rounded-xl bg-teal-500/20 text-teal-400 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i data-lucide="pin" class="w-3.5 h-3.5"></i></div>`;
+        } else if (g.iconType === 'red_date') {
+          iconHtml = `<div class="w-7 h-7 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center flex-shrink-0"><i data-lucide="calendar" class="w-3.5 h-3.5"></i></div>`;
+        } else if (g.iconType === 'purple_date') {
+          iconHtml = `<div class="w-7 h-7 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center justify-center flex-shrink-0"><i data-lucide="calendar" class="w-3.5 h-3.5"></i></div>`;
+        } else {
+          iconHtml = `<div class="w-7 h-7 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center flex-shrink-0"><i data-lucide="calendar" class="w-3.5 h-3.5"></i></div>`;
+        }
+
+        const itemsHtml = items.map((item, idx) => `
+          <div onclick="Portal.toggleTaskItem('${g.id}', ${idx}, event)" class="flex items-center justify-between gap-3 p-2 rounded-xl hover:bg-slate-800/70 transition-colors cursor-pointer group/task">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-4 h-4 rounded-md flex items-center justify-center border transition-all ${item.done ? 'bg-emerald-500 border-emerald-500 text-slate-950 font-black text-[10px]' : 'border-slate-600 group-hover/task:border-blue-400'}">
+                ${item.done ? '✓' : ''}
+              </div>
+              <span class="text-xs ${item.done ? 'line-through text-slate-500' : 'text-slate-200'} truncate">${this.escapeHtml(item.text)}</span>
+            </div>
+            <button onclick="Portal.deleteTaskItem('${g.id}', ${idx}, event)" title="Görevi Sil" class="opacity-0 group-hover/task:opacity-100 p-1 text-slate-500 hover:text-rose-400 transition-opacity">
+              <i data-lucide="x" class="w-3 h-3"></i>
+            </button>
+          </div>
+        `).join('');
+
+        return `
+          <div class="rounded-2xl bg-slate-900/60 border border-slate-800/80 overflow-hidden transition-all">
+            <!-- Akordiyon Başlığı -->
+            <div onclick="Portal.toggleTaskGroup('${g.id}')" class="p-3.5 flex items-center justify-between gap-3 cursor-pointer hover:bg-slate-850/80 transition-colors select-none">
+              <div class="flex items-center gap-2.5 min-w-0">
+                ${iconHtml}
+                <span class="font-bold text-xs text-white uppercase tracking-tight truncate">${this.escapeHtml(g.title)}</span>
+              </div>
+              <div class="flex items-center gap-2 flex-shrink-0 text-slate-400 text-xs font-mono">
+                <span class="${doneCount === totalCount && totalCount > 0 ? 'text-emerald-400' : ''}">${doneCount}/${totalCount}</span>
+                <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-blue-400' : ''}"></i>
+              </div>
+            </div>
+
+            <!-- Akordiyon İçeriği -->
+            <div class="${isOpen ? 'block' : 'hidden'} p-3 pt-1 border-t border-slate-800/60 space-y-2 bg-slate-950/30">
+              <div class="space-y-1">
+                ${itemsHtml || '<p class="text-xs text-slate-500 italic p-2">Henüz görev yok...</p>'}
+              </div>
+              
+              <!-- Hızlı Görev Ekleme Satırı -->
+              <div class="pt-1 flex items-center gap-2">
+                <input type="text" onkeydown="Portal.addTaskToGroup('${g.id}', this, event)" placeholder="+ Yeni görev ekle ve Enter'a bas..." class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-blue-500/50">
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+    } catch (e) {
+      console.error('Görevler yüklenirken hata:', e);
+    }
+  },
+
+  toggleTaskGroup(id) {
+    this.openTaskGroups[id] = this.openTaskGroups[id] === false ? true : false;
+    this.loadTasks();
+  },
+
+  toggleAllTaskGroups() {
+    const tasks = this.getLocalTasks();
+    const hasClosed = tasks.some(g => this.openTaskGroups[g.id] === false);
+    tasks.forEach(g => {
+      this.openTaskGroups[g.id] = hasClosed ? true : false;
+    });
+    this.loadTasks();
+  },
+
+  toggleTaskItem(groupId, itemIdx, event) {
+    if (event) event.stopPropagation();
+    let tasks = this.getLocalTasks();
+    const group = tasks.find(g => g.id === groupId);
+    if (!group || !group.items || !group.items[itemIdx]) return;
+
+    group.items[itemIdx].done = !group.items[itemIdx].done;
+    this.saveLocalTasks(tasks);
+    this.loadTasks();
+    this.toast('Görev güncellendi ✓', 'info');
+  },
+
+  deleteTaskItem(groupId, itemIdx, event) {
+    if (event) event.stopPropagation();
+    let tasks = this.getLocalTasks();
+    const group = tasks.find(g => g.id === groupId);
+    if (!group || !group.items) return;
+
+    group.items.splice(itemIdx, 1);
+    this.saveLocalTasks(tasks);
+    this.loadTasks();
+    this.toast('Görev silindi', 'info');
+  },
+
+  addTaskToGroup(groupId, inputEl, event) {
     if (event.key === 'Enter') {
       const text = inputEl.value.trim();
       if (!text) return;
 
-      let notes = this.getLocalNotes();
-      const note = notes.find(n => n.id === noteId);
-      if (!note) return;
+      let tasks = this.getLocalTasks();
+      const group = tasks.find(g => g.id === groupId);
+      if (!group) return;
 
-      note.content = (note.content ? note.content + '\n' : '') + `[ ] ${text}`;
-      note.updated_at = new Date().toISOString();
-      this.saveLocalNotes(notes);
+      if (!group.items) group.items = [];
+      group.items.push({ text, done: false });
+      this.saveLocalTasks(tasks);
       inputEl.value = '';
-      this.loadNotes();
-      this.toast('Yeni görev eklendi! 🎯', 'success');
+      this.loadTasks();
+      this.toast('Görev eklendi! 🎯', 'success');
     }
   },
 
+  openNewTaskModal() {
+    const titleInput = document.getElementById('newTaskGroupTitle');
+    const firstItem = document.getElementById('newTaskFirstItem');
+    if (titleInput) titleInput.value = '';
+    if (firstItem) firstItem.value = '';
+    this.openModal('newTaskModal');
+    setTimeout(() => {
+      if (titleInput) titleInput.focus();
+    }, 100);
+  },
+
+  handleCreateTaskGroup(e) {
+    if (e) e.preventDefault();
+    const title = document.getElementById('newTaskGroupTitle').value.trim();
+    const firstText = document.getElementById('newTaskFirstItem').value.trim();
+    if (!title) return;
+
+    let tasks = this.getLocalTasks();
+    const newGroup = {
+      id: 'tg_' + Date.now(),
+      title,
+      iconType: title.toLowerCase().includes('tarih') || title.toLowerCase().includes('gün') ? 'red_date' : 'undated',
+      color: 'blue',
+      items: firstText ? [{ text: firstText, done: false }] : []
+    };
+
+    tasks.push(newGroup);
+    this.openTaskGroups[newGroup.id] = true;
+    this.saveLocalTasks(tasks);
+    this.closeModal('newTaskModal');
+    this.loadTasks();
+    this.toast(`"${title}" görev grubu oluşturuldu!`, 'success');
+  },
+
   // ==========================================================
-  // 4. NOTLARIM WIDGET KONTROLLERİ
+  // 3. NOTLARIM (NOTION) MOTORU
   // ==========================================================
+  getLocalNotes() {
+    try {
+      const stored = localStorage.getItem('portal_notion_notes');
+      if (stored === null) {
+        const initial = [
+          {
+            id: 'note_welcome',
+            title: 'Notion Çalışma Alanına Hoş Geldiniz 🚀',
+            content: 'Burası düşüncelerinizi, toplantı notlarınızı ve linklerinizi Notion tarzı serbest bloklarla tutabileceğiniz çalışma alanıdır.',
+            icon: '✨',
+            color: 'amber',
+            pinned: 1,
+            updated_at: new Date().toISOString()
+          }
+        ];
+        this.safeSetItem('portal_notion_notes', JSON.stringify(initial));
+        return initial;
+      }
+      return JSON.parse(stored);
+    } catch (e) {
+      return [];
+    }
+  },
+
+  saveLocalNotes(notes) {
+    try {
+      this.safeSetItem('portal_notion_notes', JSON.stringify(notes));
+    } catch (e) {
+      console.error('Not kaydetme hatası:', e);
+    }
+  },
+
+  quickPinNote(id, event) {
+    if (event) event.stopPropagation();
+    let notes = this.getLocalNotes();
+    notes = notes.map(n => n.id === id ? { ...n, pinned: n.pinned == 1 ? 0 : 1, updated_at: new Date().toISOString() } : n);
+    this.saveLocalNotes(notes);
+    this.loadNotes();
+    this.toast('Sabitleme durumu güncellendi', 'info');
+  },
+
+  quickDeleteNote(id, event) {
+    if (event) event.stopPropagation();
+    if (!confirm('Bu notu silmek istediğinize emin misiniz?')) return;
+    let notes = this.getLocalNotes();
+    notes = notes.filter(n => n.id !== id);
+    this.saveLocalNotes(notes);
+    this.loadNotes();
+    this.toast('Not silindi', 'info');
+  },
+
   toggleWidgetSearch() {
     const box = document.getElementById('widgetSearchBox');
     if (!box) return;
@@ -206,71 +404,6 @@ const Portal = {
     this.loadNotes();
   },
 
-  // ==========================================================
-  // 5. NOTLAR & GÖREVLER VERİ VE RENDER MOTORU
-  // ==========================================================
-  getLocalNotes() {
-    try {
-      const stored = localStorage.getItem('portal_notion_notes');
-      if (stored === null) {
-        const initial = [
-          {
-            id: 'task_welcome',
-            title: 'Bugünün Öncelikli Görevleri 🎯',
-            content: '[x] Kişisel Portal arayüzünü incele\n[ ] Yeni görev ekle\n[ ] Tamamlanan işleri işaretle',
-            icon: '✅',
-            color: 'amber',
-            category: 'Görevler',
-            pinned: 1,
-            updated_at: new Date().toISOString()
-          },
-          {
-            id: 'note_welcome',
-            title: 'Önemli Notlarım & Fikirler 🚀',
-            content: 'Burası düşüncelerinizi, toplantı notlarınızı ve linklerinizi Notion tarzı serbest bloklarla tutabileceğiniz çalışma alanıdır.',
-            icon: '📝',
-            color: 'blue',
-            category: 'Tümü',
-            pinned: 0,
-            updated_at: new Date().toISOString()
-          }
-        ];
-        this.safeSetItem('portal_notion_notes', JSON.stringify(initial));
-        return initial;
-      }
-      return JSON.parse(stored);
-    } catch (e) {
-      return [];
-    }
-  },
-
-  saveLocalNotes(notes) {
-    try {
-      this.safeSetItem('portal_notion_notes', JSON.stringify(notes));
-    } catch (e) {
-      console.error('Not kaydetme hatası:', e);
-    }
-  },
-
-  quickPinNote(id, event) {
-    if (event) event.stopPropagation();
-    let notes = this.getLocalNotes();
-    notes = notes.map(n => n.id === id ? { ...n, pinned: n.pinned == 1 ? 0 : 1, updated_at: new Date().toISOString() } : n);
-    this.saveLocalNotes(notes);
-    this.loadNotes();
-    this.toast('Sabitleme durumu güncellendi', 'info');
-  },
-
-  quickDeleteNote(id, event) {
-    if (event) event.stopPropagation();
-    if (!confirm('Bu kaydı silmek istediğinize emin misiniz?')) return;
-    let notes = this.getLocalNotes();
-    notes = notes.filter(n => n.id !== id);
-    this.saveLocalNotes(notes);
-    this.loadNotes();
-    this.toast('Kayıt silindi', 'info');
-  },
-
   filterNotes() {
     const input = document.getElementById('noteSearchInput');
     this.searchQuery = input ? input.value.trim().toLowerCase() : '';
@@ -279,28 +412,17 @@ const Portal = {
 
   loadNotes() {
     try {
-      const allNotes = this.getLocalNotes();
-      this.renderCategoryPills(allNotes);
+      let notes = this.getLocalNotes();
 
-      let notes = [...allNotes];
-
-      // Kategori Filtresi
-      if (this.selectedCategory !== 'Tümü') {
-        notes = notes.filter(n => (n.category || 'Tümü') === this.selectedCategory);
-      }
-
-      // Sayaçları Güncelle
       const countHeader = document.getElementById('notesWidgetCount');
       const countSub = document.getElementById('notesSubBadgeCount');
-      if (countHeader) countHeader.textContent = `${allNotes.length} not`;
+      if (countHeader) countHeader.textContent = `${notes.length} not`;
       if (countSub) countSub.textContent = notes.length;
 
-      // Sekme Filtresi (Aktif / Sabitlenenler)
       if (this.noteFilterTab === 'pinned') {
         notes = notes.filter(n => n.pinned == 1);
       }
 
-      // Arama Filtresi
       if (this.searchQuery) {
         notes = notes.filter(n => 
           (n.title && n.title.toLowerCase().includes(this.searchQuery)) ||
@@ -308,7 +430,6 @@ const Portal = {
         );
       }
 
-      // Sıralama
       notes.sort((a, b) => {
         if (a.pinned !== b.pinned) return b.pinned - a.pinned;
         const timeA = new Date(a.updated_at).getTime();
@@ -323,12 +444,12 @@ const Portal = {
         grid.innerHTML = `
           <div class="py-14 text-center flex flex-col items-center justify-center space-y-3">
             <span class="text-4xl block select-none opacity-40">📭</span>
-            <h3 class="text-sm font-bold text-slate-300">Henüz bu kategoride bir kayıt yok</h3>
+            <h3 class="text-sm font-bold text-slate-300">Henüz bir not yok</h3>
             <p class="text-xs text-slate-500 max-w-xs leading-relaxed">
-              Yeni bir not veya görev eklemek için sağ üstteki (+) butonuna tıklayın.
+              Yeni bir not oluşturmak için sağ üstteki (+) butonuna tıklayın.
             </p>
             <button onclick="Portal.openNewNoteDrawer()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all cursor-pointer shadow-lg shadow-blue-500/20">
-              + Yeni Oluştur
+              + Yeni Not Yaz
             </button>
           </div>
         `;
@@ -336,80 +457,10 @@ const Portal = {
       }
 
       grid.innerHTML = notes.map(n => {
-        const isTask = n.category === 'Görevler';
         const dateStr = new Date(n.updated_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
 
-        // Görevler için İnteraktif Checklist Görünümü
-        if (isTask) {
-          const lines = (n.content || '').split('\n').filter(l => l.trim().length > 0);
-          let taskIndex = 0;
-          let doneCount = 0;
-          let totalTasks = 0;
-
-          const checklistHtml = lines.map(line => {
-            if (line.includes('[x]') || line.includes('[ ]')) {
-              totalTasks++;
-              const isChecked = line.includes('[x]');
-              if (isChecked) doneCount++;
-              const label = this.escapeHtml(line.replace(/\[x\]|\[ \]/gi, '').trim());
-              const currentIdx = taskIndex++;
-
-              return `
-                <div onclick="Portal.toggleTaskItem('${n.id}', ${currentIdx}, event)" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800/60 transition-colors cursor-pointer group/item">
-                  <div class="w-4 h-4 rounded-md flex items-center justify-center border transition-all ${isChecked ? 'bg-emerald-500 border-emerald-500 text-slate-950 font-black text-[10px]' : 'border-slate-600 group-hover/item:border-amber-400'}">
-                    ${isChecked ? '✓' : ''}
-                  </div>
-                  <span class="text-xs ${isChecked ? 'line-through text-slate-500 font-normal' : 'text-slate-200 font-medium'}">${label}</span>
-                </div>
-              `;
-            }
-            return `<p class="text-xs text-slate-400 px-2 py-1">${this.escapeHtml(line)}</p>`;
-          }).join('');
-
-          const percent = totalTasks > 0 ? Math.round((doneCount / totalTasks) * 100) : 0;
-
-          return `
-            <div class="p-4 sm:p-5 rounded-3xl bg-slate-900/90 border border-amber-500/30 hover:border-amber-500/60 shadow-xl transition-all space-y-3">
-              <div class="flex items-center justify-between gap-3 pb-2 border-b border-slate-800/80">
-                <div class="flex items-center gap-2.5 min-w-0">
-                  <span class="text-xl">✅</span>
-                  <div class="min-w-0">
-                    <h4 class="font-bold text-sm text-white truncate">${this.escapeHtml(n.title || 'Görev Listesi')}</h4>
-                    <span class="text-[10px] text-amber-400 font-bold font-mono">${doneCount}/${totalTasks} Tamamlandı (%${percent})</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-1">
-                  <button onclick="Portal.openEditNoteDrawer('${n.id}')" title="Düzenle" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
-                    <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
-                  </button>
-                  <button onclick="Portal.quickDeleteNote('${n.id}', event)" title="Sil" class="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-900/50 text-slate-400 hover:text-rose-300">
-                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- İlerleme Çubuğu -->
-              <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-400 rounded-full transition-all duration-300" style="width: ${percent}%"></div>
-              </div>
-
-              <!-- Görev Maddeleri -->
-              <div class="space-y-0.5">
-                ${checklistHtml || '<p class="text-xs text-slate-500 italic p-2">Henüz görev eklenmedi...</p>'}
-              </div>
-
-              <!-- Hızlı Görev Ekleme Satırı -->
-              <div class="pt-2 border-t border-slate-800/60 flex items-center gap-2">
-                <input type="text" onkeydown="Portal.addQuickTask('${n.id}', this, event)" placeholder="+ Yeni görev yaz ve Enter'a bas..." class="w-full px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-amber-500/50">
-              </div>
-            </div>
-          `;
-        }
-
-        // Serbest Metin Notu Görünümü (Notion Formatı)
         return `
-          <div onclick="Portal.openEditNoteDrawer('${n.id}')" class="group p-4 sm:p-5 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 shadow-lg hover:shadow-2xl transition-all cursor-pointer flex flex-col justify-between min-h-[140px]">
+          <div onclick="Portal.openEditNoteDrawer('${n.id}')" class="group p-4 sm:p-5 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 shadow-lg hover:shadow-2xl transition-all cursor-pointer flex flex-col justify-between min-h-[140px]">
             <div>
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div class="flex items-center gap-2.5 min-w-0">
@@ -433,7 +484,7 @@ const Portal = {
 
             <div class="pt-2 mt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500">
               <span>${dateStr}</span>
-              <span class="text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 font-semibold">
+              <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 font-semibold">
                 Düzenle <i data-lucide="chevron-right" class="w-3 h-3"></i>
               </span>
             </div>
@@ -448,7 +499,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 6. NOTION DRAWER & DÜZENLEME
+  // 4. NOTION DRAWER & DÜZENLEME
   // ==========================================================
   handleContentInput(textarea) {
     try {
@@ -465,21 +516,14 @@ const Portal = {
   openNewNoteDrawer() {
     document.getElementById('drawerNoteId').value = '';
     document.getElementById('drawerNoteTitle').value = '';
-    const catSelect = document.getElementById('drawerNoteCategory');
-    if (catSelect) catSelect.value = this.selectedCategory !== 'Tümü' ? this.selectedCategory : 'Tümü';
     const contentArea = document.getElementById('drawerNoteContent');
     contentArea.value = '';
     contentArea.style.height = 'auto';
     document.getElementById('drawerNoteColor').value = 'amber';
     document.getElementById('drawerNotePinned').value = '0';
-    document.getElementById('noteDrawerEmojiBtn').textContent = this.selectedCategory === 'Görevler' ? '✅' : '📝';
+    document.getElementById('noteDrawerEmojiBtn').textContent = '📝';
     document.getElementById('drawerDeleteBtn').classList.add('hidden');
     document.getElementById('drawerWordCount').textContent = '0 kelime • 0 karakter';
-    
-    if (this.selectedCategory === 'Görevler') {
-      this.insertNoteTemplate('todo');
-    }
-
     this.showNoteDrawer();
   },
 
@@ -490,8 +534,6 @@ const Portal = {
 
     document.getElementById('drawerNoteId').value = n.id;
     document.getElementById('drawerNoteTitle').value = n.title;
-    const catSelect = document.getElementById('drawerNoteCategory');
-    if (catSelect) catSelect.value = n.category || 'Tümü';
     const contentArea = document.getElementById('drawerNoteContent');
     contentArea.value = n.content || '';
     document.getElementById('drawerNoteColor').value = n.color || 'amber';
@@ -563,8 +605,6 @@ const Portal = {
     try {
       const id = document.getElementById('drawerNoteId').value;
       const title = document.getElementById('drawerNoteTitle').value.trim();
-      const catSelect = document.getElementById('drawerNoteCategory');
-      const category = catSelect ? catSelect.value : 'Tümü';
       const content = document.getElementById('drawerNoteContent').value.trim();
       const icon = document.getElementById('noteDrawerEmojiBtn').textContent.trim();
       const color = document.getElementById('drawerNoteColor').value;
@@ -573,12 +613,11 @@ const Portal = {
       let notes = this.getLocalNotes();
 
       if (id) {
-        notes = notes.map(n => n.id === id ? { ...n, title: title || 'Başlıksız Kayıt', category, content, icon, color, pinned, updated_at: new Date().toISOString() } : n);
+        notes = notes.map(n => n.id === id ? { ...n, title: title || 'Başlıksız Not', content, icon, color, pinned, updated_at: new Date().toISOString() } : n);
       } else {
         notes.unshift({
-          id: (category === 'Görevler' ? 'task_' : 'note_') + Date.now(),
-          title: title || (category === 'Görevler' ? 'Görev Listesi' : 'Başlıksız Not'),
-          category,
+          id: 'note_' + Date.now(),
+          title: title || 'Başlıksız Not',
           content,
           icon,
           color,
@@ -590,7 +629,7 @@ const Portal = {
       this.saveLocalNotes(notes);
       this.closeNoteDrawer();
       this.loadNotes();
-      this.toast(id ? 'Güncellendi' : 'Yeni kayıt oluşturuldu', 'success');
+      this.toast(id ? 'Not güncellendi' : 'Yeni not oluşturuldu', 'success');
     } catch (err) {
       console.error('Kaydetme hatası:', err);
     }
@@ -598,7 +637,7 @@ const Portal = {
 
   deleteDrawerNote() {
     const id = document.getElementById('drawerNoteId').value;
-    if (!id || !confirm('Bu kaydı silmek istediğinize emin misiniz?')) return;
+    if (!id || !confirm('Bu notu silmek istediğinize emin misiniz?')) return;
 
     try {
       let notes = this.getLocalNotes();
@@ -606,19 +645,19 @@ const Portal = {
       this.saveLocalNotes(notes);
       this.closeNoteDrawer();
       this.loadNotes();
-      this.toast('Silindi', 'info');
+      this.toast('Not silindi', 'info');
     } catch (e) {
       console.error('Silme hatası:', e);
     }
   },
 
   // ==========================================================
-  // 7. MENÜ & SAYFA YÖNETİMİ
+  // 5. MENÜ & SAYFA YÖNETİMİ
   // ==========================================================
   getLocalMenus() {
     try {
       const def = [
-        { id: 'dashboard', label: 'Ana Sayfa & Notlar', icon: 'layout-dashboard', is_active: 1, desc: 'Notion not çalışma alanı' },
+        { id: 'dashboard', label: 'Ana Sayfa & Görevler', icon: 'layout-dashboard', is_active: 1, desc: 'Görevler ve notlar çalışma alanı' },
         { id: 'admin', label: 'Geliştirici & Menü Havuzu', icon: 'terminal', is_active: 1, desc: 'Sayfa yapılandırma merkezi' }
       ];
       return JSON.parse(localStorage.getItem('portal_menu_pool') || JSON.stringify(def));
@@ -779,7 +818,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 8. SENTINEL OS & CANLI DERİN TARAMA
+  // 6. SENTINEL OS & CANLI DERİN TARAMA
   // ==========================================================
   async runSentinelCheck() {
     const term = document.getElementById('sentinelTerminalOutput');
@@ -836,13 +875,14 @@ const Portal = {
   },
 
   // ==========================================================
-  // 9. YEDEKLEME VE SIFIRLAMA
+  // 7. YEDEKLEME VE SIFIRLAMA
   // ==========================================================
   exportBackup() {
     try {
       const data = {
         version: this.version,
         timestamp: new Date().toISOString(),
+        tasks: this.getLocalTasks(),
         notes: this.getLocalNotes(),
         menus: this.getLocalMenus(),
         minimizedWidgets: this.minimizedWidgets
@@ -873,15 +913,10 @@ const Portal = {
     reader.onload = (event) => {
       try {
         const json = JSON.parse(event.target.result);
-        if (!json.notes || !json.menus) {
-          throw new Error('Geçersiz yedekleme dosyası yapısı');
-        }
-
-        this.safeSetItem('portal_notion_notes', JSON.stringify(json.notes));
-        this.safeSetItem('portal_menu_pool', JSON.stringify(json.menus));
-        if (json.minimizedWidgets) {
-          this.safeSetItem('portal_minimized_widgets', JSON.stringify(json.minimizedWidgets));
-        }
+        if (json.tasks) this.safeSetItem('portal_tasks_data', JSON.stringify(json.tasks));
+        if (json.notes) this.safeSetItem('portal_notion_notes', JSON.stringify(json.notes));
+        if (json.menus) this.safeSetItem('portal_menu_pool', JSON.stringify(json.menus));
+        if (json.minimizedWidgets) this.safeSetItem('portal_minimized_widgets', JSON.stringify(json.minimizedWidgets));
 
         this.toast('Yedekleme başarıyla yüklendi!', 'success');
         setTimeout(() => location.reload(), 600);
@@ -894,7 +929,7 @@ const Portal = {
   },
 
   resetToFactory() {
-    if (!confirm('Tüm menü ve şema ayarlarını fabrika ayarlarına sıfırlamak istediğinize emin misiniz? (Notlarınız korunacaktır)')) return;
+    if (!confirm('Tüm menü ve şema ayarlarını fabrika ayarlarına sıfırlamak istediğinize emin misiniz? (Not ve görevleriniz korunacaktır)')) return;
     try {
       localStorage.removeItem('portal_menu_pool');
       localStorage.removeItem('portal_minimized_widgets');
@@ -906,7 +941,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 10. KALICI OTURUM KONTROLÜ
+  // 8. KALICI OTURUM KONTROLÜ
   // ==========================================================
   checkPersistentAuth() {
     try {
@@ -968,7 +1003,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 11. SEKME & SAYFA YÖNLENDİRİCİ
+  // 9. SEKME & SAYFA YÖNLENDİRİCİ
   // ==========================================================
   switchTab(tabId) {
     try {
@@ -977,15 +1012,6 @@ const Portal = {
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30'));
 
       let tabEl = document.getElementById('tab-' + tabId);
-
-      if (!tabEl) {
-        const customMenu = this.getLocalMenus().find(m => m.id === tabId);
-        if (customMenu) {
-          this.renderCustomPage(customMenu);
-          tabEl = document.getElementById('tab-' + tabId);
-        }
-      }
-
       if (tabEl) tabEl.classList.remove('hidden');
 
       const navBtn = document.getElementById('nav-btn-' + tabId);
@@ -1030,6 +1056,10 @@ const Portal = {
           const menuModal = document.getElementById('newMenuModal');
           if (menuModal && !menuModal.classList.contains('hidden')) {
             this.closeModal('newMenuModal');
+          }
+          const taskModal = document.getElementById('newTaskModal');
+          if (taskModal && !taskModal.classList.contains('hidden')) {
+            this.closeModal('newTaskModal');
           }
         }
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -1098,10 +1128,10 @@ const Portal = {
           <button 
             type="button" 
             onclick="Portal.restoreWidget('${w.id}')" 
-            class="floating-pill flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500/90 via-amber-600/90 to-blue-600/90 hover:from-amber-400 hover:to-blue-500 text-white text-xs font-bold shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer border border-amber-400/40 group"
+            class="floating-pill flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600/90 to-indigo-600/90 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer border border-blue-400/40 group"
             title="Geri açmak için tıklayın"
           >
-            <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span>
+            <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
             <span>${this.escapeHtml(w.label || w.id)}</span>
             <i data-lucide="maximize-2" class="w-3.5 h-3.5 opacity-70 group-hover:opacity-100"></i>
           </button>
