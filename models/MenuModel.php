@@ -35,4 +35,10 @@ class MenuModel {
         ]);
         return $id;
     }
+
+    public static function delete(string $id): bool {
+        $db = Database::connect();
+        $stmt = $db->prepare("DELETE FROM menu_pool WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
 }
