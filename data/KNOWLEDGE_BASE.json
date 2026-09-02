@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-09-02T13:50:00",
+  "description": "Kişisel Portal Karşılaşılan Hatalar, Semptomlar, Kök Nedenler ve Kesin Panzehirler Havuzu",
+  "rules": [
+    {
+      "id": "ERR_001_JS_INIT_FREEZE",
+      "title": "JavaScript Başlatma Döngüsü Donması",
+      "symptom": "Saat 00:00:00 kalır, ikonlar görünmez, butonlara tıklanamaz, veriler yüklenmez.",
+      "root_cause": "init() fonksiyonunda tek bir hata aldığında altındaki fonksiyonların çalışmasının durması.",
+      "antidote": "Tüm başlatıcılar 'safeExec' ile birbirinden izole try/catch blokları içine alınmalıdır.",
+      "check_target": "js/portal.js",
+      "pattern": "safeExec"
+    },
+    {
+      "id": "ERR_002_AUTH_OVERLAY_BLOCK",
+      "title": "Giriş Ekranı (Overlay) Engellemesi",
+      "symptom": "Ekranda koyu overlay kalır veya içeriğe tıklanmasını engeller.",
+      "root_cause": "gatewayOverlay elementinin 'hidden' sınıfını alamaması veya z-index blokajı.",
+      "antidote": "Varsayılan olarak gatewayOverlay hidden tutulmalı ve checkPersistentAuth otomatik onay vermelidir.",
+      "check_target": "index.html",
+      "pattern": "id=\"gatewayOverlay\" class=\"hidden"
+    },
+    {
+      "id": "ERR_003_FALLBACK_DATA_ABSENCE",
+      "title": "Önbellek Boşken Veri Gösterilememesi",
+      "symptom": "Kartlar boş kutular olarak görünür, 0 Doküman / 0 Görev yazar.",
+      "root_cause": "LocalStorage boş veya hatalı formatta iken varsayılan (fallback) verilerin basılamaması.",
+      "antidote": "getLocalTasks ve getLocalNotes fonksiyonları boş veri durumunda anında varsayılan listeyi dönmeli ve DOM'a basmalıdır.",
+      "check_target": "js/portal.js",
+      "pattern": "getLocalFallbackFinance"
+    },
+    {
+      "id": "ERR_004_CHARMAP_TERMINAL_CRASH",
+      "title": "Windows Terminal Karakter Kodlama Hatası",
+      "symptom": "audit.py veya Python betikleri UnicodeEncodeError verir.",
+      "root_cause": "Windows CP1254 terminalinde özel Unicode karakterlerin (örn: tik işareti) basılamaması.",
+      "antidote": "Konsol çıktılarında daima standart ASCII karakterler [PASS], [OK], [FAIL] kullanılmalıdır.",
+      "check_target": "audit.py",
+      "pattern": "[PASS]"
+    }
+  ]
+}

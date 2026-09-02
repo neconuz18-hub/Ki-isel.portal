@@ -20,6 +20,11 @@ Bu protokol, Kişisel Portal projesinde yapılacak her yeni güncellemenin, men�
 
 Her güncelleme sırasıyla şu 6 adımdan geçmek zorundadır:
 
+
+### Aşama 0: Hata Havuzu & Regresyon Doğrulaması (Knowledge Base Guard)
+- Her yeni güncelleme öncesinde `data/KNOWLEDGE_BASE.json` dosyasındaki tüm bilinen hatalar taranır.
+- Geçmişte çözülen hataların (`ERR_001`, `ERR_002`, `ERR_003`, `ERR_004` vb.) yeniden nüksetmediği otomatik test edilir.
+
 ### Aşama 1: Sözdizimi & Kod Bütünlüğü (Syntax Integrity)
 - Tüm PHP dosyalarında `php -l` kontrolü (Sıfır hata).
 - JavaScript dosyalarında tanımsız değişken veya kapsam (`scope`) çakışması olmamalı.

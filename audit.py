@@ -11,6 +11,38 @@ def print_header(title):
     print(f" [PROTOKOL DENETIMI]: {title}")
     print("=" * 60)
 
+def test_knowledge_base_regressions():
+    print_header("0. Asama: Hata Havuzu & Gecmis Hatalarin Taramasi (Anti-Regression)")
+    kb_path = os.path.join(BASE_DIR, 'data', 'KNOWLEDGE_BASE.json')
+    if not os.path.exists(kb_path):
+        print("  [!] Hata Havuzu dosyasi bulunamadi!")
+        return False
+
+    with open(kb_path, 'r', encoding='utf-8') as f:
+        kb = json.load(f)
+
+    all_passed = True
+    for rule in kb.get('rules', []):
+        rule_id = rule['id']
+        target_file = os.path.join(BASE_DIR, rule['check_target'])
+        pattern = rule['pattern']
+
+        if not os.path.exists(target_file):
+            print(f"  [FAIL] {rule_id}: Hedef dosya yok ({rule['check_target']})")
+            all_passed = False
+            continue
+
+        with open(target_file, 'r', encoding='utf-8', errors='ignore') as tf:
+            content = tf.read()
+
+        if pattern in content:
+            print(f"  [PASS] {rule_id}: Panzehir dogrulandi ({rule['title']})")
+        else:
+            print(f"  [FAIL] {rule_id}: KRITIK TEHLIKE! Gecmis hata nuksetti! ({rule['title']})")
+            all_passed = False
+
+    return all_passed
+
 def test_syntax():
     print_header("1. Asama: Dosya ve Sozdizimi Kontrolu")
     critical_files = [
@@ -98,12 +130,13 @@ def main():
     print("   KISISEL PORTAL -- MASTER META-AUDIT PROTOKOLU (V1.0)   ")
     print("#" * 60)
     
+    s0 = test_knowledge_base_regressions()
     s1 = test_syntax()
     s2 = test_database_integrity()
     s3 = test_meta_audit_chaos()
     
     print("\n" + "=" * 60)
-    if s1 and s2 and s3:
+    if s0 and s1 and s2 and s3:
         print("  [ONAYLANDI] TUM ASAMALAR VE META-AUDIT BASARIYLA TAMAMLANDI! (100% HEALTHY)")
     else:
         print("  [UYARI] BAZI DENETIMLERDE HATA VAR, LUTFEN INCELEYIN.")
