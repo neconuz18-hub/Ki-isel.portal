@@ -1,3 +1,4 @@
+import test_ui_sim
 import os
 import sqlite3
 import json
@@ -134,9 +135,10 @@ def main():
     s1 = test_syntax()
     s2 = test_database_integrity()
     s3 = test_meta_audit_chaos()
+    s4 = test_ui_sim.run_ui_simulation_tests()
     
     print("\n" + "=" * 60)
-    if s0 and s1 and s2 and s3:
+    if s0 and s1 and s2 and s3 and s4:
         print("  [ONAYLANDI] TUM ASAMALAR VE META-AUDIT BASARIYLA TAMAMLANDI! (100% HEALTHY)")
     else:
         print("  [UYARI] BAZI DENETIMLERDE HATA VAR, LUTFEN INCELEYIN.")
