@@ -891,6 +891,21 @@ const Portal = {
   getLocalMenus() {
     try {
       const def = [
+        { id: 'dashboard', label: 'Ana Sayfa & Matris', icon: 'layout-dashboard', is_active: 1, desc: 'Eylem, not ve borsa çalışma alanı' },
+        { id: 'admin', label: 'Geliştirici & Modüller', icon: 'terminal', is_active: 1, desc: 'Sayfa ve modül yapılandırma merkezi' }
+      ];
+      const stored = localStorage.getItem('portal_menu_pool');
+      if (!stored) {
+        this.safeSetItem('portal_menu_pool', JSON.stringify(def));
+        return def;
+      }
+      return JSON.parse(stored);
+    } catch (e) {
+      return [];
+    }
+  },
+    try {
+      const def = [
         { id: 'dashboard', label: 'Ana Sayfa & Matris', icon: 'layout-dashboard', is_active: 1, desc: 'Eylem ve not çalışma alanı' },
         { id: 'finance', label: 'Borsa & Portföy Terminali', icon: 'trending-up', is_active: 1, desc: 'Canlı BIST, Kâr/Zarar ve Halka Arz' },
         { id: 'admin', label: 'Geliştirici & Modüller', icon: 'terminal', is_active: 1, desc: 'Sayfa ve modül yapılandırma merkezi' }
