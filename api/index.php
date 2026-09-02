@@ -3,65 +3,70 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../core/Auth.php';
 require_once __DIR__ . '/../core/Response.php';
 require_once __DIR__ . '/../models/UserModel.php';
+require_once __DIR__ . '/../models/NoteModel.php';
+require_once __DIR__ . '/../models/MenuModel.php';
 
 $endpoint = $_GET['endpoint'] ?? '';
 $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+$userId = Auth::user()['id'] ?? null;
 
-// 1. AUTH ENDPOINTS
 if ($endpoint === 'auth') {
     $action = $_GET['action'] ?? ($input['action'] ?? 'status');
-
     if ($action === 'status') {
-        Response::json([
-            'authenticated' => Auth::check(),
-            'user'          => Auth::user()
-        ]);
+        Response::json(['authenticated' => Auth::check(), 'user' => Auth::user()]);
     }
-
     if ($action === 'login_admin') {
         $pin = $input['pin'] ?? '';
-        if (Auth::loginAdmin($pin)) {
-            Response::success(Auth::user(), 'Yönetici girişi başarılı');
-        }
+        if (Auth::loginAdmin($pin)) Response::success(Auth::user(), 'Yönetici girişi başarılı');
         Response::error('Hatalı Yönetici PIN!', 401);
     }
-
     if ($action === 'login_user') {
         $uid = $input['userId'] ?? null;
         $pin = $input['pin'] ?? null;
         $res = Auth::loginUser($uid, $pin);
-        if ($res['success']) {
-            Response::success(Auth::user(), 'Giriş başarılı');
-        }
+        if ($res['success']) Response::success(Auth::user(), 'Giriş başarılı');
         Response::error($res['message'] ?? 'Giriş başarısız', 401);
     }
-
     if ($action === 'logout') {
         Auth::logout();
         Response::success(null, 'Oturum kapatıldı');
     }
 }
 
-// 2. USERS ENDPOINTS
 if ($endpoint === 'users') {
+    if ($method === 'GET') Response::success(UserModel::getAll());
+    if ($method === 'POST') {
+        $action = $input['action'] ?? 'create';
+        if ($action === 'create') Response::success(['id' => UserModel::create($input)], 'Kullanıcı eklendi');
+        if ($action === 'delete') Response::success(UserModel::delete($input['id']), 'Kullanıcı silindi');
+    }
+}
+
+if ($endpoint === 'notes') {
     if ($method === 'GET') {
-        Response::success(UserModel::getAll());
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            Response::success(NoteModel::getById($id));
+        } else {
+            Response::success(NoteModel::getAll($userId));
+        }
     }
     if ($method === 'POST') {
         $action = $input['action'] ?? 'create';
-        if ($action === 'create') {
-            $id = UserModel::create($input);
-            Response::success(['id' => $id], 'Kullanıcı oluşturuldu');
-        }
-        if ($action === 'update') {
-            UserModel::update($input['id'], $input);
-            Response::success(null, 'Kullanıcı güncellendi');
-        }
-        if ($action === 'delete') {
-            UserModel::delete($input['id']);
-            Response::success(null, 'Kullanıcı silindi');
-        }
+        if ($action === 'create') Response::success(['id' => NoteModel::create($input, $userId)], 'Not oluşturuldu');
+        if ($action === 'update') Response::success(NoteModel::update($input['id'], $input), 'Not güncellendi');
+        if ($action === 'toggle_pin') Response::success(NoteModel::togglePin($input['id']), 'Sabitleme güncellendi');
+        if ($action === 'delete') Response::success(NoteModel::delete($input['id']), 'Not silindi');
+    }
+}
+
+if ($endpoint === 'menus') {
+    if ($method === 'GET') Response::success(MenuModel::getAll());
+    if ($method === 'POST') {
+        $action = $input['action'] ?? 'toggle';
+        if ($action === 'toggle') Response::success(MenuModel::toggleActive($input['id']), 'Menü güncellendi');
+        if ($action === 'create') Response::success(['id' => MenuModel::create($input)], 'Menü oluşturuldu');
     }
 }
 

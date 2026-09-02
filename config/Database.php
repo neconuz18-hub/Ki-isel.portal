@@ -1,7 +1,4 @@
 <?php
-/**
- * SQLite Veritabanı Bağlantı ve Otomatik Tablo Kurucu (config/Database.php)
- */
 require_once __DIR__ . '/config.php';
 
 class Database {
@@ -24,7 +21,6 @@ class Database {
 
     private static function migrate(): void {
         $queries = [
-            // Kullanıcılar Tablosu
             "CREATE TABLE IF NOT EXISTS users (
                 id TEXT PRIMARY KEY,
                 name TEXT NOT NULL,
@@ -34,75 +30,26 @@ class Database {
                 assigned_modules TEXT,
                 created_at TEXT NOT NULL
             )",
-
-            // Görevler Tablosu
-            "CREATE TABLE IF NOT EXISTS tasks (
-                id TEXT PRIMARY KEY,
-                user_id TEXT,
-                title TEXT NOT NULL,
-                category TEXT DEFAULT 'Genel',
-                priority TEXT DEFAULT 'Normal',
-                due_date TEXT,
-                due_time TEXT,
-                status TEXT DEFAULT 'pending',
-                created_at TEXT NOT NULL
-            )",
-
-            // Hatırlatıcılar Tablosu
-            "CREATE TABLE IF NOT EXISTS reminders (
-                id TEXT PRIMARY KEY,
-                user_id TEXT,
-                title TEXT NOT NULL,
-                datetime TEXT NOT NULL,
-                notes TEXT,
-                completed INTEGER DEFAULT 0,
-                created_at TEXT NOT NULL
-            )",
-
-            // Notlar Tablosu
             "CREATE TABLE IF NOT EXISTS notes (
                 id TEXT PRIMARY KEY,
                 user_id TEXT,
                 title TEXT NOT NULL,
                 content TEXT,
+                icon TEXT DEFAULT '📝',
                 color TEXT DEFAULT 'blue',
+                tags TEXT,
                 pinned INTEGER DEFAULT 0,
                 created_at TEXT NOT NULL,
                 updated_at TEXT NOT NULL
             )",
-
-            // Abonelikler Tablosu
-            "CREATE TABLE IF NOT EXISTS subscriptions (
+            "CREATE TABLE IF NOT EXISTS menu_pool (
                 id TEXT PRIMARY KEY,
-                user_id TEXT,
-                title TEXT NOT NULL,
-                category TEXT DEFAULT 'entertainment',
-                amount REAL NOT NULL,
-                currency TEXT DEFAULT 'TRY',
-                billing_cycle TEXT DEFAULT 'monthly',
-                next_billing_date TEXT NOT NULL,
-                created_at TEXT NOT NULL
-            )",
-
-            // Portföy / Hisse Tablosu
-            "CREATE TABLE IF NOT EXISTS portfolio (
-                id TEXT PRIMARY KEY,
-                user_id TEXT,
-                symbol TEXT NOT NULL,
-                name TEXT,
-                shares REAL NOT NULL,
-                buy_price REAL NOT NULL,
-                created_at TEXT NOT NULL
-            )",
-
-            // Kasa / Şifreli Kayıtlar Tablosu
-            "CREATE TABLE IF NOT EXISTS vault_records (
-                id TEXT PRIMARY KEY,
-                user_id TEXT,
-                type TEXT NOT NULL, -- 'banking', 'secret_note', 'card'
-                title TEXT NOT NULL,
-                data_json TEXT NOT NULL,
-                created_at TEXT NOT NULL
+                label TEXT NOT NULL,
+                icon TEXT NOT NULL,
+                category TEXT DEFAULT 'genel',
+                is_active INTEGER DEFAULT 1,
+                order_index INTEGER DEFAULT 0,
+                description TEXT
             )"
         ];
 
@@ -110,10 +57,8 @@ class Database {
             self::$pdo->exec($sql);
         }
 
-        // Başlangıç Yönetici Kullanıcısı Kontrolü
         $stmt = self::$pdo->query("SELECT COUNT(*) as count FROM users WHERE role = 'ADMIN'");
-        $adminCount = $stmt->fetch()['count'];
-        if ($adminCount == 0) {
+        if ($stmt->fetch()['count'] == 0) {
             $stmt = self::$pdo->prepare("INSERT INTO users (id, name, phone, role, pin, assigned_modules, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 'usr_admin',
@@ -121,9 +66,25 @@ class Database {
                 '0500 000 00 00',
                 'ADMIN',
                 DEFAULT_ADMIN_PIN,
-                json_encode(array_keys($GLOBALS['CORE_MODULES'])),
+                json_encode(['dashboard', 'notes', 'menu_manager', 'admin']),
                 date('c')
             ]);
+        }
+
+        $stmt = self::$pdo->query("SELECT COUNT(*) as count FROM menu_pool");
+        if ($stmt->fetch()['count'] == 0) {
+            $defaultMenus = [
+                ['dashboard', 'Ana Sayfa & Notlar', 'layout-dashboard', 'core', 1, 1, 'Kişisel pano ve Notion not çalışma alanı'],
+                ['tasks', 'Görev & Proje Takibi', 'check-square', 'productivity', 0, 2, 'Kategori ve öncelik bazlı iş listesi'],
+                ['finance', 'Finans & Portföy', 'trending-up', 'finance', 0, 3, 'Canlı borsa, döviz ve portföy takibi'],
+                ['subscriptions', 'Abonelik Radarı', 'credit-card', 'finance', 0, 4, 'Aylık ve yıllık düzenli ödeme takvimi'],
+                ['vault', 'Güvenli Kasa', 'lock', 'security', 0, 5, 'Şifreli hesaplar ve gizli kayıtlar'],
+                ['admin', 'Geliştirici & Yönetim', 'terminal', 'system', 1, 99, 'Kullanıcı ve menü yapılandırma merkezi']
+            ];
+            $insert = self::$pdo->prepare("INSERT INTO menu_pool (id, label, icon, category, is_active, order_index, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            foreach ($defaultMenus as $m) {
+                $insert->execute($m);
+            }
         }
     }
 }
