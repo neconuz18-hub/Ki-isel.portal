@@ -1,5 +1,5 @@
 const Portal = {
-  version: '3.3.0-Enterprise',
+  version: '3.4.0-Enterprise',
   currentTab: 'dashboard',
   noteIcons: ['📝', '💡', '🚀', '📌', '⚡', '🎯', '📊', '🔥', '🌟', '📚'],
   currentIconIndex: 0,
@@ -8,6 +8,7 @@ const Portal = {
   noteFilterTab: 'active', // 'active' | 'pinned'
   notesViewMode: 'grid',   // 'grid' | 'list'
   sortDescending: true,
+  selectedCategory: 'Tümü',
 
   // Pomodoro State
   pomodoroMinutes: 25,
@@ -76,7 +77,47 @@ const Portal = {
   },
 
   // ==========================================================
-  // 2. NOTLARIM WIDGET KONTROLLERİ (ARAMA, FİLTRE, SIRALAMA, GÖRÜNÜM)
+  // 2. DİNAMİK KATEGORİ HAPLARI MOTORU
+  // ==========================================================
+  renderCategoryPills(allNotes) {
+    const container = document.getElementById('categoryPillsContainer');
+    if (!container) return;
+
+    const categories = ['Tümü', 'İş & Proje', 'Kişisel', 'Fikirler', 'Görevler'];
+    
+    // Kategori sayılarını hesapla
+    const counts = { 'Tümü': allNotes.length };
+    categories.forEach(c => {
+      if (c !== 'Tümü') {
+        counts[c] = allNotes.filter(n => (n.category || 'Tümü') === c).length;
+      }
+    });
+
+    container.innerHTML = categories.map(cat => {
+      const isSelected = this.selectedCategory === cat;
+      const count = counts[cat] || 0;
+      if (cat !== 'Tümü' && count === 0) return ''; // Boş kategorileri gizle (zarif UX)
+
+      return `
+        <button 
+          type="button" 
+          onclick="Portal.setNoteCategory('${cat}')" 
+          class="px-3 py-1.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 flex-shrink-0 ${isSelected ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm' : 'bg-slate-900/90 text-slate-400 hover:text-slate-200 border border-slate-800'}"
+        >
+          <span>${cat === 'Tümü' ? 'Kategorisiz / Tümü' : cat}</span>
+          <span class="px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-400'} text-[10px] font-mono">${count}</span>
+        </button>
+      `;
+    }).join('');
+  },
+
+  setNoteCategory(cat) {
+    this.selectedCategory = cat;
+    this.loadNotes();
+  },
+
+  // ==========================================================
+  // 3. NOTLARIM WIDGET KONTROLLERİ (ARAMA, FİLTRE, SIRALAMA, GÖRÜNÜM)
   // ==========================================================
   toggleWidgetSearch() {
     const box = document.getElementById('widgetSearchBox');
@@ -127,7 +168,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 3. POMODORO ODAKLANMA ZAMANLAYICISI MOTORU
+  // 4. POMODORO ODAKLANMA ZAMANLAYICISI MOTORU
   // ==========================================================
   togglePomodoro() {
     const btn = document.getElementById('pomodoroStartBtn');
@@ -135,6 +176,7 @@ const Portal = {
       clearInterval(this.pomodoroInterval);
       this.isPomodoroRunning = false;
       if (btn) btn.textContent = 'Devam Et';
+      document.title = 'Kişisel Portal — Notion Canvas OS';
       this.toast('Zamanlayıcı duraklatıldı', 'info');
     } else {
       this.isPomodoroRunning = true;
@@ -145,6 +187,7 @@ const Portal = {
             clearInterval(this.pomodoroInterval);
             this.isPomodoroRunning = false;
             if (btn) btn.textContent = 'Başlat';
+            document.title = 'Kişisel Portal — Notion Canvas OS';
             this.playNotificationSound();
             alert('Tebrikler! 25 dakikalık odaklanma seansı tamamlandı! 5 dakika mola verin.');
             this.resetPomodoro();
@@ -168,6 +211,7 @@ const Portal = {
     this.pomodoroSeconds = 0;
     const btn = document.getElementById('pomodoroStartBtn');
     if (btn) btn.textContent = 'Başlat';
+    document.title = 'Kişisel Portal — Notion Canvas OS';
     this.updatePomodoroDisplay();
   },
 
@@ -177,6 +221,9 @@ const Portal = {
     const m = String(this.pomodoroMinutes).padStart(2, '0');
     const s = String(this.pomodoroSeconds).padStart(2, '0');
     timer.textContent = `${m}:${s}`;
+    if (this.isPomodoroRunning) {
+      document.title = `(${m}:${s}) 🎯 Odaklanma — Kişisel Portal`;
+    }
   },
 
   playNotificationSound() {
@@ -192,7 +239,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 4. WİDGET KÜÇÜLTME & BALONCUK DOCK MOTORU
+  // 5. WİDGET KÜÇÜLTME & BALONCUK DOCK MOTORU
   // ==========================================================
   minimizeWidget(id, label = 'Widget') {
     if (!this.minimizedWidgets.find(w => w.id === id)) {
@@ -258,7 +305,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 5. NOTION ZENGİN NOTLAR MOTORU (CANVAS & WIDGET GÖVDESİ)
+  // 6. NOTION ZENGİN NOTLAR MOTORU (CANVAS & WIDGET GÖVDESİ)
   // ==========================================================
   getLocalNotes() {
     try {
@@ -271,6 +318,7 @@ const Portal = {
             content: 'Bu zengin not alanında düşüncelerinizi, şablonlarınızı ve yapılacaklar listelerinizi tutabilirsiniz.\n\n[x] 2. fotoğraftaki NOTLARIM widget tasarımını test et\n[ ] Yeni not ekle butonuna bas\n[ ] İkon ve renk seç',
             icon: '✨',
             color: 'amber',
+            category: 'Tümü',
             pinned: 1,
             updated_at: new Date().toISOString()
           }
@@ -309,13 +357,19 @@ const Portal = {
 
   loadNotes() {
     try {
-      let notes = this.getLocalNotes();
+      const allNotes = this.getLocalNotes();
+      this.renderCategoryPills(allNotes);
+
+      let notes = [...allNotes];
+
+      // Kategori Filtresi
+      if (this.selectedCategory !== 'Tümü') {
+        notes = notes.filter(n => (n.category || 'Tümü') === this.selectedCategory);
+      }
 
       // Sayaçları Güncelle
       const countHeader = document.getElementById('notesWidgetCount');
-      const countSub = document.getElementById('notesSubBadgeCount');
-      if (countHeader) countHeader.textContent = `${notes.length} not`;
-      if (countSub) countSub.textContent = notes.length;
+      if (countHeader) countHeader.textContent = `${allNotes.length} not`;
 
       // Sekme Filtresi (Aktif / Sabitlenenler)
       if (this.noteFilterTab === 'pinned') {
@@ -345,7 +399,7 @@ const Portal = {
         grid.innerHTML = `
           <div class="col-span-full py-12 text-center rounded-3xl border border-dashed border-slate-800 bg-slate-900/30">
             <span class="text-3xl block mb-2">🔍</span>
-            <h3 class="text-sm font-bold text-slate-300 mb-1">${this.searchQuery ? 'Aramanıza uygun not bulunamadı' : 'Henüz bu sekmede bir not yok'}</h3>
+            <h3 class="text-sm font-bold text-slate-300 mb-1">${this.searchQuery ? 'Aramanıza uygun not bulunamadı' : 'Henüz bu kategoride bir not yok'}</h3>
             <p class="text-xs text-slate-500 mb-3 max-w-sm mx-auto">
               ${this.searchQuery ? 'Farklı bir arama terimi deneyin.' : 'Yeni bir not eklemek için sağ üstteki (+) butonuna tıklayın.'}
             </p>
@@ -374,8 +428,11 @@ const Portal = {
               <div class="flex items-center gap-3 min-w-0">
                 <span class="text-xl flex-shrink-0">${n.icon || '📝'}</span>
                 <div class="min-w-0">
-                  <h4 class="text-xs font-bold text-white truncate">${this.escapeHtml(n.title || 'Başlıksız Not')}</h4>
-                  <p class="text-[11px] text-slate-400 truncate">${this.escapeHtml(n.content || 'Boş içerik...')}</p>
+                  <div class="flex items-center gap-2">
+                    <h4 class="text-xs font-bold text-white truncate">${this.escapeHtml(n.title || 'Başlıksız Not')}</h4>
+                    ${n.category && n.category !== 'Tümü' ? `<span class="px-2 py-0.2 rounded-md bg-slate-800 text-slate-400 text-[9px] font-bold border border-slate-700">${this.escapeHtml(n.category)}</span>` : ''}
+                  </div>
+                  <p class="text-[11px] text-slate-400 truncate mt-0.5">${this.escapeHtml(n.content || 'Boş içerik...')}</p>
                 </div>
               </div>
               <div class="flex items-center gap-3 text-[11px] text-slate-500 flex-shrink-0">
@@ -398,7 +455,10 @@ const Portal = {
                 <div class="flex items-start justify-between gap-3 mb-2">
                   <div class="flex items-center gap-2.5 min-w-0">
                     <span class="text-2xl flex-shrink-0">${n.icon || '📝'}</span>
-                    <h3 class="font-bold text-sm text-slate-100 group-hover:text-white truncate tracking-tight">${this.escapeHtml(n.title || 'Başlıksız Not')}</h3>
+                    <div class="min-w-0">
+                      <h3 class="font-bold text-sm text-slate-100 group-hover:text-white truncate tracking-tight">${this.escapeHtml(n.title || 'Başlıksız Not')}</h3>
+                      ${n.category && n.category !== 'Tümü' ? `<span class="text-[10px] text-amber-400/80 font-semibold block">${this.escapeHtml(n.category)}</span>` : ''}
+                    </div>
                   </div>
                   <div class="flex items-center gap-1">
                     ${n.pinned == 1 ? '<span class="text-amber-400 text-xs" title="Sabitlendi">📌</span>' : ''}
@@ -443,6 +503,8 @@ const Portal = {
   openNewNoteDrawer() {
     document.getElementById('drawerNoteId').value = '';
     document.getElementById('drawerNoteTitle').value = '';
+    const catSelect = document.getElementById('drawerNoteCategory');
+    if (catSelect) catSelect.value = this.selectedCategory !== 'Tümü' ? this.selectedCategory : 'Tümü';
     const contentArea = document.getElementById('drawerNoteContent');
     contentArea.value = '';
     contentArea.style.height = 'auto';
@@ -461,6 +523,8 @@ const Portal = {
 
     document.getElementById('drawerNoteId').value = n.id;
     document.getElementById('drawerNoteTitle').value = n.title;
+    const catSelect = document.getElementById('drawerNoteCategory');
+    if (catSelect) catSelect.value = n.category || 'Tümü';
     const contentArea = document.getElementById('drawerNoteContent');
     contentArea.value = n.content || '';
     document.getElementById('drawerNoteColor').value = n.color || 'amber';
@@ -532,6 +596,8 @@ const Portal = {
     try {
       const id = document.getElementById('drawerNoteId').value;
       const title = document.getElementById('drawerNoteTitle').value.trim();
+      const catSelect = document.getElementById('drawerNoteCategory');
+      const category = catSelect ? catSelect.value : 'Tümü';
       const content = document.getElementById('drawerNoteContent').value.trim();
       const icon = document.getElementById('noteDrawerEmojiBtn').textContent.trim();
       const color = document.getElementById('drawerNoteColor').value;
@@ -540,11 +606,12 @@ const Portal = {
       let notes = this.getLocalNotes();
 
       if (id) {
-        notes = notes.map(n => n.id === id ? { ...n, title: title || 'Başlıksız Not', content, icon, color, pinned, updated_at: new Date().toISOString() } : n);
+        notes = notes.map(n => n.id === id ? { ...n, title: title || 'Başlıksız Not', category, content, icon, color, pinned, updated_at: new Date().toISOString() } : n);
       } else {
         notes.unshift({
           id: 'note_' + Date.now(),
           title: title || 'Başlıksız Not',
+          category,
           content,
           icon,
           color,
@@ -580,7 +647,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 6. DİNAMİK ÖZEL SAYFA ŞABLONLARI
+  // 7. DİNAMİK ÖZEL SAYFA ŞABLONLARI
   // ==========================================================
   renderCustomPage(menuItem) {
     const container = document.getElementById('dynamicPageContainer');
@@ -660,7 +727,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 7. SOL MENÜ VE MENÜ HAVUZU
+  // 8. SOL MENÜ VE MENÜ HAVUZU
   // ==========================================================
   getLocalMenus() {
     try {
@@ -826,7 +893,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 8. SENTINEL OS & CANLI DERİN TARAMA TERMİNALİ
+  // 9. SENTINEL OS & CANLI DERİN TARAMA TERMİNALİ
   // ==========================================================
   async runSentinelCheck() {
     const term = document.getElementById('sentinelTerminalOutput');
@@ -883,7 +950,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 9. KURUMSAL YEDEKLEME, İÇE/DIŞA AKTARMA VE FABRİKA SIFIRLAMA
+  // 10. KURUMSAL YEDEKLEME, İÇE/DIŞA AKTARMA VE FABRİKA SIFIRLAMA
   // ==========================================================
   exportBackup() {
     try {
@@ -953,7 +1020,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 10. KALICI OTURUM KONTROLÜ
+  // 11. KALICI OTURUM KONTROLÜ
   // ==========================================================
   checkPersistentAuth() {
     try {
@@ -1015,7 +1082,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 11. SEKME & SAYFA YÖNLENDİRİCİ
+  // 12. SEKME & SAYFA YÖNLENDİRİCİ
   // ==========================================================
   switchTab(tabId) {
     try {

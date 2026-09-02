@@ -300,12 +300,11 @@
                             </button>
                         </div>
 
-                        <!-- Sağ: Kategori Hapı & Görünüm Seçici (Grid / List) -->
-                        <div class="flex items-center gap-2">
-                            <!-- Kategori Rozeti -->
-                            <div class="px-3 py-1.5 rounded-2xl bg-slate-900 border border-slate-800 text-slate-300 font-bold flex items-center gap-1.5">
-                                <span>Tüm Notlar</span>
-                                <span id="notesSubBadgeCount" class="w-5 h-5 rounded-full bg-slate-800 text-slate-400 text-[10px] flex items-center justify-center font-mono">0</span>
+                        <!-- Sağ: Dinamik Kategori Hapları & Görünüm Seçici (Grid / List) -->
+                        <div class="flex items-center gap-2 overflow-x-auto max-w-full">
+                            <!-- Dinamik Kategori Seçici Hapları -->
+                            <div id="categoryPillsContainer" class="flex items-center gap-1.5">
+                                <!-- JS Dinamik Dolduracak -->
                             </div>
 
                             <!-- Görünüm Değiştirici -->
@@ -479,7 +478,16 @@
                     <input type="hidden" id="drawerNoteColor" value="blue">
                     <input type="hidden" id="drawerNotePinned" value="0">
 
-                    <input type="text" id="drawerNoteTitle" placeholder="Başlıksız Not..." class="w-full bg-transparent text-2xl lg:text-3xl font-extrabold text-white placeholder-slate-600 focus:outline-none border-b border-transparent focus:border-slate-800 pb-2 transition-all">
+                    <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between pb-2 border-b border-slate-800">
+                        <input type="text" id="drawerNoteTitle" placeholder="Başlıksız Not..." class="w-full bg-transparent text-2xl lg:text-3xl font-extrabold text-white placeholder-slate-600 focus:outline-none transition-all">
+                        <select id="drawerNoteCategory" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs font-bold focus:outline-none focus:border-amber-500">
+                            <option value="Tümü">📁 Genel / Kategorisiz</option>
+                            <option value="İş & Proje">💼 İş & Proje</option>
+                            <option value="Kişisel">🌟 Kişisel</option>
+                            <option value="Fikirler">💡 Fikirler</option>
+                            <option value="Görevler">✅ Yapılacaklar</option>
+                        </select>
+                    </div>
 
                     <div class="flex items-center gap-1.5 py-1 overflow-x-auto text-[11px]">
                         <button type="button" onclick="Portal.insertNoteTemplate('todo')" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex items-center gap-1 transition-colors cursor-pointer">
