@@ -1,76 +1,86 @@
 <?php
+/**
+ * Kişisel Portal — REST JSON Front Controller & API Gateway
+ */
 require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../core/Auth.php';
+require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../core/Response.php';
+require_once __DIR__ . '/../core/SecurityGuard.php';
 require_once __DIR__ . '/../core/SentinelWorker.php';
-require_once __DIR__ . '/../models/UserModel.php';
-require_once __DIR__ . '/../models/NoteModel.php';
+require_once __DIR__ . '/../core/ErrorLogger.php';
+require_once __DIR__ . '/../core/FinanceEngine.php';
 require_once __DIR__ . '/../models/MenuModel.php';
 
+header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+
 $endpoint = $_GET['endpoint'] ?? '';
+$action = $_GET['action'] ?? '';
 $method = $_SERVER['REQUEST_METHOD'];
-$input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
-$userId = Auth::user()['id'] ?? null;
 
-if ($endpoint === 'auth') {
-    $action = $_GET['action'] ?? ($input['action'] ?? 'status');
-    if ($action === 'status') {
-        Response::json(['authenticated' => Auth::check(), 'user' => Auth::user()]);
+try {
+    switch ($endpoint) {
+        case 'sentinel':
+            if ($action === 'check') {
+                $report = SentinelWorker::runIntegrityScan();
+                Response::success($report, 'Sentinel sağlık taraması tamamlandı');
+            }
+            Response::error('Geçersiz sentinel aksiyonu', 400);
+            break;
+
+        case 'finance':
+            if ($action === 'summary') {
+                $summary = FinanceEngine::getPortfolioSummary();
+                Response::success($summary, 'Portföy ve piyasa verileri yüklendi');
+            } elseif ($action === 'quote') {
+                $symbol = $_GET['symbol'] ?? 'THYAO';
+                $quote = FinanceEngine::getStockQuote($symbol);
+                Response::success($quote, "{$symbol} fiyat bilgisi çekildi");
+            } elseif ($action === 'ipos') {
+                $ipos = FinanceEngine::getUpcomingIPOs();
+                Response::success($ipos, 'Halka arz takvimi yüklendi');
+            } elseif ($action === 'add_asset' && $method === 'POST') {
+                $body = json_decode(file_get_contents('php://input'), true);
+                $symbol = strtoupper(trim($body['symbol'] ?? ''));
+                $shares = floatval($body['shares'] ?? 0);
+                $buyPrice = floatval($body['buy_price'] ?? 0);
+
+                if (empty($symbol) || $shares <= 0 || $buyPrice <= 0) {
+                    Response::error('Geçersiz sembol, adet veya maliyet', 400);
+                }
+
+                $db = Database::connect();
+                $id = 'asset_' . uniqid();
+                $stmt = $db->prepare("INSERT INTO portfolio_assets (id, symbol, shares, buy_price, created_at) VALUES (?, ?, ?, ?, datetime('now'))");
+                $stmt->execute([$id, $symbol, $shares, $buyPrice]);
+                Response::success(['id' => $id], 'Varlık portföye eklendi');
+            } elseif ($action === 'delete_asset' && $method === 'POST') {
+                $body = json_decode(file_get_contents('php://input'), true);
+                $id = $body['id'] ?? '';
+                if ($id) {
+                    $db = Database::connect();
+                    $stmt = $db->prepare("DELETE FROM portfolio_assets WHERE id = ?");
+                    $stmt->execute([$id]);
+                    Response::success(null, 'Varlık portföyden silindi');
+                }
+                Response::error('ID belirtilmedi', 400);
+            }
+            Response::error('Geçersiz finans aksiyonu', 400);
+            break;
+
+        case 'menus':
+            if ($method === 'GET') {
+                $menus = MenuModel::getAll();
+                Response::success($menus);
+            }
+            break;
+
+        default:
+            Response::error('Bilinmeyen API Endpoint', 404);
+            break;
     }
-    if ($action === 'login_admin') {
-        $pin = $input['pin'] ?? '';
-        if (Auth::loginAdmin($pin)) Response::success(Auth::user(), 'Yönetici girişi başarılı');
-        Response::error('Hatalı Yönetici PIN!', 401);
-    }
-    if ($action === 'login_user') {
-        $uid = $input['userId'] ?? null;
-        $pin = $input['pin'] ?? null;
-        $res = Auth::loginUser($uid, $pin);
-        if ($res['success']) Response::success(Auth::user(), 'Giriş başarılı');
-        Response::error($res['message'] ?? 'Giriş başarısız', 401);
-    }
-    if ($action === 'logout') {
-        Auth::logout();
-        Response::success(null, 'Oturum kapatıldı');
-    }
+} catch (Exception $e) {
+    ErrorLogger::log('CRITICAL', 'API Exception: ' . $e->getMessage());
+    Response::error('Sunucu içi hata: ' . $e->getMessage(), 500);
 }
-
-if ($endpoint === 'sentinel') {
-    $action = $_GET['action'] ?? ($input['action'] ?? 'status');
-    if ($action === 'check') {
-        Response::success(SentinelWorker::runDiagnostic(), 'Sentinel denetimi tamamlandı');
-    }
-    if ($action === 'logs') {
-        Response::success(['logs' => SentinelWorker::getLogSummary()], 'Sentinel logları');
-    }
-    Response::success(SentinelWorker::runDiagnostic());
-}
-
-if ($endpoint === 'notes') {
-    if ($method === 'GET') {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            Response::success(NoteModel::getById($id));
-        } else {
-            Response::success(NoteModel::getAll($userId));
-        }
-    }
-    if ($method === 'POST') {
-        $action = $input['action'] ?? 'create';
-        if ($action === 'create') Response::success(['id' => NoteModel::create($input, $userId)], 'Not oluşturuldu');
-        if ($action === 'update') Response::success(NoteModel::update($input['id'], $input), 'Not güncellendi');
-        if ($action === 'toggle_pin') Response::success(NoteModel::togglePin($input['id']), 'Sabitleme güncellendi');
-        if ($action === 'delete') Response::success(NoteModel::delete($input['id']), 'Not silindi');
-    }
-}
-
-if ($endpoint === 'menus') {
-    if ($method === 'GET') Response::success(MenuModel::getAll());
-    if ($method === 'POST') {
-        $action = $input['action'] ?? 'toggle';
-        if ($action === 'toggle') Response::success(MenuModel::toggleActive($input['id']), 'Menü güncellendi');
-        if ($action === 'create') Response::success(['id' => MenuModel::create($input)], 'Menü oluşturuldu');
-    }
-}
-
-Response::error('Geçersiz API Endpoint', 404);

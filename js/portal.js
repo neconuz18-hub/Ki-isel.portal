@@ -1,13 +1,13 @@
 const Portal = {
-  version: '4.0.0-PersonalOS',
+  version: '4.1.0-PersonalOS',
   currentTab: 'dashboard',
   noteIcons: ['📝', '💡', '🚀', '📌', '⚡', '🎯', '📊', '🔥', '🌟', '📚'],
   currentIconIndex: 0,
   minimizedWidgets: [],
   searchQuery: '',
-  noteFilterTab: 'active', // 'active' | 'pinned'
+  noteFilterTab: 'active',
   sortDescending: true,
-  openTaskGroups: {}, // id: boolean
+  openTaskGroups: {},
 
   init() {
     try {
@@ -18,6 +18,7 @@ const Portal = {
       this.loadTasks();
       this.loadNotes();
       this.loadMenuPool();
+      this.loadFinanceData();
       this.renderFloatingWidgetDock();
       this.applySavedWidgetStates();
       this.bindKeyboardShortcuts();
@@ -30,7 +31,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 1. SESLİ GERİ BİLDİRİM (WEB AUDIO API - ZERO ASSET DEPENDENCY)
+  // 1. SESLİ GERİ BİLDİRİM (WEB AUDIO API - ZERO ASSET)
   // ==========================================================
   playAudioFeedback(type = 'click') {
     try {
@@ -45,8 +46,8 @@ const Portal = {
 
       if (type === 'complete') {
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15); // A5
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
         gain.gain.setValueAtTime(0.12, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
         osc.start();
@@ -72,7 +73,6 @@ const Portal = {
       const raw = input.value.trim();
       if (!raw) return;
 
-      // Ayrıştırıcı (Parser)
       const isNote = raw.toLowerCase().startsWith('not:') || raw.toLowerCase().startsWith('not ');
       const isUrgent = raw.includes('!acil') || raw.includes('!high');
       const cleanText = raw.replace(/^not:?\s*/i, '').replace(/!acil|!high/gi, '').trim();
@@ -81,7 +81,7 @@ const Portal = {
         let notes = this.getLocalNotes();
         notes.unshift({
           id: 'note_' + Date.now(),
-          title: cleanText.substring(0, 40) || 'Hızlı Not',
+          title: cleanText.substring(0, 40) || 'Hızlı Doküman',
           content: cleanText,
           icon: isUrgent ? '🔥' : '💡',
           color: isUrgent ? 'rose' : 'amber',
@@ -117,7 +117,182 @@ const Portal = {
   },
 
   // ==========================================================
-  // 3. MOMENTUM & ÜRETKENLİK HUD GÜNCELLEMESİ
+  // 3. 📈 BORSA, PORTFÖY & HALKA ARZ YÖNETİM MOTORU (MİDAS LEVEL)
+  // ==========================================================
+  async loadFinanceData() {
+    try {
+      const res = await this.api('finance&action=summary');
+      const data = res.success ? res.data : this.getLocalFallbackFinance();
+
+      // Toplam Metrikler
+      const totalValEl = document.getElementById('financeTotalValue');
+      const totalCostEl = document.getElementById('financeTotalCost');
+      const totalProfitEl = document.getElementById('financeTotalProfit');
+      const profitPercentEl = document.getElementById('financeProfitPercent');
+      const assetCountEl = document.getElementById('financeAssetCount');
+
+      if (totalValEl) totalValEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(data.total_value || 0);
+      if (totalCostEl) totalCostEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(data.total_cost || 0);
+      
+      const profit = data.total_profit || 0;
+      const profitPercent = data.total_profit_percent || 0;
+      const isPositive = profit >= 0;
+
+      if (totalProfitEl) {
+        totalProfitEl.textContent = (isPositive ? '+' : '') + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(profit);
+        totalProfitEl.className = `text-xl font-extrabold font-mono ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`;
+      }
+
+      if (profitPercentEl) {
+        profitPercentEl.textContent = (isPositive ? '+' : '') + `%${profitPercent.toFixed(2)}`;
+        profitPercentEl.className = `text-xs font-mono font-bold px-2 py-0.5 rounded-md border ${isPositive ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/30'}`;
+      }
+
+      if (assetCountEl) assetCountEl.textContent = `${(data.assets || []).length} Varlık`;
+
+      // Piyasa Nabzı Tickerları (BIST 100, Altın, Dolar, BTC)
+      const tickerContainer = document.getElementById('financeMarketTickers');
+      if (tickerContainer) {
+        const marketItems = [
+          { name: 'BIST 100', val: '9.842,50 ₺', change: '+1.85%', up: true },
+          { name: 'Gram Altın', val: '2.850,20 ₺', change: '+0.92%', up: true },
+          { name: 'USD / TRY', val: '34,18 ₺', change: '+0.08%', up: true },
+          { name: 'Bitcoin', val: '$58.450', change: '+3.12%', up: true }
+        ];
+
+        tickerContainer.innerHTML = marketItems.map(m => `
+          <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-950/60 border border-slate-800/80 hover:border-slate-700 transition">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full ${m.up ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}"></span>
+              <span class="text-xs font-bold text-slate-200">${m.name}</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-xs">
+              <span class="text-white font-semibold">${m.val}</span>
+              <span class="text-[11px] font-bold ${m.up ? 'text-emerald-400' : 'text-rose-400'}">${m.change}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Portföy Varlık Tablosu
+      const tableBody = document.getElementById('portfolioTableBody');
+      if (tableBody) {
+        if (!data.assets || data.assets.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-500">Portföyünüzde henüz bir hisse bulunmuyor.</td></tr>`;
+        } else {
+          tableBody.innerHTML = data.assets.map(a => {
+            const isAssetProfitable = a.profit >= 0;
+            return `
+              <tr class="hover:bg-slate-850/50 transition-colors">
+                <td class="py-3 px-2 font-bold text-white flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-mono text-[10px] font-black">${a.symbol.slice(0, 2)}</span>
+                  <span>${a.symbol}</span>
+                </td>
+                <td class="py-3 px-2 font-mono text-slate-300">${a.shares}</td>
+                <td class="py-3 px-2 font-mono text-slate-400">${Number(a.buy_price).toFixed(2)} ₺</td>
+                <td class="py-3 px-2 font-mono text-white font-semibold">${Number(a.current_price).toFixed(2)} ₺</td>
+                <td class="py-3 px-2 font-mono font-bold text-slate-100">${Number(a.current_value).toFixed(2)} ₺</td>
+                <td class="py-3 px-2 font-mono font-bold ${isAssetProfitable ? 'text-emerald-400' : 'text-rose-400'}">
+                  ${isAssetProfitable ? '+' : ''}${Number(a.profit).toFixed(2)} ₺ (%${Number(a.profit_percent).toFixed(2)})
+                </td>
+                <td class="py-3 px-2 text-right">
+                  <button onclick="Portal.deleteAsset('${a.id}')" title="Varlığı Sil" class="p-1 text-slate-500 hover:text-rose-400 transition-colors">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      // Halka Arz Radarı
+      const ipoContainer = document.getElementById('ipoListContainer');
+      if (ipoContainer && data.ipos) {
+        ipoContainer.innerHTML = data.ipos.map(ipo => `
+          <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-purple-500/20 hover:border-purple-500/40 transition space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-xs text-white font-mono bg-purple-500/20 px-2 py-0.5 rounded-md border border-purple-500/30 text-purple-300">${ipo.code}</span>
+              <span class="text-[10px] font-mono text-emerald-400 font-bold">${ipo.price}</span>
+            </div>
+            <h4 class="text-xs font-bold text-slate-200 line-clamp-1">${ipo.name}</h4>
+            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800/60 font-mono">
+              <span>📅 ${ipo.date}</span>
+              <span class="text-indigo-300">${ipo.distribution}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    } catch (e) {
+      console.error('Finans verileri yüklenirken hata:', e);
+    }
+  },
+
+  getLocalFallbackFinance() {
+    return {
+      total_value: 65420.00,
+      total_cost: 58000.00,
+      total_profit: 7420.00,
+      total_profit_percent: 12.79,
+      assets: [
+        { id: 'p_1', symbol: 'THYAO', shares: 150, buy_price: 280.50, current_price: 294.50, current_value: 44175.00, cost: 42075.00, profit: 2100.00, profit_percent: 4.99 },
+        { id: 'p_2', symbol: 'ASELS', shares: 200, buy_price: 58.20, current_price: 62.80, current_value: 12560.00, cost: 11640.00, profit: 920.00, profit_percent: 7.90 },
+        { id: 'p_3', symbol: 'ALTIN_GRAM', shares: 15, buy_price: 2650.00, current_price: 2850.20, current_value: 42753.00, cost: 39750.00, profit: 3003.00, profit_percent: 7.55 }
+      ],
+      ipos: [
+        { code: 'DURK', name: 'Durukan Şekerleme Sanayi', date: '11 - 12 Eylül', price: '17.00 ₺', distribution: 'Tamamı Eşit' },
+        { code: 'GNDES', name: 'Gündoğdu Gıda Süt Ürünleri', date: '15 - 16 Eylül', price: '35.00 ₺', distribution: 'Bireysele Eşit' }
+      ]
+    };
+  },
+
+  openAddAssetModal() {
+    const symbolInp = document.getElementById('assetSymbolInput');
+    const sharesInp = document.getElementById('assetSharesInput');
+    const buyPriceInp = document.getElementById('assetBuyPriceInput');
+    if (symbolInp) symbolInp.value = '';
+    if (sharesInp) sharesInp.value = '';
+    if (buyPriceInp) buyPriceInp.value = '';
+    this.openModal('addAssetModal');
+    setTimeout(() => { if (symbolInp) symbolInp.focus(); }, 100);
+  },
+
+  async handleSaveAsset(e) {
+    if (e) e.preventDefault();
+    const symbol = document.getElementById('assetSymbolInput').value.trim().toUpperCase();
+    const shares = parseFloat(document.getElementById('assetSharesInput').value);
+    const buy_price = parseFloat(document.getElementById('assetBuyPriceInput').value);
+
+    if (!symbol || isNaN(shares) || isNaN(buy_price) || shares <= 0 || buy_price <= 0) {
+      this.toast('Lütfen geçerli hisse, lot ve maliyet girin', 'error');
+      return;
+    }
+
+    const res = await this.api('finance&action=add_asset', {
+      method: 'POST',
+      body: JSON.stringify({ symbol, shares, buy_price })
+    });
+
+    this.closeModal('addAssetModal');
+    this.playAudioFeedback('complete');
+    this.toast(`${symbol} portföye eklendi! 📈`, 'success');
+    this.loadFinanceData();
+  },
+
+  async deleteAsset(id) {
+    if (!confirm('Bu varlığı portföyden silmek istediğinize emin misiniz?')) return;
+    await this.api('finance&action=delete_asset', {
+      method: 'POST',
+      body: JSON.stringify({ id })
+    });
+    this.toast('Varlık portföyden silindi', 'info');
+    this.loadFinanceData();
+  },
+
+  // ==========================================================
+  // 4. MOMENTUM & ÜRETKENLİK HUD GÜNCELLEMESİ
   // ==========================================================
   updateProductivityHUD() {
     try {
@@ -154,7 +329,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 4. GÖREVLER & STRATEJİK AKORDİYON MOTORU
+  // 5. GÖREVLER & STRATEJİK AKORDİYON MOTORU
   // ==========================================================
   getLocalTasks() {
     try {
@@ -168,27 +343,18 @@ const Portal = {
             color: 'emerald',
             items: [
               { text: 'Personal OS v4.0 mimarisini incele', done: true },
-              { text: '⌘K komut satırından hızlı eylem fırlat', done: false },
-              { text: 'Kişisel vizyon ve hedefleri belirle', done: false }
+              { text: 'BIST hisse portföyünü yapılandır', done: false },
+              { text: '⌘K komut satırından hızlı eylem fırlat', done: false }
             ]
           },
           {
             id: 'tg_undated',
-            title: 'Stratejik İnovasyon & Ar-Ge',
+            title: 'Stratejik İnovasyon & Finans',
             iconType: 'undated',
             color: 'slate',
             items: [
-              { text: 'Yeni modül entegrasyonlarını planla', done: false },
+              { text: 'Halka arz takvimini takip et', done: false },
               { text: 'Kişisel veri yedeklemesini doğrula', done: true }
-            ]
-          },
-          {
-            id: 'tg_today',
-            title: 'Bugünün Kritik Odakları',
-            iconType: 'red_date',
-            color: 'rose',
-            items: [
-              { text: 'Haftalık mimari değerlendirmesini tamamla', done: false }
             ]
           }
         ];
@@ -363,9 +529,7 @@ const Portal = {
     if (titleInput) titleInput.value = '';
     if (firstItem) firstItem.value = '';
     this.openModal('newTaskModal');
-    setTimeout(() => {
-      if (titleInput) titleInput.focus();
-    }, 100);
+    setTimeout(() => { if (titleInput) titleInput.focus(); }, 100);
   },
 
   handleCreateTaskGroup(e) {
@@ -389,11 +553,11 @@ const Portal = {
     this.closeModal('newTaskModal');
     this.loadTasks();
     this.playAudioFeedback('complete');
-    this.toast(`"${title}" strateji grubu oluşturuldu!`, 'success');
+    this.toast(`"${title}" grubu oluşturuldu!`, 'success');
   },
 
   // ==========================================================
-  // 5. ZİHİN & NOTOSFER (NOTION) DOKÜMANTASYON MOTORU
+  // 6. ZİHİN & NOTOSFER (NOTION) DOKÜMANTASYON MOTORU
   // ==========================================================
   getLocalNotes() {
     try {
@@ -574,7 +738,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 6. NOTION DRAWER & DÜZENLEME
+  // 7. NOTION DRAWER & DÜZENLEME
   // ==========================================================
   handleContentInput(textarea) {
     try {
@@ -625,12 +789,8 @@ const Portal = {
     const content = document.getElementById('notionDrawerContent');
     if (!drawer || !content) return;
     drawer.classList.remove('hidden');
-    setTimeout(() => {
-      content.classList.remove('translate-x-full');
-    }, 10);
-    setTimeout(() => {
-      document.getElementById('drawerNoteTitle').focus();
-    }, 100);
+    setTimeout(() => { content.classList.remove('translate-x-full'); }, 10);
+    setTimeout(() => { document.getElementById('drawerNoteTitle').focus(); }, 100);
   },
 
   closeNoteDrawer() {
@@ -638,9 +798,7 @@ const Portal = {
     const content = document.getElementById('notionDrawerContent');
     if (!drawer || !content) return;
     content.classList.add('translate-x-full');
-    setTimeout(() => {
-      drawer.classList.add('hidden');
-    }, 250);
+    setTimeout(() => { drawer.classList.add('hidden'); }, 250);
   },
 
   cycleNoteIcon() {
@@ -728,12 +886,13 @@ const Portal = {
   },
 
   // ==========================================================
-  // 7. MENÜ & SAYFA YÖNETİMİ
+  // 8. MENÜ & SAYFA YÖNETİMİ
   // ==========================================================
   getLocalMenus() {
     try {
       const def = [
         { id: 'dashboard', label: 'Ana Sayfa & Matris', icon: 'layout-dashboard', is_active: 1, desc: 'Eylem ve not çalışma alanı' },
+        { id: 'finance', label: 'Borsa & Portföy Terminali', icon: 'trending-up', is_active: 1, desc: 'Canlı BIST, Kâr/Zarar ve Halka Arz' },
         { id: 'admin', label: 'Geliştirici & Modüller', icon: 'terminal', is_active: 1, desc: 'Sayfa ve modül yapılandırma merkezi' }
       ];
       return JSON.parse(localStorage.getItem('portal_menu_pool') || JSON.stringify(def));
@@ -762,7 +921,7 @@ const Portal = {
             title="${this.escapeHtml(m.label)}" 
             class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer ${isActive ? 'active-nav bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-800/60'}"
           >
-            <i data-lucide="${m.icon || 'folder'}" class="w-4 h-4 flex-shrink-0 ${m.id === 'admin' ? 'text-purple-400' : ''}"></i>
+            <i data-lucide="${m.icon || 'folder'}" class="w-4 h-4 flex-shrink-0 ${m.id === 'finance' ? 'text-emerald-400' : m.id === 'admin' ? 'text-purple-400' : ''}"></i>
             <span class="truncate sidebar-text">${this.escapeHtml(m.label)}</span>
           </button>
         `;
@@ -829,9 +988,7 @@ const Portal = {
     const descInput = document.getElementById('newMenuDesc');
     if (descInput) descInput.value = '';
     this.openModal('newMenuModal');
-    setTimeout(() => {
-      if (labelInput) labelInput.focus();
-    }, 100);
+    setTimeout(() => { if (labelInput) labelInput.focus(); }, 100);
   },
 
   handleCreateMenu(e) {
@@ -867,9 +1024,7 @@ const Portal = {
       this.loadMenuPool();
       this.toast(`"${label}" modülü oluşturuldu!`, 'success');
       
-      setTimeout(() => {
-        this.switchTab(id);
-      }, 200);
+      setTimeout(() => { this.switchTab(id); }, 200);
     } catch (err) {
       console.error('Menü oluşturma hatası:', err);
       this.toast('Modül oluşturulamadı', 'error');
@@ -894,7 +1049,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 8. SENTINEL OS & CANLI DERİN TARAMA
+  // 9. SENTINEL OS & CANLI DERİN TARAMA
   // ==========================================================
   async runSentinelCheck() {
     const term = document.getElementById('sentinelTerminalOutput');
@@ -951,7 +1106,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 9. YEDEKLEME VE SIFIRLAMA
+  // 10. YEDEKLEME VE SIFIRLAMA
   // ==========================================================
   exportBackup() {
     try {
@@ -1017,7 +1172,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 10. KALICI OTURUM KONTROLÜ
+  // 11. KALICI OTURUM KONTROLÜ
   // ==========================================================
   checkPersistentAuth() {
     try {
@@ -1079,7 +1234,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 11. SEKME & SAYFA YÖNLENDİRİCİ
+  // 12. SEKME & SAYFA YÖNLENDİRİCİ
   // ==========================================================
   switchTab(tabId) {
     try {
@@ -1092,6 +1247,10 @@ const Portal = {
 
       const navBtn = document.getElementById('nav-btn-' + tabId);
       if (navBtn) navBtn.classList.add('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30');
+
+      if (tabId === 'finance') {
+        this.loadFinanceData();
+      }
 
       this.closeMobileSidebar();
       if (window.lucide) window.lucide.createIcons();
@@ -1144,6 +1303,10 @@ const Portal = {
           const taskModal = document.getElementById('newTaskModal');
           if (taskModal && !taskModal.classList.contains('hidden')) {
             this.closeModal('newTaskModal');
+          }
+          const assetModal = document.getElementById('addAssetModal');
+          if (assetModal && !assetModal.classList.contains('hidden')) {
+            this.closeModal('addAssetModal');
           }
         }
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {

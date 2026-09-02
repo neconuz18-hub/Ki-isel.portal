@@ -463,6 +463,109 @@
                 </div>
             </div>
 
+            
+            <!-- TAB 3: BORSA & PORTFÖY YÖNETİM TERMİNALİ (MİDAS / MATRİKS SEVİYESİ) -->
+            <div id="tab-finance" class="tab-pane hidden space-y-6">
+                <!-- ÜST BRİFİNG & TOPLAM PORTFÖY DEĞERİ KARTI -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 glass-card p-6 rounded-3xl border border-slate-800 flex flex-col justify-between bg-gradient-to-r from-slate-900/90 via-blue-950/20 to-slate-900/90">
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-800/80">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                                    <i data-lucide="wallet" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-extrabold text-white">Toplam Portföy Büyüklüğü</h2>
+                                    <span class="text-xs text-slate-400">BIST, Emtia ve Likit Varlıklar</span>
+                                </div>
+                            </div>
+                            <button onclick="Portal.openAddAssetModal()" class="px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Hisse / Varlık Ekle</span>
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
+                            <div>
+                                <span class="text-xs text-slate-400 uppercase font-mono tracking-wider">Güncel Değer</span>
+                                <h3 id="financeTotalValue" class="text-2xl sm:text-3xl font-black text-white font-mono mt-1">0,00 ₺</h3>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 uppercase font-mono tracking-wider">Toplam Maliyet</span>
+                                <h3 id="financeTotalCost" class="text-xl font-bold text-slate-300 font-mono mt-1">0,00 ₺</h3>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 uppercase font-mono tracking-wider">Toplam Kâr / Zarar</span>
+                                <div id="financeProfitBadge" class="flex items-center gap-2 mt-1">
+                                    <h3 id="financeTotalProfit" class="text-xl font-extrabold font-mono text-emerald-400">+0,00 ₺</h3>
+                                    <span id="financeProfitPercent" class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">+%0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PİYASA RADARI (BIST 100, ALTIN, DOLAR) -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-3 flex flex-col justify-between">
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
+                            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="activity" class="w-4 h-4 text-blue-400"></i> Piyasa Nabzı
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-mono" id="financeMarketUpdateTime">Canlı</span>
+                        </div>
+                        <div class="space-y-2.5" id="financeMarketTickers">
+                            <!-- Canlı Tickerlar -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PORTFÖYDEKİ HİSSELER & HALKA ARZ RADARI -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                    
+                    <!-- SOL: PORTFÖY VARLIK TABLOSU (2 KOLON) -->
+                    <div class="lg:col-span-2 glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i> Portföyümdeki Varlıklar
+                            </h3>
+                            <span class="text-xs text-slate-400" id="financeAssetCount">0 Varlık</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400 uppercase font-mono text-[10px]">
+                                        <th class="py-3 px-2">Hisse / Varlık</th>
+                                        <th class="py-3 px-2">Adet</th>
+                                        <th class="py-3 px-2">Ort. Maliyet</th>
+                                        <th class="py-3 px-2">Anlık Fiyat</th>
+                                        <th class="py-3 px-2">Toplam Tutar</th>
+                                        <th class="py-3 px-2">Kâr / Zarar</th>
+                                        <th class="py-3 px-2 text-right">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="portfolioTableBody" class="divide-y divide-slate-800/60 font-sans">
+                                    <!-- Dinamik Varlık Satırları -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SAĞ: GÜNCEL HALKA ARZ TAKVİMİ (1 KOLON) -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="rocket" class="w-4 h-4 text-purple-400"></i> Halka Arz Radarı
+                            </h3>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono">BIST IPO</span>
+                        </div>
+                        <div class="space-y-3" id="ipoListContainer">
+                            <!-- Dinamik Halka Arzlar -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <!-- DİNAMİK ÖZEL SAYFA ALANI -->
             <div id="dynamicPageContainer"></div>
 
@@ -634,6 +737,48 @@
                     </button>
                     <button type="submit" class="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold cursor-pointer shadow-lg shadow-blue-500/20">
                         Oluştur
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <!-- 8. MODAL: PORTFÖYE HİSSE / VARLIK EKLE -->
+    <div id="addAssetModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="font-bold text-base text-white flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-400"></i> Portföye Hisse / Varlık Ekle
+                </h3>
+                <button onclick="Portal.closeModal('addAssetModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form onsubmit="Portal.handleSaveAsset(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="font-bold text-slate-300 block mb-1">Hisse Sembolü (Örn: THYAO, ASELS, ALTIN_GRAM, GARAN) *</label>
+                    <input type="text" id="assetSymbolInput" required placeholder="THYAO" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 uppercase font-mono font-bold focus:outline-none focus:border-emerald-500 text-sm">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-300 block mb-1">Lot / Adet *</label>
+                        <input type="number" step="any" id="assetSharesInput" required placeholder="100" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-300 block mb-1">Alış Maliyeti (₺) *</label>
+                        <input type="number" step="any" id="assetBuyPriceInput" required placeholder="280.50" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="Portal.closeModal('addAssetModal')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold cursor-pointer">
+                        İptal
+                    </button>
+                    <button type="submit" class="px-6 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer shadow-lg shadow-emerald-500/20">
+                        Portföye Ekle
                     </button>
                 </div>
             </form>
