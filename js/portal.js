@@ -651,7 +651,139 @@ window.Portal = {
     };
   },
 
-  openAddAssetModal() {
+  
+  // ==========================================================
+  // 6.1 CANLI HİSSE & EMTİA KATALOĞU (MİDAS AUTOCOMPLETE)
+  // ==========================================================
+  bistCatalog: [
+    { symbol: 'THYAO', name: 'Türk Hava Yolları', price: 312.50, sector: 'Ulaştırma', change: '+2.14%' },
+    { symbol: 'ASELS', name: 'Aselsan Savunma Sanayii', price: 64.80, sector: 'Savunma', change: '+1.80%' },
+    { symbol: 'GARAN', name: 'Garanti BBVA', price: 122.40, sector: 'Bankacılık', change: '+0.75%' },
+    { symbol: 'AKBNK', name: 'Akbank T.A.Ş.', price: 58.90, sector: 'Bankacılık', change: '-0.30%' },
+    { symbol: 'ISCTR', name: 'Türkiye İş Bankası (C)', price: 14.85, sector: 'Bankacılık', change: '+1.20%' },
+    { symbol: 'YKBNK', name: 'Yapı ve Kredi Bankası', price: 32.10, sector: 'Bankacılık', change: '+0.50%' },
+    { symbol: 'TUPRS', name: 'Tüpraş Petrol Rafinerileri', price: 172.30, sector: 'Enerji / Petrol', change: '+1.45%' },
+    { symbol: 'KCHOL', name: 'Koç Holding', price: 218.00, sector: 'Holding', change: '+0.90%' },
+    { symbol: 'SAHOL', name: 'Sabancı Holding', price: 96.50, sector: 'Holding', change: '+1.10%' },
+    { symbol: 'EREGL', name: 'Ereğli Demir ve Çelik', price: 52.40, sector: 'Demir Çelik', change: '-0.40%' },
+    { symbol: 'SISE', name: 'Şişecam Fabrikaları', price: 48.60, sector: 'Sanayi / Cam', change: '+0.80%' },
+    { symbol: 'BIMAS', name: 'BİM Birleşik Mağazalar', price: 545.00, sector: 'Perakende', change: '+1.60%' },
+    { symbol: 'MGROS', name: 'Migros Ticaret', price: 492.50, sector: 'Perakende', change: '+2.40%' },
+    { symbol: 'FROTO', name: 'Ford Otosan', price: 1085.00, sector: 'Otomotiv', change: '+0.60%' },
+    { symbol: 'TOASO', name: 'Tofaş Türk Otomobil', price: 235.00, sector: 'Otomotiv', change: '-1.10%' },
+    { symbol: 'ASTOR', name: 'Astor Enerji', price: 94.20, sector: 'Enerji', change: '+3.20%' },
+    { symbol: 'PETKM', name: 'Petkim Petrokimya', price: 22.80, sector: 'Kimya', change: '+0.40%' },
+    { symbol: 'SASA', name: 'Sasa Polyester', price: 4.85, sector: 'Kimya', change: '-0.80%' },
+    { symbol: 'EKGYO', name: 'Emlak Konut GYO', price: 11.20, sector: 'GYO', change: '+2.00%' },
+    { symbol: 'PGSUS', name: 'Pegasus Hava Taşımacılığı', price: 242.00, sector: 'Ulaştırma', change: '+1.90%' },
+    { symbol: 'ALTIN_GRAM', name: 'Gram Altın (24 Ayar)', price: 2865.40, sector: 'Kıymetli Maden', change: '+0.85%' },
+    { symbol: 'CEYREK_ALTIN', name: 'Çeyrek Altın', price: 4680.00, sector: 'Kıymetli Maden', change: '+0.85%' },
+    { symbol: 'USD_TRY', name: 'Amerikan Doları / TL', price: 34.22, sector: 'Döviz', change: '+0.12%' },
+    { symbol: 'EUR_TRY', name: 'Euro / TL', price: 37.85, sector: 'Döviz', change: '+0.18%' },
+    { symbol: 'BTC_USD', name: 'Bitcoin / USD', price: 59200.00, sector: 'Kripto', change: '+2.80%' }
+  ],
+
+  handleStockSearch(query) {
+    const dropdown = document.getElementById('stockSearchDropdown');
+    if (!dropdown) return;
+
+    query = (query || '').trim().toLowerCase();
+    let matches = this.bistCatalog;
+    if (query) {
+      matches = this.bistCatalog.filter(s => 
+        s.symbol.toLowerCase().includes(query) || 
+        s.name.toLowerCase().includes(query) ||
+        s.sector.toLowerCase().includes(query)
+      );
+    }
+
+    if (matches.length === 0) {
+      dropdown.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs">Eşleşen hisse veya varlık bulunamadı.</div>`;
+      dropdown.classList.remove('hidden');
+      return;
+    }
+
+    dropdown.innerHTML = matches.map(s => `
+      <div 
+        onclick="Portal.selectStockAsset('${s.symbol}', '${this.escapeHtml(s.name)}', ${s.price})" 
+        class="p-3 hover:bg-slate-850 cursor-pointer flex items-center justify-between transition-colors group"
+      >
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 group-hover:bg-emerald-500 group-hover:text-slate-950 flex items-center justify-center font-mono text-xs font-black transition-colors">
+            ${s.symbol.slice(0, 2)}
+          </span>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-white text-xs">${s.symbol}</span>
+              <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.2 rounded">${s.sector}</span>
+            </div>
+            <p class="text-[11px] text-slate-400 truncate max-w-[200px]">${s.name}</p>
+          </div>
+        </div>
+        <div class="text-right font-mono">
+          <div class="text-xs font-bold text-white">${Number(s.price).toFixed(2)} ₺</div>
+          <span class="text-[10px] font-bold ${s.change.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'}">${s.change}</span>
+        </div>
+      </div>
+    `).join('');
+
+    dropdown.classList.remove('hidden');
+  },
+
+  selectStockAsset(symbol, name, price) {
+    const symbolInput = document.getElementById('assetSymbolInput');
+    const searchInput = document.getElementById('assetSearchInput');
+    const buyPriceInput = document.getElementById('assetBuyPriceInput');
+    const dropdown = document.getElementById('stockSearchDropdown');
+    const selectedCard = document.getElementById('selectedAssetCard');
+    const selectedBadge = document.getElementById('selectedAssetBadge');
+    const selectedName = document.getElementById('selectedAssetName');
+    const selectedPrice = document.getElementById('selectedAssetPrice');
+
+    if (symbolInput) symbolInput.value = symbol;
+    if (searchInput) searchInput.value = `${symbol} - ${name}`;
+    if (buyPriceInput) buyPriceInput.value = Number(price).toFixed(2);
+    if (dropdown) dropdown.classList.add('hidden');
+
+    if (selectedCard) {
+      selectedCard.classList.remove('hidden');
+      if (selectedBadge) selectedBadge.textContent = symbol.slice(0, 2);
+      if (selectedName) selectedName.textContent = `${symbol} — ${name}`;
+      if (selectedPrice) selectedPrice.textContent = `Güncel Piyasa Fiyatı: ${Number(price).toFixed(2)} ₺`;
+    }
+
+    const sharesInput = document.getElementById('assetSharesInput');
+    if (sharesInput) {
+      sharesInput.focus();
+      sharesInput.select();
+    }
+    this.playAudioFeedback('click');
+  },
+
+openAddAssetModal() {
+    const searchInput = document.getElementById('assetSearchInput');
+    const symbolInput = document.getElementById('assetSymbolInput');
+    const sharesInput = document.getElementById('assetSharesInput');
+    const buyPriceInput = document.getElementById('assetBuyPriceInput');
+    const selectedCard = document.getElementById('selectedAssetCard');
+    const dropdown = document.getElementById('stockSearchDropdown');
+
+    if (searchInput) searchInput.value = '';
+    if (symbolInput) symbolInput.value = '';
+    if (sharesInput) sharesInput.value = '100';
+    if (buyPriceInput) buyPriceInput.value = '';
+    if (selectedCard) selectedCard.classList.add('hidden');
+    if (dropdown) dropdown.classList.add('hidden');
+
+    this.openModal('addAssetModal');
+    setTimeout(() => {
+      if (searchInput) {
+        searchInput.focus();
+        this.handleStockSearch('');
+      }
+    }, 100);
+  },
+
     const symbolInp = document.getElementById('assetSymbolInput');
     const sharesInp = document.getElementById('assetSharesInput');
     const buyPriceInp = document.getElementById('assetBuyPriceInput');

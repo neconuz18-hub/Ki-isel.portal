@@ -1,0 +1,188 @@
+[
+  {
+    "symbol": "THYAO",
+    "name": "Türk Hava Yolları",
+    "sector": "Ulaştırma",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "ASELS",
+    "name": "Aselsan Elektronik Sanayi",
+    "sector": "Savunma / Teknoloji",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "GARAN",
+    "name": "Garanti BBVA",
+    "sector": "Bankacılık",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "AKBNK",
+    "name": "Akbank T.A.Ş.",
+    "sector": "Bankacılık",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "ISCTR",
+    "name": "Türkiye İş Bankası (C)",
+    "sector": "Bankacılık",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "YKBNK",
+    "name": "Yapı ve Kredi Bankası",
+    "sector": "Bankacılık",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "TUPRS",
+    "name": "Tüpraş Türkiye Petrol Rafinerileri",
+    "sector": "Enerji / Petrol",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "KCHOL",
+    "name": "Koç Holding",
+    "sector": "Holding",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "SAHOL",
+    "name": "Sabancı Holding",
+    "sector": "Holding",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "EREGL",
+    "name": "Ereğli Demir ve Çelik Fabrikaları",
+    "sector": "Metal / Sanayi",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "SISE",
+    "name": "Türkiye Şişe ve Cam Fabrikaları",
+    "sector": "Cam / Sanayi",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "BIMAS",
+    "name": "BİM Birleşik Mağazalar",
+    "sector": "Perakende",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "MGROS",
+    "name": "Migros Ticaret A.Ş.",
+    "sector": "Perakende",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "FROTO",
+    "name": "Ford Otosan",
+    "sector": "Otomotiv",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "TOASO",
+    "name": "Tofaş Türk Otomobil Fabrikası",
+    "sector": "Otomotiv",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "PETKM",
+    "name": "Petkim Petrokimya",
+    "sector": "Kimya / Petrol",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "ASTOR",
+    "name": "Astor Enerji A.Ş.",
+    "sector": "Enerji",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "ENKAI",
+    "name": "Enka İnşaat ve Sanayi",
+    "sector": "İnşaat / Holding",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "SASA",
+    "name": "Sasa Polyester Sanayi",
+    "sector": "Kimya / Tekstil",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "HEKTS",
+    "name": "Hektaş Ticaret T.A.Ş.",
+    "sector": "Tarım / Kimya",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "EKGYO",
+    "name": "Emlak Konut GYO",
+    "sector": "GYO",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "KOZAL",
+    "name": "Koza Altın İşletmeleri",
+    "sector": "Madencilik",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "KRDMD",
+    "name": "Kardemir Karabük Demir Çelik (D)",
+    "sector": "Demir Çelik",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "PGSUS",
+    "name": "Pegasus Hava Taşımacılığı",
+    "sector": "Ulaştırma",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "TCELL",
+    "name": "Turkcell İletişim Hizmetleri",
+    "sector": "Telekomünikasyon",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "TTKOM",
+    "name": "Türk Telekomünikasyon",
+    "sector": "Telekomünikasyon",
+    "type": "Hisse"
+  },
+  {
+    "symbol": "ALTIN_GRAM",
+    "name": "Gram Altın (24 Ayar)",
+    "sector": "Kıymetli Maden",
+    "type": "Emtia"
+  },
+  {
+    "symbol": "CEYREK_ALTIN",
+    "name": "Çeyrek Altın",
+    "sector": "Kıymetli Maden",
+    "type": "Emtia"
+  },
+  {
+    "symbol": "USD_TRY",
+    "name": "Amerikan Doları / TL",
+    "sector": "Döviz",
+    "type": "Döviz"
+  },
+  {
+    "symbol": "EUR_TRY",
+    "name": "Euro / TL",
+    "sector": "Döviz",
+    "type": "Döviz"
+  },
+  {
+    "symbol": "BTC_USD",
+    "name": "Bitcoin / USD",
+    "sector": "Kripto Varlık",
+    "type": "Kripto"
+  }
+]

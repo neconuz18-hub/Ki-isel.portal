@@ -785,6 +785,89 @@
         </div>
     </div>
 
+    
+    <!-- 8. MODAL: PORTFÖYE HİSSE / VARLIK EKLE (MİDAS AUTOCOMPLETE) -->
+    <div id="addAssetModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-white">Portföye Hisse / Varlık Ekle</h3>
+                        <p class="text-[11px] text-slate-400">Şirket adı veya hisse koduyla arayın (Örn: THYAO, Altın, ASELS)</p>
+                    </div>
+                </div>
+                <button onclick="Portal.closeModal('addAssetModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form onsubmit="Portal.handleSaveAsset(event)" class="space-y-4 text-xs">
+                <!-- AKILLI ARAMA KUTUSU & DROPDOWN -->
+                <div class="relative">
+                    <label class="font-bold text-slate-300 block mb-1">Hisse veya Varlık Ara *</label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="assetSearchInput" 
+                            autocomplete="off"
+                            oninput="Portal.handleStockSearch(this.value)"
+                            onfocus="Portal.handleStockSearch(this.value)"
+                            placeholder="Şirket adı veya kod yazın (Örn: Türk Hava, ASELS, Altın)..." 
+                            class="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-slate-100 font-bold focus:outline-none focus:border-emerald-500 text-sm shadow-inner"
+                        >
+                        <input type="hidden" id="assetSymbolInput">
+                        <span class="absolute right-3.5 top-3.5 text-slate-500">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- CANLI AUTOCOMPLETE LİSTESİ -->
+                    <div id="stockSearchDropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-slate-950 border border-slate-700/90 rounded-2xl shadow-2xl max-h-60 overflow-y-auto z-50 divide-y divide-slate-850">
+                        <!-- portal.js tarafından canlı doldurulur -->
+                    </div>
+                </div>
+
+                <!-- SEÇİLEN VARLIK ÖZET KARTI -->
+                <div id="selectedAssetCard" class="hidden p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 font-black flex items-center justify-center font-mono text-xs" id="selectedAssetBadge">
+                            TH
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-xs" id="selectedAssetName">Türk Hava Yolları</h4>
+                            <span class="text-[10px] text-emerald-400 font-mono font-bold" id="selectedAssetPrice">Anlık: 312,50 ₺</span>
+                        </div>
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono">Seçildi ✓</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-bold text-slate-300 block mb-1">Lot / Adet *</label>
+                        <input type="number" step="any" id="assetSharesInput" required placeholder="100" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-300 block mb-1">Alış Maliyeti (₺) *</label>
+                        <input type="number" step="any" id="assetBuyPriceInput" required placeholder="Otomatik doldurulur" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="Portal.closeModal('addAssetModal')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold cursor-pointer">
+                        İptal
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer shadow-lg shadow-emerald-500/25 flex items-center gap-1.5">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>Portföye Kaydet</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Toast Bildirimleri -->
     <div id="toastContainer" class="fixed bottom-6 left-6 z-50 space-y-2 pointer-events-none"></div>
 
