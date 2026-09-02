@@ -1,5 +1,10 @@
 # 🛡️ KİŞİSEL PORTAL: GELİŞTİRME & DENETLEME PROTOKOLÜ (V1.0 ENTERPRISE)
 
+> ### 🏛️ ANAYASAL KURAL (Madde 0: Özgün Mimari ve İlham İlkesi)
+> Referans alınan görseller, şablonlar veya örnek sistemler **yalnızca ergonomi, fikir ve geliştirilebilirlik yönlendirmesi içindir.**
+> Hiçbir tasarım, metin veya bileşen birebir kopyalanmaz. Her modül, Kişisel Portal'ın kendi vizyonuna, özgün mühendislik yapısına ve daha ileri düzey inovasyonlarına göre sıfırdan inşa edilir. Emek, zaman ve özgünlük esastır.
+
+---
 Bu protokol, Kişisel Portal projesinde yapılacak her yeni güncellemenin, menü eklemesinin veya mimari değişikliğin sistem iskeletini bozmadan, en yüksek kalite ve güvenlik standartlarında uygulanmasını garanti eder.
 
 ---

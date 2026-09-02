@@ -86,7 +86,7 @@ const Portal = {
         const initial = [
           {
             id: 'tg_portal',
-            title: 'PORTAL YAPILACAKLAR',
+            title: 'Öncelikli Eylemler & Odak',
             iconType: 'pin', // 'pin' | 'undated' | 'red_date' | 'purple_date'
             color: 'emerald',
             items: [
