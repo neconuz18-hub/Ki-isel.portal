@@ -2,51 +2,162 @@ const Portal = {
   currentTab: 'dashboard',
   noteIcons: ['📝', '💡', '🚀', '📌', '⚡', '🎯', '📊', '🔥', '🌟', '📚'],
   currentIconIndex: 0,
+  minimizedWidgets: JSON.parse(localStorage.getItem('portal_minimized_widgets') || '[]'),
   
   init() {
+    this.checkPersistentAuth();
     this.initClock();
     this.loadNotes();
     this.loadMenuPool();
-    this.loadUsers();
+    this.renderFloatingWidgetDock();
     if (window.lucide) window.lucide.createIcons();
   },
 
-  async api(endpoint, options = {}) {
-    try {
-      const res = await fetch(`/api/index.php?endpoint=${endpoint}`, {
-        headers: { 'Content-Type': 'application/json' },
-        ...options
-      });
-      const json = await res.json();
-      if (!json.success && json.message) {
-        this.toast(json.message, 'error');
+  checkPersistentAuth() {
+    const session = JSON.parse(localStorage.getItem('portal_active_session') || 'null');
+    const overlay = document.getElementById('gatewayOverlay');
+    const badgeName = document.getElementById('headerUserName');
+
+    if (session && session.authenticated) {
+      if (overlay) overlay.classList.add('hidden');
+      if (badgeName) badgeName.textContent = session.name || (session.role === 'ADMIN' ? 'Sistem Yöneticisi' : 'Misafir Kullanıcı');
+      
+      if (session.role !== 'ADMIN') {
+        const adminNav = document.getElementById('nav-btn-admin');
+        if (adminNav) adminNav.classList.add('hidden');
+      } else {
+        const adminNav = document.getElementById('nav-btn-admin');
+        if (adminNav) adminNav.classList.remove('hidden');
       }
-      return json;
-    } catch (e) {
-      console.error('API Error:', e);
-      return { success: false, message: 'Sunucuya bağlanılamadı' };
+    } else {
+      if (overlay) overlay.classList.remove('hidden');
     }
   },
 
-  async loadNotes() {
-    const res = await this.api('notes');
-    if (!res.success) return;
-    const notes = res.data || [];
+  loginGuest() {
+    const session = {
+      authenticated: true,
+      role: 'USER',
+      name: 'Misafir Kullanıcı',
+      id: 'guest_' + Date.now()
+    };
+    localStorage.setItem('portal_active_session', JSON.stringify(session));
+    const overlay = document.getElementById('gatewayOverlay');
+    if (overlay) overlay.classList.add('hidden');
+    this.toast('Hoş geldiniz! (Misafir Girişi)', 'success');
+    this.checkPersistentAuth();
+  },
+
+  promptAdminLogin() {
+    const pin = prompt('Yönetici PIN Kodunu Giriniz (1234):');
+    if (pin === '1234') {
+      const session = {
+        authenticated: true,
+        role: 'ADMIN',
+        name: 'Sistem Yöneticisi',
+        id: 'admin'
+      };
+      localStorage.setItem('portal_active_session', JSON.stringify(session));
+      const overlay = document.getElementById('gatewayOverlay');
+      if (overlay) overlay.classList.add('hidden');
+      this.toast('Yönetici girişi başarılı!', 'success');
+      this.checkPersistentAuth();
+    } else if (pin) {
+      alert('Hatalı PIN!');
+    }
+  },
+
+  logout() {
+    localStorage.removeItem('portal_active_session');
+    const overlay = document.getElementById('gatewayOverlay');
+    if (overlay) overlay.classList.remove('hidden');
+    this.toast('Oturum kapatıldı', 'info');
+  },
+
+  // YÜZEN BALONCUK DOCK
+  minimizeWidget(id, label = 'Widget') {
+    if (!this.minimizedWidgets.find(w => w.id === id)) {
+      this.minimizedWidgets.push({ id, label });
+      localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
+    }
+    const wrapper = document.getElementById(id + 'WidgetWrapper');
+    if (wrapper) wrapper.classList.add('hidden');
+    this.renderFloatingWidgetDock();
+    this.toast(`${label} sağ alt baloncuk paneline eklendi`, 'info');
+  },
+
+  restoreWidget(id) {
+    this.minimizedWidgets = this.minimizedWidgets.filter(w => w.id !== id);
+    localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
+    const wrapper = document.getElementById(id + 'WidgetWrapper');
+    if (wrapper) {
+      wrapper.classList.remove('hidden');
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    this.renderFloatingWidgetDock();
+    this.toast('Widget eski yerine geri açıldı!', 'success');
+  },
+
+  renderFloatingWidgetDock() {
+    const dock = document.getElementById('floatingWidgetDock');
+    if (!dock) return;
+
+    if (this.minimizedWidgets.length === 0) {
+      dock.innerHTML = '';
+      dock.classList.add('hidden');
+      return;
+    }
+
+    dock.classList.remove('hidden');
+    dock.innerHTML = `
+      <div class="flex flex-col items-end gap-2">
+        <div class="text-[10px] font-bold text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-700/80 shadow-lg">
+          Küçültülen Widget'lar
+        </div>
+        ${this.minimizedWidgets.map(w => `
+          <button 
+            type="button" 
+            onclick="Portal.restoreWidget('${w.id}')" 
+            class="floating-pill flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600/90 to-indigo-600/90 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer border border-blue-400/40 group"
+            title="Geri açmak için tıklayın"
+          >
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>${w.label || w.id}</span>
+            <i data-lucide="maximize-2" class="w-3.5 h-3.5 opacity-70 group-hover:opacity-100"></i>
+          </button>
+        `).join('')}
+      </div>
+    `;
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  // NOTION NOTLAR MOTORU
+  getLocalNotes() {
+    return JSON.parse(localStorage.getItem('portal_notion_notes') || '[]');
+  },
+
+  saveLocalNotes(notes) {
+    localStorage.setItem('portal_notion_notes', JSON.stringify(notes));
+  },
+
+  loadNotes() {
+    let notes = this.getLocalNotes();
     const grid = document.getElementById('notionNotesGrid');
     if (!grid) return;
 
     if (notes.length === 0) {
-      grid.innerHTML = `
-        <div class="col-span-full py-16 text-center rounded-3xl border border-dashed border-slate-800 bg-slate-900/30">
-          <span class="text-4xl block mb-3">📝</span>
-          <h3 class="text-base font-bold text-slate-300 mb-1">Henüz bir not oluşturulmadı</h3>
-          <p class="text-xs text-slate-500 mb-4 max-w-sm mx-auto">Notion ergonomisine sahip ilk notunuzu eklemek için yukarıdaki butona tıklayın.</p>
-          <button onclick="Portal.openNewNoteDrawer()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all cursor-pointer">
-            + İlk Notu Yaz
-          </button>
-        </div>
-      `;
-      return;
+      notes = [
+        {
+          id: 'note_demo_1',
+          title: 'Notion Çalışma Alanına Hoş Geldiniz 🚀',
+          content: 'Bu zengin not alanında düşüncelerinizi, şablonlarınızı ve yapılacaklar listelerinizi tutabilirsiniz.\n\n[x] Notion tarzı blokları test et\n[ ] Yeni not ekle butonuna bas\n[ ] İkon ve renk seç',
+          icon: '✨',
+          color: 'blue',
+          pinned: 1,
+          updated_at: new Date().toISOString()
+        }
+      ];
+      this.saveLocalNotes(notes);
     }
 
     const colorGradients = {
@@ -104,10 +215,10 @@ const Portal = {
     this.showNoteDrawer();
   },
 
-  async openEditNoteDrawer(id) {
-    const res = await this.api(`notes&id=${id}`);
-    if (!res.success || !res.data) return;
-    const n = res.data;
+  openEditNoteDrawer(id) {
+    const notes = this.getLocalNotes();
+    const n = notes.find(item => item.id === id);
+    if (!n) return;
 
     document.getElementById('drawerNoteId').value = n.id;
     document.getElementById('drawerNoteTitle').value = n.title;
@@ -157,7 +268,7 @@ const Portal = {
     const pinInput = document.getElementById('drawerNotePinned');
     const newVal = pinInput.value === '1' ? '0' : '1';
     pinInput.value = newVal;
-    this.toast(newVal === '1' ? 'Not tepeye sabitlenecek' : 'Sabitleme kaldırıldı', 'info');
+    this.toast(newVal === '1' ? 'Not tepeye sabitlendi' : 'Sabitleme kaldırıldı', 'info');
   },
 
   insertNoteTemplate(type) {
@@ -174,7 +285,7 @@ const Portal = {
     contentArea.focus();
   },
 
-  async saveDrawerNote(e) {
+  saveDrawerNote(e) {
     if (e) e.preventDefault();
     const id = document.getElementById('drawerNoteId').value;
     const title = document.getElementById('drawerNoteTitle').value.trim();
@@ -183,41 +294,52 @@ const Portal = {
     const color = document.getElementById('drawerNoteColor').value;
     const pinned = parseInt(document.getElementById('drawerNotePinned').value) || 0;
 
-    const action = id ? 'update' : 'create';
-    const payload = { action, id, title, content, icon, color, pinned };
+    let notes = this.getLocalNotes();
 
-    const res = await this.api('notes', {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    });
-
-    if (res.success) {
-      this.closeNoteDrawer();
-      this.loadNotes();
-      this.toast(id ? 'Not güncellendi' : 'Yeni not kaydedildi', 'success');
+    if (id) {
+      notes = notes.map(n => n.id === id ? { ...n, title: title || 'Başlıksız Not', content, icon, color, pinned, updated_at: new Date().toISOString() } : n);
+    } else {
+      notes.unshift({
+        id: 'note_' + Date.now(),
+        title: title || 'Başlıksız Not',
+        content,
+        icon,
+        color,
+        pinned,
+        updated_at: new Date().toISOString()
+      });
     }
+
+    this.saveLocalNotes(notes);
+    this.closeNoteDrawer();
+    this.loadNotes();
+    this.toast(id ? 'Not güncellendi' : 'Yeni not oluşturuldu', 'success');
   },
 
-  async deleteDrawerNote() {
+  deleteDrawerNote() {
     const id = document.getElementById('drawerNoteId').value;
     if (!id || !confirm('Bu notu silmek istediğinize emin misiniz?')) return;
 
-    const res = await this.api('notes', {
-      method: 'POST',
-      body: JSON.stringify({ action: 'delete', id })
-    });
+    let notes = this.getLocalNotes();
+    notes = notes.filter(n => n.id !== id);
+    this.saveLocalNotes(notes);
 
-    if (res.success) {
-      this.closeNoteDrawer();
-      this.loadNotes();
-      this.toast('Not silindi', 'info');
-    }
+    this.closeNoteDrawer();
+    this.loadNotes();
+    this.toast('Not silindi', 'info');
   },
 
-  async loadMenuPool() {
-    const res = await this.api('menus');
-    if (!res.success) return;
-    const menus = res.data || [];
+  // MENÜ HAVUZU
+  getLocalMenus() {
+    const def = [
+      { id: 'dashboard', label: 'Ana Sayfa & Notlar', icon: 'layout-dashboard', is_active: 1, desc: 'Notion not çalışma alanı' },
+      { id: 'admin', label: 'Geliştirici & Menü Havuzu', icon: 'terminal', is_active: 1, desc: 'Sayfa yapılandırma merkezi' }
+    ];
+    return JSON.parse(localStorage.getItem('portal_menu_pool') || JSON.stringify(def));
+  },
+
+  loadMenuPool() {
+    const menus = this.getLocalMenus();
     const grid = document.getElementById('adminMenuPoolGrid');
     if (!grid) return;
 
@@ -229,7 +351,7 @@ const Portal = {
           </div>
           <div class="min-w-0">
             <h4 class="text-xs font-bold text-white truncate">${m.label}</h4>
-            <p class="text-[10px] text-slate-400 truncate">${m.description || m.id}</p>
+            <p class="text-[10px] text-slate-400 truncate">${m.desc || m.id}</p>
           </div>
         </div>
         <button onclick="Portal.toggleMenu('${m.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${m.is_active == 1 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
@@ -241,110 +363,15 @@ const Portal = {
     if (window.lucide) window.lucide.createIcons();
   },
 
-  async toggleMenu(id) {
-    const res = await this.api('menus', {
-      method: 'POST',
-      body: JSON.stringify({ action: 'toggle', id })
-    });
-    if (res.success) {
-      this.loadMenuPool();
-      this.toast('Menü güncellendi', 'success');
-      setTimeout(() => location.reload(), 500);
-    }
+  toggleMenu(id) {
+    let menus = this.getLocalMenus();
+    menus = menus.map(m => m.id === id ? { ...m, is_active: m.is_active == 1 ? 0 : 1 } : m);
+    localStorage.setItem('portal_menu_pool', JSON.stringify(menus));
+    this.loadMenuPool();
+    this.toast('Menü güncellendi', 'success');
   },
 
-  openNewMenuModal() {
-    this.openModal('newMenuModal');
-  },
-
-  async handleCreateMenu(e) {
-    e.preventDefault();
-    const id = document.getElementById('newMenuId').value.trim();
-    const label = document.getElementById('newMenuLabel').value.trim();
-    const icon = document.getElementById('newMenuIcon').value.trim();
-    const order_index = parseInt(document.getElementById('newMenuOrder').value) || 10;
-    const description = document.getElementById('newMenuDesc').value.trim();
-
-    const res = await this.api('menus', {
-      method: 'POST',
-      body: JSON.stringify({ action: 'create', id, label, icon, order_index, description })
-    });
-
-    if (res.success) {
-      this.closeModal('newMenuModal');
-      this.loadMenuPool();
-      this.toast('Yeni menü oluşturuldu!', 'success');
-      setTimeout(() => location.reload(), 500);
-    }
-  },
-
-  async loadUsers() {
-    const res = await this.api('users');
-    if (!res.success) return;
-    const users = res.data || [];
-    const grid = document.getElementById('adminUserCardsGrid');
-    if (!grid) return;
-
-    grid.innerHTML = users.map(u => `
-      <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex justify-between items-center">
-        <div>
-          <h4 class="text-xs font-bold text-white">${u.name}</h4>
-          <span class="text-[10px] text-slate-400">${u.phone || 'Telefon yok'}</span>
-        </div>
-        ${u.id !== 'usr_admin' ? `
-          <button onclick="Portal.deleteUser('${u.id}')" class="text-rose-400 hover:text-rose-300 p-1">
-            <i data-lucide="trash-2" class="w-4 h-4"></i>
-          </button>
-        ` : '<span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono font-bold">ADMIN</span>'}
-      </div>
-    `).join('');
-
-    if (window.lucide) window.lucide.createIcons();
-  },
-
-  openUserModal() {
-    this.openModal('adminUserModal');
-  },
-
-  async handleSaveUser(e) {
-    e.preventDefault();
-    const name = document.getElementById('userModalName')?.value;
-    const phone = document.getElementById('userModalPhone')?.value;
-    const pin = document.getElementById('userModalPin')?.value;
-
-    const res = await this.api('users', {
-      method: 'POST',
-      body: JSON.stringify({ action: 'create', name, phone, pin })
-    });
-    if (res.success) {
-      this.closeModal('adminUserModal');
-      this.loadUsers();
-      this.toast('Kullanıcı oluşturuldu', 'success');
-    }
-  },
-
-  async deleteUser(id) {
-    if (!confirm('Kullanıcıyı silmek istediğinize emin misiniz?')) return;
-    await this.api('users', { method: 'POST', body: JSON.stringify({ action: 'delete', id }) });
-    this.loadUsers();
-    this.toast('Kullanıcı silindi', 'info');
-  },
-
-  switchTab(tabId) {
-    this.currentTab = tabId;
-    document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30'));
-
-    const tabEl = document.getElementById('tab-' + tabId);
-    if (tabEl) tabEl.classList.remove('hidden');
-
-    const navBtn = document.getElementById('nav-btn-' + tabId);
-    if (navBtn) navBtn.classList.add('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30');
-
-    this.closeMobileSidebar();
-    if (window.lucide) window.lucide.createIcons();
-  },
-
+  // SOL MENÜ DARALTMA & SEKME GEÇİŞİ
   toggleSidebar() {
     const sidebar = document.getElementById('mainSidebar');
     if (!sidebar) return;
@@ -366,43 +393,19 @@ const Portal = {
     }
   },
 
-  async promptAdminLogin() {
-    const pin = prompt('Yönetici PIN Kodunu Giriniz (1234):');
-    if (!pin) return;
-    const res = await this.api('auth&action=login_admin', { method: 'POST', body: JSON.stringify({ pin }) });
-    if (res.success) location.reload();
-    else alert('Hatalı PIN!');
-  },
+  switchTab(tabId) {
+    this.currentTab = tabId;
+    document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30'));
 
-  async loginGuest() {
-    const res = await this.api('auth&action=login_user', { method: 'POST', body: JSON.stringify({}) });
-    if (res.success) location.reload();
-  },
+    const tabEl = document.getElementById('tab-' + tabId);
+    if (tabEl) tabEl.classList.remove('hidden');
 
-  async loginUser(userId, hasPin) {
-    let pin = null;
-    if (hasPin) {
-      pin = prompt('PIN Kodunu Giriniz:');
-      if (!pin) return;
-    }
-    const res = await this.api('auth&action=login_user', { method: 'POST', body: JSON.stringify({ userId, pin }) });
-    if (res.success) location.reload();
-    else alert(res.message || 'Hatalı PIN!');
-  },
+    const navBtn = document.getElementById('nav-btn-' + tabId);
+    if (navBtn) navBtn.classList.add('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30');
 
-  async logout() {
-    await this.api('auth&action=logout');
-    location.reload();
-  },
-
-  openModal(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.remove('hidden');
-  },
-
-  closeModal(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.add('hidden');
+    this.closeMobileSidebar();
+    if (window.lucide) window.lucide.createIcons();
   },
 
   initClock() {
