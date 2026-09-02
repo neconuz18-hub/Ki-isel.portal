@@ -6,9 +6,286 @@ const Portal = {
   minimizedWidgets: [],
   searchQuery: '',
   
+  init() {
+    try {
+      this.minimizedWidgets = JSON.parse(localStorage.getItem('portal_minimized_widgets') || '[]');
+      this.checkPersistentAuth();
+      this.initClock();
+      this.renderSidebarNav();
+      this.loadNotes();
+      this.loadMenuPool();
+      this.renderFloatingWidgetDock();
+      this.bindKeyboardShortcuts();
+      if (window.lucide) window.lucide.createIcons();
+    } catch (e) {
+      console.error('Portal Başlatma Hatası (Self-Healing devreye girdi):', e);
+      this.toast('Sistem başlatılırken otomatik onarım uygulandı.', 'info');
+    }
+  },
 
   // ==========================================================
-  // SENTINEL OS & CANLI DERİN TARAMA TERMİNALİ
+  // 1. GÜVENLİ HTML KAÇIŞI VE TÜRKÇE SLUG NORMALİZASYONU (GÜVENLİK)
+  // ==========================================================
+  escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  },
+
+  slugify(text) {
+    const trMap = { 'ç': 'c', 'ğ': 'g', 'ı': 'i', 'i': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u', 'Ç': 'c', 'Ğ': 'g', 'İ': 'i', 'I': 'i', 'Ö': 'o', 'Ş': 's', 'Ü': 'u' };
+    return text
+      .split('')
+      .map(char => trMap[char] || char)
+      .join('')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '')
+      .substring(0, 20);
+  },
+
+  safeSetItem(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      if (e.name === 'QuotaExceededError' || e.code === 22) {
+        console.warn('LocalStorage kotası doldu! Eski snapshotlar temizleniyor...');
+        // Eski gereksiz kayıtları temizle
+        localStorage.removeItem('portal_minimized_widgets');
+        try {
+          localStorage.setItem(key, value);
+        } catch (retryErr) {
+          alert('Tarayıcı depolama alanı dolu! Lütfen gereksiz notları silin.');
+        }
+      }
+    }
+  },
+
+  // ==========================================================
+  // 2. KLAVYE KISAYOLLARI
+  // ==========================================================
+  bindKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      try {
+        if (e.key === 'Escape') {
+          const drawer = document.getElementById('notionDrawer');
+          if (drawer && !drawer.classList.contains('hidden')) {
+            this.closeNoteDrawer();
+          }
+          const menuModal = document.getElementById('newMenuModal');
+          if (menuModal && !menuModal.classList.contains('hidden')) {
+            this.closeModal('newMenuModal');
+          }
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          const drawer = document.getElementById('notionDrawer');
+          if (drawer && !drawer.classList.contains('hidden')) {
+            this.saveDrawerNote();
+          }
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+          e.preventDefault();
+          const searchInput = document.getElementById('noteSearchInput');
+          if (searchInput) searchInput.focus();
+        }
+      } catch (err) {
+        console.error('Klavye kısayol hatası:', err);
+      }
+    });
+  },
+
+  // ==========================================================
+  // 3. DİNAMİK SOL MENÜ SENKRONİZASYONU
+  // ==========================================================
+  renderSidebarNav() {
+    const nav = document.getElementById('sidebarNavList');
+    if (!nav) return;
+
+    try {
+      const session = JSON.parse(localStorage.getItem('portal_active_session') || 'null');
+      const isAdmin = session && session.role === 'ADMIN';
+      const menus = this.getLocalMenus().filter(m => m.is_active == 1);
+
+      nav.innerHTML = menus.map(m => {
+        if (m.id === 'admin' && !isAdmin) return '';
+        const isActive = this.currentTab === m.id;
+
+        return `
+          <button 
+            onclick="Portal.switchTab('${m.id}')" 
+            id="nav-btn-${m.id}" 
+            title="${this.escapeHtml(m.label)}" 
+            class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer ${isActive ? 'active-nav bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-800/60'}"
+          >
+            <i data-lucide="${m.icon || 'folder'}" class="w-4 h-4 flex-shrink-0 ${m.id === 'admin' ? 'text-purple-400' : ''}"></i>
+            <span class="truncate sidebar-text">${this.escapeHtml(m.label)}</span>
+          </button>
+        `;
+      }).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+    } catch (e) {
+      console.error('Menü render hatası:', e);
+    }
+  },
+
+  // ==========================================================
+  // 4. SIFIRDAN YENİ MENÜ & SAYFA OLUŞTURUCU (BUILDER)
+  // ==========================================================
+  openNewMenuModal() {
+    const labelInput = document.getElementById('newMenuLabel');
+    if (labelInput) labelInput.value = '';
+    const descInput = document.getElementById('newMenuDesc');
+    if (descInput) descInput.value = '';
+    this.openModal('newMenuModal');
+    setTimeout(() => {
+      if (labelInput) labelInput.focus();
+    }, 100);
+  },
+
+  handleCreateMenu(e) {
+    if (e) e.preventDefault();
+    try {
+      const label = document.getElementById('newMenuLabel').value.trim();
+      const icon = document.getElementById('newMenuIcon').value;
+      const type = document.getElementById('newMenuType').value;
+      const desc = document.getElementById('newMenuDesc').value.trim();
+
+      if (!label) {
+        this.toast('Lütfen bir menü başlığı girin', 'error');
+        return;
+      }
+
+      // Güvenli Türkçe Normalize ID
+      const id = 'page_' + this.slugify(label) + '_' + Date.now().toString().slice(-4);
+
+      let menus = this.getLocalMenus();
+      menus.push({
+        id,
+        label,
+        icon: icon || 'folder',
+        type: type || 'canvas',
+        desc: desc || `${label} özel çalışma alanı`,
+        is_active: 1,
+        is_custom: true,
+        created_at: new Date().toISOString()
+      });
+
+      this.safeSetItem('portal_menu_pool', JSON.stringify(menus));
+      this.closeModal('newMenuModal');
+      this.renderSidebarNav();
+      this.loadMenuPool();
+      this.toast(`"${label}" sayfası oluşturuldu ve menüye eklendi!`, 'success');
+      
+      setTimeout(() => {
+        this.switchTab(id);
+      }, 200);
+    } catch (err) {
+      console.error('Menü oluşturma hatası:', err);
+      this.toast('Menü oluşturulamadı', 'error');
+    }
+  },
+
+  deleteCustomMenu(id) {
+    if (!confirm('Bu özel sayfayı ve menüyü silmek istediğinize emin misiniz?')) return;
+    try {
+      let menus = this.getLocalMenus();
+      menus = menus.filter(m => m.id !== id);
+      this.safeSetItem('portal_menu_pool', JSON.stringify(menus));
+      this.renderSidebarNav();
+      this.loadMenuPool();
+      this.toast('Sayfa ve menü silindi', 'info');
+      if (this.currentTab === id) {
+        this.switchTab('dashboard');
+      }
+    } catch (e) {
+      console.error('Silme hatası:', e);
+    }
+  },
+
+  // ==========================================================
+  // 5. DİNAMİK ÖZEL SAYFA RENDER MOTORU (CUSTOM PAGES)
+  // ==========================================================
+  renderCustomPage(menuItem) {
+    const container = document.getElementById('dynamicPageContainer');
+    if (!container) return;
+
+    try {
+      const typeBadges = {
+        canvas: '📝 Zengin Doküman & Not Alanı',
+        cards: '📋 Dinamik Kart & Liste Paneli',
+        stats: '📊 Metrik & İstatistik Panosu',
+        blank: '🔲 Boş Çalışma Alanı'
+      };
+
+      container.innerHTML = `
+        <div id="tab-${menuItem.id}" class="tab-pane space-y-6">
+          <div class="glass-card p-6 rounded-3xl border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 text-blue-400 flex items-center justify-center shadow-lg text-xl">
+                <i data-lucide="${menuItem.icon || 'folder'}" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-2xl font-extrabold text-white tracking-tight">${this.escapeHtml(menuItem.label)}</h2>
+                  <span class="px-2.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 text-[10px] font-bold border border-blue-500/30">
+                    ${typeBadges[menuItem.type] || 'Özel Sayfa'}
+                  </span>
+                </div>
+                <p class="text-xs text-slate-400 mt-1">${this.escapeHtml(menuItem.desc || 'Bu özel sayfada geliştirmelerinizi yapabilirsiniz.')}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="Portal.toast('Bu sayfa şablonu isteğinize göre geliştirilmeye hazırdır!', 'info')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/20 transition-all cursor-pointer flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Geliştirmeye Başla</span>
+              </button>
+              <button onclick="Portal.deleteCustomMenu('${menuItem.id}')" class="px-3 py-2 rounded-xl bg-rose-950/30 hover:bg-rose-900/50 text-rose-400 border border-rose-900/50 text-xs font-bold transition-all cursor-pointer" title="Sayfayı Sil">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="glass-card p-6 rounded-3xl border border-slate-800/80 space-y-3 md:col-span-2">
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i> Sayfa Çalışma Bloğu
+              </h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Bu sayfa şu an <strong>${this.escapeHtml(menuItem.label)}</strong> için ayrılmış bağımsız bir çalışma alanıdır. İsteğinize göre buraya özel formlar, tablolar, analiz grafikleri veya veri listeleri inşa edebiliriz.
+              </p>
+              <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 font-mono text-xs text-slate-300">
+                <span class="text-slate-500">// Sayfa Kimliği:</span> ${menuItem.id}<br>
+                <span class="text-slate-500">// Şablon Türü:</span> ${menuItem.type || 'canvas'}<br>
+                <span class="text-slate-500">// Durum:</span> Aktif ve Kullanıma Hazır
+              </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-3xl border border-slate-800/80 space-y-3">
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="settings-2" class="w-4 h-4 text-purple-400"></i> Sayfa Yapılandırması
+              </h3>
+              <p class="text-xs text-slate-400">
+                Bu menüyü sol menüden geçici olarak gizlemek için Geliştirici Menü Havuzunu kullanabilir veya sağ üstteki çöp kutusu ile tamamen silebilirsiniz.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (window.lucide) window.lucide.createIcons();
+    } catch (e) {
+      console.error('Özel sayfa render hatası:', e);
+    }
+  },
+
+  // ==========================================================
+  // 6. SENTINEL OS & CANLI DERİN TARAMA TERMİNALİ
   // ==========================================================
   async runSentinelCheck() {
     const term = document.getElementById('sentinelTerminalOutput');
@@ -56,7 +333,6 @@ const Portal = {
       this.toast('Sentinel derin taraması tamamlandı!', 'success');
       if (window.lucide) window.lucide.createIcons();
     } else {
-      // Yerel denetim (Offline Fallback)
       if (badge) badge.innerHTML = `<i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-400"></i> %100 Sağlıklı (Local)`;
       if (sub) sub.textContent = `Yerel denetim: ${new Date().toLocaleTimeString('tr-TR')}`;
       if (term) term.textContent = `[SENTINEL LOCAL]: Tarayıcı yerel depolaması, notlar ve menü havuzu doğrulandı. Sıfır çakışma.`;
@@ -65,242 +341,8 @@ const Portal = {
     }
   },
 
-  init() {
-    try {
-      this.minimizedWidgets = JSON.parse(localStorage.getItem('portal_minimized_widgets') || '[]');
-      this.checkPersistentAuth();
-      this.initClock();
-      this.renderSidebarNav();
-      this.loadNotes();
-      this.loadMenuPool();
-      this.renderFloatingWidgetDock();
-      this.bindKeyboardShortcuts();
-      if (window.lucide) window.lucide.createIcons();
-    } catch (e) {
-      console.error('Portal Başlatma Hatası (Self-Healing devreye girdi):', e);
-      this.toast('Sistem başlatılırken otomatik onarım uygulandı.', 'info');
-    }
-  },
-
   // ==========================================================
-  // 1. KLAVYE KISAYOLLARI
-  // ==========================================================
-  bindKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
-      try {
-        if (e.key === 'Escape') {
-          const drawer = document.getElementById('notionDrawer');
-          if (drawer && !drawer.classList.contains('hidden')) {
-            this.closeNoteDrawer();
-          }
-          const menuModal = document.getElementById('newMenuModal');
-          if (menuModal && !menuModal.classList.contains('hidden')) {
-            this.closeModal('newMenuModal');
-          }
-        }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-          const drawer = document.getElementById('notionDrawer');
-          if (drawer && !drawer.classList.contains('hidden')) {
-            this.saveDrawerNote();
-          }
-        }
-        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
-          e.preventDefault();
-          const searchInput = document.getElementById('noteSearchInput');
-          if (searchInput) searchInput.focus();
-        }
-      } catch (err) {
-        console.error('Klavye kısayol hatası:', err);
-      }
-    });
-  },
-
-  // ==========================================================
-  // 2. DİNAMİK SOL MENÜ SENKRONİZASYONU
-  // ==========================================================
-  renderSidebarNav() {
-    const nav = document.getElementById('sidebarNavList');
-    if (!nav) return;
-
-    try {
-      const session = JSON.parse(localStorage.getItem('portal_active_session') || 'null');
-      const isAdmin = session && session.role === 'ADMIN';
-      const menus = this.getLocalMenus().filter(m => m.is_active == 1);
-
-      nav.innerHTML = menus.map(m => {
-        if (m.id === 'admin' && !isAdmin) return '';
-        const isActive = this.currentTab === m.id;
-
-        return `
-          <button 
-            onclick="Portal.switchTab('${m.id}')" 
-            id="nav-btn-${m.id}" 
-            title="${m.label}" 
-            class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer ${isActive ? 'active-nav bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-800/60'}"
-          >
-            <i data-lucide="${m.icon || 'folder'}" class="w-4 h-4 flex-shrink-0 ${m.id === 'admin' ? 'text-purple-400' : ''}"></i>
-            <span class="truncate sidebar-text">${m.label}</span>
-          </button>
-        `;
-      }).join('');
-
-      if (window.lucide) window.lucide.createIcons();
-    } catch (e) {
-      console.error('Menü render hatası:', e);
-    }
-  },
-
-  // ==========================================================
-  // 3. SIFIRDAN YENİ MENÜ & SAYFA OLUŞTURUCU (BUILDER)
-  // ==========================================================
-  openNewMenuModal() {
-    const labelInput = document.getElementById('newMenuLabel');
-    if (labelInput) labelInput.value = '';
-    const descInput = document.getElementById('newMenuDesc');
-    if (descInput) descInput.value = '';
-    this.openModal('newMenuModal');
-    setTimeout(() => {
-      if (labelInput) labelInput.focus();
-    }, 100);
-  },
-
-  handleCreateMenu(e) {
-    if (e) e.preventDefault();
-    try {
-      const label = document.getElementById('newMenuLabel').value.trim();
-      const icon = document.getElementById('newMenuIcon').value;
-      const type = document.getElementById('newMenuType').value;
-      const desc = document.getElementById('newMenuDesc').value.trim();
-
-      if (!label) {
-        this.toast('Lütfen bir menü başlığı girin', 'error');
-        return;
-      }
-
-      const id = 'page_' + label.toLowerCase().replace(/[^a-z0-9]/g, '_').substring(0, 15) + '_' + Date.now().toString().slice(-4);
-
-      let menus = this.getLocalMenus();
-      menus.push({
-        id,
-        label,
-        icon: icon || 'folder',
-        type: type || 'canvas',
-        desc: desc || `${label} özel çalışma alanı`,
-        is_active: 1,
-        is_custom: true,
-        created_at: new Date().toISOString()
-      });
-
-      localStorage.setItem('portal_menu_pool', JSON.stringify(menus));
-      this.closeModal('newMenuModal');
-      this.renderSidebarNav();
-      this.loadMenuPool();
-      this.toast(`"${label}" sayfası oluşturuldu ve menüye eklendi!`, 'success');
-      
-      setTimeout(() => {
-        this.switchTab(id);
-      }, 200);
-    } catch (err) {
-      console.error('Menü oluşturma hatası:', err);
-      this.toast('Menü oluşturulamadı', 'error');
-    }
-  },
-
-  deleteCustomMenu(id) {
-    if (!confirm('Bu özel sayfayı ve menüyü silmek istediğinize emin misiniz?')) return;
-    try {
-      let menus = this.getLocalMenus();
-      menus = menus.filter(m => m.id !== id);
-      localStorage.setItem('portal_menu_pool', JSON.stringify(menus));
-      this.renderSidebarNav();
-      this.loadMenuPool();
-      this.toast('Sayfa ve menü silindi', 'info');
-      if (this.currentTab === id) {
-        this.switchTab('dashboard');
-      }
-    } catch (e) {
-      console.error('Silme hatası:', e);
-    }
-  },
-
-  // ==========================================================
-  // 4. DİNAMİK ÖZEL SAYFA RENDER MOTORU (CUSTOM PAGES)
-  // ==========================================================
-  renderCustomPage(menuItem) {
-    const container = document.getElementById('dynamicPageContainer');
-    if (!container) return;
-
-    try {
-      const typeBadges = {
-        canvas: '📝 Zengin Doküman & Not Alanı',
-        cards: '📋 Dinamik Kart & Liste Paneli',
-        stats: '📊 Metrik & İstatistik Panosu',
-        blank: '🔲 Boş Çalışma Alanı'
-      };
-
-      container.innerHTML = `
-        <div id="tab-${menuItem.id}" class="tab-pane space-y-6">
-          <div class="glass-card p-6 rounded-3xl border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 text-blue-400 flex items-center justify-center shadow-lg text-xl">
-                <i data-lucide="${menuItem.icon || 'folder'}" class="w-6 h-6"></i>
-              </div>
-              <div>
-                <div class="flex items-center gap-2">
-                  <h2 class="text-2xl font-extrabold text-white tracking-tight">${menuItem.label}</h2>
-                  <span class="px-2.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 text-[10px] font-bold border border-blue-500/30">
-                    ${typeBadges[menuItem.type] || 'Özel Sayfa'}
-                  </span>
-                </div>
-                <p class="text-xs text-slate-400 mt-1">${menuItem.desc || 'Bu özel sayfada geliştirmelerinizi yapabilirsiniz.'}</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <button onclick="Portal.toast('Bu sayfa şablonu isteğinize göre geliştirilmeye hazırdır!', 'info')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/20 transition-all cursor-pointer flex items-center gap-1.5">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                <span>Geliştirmeye Başla</span>
-              </button>
-              <button onclick="Portal.deleteCustomMenu('${menuItem.id}')" class="px-3 py-2 rounded-xl bg-rose-950/30 hover:bg-rose-900/50 text-rose-400 border border-rose-900/50 text-xs font-bold transition-all cursor-pointer" title="Sayfayı Sil">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div class="glass-card p-6 rounded-3xl border border-slate-800/80 space-y-3 md:col-span-2">
-              <h3 class="font-bold text-sm text-white flex items-center gap-2">
-                <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i> Sayfa Çalışma Bloğu
-              </h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Bu sayfa şu an <strong>${menuItem.label}</strong> için ayrılmış bağımsız bir çalışma alanıdır. İsteğinize göre buraya özel formlar, tablolar, analiz grafikleri veya veri listeleri inşa edebiliriz.
-              </p>
-              <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 font-mono text-xs text-slate-300">
-                <span class="text-slate-500">// Sayfa Kimliği:</span> ${menuItem.id}<br>
-                <span class="text-slate-500">// Şablon Türü:</span> ${menuItem.type || 'canvas'}<br>
-                <span class="text-slate-500">// Durum:</span> Aktif ve Kullanıma Hazır
-              </div>
-            </div>
-
-            <div class="glass-card p-6 rounded-3xl border border-slate-800/80 space-y-3">
-              <h3 class="font-bold text-sm text-white flex items-center gap-2">
-                <i data-lucide="settings-2" class="w-4 h-4 text-purple-400"></i> Sayfa Yapılandırması
-              </h3>
-              <p class="text-xs text-slate-400">
-                Bu menüyü sol menüden geçici olarak gizlemek için Geliştirici Menü Havuzunu kullanabilir veya sağ üstteki çöp kutusu ile tamamen silebilirsiniz.
-              </p>
-            </div>
-          </div>
-        </div>
-      `;
-
-      if (window.lucide) window.lucide.createIcons();
-    } catch (e) {
-      console.error('Özel sayfa render hatası:', e);
-    }
-  },
-
-  // ==========================================================
-  // 5. KURUMSAL YEDEKLEME, İÇE/DIŞA AKTARMA VE FABRİKA SIFIRLAMA
+  // 7. KURUMSAL YEDEKLEME, İÇE/DIŞA AKTARMA VE FABRİKA SIFIRLAMA
   // ==========================================================
   exportBackup() {
     try {
@@ -341,10 +383,10 @@ const Portal = {
           throw new Error('Geçersiz yedekleme dosyası yapısı');
         }
 
-        localStorage.setItem('portal_notion_notes', JSON.stringify(json.notes));
-        localStorage.setItem('portal_menu_pool', JSON.stringify(json.menus));
+        this.safeSetItem('portal_notion_notes', JSON.stringify(json.notes));
+        this.safeSetItem('portal_menu_pool', JSON.stringify(json.menus));
         if (json.minimizedWidgets) {
-          localStorage.setItem('portal_minimized_widgets', JSON.stringify(json.minimizedWidgets));
+          this.safeSetItem('portal_minimized_widgets', JSON.stringify(json.minimizedWidgets));
         }
 
         this.toast('Yedekleme başarıyla yüklendi!', 'success');
@@ -370,7 +412,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 6. KALICI OTURUM KONTROLÜ
+  // 8. KALICI OTURUM KONTROLÜ
   // ==========================================================
   checkPersistentAuth() {
     try {
@@ -396,7 +438,7 @@ const Portal = {
       name: 'Misafir Kullanıcı',
       id: 'guest_' + Date.now()
     };
-    localStorage.setItem('portal_active_session', JSON.stringify(session));
+    this.safeSetItem('portal_active_session', JSON.stringify(session));
     const overlay = document.getElementById('gatewayOverlay');
     if (overlay) overlay.classList.add('hidden');
     this.toast('Hoş geldiniz! (Misafir Girişi)', 'success');
@@ -413,7 +455,7 @@ const Portal = {
         name: 'Sistem Yöneticisi',
         id: 'admin'
       };
-      localStorage.setItem('portal_active_session', JSON.stringify(session));
+      this.safeSetItem('portal_active_session', JSON.stringify(session));
       const overlay = document.getElementById('gatewayOverlay');
       if (overlay) overlay.classList.add('hidden');
       this.toast('Yönetici girişi başarılı!', 'success');
@@ -432,7 +474,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 7. NOTION ZENGİN NOTLAR MOTORU (CANVAS)
+  // 9. NOTION ZENGİN NOTLAR MOTORU (CANVAS)
   // ==========================================================
   getLocalNotes() {
     try {
@@ -449,7 +491,7 @@ const Portal = {
             updated_at: new Date().toISOString()
           }
         ];
-        localStorage.setItem('portal_notion_notes', JSON.stringify(initial));
+        this.safeSetItem('portal_notion_notes', JSON.stringify(initial));
         return initial;
       }
       return JSON.parse(stored);
@@ -460,7 +502,7 @@ const Portal = {
 
   saveLocalNotes(notes) {
     try {
-      localStorage.setItem('portal_notion_notes', JSON.stringify(notes));
+      this.safeSetItem('portal_notion_notes', JSON.stringify(notes));
     } catch (e) {
       console.error('Not kaydetme hatası:', e);
     }
@@ -474,11 +516,11 @@ const Portal = {
 
   formatSnippet(rawText) {
     if (!rawText) return '<span class="text-slate-600 italic">Boş içerik...</span>';
-    let formatted = rawText.substring(0, 160);
-    if (rawText.length > 160) formatted += '...';
-    formatted = formatted.replace(/\[x\]/gi, '<span class="text-emerald-400 font-bold">✓</span>');
-    formatted = formatted.replace(/\[ \]/g, '<span class="text-slate-500 font-bold">◻</span>');
-    return formatted;
+    let safe = this.escapeHtml(rawText.substring(0, 160));
+    if (rawText.length > 160) safe += '...';
+    safe = safe.replace(/\[x\]/gi, '<span class="text-emerald-400 font-bold">✓</span>');
+    safe = safe.replace(/\[ \]/g, '<span class="text-slate-500 font-bold">◻</span>');
+    return safe;
   },
 
   loadNotes() {
@@ -532,7 +574,7 @@ const Portal = {
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div class="flex items-center gap-2.5 min-w-0">
                   <span class="text-2xl flex-shrink-0">${n.icon || '📝'}</span>
-                  <h3 class="font-bold text-sm text-slate-100 group-hover:text-white truncate tracking-tight">${n.title || 'Başlıksız Not'}</h3>
+                  <h3 class="font-bold text-sm text-slate-100 group-hover:text-white truncate tracking-tight">${this.escapeHtml(n.title || 'Başlıksız Not')}</h3>
                 </div>
                 <div class="flex items-center gap-1">
                   ${n.pinned == 1 ? '<span class="text-amber-400 text-xs" title="Sabitlendi">📌</span>' : ''}
@@ -713,7 +755,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 8. MENÜ HAVUZU (LOCAL & DİNAMİK)
+  // 10. MENÜ HAVUZU (LOCAL & DİNAMİK)
   // ==========================================================
   getLocalMenus() {
     try {
@@ -740,8 +782,8 @@ const Portal = {
               <i data-lucide="${m.icon || 'folder'}" class="w-4 h-4"></i>
             </div>
             <div class="min-w-0">
-              <h4 class="text-xs font-bold text-white truncate">${m.label}</h4>
-              <p class="text-[10px] text-slate-400 truncate">${m.desc || m.id}</p>
+              <h4 class="text-xs font-bold text-white truncate">${this.escapeHtml(m.label)}</h4>
+              <p class="text-[10px] text-slate-400 truncate">${this.escapeHtml(m.desc || m.id)}</p>
             </div>
           </div>
           <div class="flex items-center gap-1.5">
@@ -767,7 +809,7 @@ const Portal = {
     try {
       let menus = this.getLocalMenus();
       menus = menus.map(m => m.id === id ? { ...m, is_active: m.is_active == 1 ? 0 : 1 } : m);
-      localStorage.setItem('portal_menu_pool', JSON.stringify(menus));
+      this.safeSetItem('portal_menu_pool', JSON.stringify(menus));
       this.loadMenuPool();
       this.renderSidebarNav();
       this.toast('Menü durumu güncellendi!', 'success');
@@ -777,7 +819,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 9. SEKME & SAYFA YÖNLENDİRİCİ
+  // 11. SEKME & SAYFA YÖNLENDİRİCİ
   // ==========================================================
   switchTab(tabId) {
     try {
@@ -829,12 +871,12 @@ const Portal = {
   },
 
   // ==========================================================
-  // 10. YÜZEN WİDGET BALONCUK DOCK'U
+  // 12. YÜZEN WİDGET BALONCUK DOCK'U
   // ==========================================================
   minimizeWidget(id, label = 'Widget') {
     if (!this.minimizedWidgets.find(w => w.id === id)) {
       this.minimizedWidgets.push({ id, label });
-      localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
+      this.safeSetItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
     }
     const wrapper = document.getElementById(id + 'WidgetWrapper');
     if (wrapper) wrapper.classList.add('hidden');
@@ -844,7 +886,7 @@ const Portal = {
 
   restoreWidget(id) {
     this.minimizedWidgets = this.minimizedWidgets.filter(w => w.id !== id);
-    localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
+    this.safeSetItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
     const wrapper = document.getElementById(id + 'WidgetWrapper');
     if (wrapper) {
       wrapper.classList.remove('hidden');
@@ -878,13 +920,26 @@ const Portal = {
             title="Geri açmak için tıklayın"
           >
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>${w.label || w.id}</span>
+            <span>${this.escapeHtml(w.label || w.id)}</span>
             <i data-lucide="maximize-2" class="w-3.5 h-3.5 opacity-70 group-hover:opacity-100"></i>
           </button>
         `).join('')}
       </div>
     `;
     if (window.lucide) window.lucide.createIcons();
+  },
+
+  async api(endpoint, options = {}) {
+    try {
+      const res = await fetch(`/api/index.php?endpoint=${endpoint}`, {
+        headers: { 'Content-Type': 'application/json' },
+        ...options
+      });
+      const json = await res.json();
+      return json;
+    } catch (e) {
+      return { success: false, message: 'Sunucu bağlantısı yok' };
+    }
   },
 
   openModal(id) {
