@@ -24,20 +24,729 @@ window.Portal = {
   ],
 
   bistCatalog: [
-    { symbol: 'THYAO', name: 'Türk Hava Yolları', price: 312.50, sector: 'Ulaştırma', change: '+2.14%' },
-    { symbol: 'ASELS', name: 'Aselsan Savunma', price: 64.80, sector: 'Savunma', change: '+1.80%' },
-    { symbol: 'GARAN', name: 'Garanti BBVA', price: 122.40, sector: 'Bankacılık', change: '+0.75%' },
-    { symbol: 'AKBNK', name: 'Akbank T.A.Ş.', price: 58.90, sector: 'Bankacılık', change: '-0.30%' },
-    { symbol: 'ISCTR', name: 'Türkiye İş Bankası (C)', price: 14.85, sector: 'Bankacılık', change: '+1.20%' },
-    { symbol: 'TUPRS', name: 'Tüpraş Petrol Rafinerileri', price: 172.30, sector: 'Enerji', change: '+1.45%' },
-    { symbol: 'KCHOL', name: 'Koç Holding', price: 218.00, sector: 'Holding', change: '+0.90%' },
-    { symbol: 'BIMAS', name: 'BİM Birleşik Mağazalar', price: 545.00, sector: 'Perakende', change: '+1.60%' },
-    { symbol: 'ASTOR', name: 'Astor Enerji', price: 94.20, sector: 'Enerji', change: '+3.20%' },
-    { symbol: 'ALTIN_GRAM', name: 'Gram Altın (24K)', price: 2865.40, sector: 'Emtia', change: '+0.85%' },
-    { symbol: 'USD_TRY', name: 'Amerikan Doları', price: 34.22, sector: 'Döviz', change: '+0.12%' },
-    { symbol: 'EUR_TRY', name: 'Euro / TL', price: 37.85, sector: 'Döviz', change: '+0.18%' },
-    { symbol: 'BTC_USD', name: 'Bitcoin', price: 59200.00, sector: 'Kripto', change: '+2.80%' }
-  ],
+  {
+    "symbol": "THYAO",
+    "name": "Türk Hava Yolları",
+    "sector": "Ulaştırma",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ASELS",
+    "name": "Aselsan Elektronik",
+    "sector": "Savunma / Teknoloji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "GARAN",
+    "name": "Garanti BBVA",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "AKBNK",
+    "name": "Akbank T.A.Ş.",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ISCTR",
+    "name": "Türkiye İş Bankası (C)",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "YKBNK",
+    "name": "Yapı ve Kredi Bankası",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TUPRS",
+    "name": "Tüpraş Petrol Rafinerileri",
+    "sector": "Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KCHOL",
+    "name": "Koç Holding",
+    "sector": "Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "SAHOL",
+    "name": "Sabancı Holding",
+    "sector": "Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "EREGL",
+    "name": "Ereğli Demir Çelik",
+    "sector": "Demir Çelik",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "SISE",
+    "name": "Şişecam Fabrikaları",
+    "sector": "Cam / Sanayi",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BIMAS",
+    "name": "BİM Birleşik Mağazalar",
+    "sector": "Perakende",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "MGROS",
+    "name": "Migros Ticaret",
+    "sector": "Perakende",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "FROTO",
+    "name": "Ford Otosan",
+    "sector": "Otomotiv",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TOASO",
+    "name": "Tofaş Türk Otomobil",
+    "sector": "Otomotiv",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ASTOR",
+    "name": "Astor Enerji",
+    "sector": "Elektrik / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "PETKM",
+    "name": "Petkim Petrokimya",
+    "sector": "Kimya",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "SASA",
+    "name": "Sasa Polyester",
+    "sector": "Tekstil / Kimya",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "HEKTS",
+    "name": "Hektaş Ticaret",
+    "sector": "Tarım / Kimya",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "EKGYO",
+    "name": "Emlak Konut GYO",
+    "sector": "GYO",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KOZAL",
+    "name": "Koza Altın İşletmeleri",
+    "sector": "Madencilik",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KRDMD",
+    "name": "Kardemir Demir Çelik (D)",
+    "sector": "Demir Çelik",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "PGSUS",
+    "name": "Pegasus Hava Taşımacılığı",
+    "sector": "Ulaştırma",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TCELL",
+    "name": "Turkcell İletişim",
+    "sector": "Telekom",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TTKOM",
+    "name": "Türk Telekomünikasyon",
+    "sector": "Telekom",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ENKAI",
+    "name": "Enka İnşaat ve Sanayi",
+    "sector": "İnşaat / Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KONTR",
+    "name": "Kontrolmatik Teknoloji",
+    "sector": "Mühendislik / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "EUPWR",
+    "name": "Europower Enerji",
+    "sector": "Elektrik / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "GESAN",
+    "name": "Girişim Elektrik",
+    "sector": "Elektrik / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ALARK",
+    "name": "Alarko Holding",
+    "sector": "Holding / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "MIATK",
+    "name": "Mia Teknoloji",
+    "sector": "Bilişim / Yazılım",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "REEDR",
+    "name": "Reeder Teknoloji",
+    "sector": "Teknoloji / Elektronik",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TABGD",
+    "name": "TAB Gıda Sanayi",
+    "sector": "Gıda / Restoran",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "CMENT",
+    "name": "Çimentaş Çimento",
+    "sector": "Çimento",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "OYAKC",
+    "name": "Oyak Çimento",
+    "sector": "Çimento",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "CIMSA",
+    "name": "Çimsa Çimento",
+    "sector": "Çimento",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "CANTE",
+    "name": "Çan2 Termik A.Ş.",
+    "sector": "Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ODAS",
+    "name": "Odaş Elektrik Üretim",
+    "sector": "Madencilik / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "GUBRF",
+    "name": "Gübre Fabrikaları",
+    "sector": "Kimya / Gübre",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KOZAA",
+    "name": "Koza Anadolu Metal",
+    "sector": "Madencilik",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "IPEKE",
+    "name": "İpek Doğal Enerji",
+    "sector": "Madencilik",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ISGYO",
+    "name": "İş Gayrimenkul Yatırım",
+    "sector": "GYO",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TRGYO",
+    "name": "Torunlar GYO",
+    "sector": "GYO",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "DOHOL",
+    "name": "Doğan Şirketler Grubu",
+    "sector": "Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "VESTL",
+    "name": "Vestel Elektronik",
+    "sector": "Dayanıklı Tüketim",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "VESBE",
+    "name": "Vestel Beyaz Eşya",
+    "sector": "Dayanıklı Tüketim",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ARCLK",
+    "name": "Arçelik A.Ş.",
+    "sector": "Dayanıklı Tüketim",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "SOKM",
+    "name": "Şok Marketler Ticaret",
+    "sector": "Perakende",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "MAVI",
+    "name": "Mavi Giyim Sanayi",
+    "sector": "Tekstil / Perakende",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KORDS",
+    "name": "Kordsa Teknik Tekstil",
+    "sector": "Tekstil / Sanayi",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BRISA",
+    "name": "Brisa Bridgestone Lastik",
+    "sector": "Otomotiv Yan Sanayi",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "OTKAR",
+    "name": "Otokar Otomotiv",
+    "sector": "Otomotiv / Savunma",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "DOAS",
+    "name": "Doğuş Otomotiv Servis",
+    "sector": "Otomotiv",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TTRAK",
+    "name": "Türk Traktör",
+    "sector": "Otomotiv / Tarım",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "EGEEN",
+    "name": "Ege Endüstri ve Ticaret",
+    "sector": "Otomotiv Yan Sanayi",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ALBRK",
+    "name": "Albaraka Türk Katılım",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "SKBNK",
+    "name": "Şekerbank T.A.Ş.",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TSKB",
+    "name": "Türkiye Sınai Kalkınma Bankası",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "VAKBN",
+    "name": "Türkiye Vakıflar Bankası",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "HALKB",
+    "name": "Türkiye Halk Bankası",
+    "sector": "Bankacılık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ANHYT",
+    "name": "Anadolu Hayat Emeklilik",
+    "sector": "Sigorta",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "AKGRT",
+    "name": "Aksigorta A.Ş.",
+    "sector": "Sigorta",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ANSGR",
+    "name": "Anadolu Anonim Türk Sigorta",
+    "sector": "Sigorta",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TURSG",
+    "name": "Türkiye Sigorta A.Ş.",
+    "sector": "Sigorta",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "AGHOL",
+    "name": "AG Anadolu Grubu Holding",
+    "sector": "Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BERA",
+    "name": "Bera Holding A.Ş.",
+    "sector": "Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "GSDHO",
+    "name": "GSD Holding A.Ş.",
+    "sector": "Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "GLYHO",
+    "name": "Global Yatırım Holding",
+    "sector": "Holding",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TKFEN",
+    "name": "Tekfen Holding",
+    "sector": "Holding / İnşaat",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ULKER",
+    "name": "Ülker Bisküvi Sanayi",
+    "sector": "Gıda İmalat",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TATGD",
+    "name": "Tat Gıda Sanayi",
+    "sector": "Gıda İmalat",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "AEFES",
+    "name": "Anadolu Efes Biracılık",
+    "sector": "İçecek İmalat",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "CCOLA",
+    "name": "Coca-Cola İçecek",
+    "sector": "İçecek İmalat",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KAYSE",
+    "name": "Kayseri Şeker Fabrikası",
+    "sector": "Gıda / Şeker",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "CWENE",
+    "name": "CW Enerji Mühendislik",
+    "sector": "Güneş / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ALFAS",
+    "name": "Alfa Solar Enerji",
+    "sector": "Güneş / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "SMRTG",
+    "name": "Smart Güneş Enerjisi",
+    "sector": "Güneş / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "YEOTK",
+    "name": "YEO Teknoloji Enerji",
+    "sector": "Mühendislik / Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KOCAER",
+    "name": "Kocaer Çelik Sanayi",
+    "sector": "Demir Çelik",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "QUAWR",
+    "name": "Qua Granite Hayal Yapı",
+    "sector": "Seramik / Maden",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BIENY",
+    "name": "Bien Yapı Ürünleri",
+    "sector": "Seramik / İnşaat",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "PENTA",
+    "name": "Penta Teknoloji Ürünleri",
+    "sector": "Bilişim / Dağıtım",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ARDYZ",
+    "name": "ARD Grup Bilişim",
+    "sector": "Yazılım / Bilişim",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "VBTYZ",
+    "name": "VBT Yazılım A.Ş.",
+    "sector": "Yazılım / Bilişim",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "SDTTR",
+    "name": "SDT Uzay ve Savunma",
+    "sector": "Savunma / Teknoloji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "FORTE",
+    "name": "Forte Bilgi İletişim",
+    "sector": "Bilişim / Savunma",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BORSK",
+    "name": "Bor Şeker A.Ş.",
+    "sector": "Gıda / Şeker",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "LMKDC",
+    "name": "Limak Doğu Anadolu Çimento",
+    "sector": "Çimento",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "OBAMS",
+    "name": "Oba Makarnacılık",
+    "sector": "Gıda",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "MOGAN",
+    "name": "Mogan Enerji Yatırım",
+    "sector": "Enerji",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "KOTON",
+    "name": "Koton Mağazacılık",
+    "sector": "Tekstil / Perakende",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "LILAK",
+    "name": "Lila Kağıt Sanayi",
+    "sector": "Kağıt / Ambalaj",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ALTIN_GRAM",
+    "name": "Gram Altın (24 Ayar)",
+    "sector": "Kıymetli Maden",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "CEYREK_ALTIN",
+    "name": "Çeyrek Altın",
+    "sector": "Kıymetli Maden",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "YARIM_ALTIN",
+    "name": "Yarım Altın",
+    "sector": "Kıymetli Maden",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TAM_ALTIN",
+    "name": "Tam / Cumhuriyet Altını",
+    "sector": "Kıymetli Maden",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "GUMUS_GRAM",
+    "name": "Gümüş (Gram/TL)",
+    "sector": "Kıymetli Maden",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "USD_TRY",
+    "name": "Amerikan Doları / TL",
+    "sector": "Döviz",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "EUR_TRY",
+    "name": "Euro / TL",
+    "sector": "Döviz",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "GBP_TRY",
+    "name": "İngiliz Sterlini / TL",
+    "sector": "Döviz",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "CHF_TRY",
+    "name": "İsviçre Frangı / TL",
+    "sector": "Döviz",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BTC_USD",
+    "name": "Bitcoin / USD",
+    "sector": "Kripto Varlık",
+    "price": 0.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ETH_USD",
+    "name": "Ethereum / USD",
+    "sector": "Kripto Varlık",
+    "price": 0.0,
+    "change": "+0.00%"
+  }
+],
+
 
   init() {
     console.log('[Personal OS]: Başlatma Döngüsü Çalışıyor...');
@@ -522,27 +1231,98 @@ window.Portal = {
     }
     if (window.lucide) window.lucide.createIcons();
   },
-  handleStockSearch(q) {
-    const dd = document.getElementById('stockSearchDropdown'); if (!dd) return;
-    q = (q || '').toLowerCase(); let m = this.bistCatalog;
-    if (q) m = m.filter(s => s.symbol.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
-    dd.innerHTML = m.map(s => `
-      <div onclick="Portal.selectStockAsset('${s.symbol}', '${s.price}')" class="p-3 hover:bg-slate-850 cursor-pointer flex justify-between items-center">
-        <div><span class="text-xs text-white font-bold">${s.symbol}</span><span class="text-slate-400 text-xs ml-2">${s.name}</span></div>
-        <div class="text-xs text-emerald-400 font-mono font-bold">${s.price} ₺</div>
+    handleStockSearch(q) {
+    const dd = document.getElementById('stockSearchDropdown'); 
+    if (!dd) return;
+    q = (q || '').trim().toUpperCase();
+    
+    let matches = this.bistCatalog;
+    if (q) {
+      matches = this.bistCatalog.filter(s => 
+        s.symbol.toUpperCase().includes(q) || 
+        s.name.toUpperCase().includes(q) ||
+        s.sector.toUpperCase().includes(q)
+      );
+    }
+    
+    let html = '';
+    
+    // Eğer kullanıcının yazdığı kod listede yoksa, "Özel BIST Hissesi Olarak Ekle" seçeneği sun
+    if (q && !this.bistCatalog.some(s => s.symbol === q)) {
+      html += `
+        <div onclick="Portal.selectCustomStockAsset('${q}')" class="p-3 bg-blue-950/40 hover:bg-blue-900/60 border-b border-blue-500/30 cursor-pointer flex justify-between items-center transition-colors">
+          <div>
+            <span class="text-xs text-blue-300 font-bold font-mono">➕ ${q} (Özel BIST Hissesi)</span>
+            <span class="block text-[10px] text-slate-400">Canlı Yahoo/BIST API'sinden anlık fiyatı çek</span>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">Canlı Sorgula</span>
+        </div>
+      `;
+    }
+
+    if (matches.length === 0 && !html) {
+      dd.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs">Eşleşen BIST hissesi bulunamadı.</div>`;
+      dd.classList.remove('hidden');
+      return;
+    }
+
+    html += matches.slice(0, 30).map(s => `
+      <div onclick="Portal.selectStockAsset('${s.symbol}', '${s.price || 0}')" class="p-3 hover:bg-slate-850 cursor-pointer flex justify-between items-center transition-colors">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-mono text-xs font-black">
+            ${s.symbol.slice(0, 2)}
+          </span>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs text-white font-bold">${s.symbol}</span>
+              <span class="text-[9px] text-slate-400 bg-slate-800 px-1.5 py-0.2 rounded font-mono">${s.sector}</span>
+            </div>
+            <span class="text-[11px] text-slate-400 truncate block max-w-[220px]">${this.escapeHtml(s.name)}</span>
+          </div>
+        </div>
+        <div class="text-right font-mono">
+          <div class="text-xs text-white font-bold">${s.price > 0 ? Number(s.price).toFixed(2) + ' ₺' : 'Canlı Fiyat'}</div>
+          <span class="text-[10px] ${s.change.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'} font-bold">${s.change}</span>
+        </div>
       </div>
     `).join('');
+
+    dd.innerHTML = html;
     dd.classList.remove('hidden');
   },
-  selectStockAsset(sym, prc) {
-    const sInput = document.getElementById('assetSearchInput'); const bInput = document.getElementById('assetBuyPriceInput');
-    const dd = document.getElementById('stockSearchDropdown'); const card = document.getElementById('selectedAssetCard');
-    const badge = document.getElementById('selectedAssetBadge'); const name = document.getElementById('selectedAssetName'); const price = document.getElementById('selectedAssetPrice');
-    if (sInput) sInput.value = sym; if (bInput) bInput.value = prc; if (dd) dd.classList.add('hidden');
-    if (card) card.classList.remove('hidden'); if (badge) badge.textContent = sym.slice(0, 2);
-    if (name) name.textContent = sym; if (price) price.textContent = `Canlı: ${prc} ₺`;
+
+  async selectStockAsset(sym, prc) {
+    const sInput = document.getElementById('assetSearchInput'); 
+    const bInput = document.getElementById('assetBuyPriceInput');
+    const dd = document.getElementById('stockSearchDropdown'); 
+    const card = document.getElementById('selectedAssetCard');
+    const badge = document.getElementById('selectedAssetBadge'); 
+    const name = document.getElementById('selectedAssetName'); 
+    const price = document.getElementById('selectedAssetPrice');
+
+    if (sInput) sInput.value = sym; 
+    if (dd) dd.classList.add('hidden');
+    if (card) card.classList.remove('hidden'); 
+    if (badge) badge.textContent = sym.slice(0, 2);
+    if (name) name.textContent = sym; 
+    if (price) price.textContent = 'Canlı Fiyat Çekiliyor...';
+
+    // Canlı API sorgusu
+    const live = await this.fetchLiveQuote(sym);
+    const finalPrice = (live && live.price) ? live.price : (parseFloat(prc) > 0 ? parseFloat(prc) : 100.0);
+
+    if (bInput) bInput.value = Number(finalPrice).toFixed(2);
+    if (price) price.textContent = `Güncel Canlı Fiyat: ${Number(finalPrice).toFixed(2)} ₺`;
+
+    const sharesInput = document.getElementById('assetSharesInput');
+    if (sharesInput) { sharesInput.focus(); sharesInput.select(); }
     this.playAudioFeedback('click');
   },
+
+  async selectCustomStockAsset(sym) {
+    await this.selectStockAsset(sym, 0);
+  },
+
   openAddAssetModal() { this.openModal('addAssetModal'); setTimeout(() => { const el = document.getElementById('assetSearchInput'); if (el) el.focus(); }, 100); },
   handleSaveAsset(e) { e.preventDefault(); this.closeModal('addAssetModal'); this.toast('Hisse portföye eklendi! 📈', 'success'); this.playAudioFeedback('complete'); },
 

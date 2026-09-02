@@ -1,0 +1,517 @@
+[
+  {
+    "symbol": "THYAO",
+    "name": "Türk Hava Yolları",
+    "sector": "Ulaştırma"
+  },
+  {
+    "symbol": "ASELS",
+    "name": "Aselsan Elektronik",
+    "sector": "Savunma / Teknoloji"
+  },
+  {
+    "symbol": "GARAN",
+    "name": "Garanti BBVA",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "AKBNK",
+    "name": "Akbank T.A.Ş.",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "ISCTR",
+    "name": "Türkiye İş Bankası (C)",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "YKBNK",
+    "name": "Yapı ve Kredi Bankası",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "TUPRS",
+    "name": "Tüpraş Petrol Rafinerileri",
+    "sector": "Enerji"
+  },
+  {
+    "symbol": "KCHOL",
+    "name": "Koç Holding",
+    "sector": "Holding"
+  },
+  {
+    "symbol": "SAHOL",
+    "name": "Sabancı Holding",
+    "sector": "Holding"
+  },
+  {
+    "symbol": "EREGL",
+    "name": "Ereğli Demir Çelik",
+    "sector": "Demir Çelik"
+  },
+  {
+    "symbol": "SISE",
+    "name": "Şişecam Fabrikaları",
+    "sector": "Cam / Sanayi"
+  },
+  {
+    "symbol": "BIMAS",
+    "name": "BİM Birleşik Mağazalar",
+    "sector": "Perakende"
+  },
+  {
+    "symbol": "MGROS",
+    "name": "Migros Ticaret",
+    "sector": "Perakende"
+  },
+  {
+    "symbol": "FROTO",
+    "name": "Ford Otosan",
+    "sector": "Otomotiv"
+  },
+  {
+    "symbol": "TOASO",
+    "name": "Tofaş Türk Otomobil",
+    "sector": "Otomotiv"
+  },
+  {
+    "symbol": "ASTOR",
+    "name": "Astor Enerji",
+    "sector": "Elektrik / Enerji"
+  },
+  {
+    "symbol": "PETKM",
+    "name": "Petkim Petrokimya",
+    "sector": "Kimya"
+  },
+  {
+    "symbol": "SASA",
+    "name": "Sasa Polyester",
+    "sector": "Tekstil / Kimya"
+  },
+  {
+    "symbol": "HEKTS",
+    "name": "Hektaş Ticaret",
+    "sector": "Tarım / Kimya"
+  },
+  {
+    "symbol": "EKGYO",
+    "name": "Emlak Konut GYO",
+    "sector": "GYO"
+  },
+  {
+    "symbol": "KOZAL",
+    "name": "Koza Altın İşletmeleri",
+    "sector": "Madencilik"
+  },
+  {
+    "symbol": "KRDMD",
+    "name": "Kardemir Demir Çelik (D)",
+    "sector": "Demir Çelik"
+  },
+  {
+    "symbol": "PGSUS",
+    "name": "Pegasus Hava Taşımacılığı",
+    "sector": "Ulaştırma"
+  },
+  {
+    "symbol": "TCELL",
+    "name": "Turkcell İletişim",
+    "sector": "Telekom"
+  },
+  {
+    "symbol": "TTKOM",
+    "name": "Türk Telekomünikasyon",
+    "sector": "Telekom"
+  },
+  {
+    "symbol": "ENKAI",
+    "name": "Enka İnşaat ve Sanayi",
+    "sector": "İnşaat / Holding"
+  },
+  {
+    "symbol": "KONTR",
+    "name": "Kontrolmatik Teknoloji",
+    "sector": "Mühendislik / Enerji"
+  },
+  {
+    "symbol": "EUPWR",
+    "name": "Europower Enerji",
+    "sector": "Elektrik / Enerji"
+  },
+  {
+    "symbol": "GESAN",
+    "name": "Girişim Elektrik",
+    "sector": "Elektrik / Enerji"
+  },
+  {
+    "symbol": "ALARK",
+    "name": "Alarko Holding",
+    "sector": "Holding / Enerji"
+  },
+  {
+    "symbol": "MIATK",
+    "name": "Mia Teknoloji",
+    "sector": "Bilişim / Yazılım"
+  },
+  {
+    "symbol": "REEDR",
+    "name": "Reeder Teknoloji",
+    "sector": "Teknoloji / Elektronik"
+  },
+  {
+    "symbol": "TABGD",
+    "name": "TAB Gıda Sanayi",
+    "sector": "Gıda / Restoran"
+  },
+  {
+    "symbol": "CMENT",
+    "name": "Çimentaş Çimento",
+    "sector": "Çimento"
+  },
+  {
+    "symbol": "OYAKC",
+    "name": "Oyak Çimento",
+    "sector": "Çimento"
+  },
+  {
+    "symbol": "CIMSA",
+    "name": "Çimsa Çimento",
+    "sector": "Çimento"
+  },
+  {
+    "symbol": "CANTE",
+    "name": "Çan2 Termik A.Ş.",
+    "sector": "Enerji"
+  },
+  {
+    "symbol": "ODAS",
+    "name": "Odaş Elektrik Üretim",
+    "sector": "Madencilik / Enerji"
+  },
+  {
+    "symbol": "GUBRF",
+    "name": "Gübre Fabrikaları",
+    "sector": "Kimya / Gübre"
+  },
+  {
+    "symbol": "KOZAA",
+    "name": "Koza Anadolu Metal",
+    "sector": "Madencilik"
+  },
+  {
+    "symbol": "IPEKE",
+    "name": "İpek Doğal Enerji",
+    "sector": "Madencilik"
+  },
+  {
+    "symbol": "ISGYO",
+    "name": "İş Gayrimenkul Yatırım",
+    "sector": "GYO"
+  },
+  {
+    "symbol": "TRGYO",
+    "name": "Torunlar GYO",
+    "sector": "GYO"
+  },
+  {
+    "symbol": "DOHOL",
+    "name": "Doğan Şirketler Grubu",
+    "sector": "Holding"
+  },
+  {
+    "symbol": "VESTL",
+    "name": "Vestel Elektronik",
+    "sector": "Dayanıklı Tüketim"
+  },
+  {
+    "symbol": "VESBE",
+    "name": "Vestel Beyaz Eşya",
+    "sector": "Dayanıklı Tüketim"
+  },
+  {
+    "symbol": "ARCLK",
+    "name": "Arçelik A.Ş.",
+    "sector": "Dayanıklı Tüketim"
+  },
+  {
+    "symbol": "SOKM",
+    "name": "Şok Marketler Ticaret",
+    "sector": "Perakende"
+  },
+  {
+    "symbol": "MAVI",
+    "name": "Mavi Giyim Sanayi",
+    "sector": "Tekstil / Perakende"
+  },
+  {
+    "symbol": "KORDS",
+    "name": "Kordsa Teknik Tekstil",
+    "sector": "Tekstil / Sanayi"
+  },
+  {
+    "symbol": "BRISA",
+    "name": "Brisa Bridgestone Lastik",
+    "sector": "Otomotiv Yan Sanayi"
+  },
+  {
+    "symbol": "OTKAR",
+    "name": "Otokar Otomotiv",
+    "sector": "Otomotiv / Savunma"
+  },
+  {
+    "symbol": "DOAS",
+    "name": "Doğuş Otomotiv Servis",
+    "sector": "Otomotiv"
+  },
+  {
+    "symbol": "TTRAK",
+    "name": "Türk Traktör",
+    "sector": "Otomotiv / Tarım"
+  },
+  {
+    "symbol": "EGEEN",
+    "name": "Ege Endüstri ve Ticaret",
+    "sector": "Otomotiv Yan Sanayi"
+  },
+  {
+    "symbol": "ALBRK",
+    "name": "Albaraka Türk Katılım",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "SKBNK",
+    "name": "Şekerbank T.A.Ş.",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "TSKB",
+    "name": "Türkiye Sınai Kalkınma Bankası",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "VAKBN",
+    "name": "Türkiye Vakıflar Bankası",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "HALKB",
+    "name": "Türkiye Halk Bankası",
+    "sector": "Bankacılık"
+  },
+  {
+    "symbol": "ANHYT",
+    "name": "Anadolu Hayat Emeklilik",
+    "sector": "Sigorta"
+  },
+  {
+    "symbol": "AKGRT",
+    "name": "Aksigorta A.Ş.",
+    "sector": "Sigorta"
+  },
+  {
+    "symbol": "ANSGR",
+    "name": "Anadolu Anonim Türk Sigorta",
+    "sector": "Sigorta"
+  },
+  {
+    "symbol": "TURSG",
+    "name": "Türkiye Sigorta A.Ş.",
+    "sector": "Sigorta"
+  },
+  {
+    "symbol": "AGHOL",
+    "name": "AG Anadolu Grubu Holding",
+    "sector": "Holding"
+  },
+  {
+    "symbol": "BERA",
+    "name": "Bera Holding A.Ş.",
+    "sector": "Holding"
+  },
+  {
+    "symbol": "GSDHO",
+    "name": "GSD Holding A.Ş.",
+    "sector": "Holding"
+  },
+  {
+    "symbol": "GLYHO",
+    "name": "Global Yatırım Holding",
+    "sector": "Holding"
+  },
+  {
+    "symbol": "TKFEN",
+    "name": "Tekfen Holding",
+    "sector": "Holding / İnşaat"
+  },
+  {
+    "symbol": "ULKER",
+    "name": "Ülker Bisküvi Sanayi",
+    "sector": "Gıda İmalat"
+  },
+  {
+    "symbol": "TATGD",
+    "name": "Tat Gıda Sanayi",
+    "sector": "Gıda İmalat"
+  },
+  {
+    "symbol": "AEFES",
+    "name": "Anadolu Efes Biracılık",
+    "sector": "İçecek İmalat"
+  },
+  {
+    "symbol": "CCOLA",
+    "name": "Coca-Cola İçecek",
+    "sector": "İçecek İmalat"
+  },
+  {
+    "symbol": "KAYSE",
+    "name": "Kayseri Şeker Fabrikası",
+    "sector": "Gıda / Şeker"
+  },
+  {
+    "symbol": "CWENE",
+    "name": "CW Enerji Mühendislik",
+    "sector": "Güneş / Enerji"
+  },
+  {
+    "symbol": "ALFAS",
+    "name": "Alfa Solar Enerji",
+    "sector": "Güneş / Enerji"
+  },
+  {
+    "symbol": "SMRTG",
+    "name": "Smart Güneş Enerjisi",
+    "sector": "Güneş / Enerji"
+  },
+  {
+    "symbol": "YEOTK",
+    "name": "YEO Teknoloji Enerji",
+    "sector": "Mühendislik / Enerji"
+  },
+  {
+    "symbol": "KOCAER",
+    "name": "Kocaer Çelik Sanayi",
+    "sector": "Demir Çelik"
+  },
+  {
+    "symbol": "QUAWR",
+    "name": "Qua Granite Hayal Yapı",
+    "sector": "Seramik / Maden"
+  },
+  {
+    "symbol": "BIENY",
+    "name": "Bien Yapı Ürünleri",
+    "sector": "Seramik / İnşaat"
+  },
+  {
+    "symbol": "PENTA",
+    "name": "Penta Teknoloji Ürünleri",
+    "sector": "Bilişim / Dağıtım"
+  },
+  {
+    "symbol": "ARDYZ",
+    "name": "ARD Grup Bilişim",
+    "sector": "Yazılım / Bilişim"
+  },
+  {
+    "symbol": "VBTYZ",
+    "name": "VBT Yazılım A.Ş.",
+    "sector": "Yazılım / Bilişim"
+  },
+  {
+    "symbol": "SDTTR",
+    "name": "SDT Uzay ve Savunma",
+    "sector": "Savunma / Teknoloji"
+  },
+  {
+    "symbol": "FORTE",
+    "name": "Forte Bilgi İletişim",
+    "sector": "Bilişim / Savunma"
+  },
+  {
+    "symbol": "BORSK",
+    "name": "Bor Şeker A.Ş.",
+    "sector": "Gıda / Şeker"
+  },
+  {
+    "symbol": "LMKDC",
+    "name": "Limak Doğu Anadolu Çimento",
+    "sector": "Çimento"
+  },
+  {
+    "symbol": "OBAMS",
+    "name": "Oba Makarnacılık",
+    "sector": "Gıda"
+  },
+  {
+    "symbol": "MOGAN",
+    "name": "Mogan Enerji Yatırım",
+    "sector": "Enerji"
+  },
+  {
+    "symbol": "KOTON",
+    "name": "Koton Mağazacılık",
+    "sector": "Tekstil / Perakende"
+  },
+  {
+    "symbol": "LILAK",
+    "name": "Lila Kağıt Sanayi",
+    "sector": "Kağıt / Ambalaj"
+  },
+  {
+    "symbol": "ALTIN_GRAM",
+    "name": "Gram Altın (24 Ayar)",
+    "sector": "Kıymetli Maden"
+  },
+  {
+    "symbol": "CEYREK_ALTIN",
+    "name": "Çeyrek Altın",
+    "sector": "Kıymetli Maden"
+  },
+  {
+    "symbol": "YARIM_ALTIN",
+    "name": "Yarım Altın",
+    "sector": "Kıymetli Maden"
+  },
+  {
+    "symbol": "TAM_ALTIN",
+    "name": "Tam / Cumhuriyet Altını",
+    "sector": "Kıymetli Maden"
+  },
+  {
+    "symbol": "GUMUS_GRAM",
+    "name": "Gümüş (Gram/TL)",
+    "sector": "Kıymetli Maden"
+  },
+  {
+    "symbol": "USD_TRY",
+    "name": "Amerikan Doları / TL",
+    "sector": "Döviz"
+  },
+  {
+    "symbol": "EUR_TRY",
+    "name": "Euro / TL",
+    "sector": "Döviz"
+  },
+  {
+    "symbol": "GBP_TRY",
+    "name": "İngiliz Sterlini / TL",
+    "sector": "Döviz"
+  },
+  {
+    "symbol": "CHF_TRY",
+    "name": "İsviçre Frangı / TL",
+    "sector": "Döviz"
+  },
+  {
+    "symbol": "BTC_USD",
+    "name": "Bitcoin / USD",
+    "sector": "Kripto Varlık"
+  },
+  {
+    "symbol": "ETH_USD",
+    "name": "Ethereum / USD",
+    "sector": "Kripto Varlık"
+  }
+]
