@@ -1,5 +1,5 @@
 const Portal = {
-  version: '3.4.0-Enterprise',
+  version: '3.5.0-Enterprise',
   currentTab: 'dashboard',
   noteIcons: ['📝', '💡', '🚀', '📌', '⚡', '🎯', '📊', '🔥', '🌟', '📚'],
   currentIconIndex: 0,
@@ -15,7 +15,6 @@ const Portal = {
   pomodoroSeconds: 0,
   pomodoroInterval: null,
   isPomodoroRunning: false,
-  
 
   loadScratchpad() {
     const el = document.getElementById('quickScratchpad');
@@ -49,10 +48,10 @@ const Portal = {
     this.loadNotes();
     this.toast('Karalama not olarak kaydedildi! 🎯', 'success');
   },
-
+  
   init() {
-    this.loadScratchpad();
     try {
+      this.loadScratchpad();
       this.minimizedWidgets = JSON.parse(localStorage.getItem('portal_minimized_widgets') || '[]');
       this.checkPersistentAuth();
       this.initClock();
@@ -118,9 +117,9 @@ const Portal = {
     const container = document.getElementById('categoryPillsContainer');
     if (!container) return;
 
-    const categories = ['Tümü', 'İş & Proje', 'Kişisel', 'Fikirler', 'Görevler'];
+    const customCats = JSON.parse(localStorage.getItem('portal_custom_categories') || '["İş & Proje", "Kişisel", "Fikirler", "Görevler"]');
+    const categories = ['Tümü', ...customCats];
     
-    // Kategori sayılarını hesapla
     const counts = { 'Tümü': allNotes.length };
     categories.forEach(c => {
       if (c !== 'Tümü') {
@@ -131,7 +130,6 @@ const Portal = {
     container.innerHTML = categories.map(cat => {
       const isSelected = this.selectedCategory === cat;
       const count = counts[cat] || 0;
-      if (cat !== 'Tümü' && count === 0) return ''; // Boş kategorileri gizle (zarif UX)
 
       return `
         <button 
@@ -143,7 +141,32 @@ const Portal = {
           <span class="px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-400'} text-[10px] font-mono">${count}</span>
         </button>
       `;
-    }).join('');
+    }).join('') + `
+      <button 
+        type="button" 
+        onclick="Portal.promptAddCategory()" 
+        title="Yeni Kategori Ekle" 
+        class="p-1.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-amber-400 border border-slate-800 text-xs font-bold transition-all cursor-pointer flex-shrink-0"
+      >
+        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+      </button>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  promptAddCategory() {
+    const name = prompt('Yeni Kategori İsmi:');
+    if (name && name.trim()) {
+      let customCats = JSON.parse(localStorage.getItem('portal_custom_categories') || '["İş & Proje", "Kişisel", "Fikirler", "Görevler"]');
+      if (!customCats.includes(name.trim())) {
+        customCats.push(name.trim());
+        this.safeSetItem('portal_custom_categories', JSON.stringify(customCats));
+        this.selectedCategory = name.trim();
+        this.loadNotes();
+        this.toast(`"${name.trim()}" kategorisi eklendi!`, 'success');
+      }
+    }
   },
 
   setNoteCategory(cat) {
@@ -340,7 +363,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 6. NOTION ZENGİN NOTLAR MOTORU (CANVAS & WIDGET GÖVDESİ)
+  // 6. NOTION ZENGİN NOTLAR MOTORU (CANVAS & UZUNLAMASINA DİKEY DÜZEN)
   // ==========================================================
   getLocalNotes() {
     try {
@@ -375,6 +398,33 @@ const Portal = {
     }
   },
 
+  quickPinNote(id, event) {
+    if (event) event.stopPropagation();
+    let notes = this.getLocalNotes();
+    notes = notes.map(n => n.id === id ? { ...n, pinned: n.pinned == 1 ? 0 : 1, updated_at: new Date().toISOString() } : n);
+    this.saveLocalNotes(notes);
+    this.loadNotes();
+    this.toast('Sabitleme durumu güncellendi', 'info');
+  },
+
+  quickDeleteNote(id, event) {
+    if (event) event.stopPropagation();
+    if (!confirm('Bu notu silmek istediğinize emin misiniz?')) return;
+    let notes = this.getLocalNotes();
+    notes = notes.filter(n => n.id !== id);
+    this.saveLocalNotes(notes);
+    this.loadNotes();
+    this.toast('Not silindi', 'info');
+  },
+
+  copyNoteContent(id, event) {
+    if (event) event.stopPropagation();
+    const n = this.getLocalNotes().find(item => item.id === id);
+    if (!n) return;
+    navigator.clipboard.writeText(`${n.title}\n\n${n.content}`);
+    this.toast('Not içeriği panoya kopyalandı! 📋', 'success');
+  },
+
   filterNotes() {
     const input = document.getElementById('noteSearchInput');
     this.searchQuery = input ? input.value.trim().toLowerCase() : '';
@@ -383,11 +433,21 @@ const Portal = {
 
   formatSnippet(rawText) {
     if (!rawText) return '<span class="text-slate-600 italic">Boş içerik...</span>';
-    let safe = this.escapeHtml(rawText.substring(0, 160));
-    if (rawText.length > 160) safe += '...';
+    let safe = this.escapeHtml(rawText.substring(0, 180));
+    if (rawText.length > 180) safe += '...';
     safe = safe.replace(/\[x\]/gi, '<span class="text-emerald-400 font-bold">✓</span>');
     safe = safe.replace(/\[ \]/g, '<span class="text-slate-500 font-bold">◻</span>');
     return safe;
+  },
+
+  calculateTodoProgress(content) {
+    if (!content) return null;
+    const done = (content.match(/\[x\]/gi) || []).length;
+    const pending = (content.match(/\[ \]/g) || []).length;
+    const total = done + pending;
+    if (total === 0) return null;
+    const percent = Math.round((done / total) * 100);
+    return { done, pending, total, percent };
   },
 
   loadNotes() {
@@ -432,7 +492,7 @@ const Portal = {
 
       if (notes.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full py-12 text-center rounded-3xl border border-dashed border-slate-800 bg-slate-900/30">
+          <div class="py-12 text-center rounded-3xl border border-dashed border-slate-800 bg-slate-900/30">
             <span class="text-3xl block mb-2">🔍</span>
             <h3 class="text-sm font-bold text-slate-300 mb-1">${this.searchQuery ? 'Aramanıza uygun not bulunamadı' : 'Henüz bu kategoride bir not yok'}</h3>
             <p class="text-xs text-slate-500 mb-3 max-w-sm mx-auto">
@@ -454,67 +514,68 @@ const Portal = {
         rose: 'from-rose-500/10 to-red-500/5 border-rose-500/30 hover:border-rose-500/60'
       };
 
-      if (this.notesViewMode === 'list') {
-        grid.className = 'flex flex-col gap-2.5';
-        grid.innerHTML = notes.map(n => {
-          const dateStr = new Date(n.updated_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
-          return `
-            <div onclick="Portal.openEditNoteDrawer('${n.id}')" class="p-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 flex items-center justify-between gap-4 cursor-pointer transition-all hover:scale-[1.005]">
-              <div class="flex items-center gap-3 min-w-0">
-                <span class="text-xl flex-shrink-0">${n.icon || '📝'}</span>
-                <div class="min-w-0">
-                  <div class="flex items-center gap-2">
-                    <h4 class="text-xs font-bold text-white truncate">${this.escapeHtml(n.title || 'Başlıksız Not')}</h4>
-                    ${n.category && n.category !== 'Tümü' ? `<span class="px-2 py-0.2 rounded-md bg-slate-800 text-slate-400 text-[9px] font-bold border border-slate-700">${this.escapeHtml(n.category)}</span>` : ''}
-                  </div>
-                  <p class="text-[11px] text-slate-400 truncate mt-0.5">${this.escapeHtml(n.content || 'Boş içerik...')}</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 text-[11px] text-slate-500 flex-shrink-0">
-                ${n.pinned == 1 ? '<span class="text-amber-400">📌</span>' : ''}
-                <span>${dateStr}</span>
-              </div>
-            </div>
-          `;
-        }).join('');
-      } else {
-        grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4';
-        grid.innerHTML = notes.map(n => {
-          const colorClass = colorGradients[n.color] || colorGradients.amber;
-          const snippetHtml = this.formatSnippet(n.content);
-          const dateStr = new Date(n.updated_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+      grid.innerHTML = notes.map(n => {
+        const colorClass = colorGradients[n.color] || colorGradients.amber;
+        const snippetHtml = this.formatSnippet(n.content);
+        const dateStr = new Date(n.updated_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+        const progress = this.calculateTodoProgress(n.content);
 
-          return `
-            <div onclick="Portal.openEditNoteDrawer('${n.id}')" class="group relative rounded-3xl p-5 bg-gradient-to-b ${colorClass} bg-slate-900/80 border backdrop-blur-lg hover:shadow-2xl hover:scale-[1.01] transition-all duration-200 cursor-pointer flex flex-col justify-between min-h-[160px]">
-              <div>
-                <div class="flex items-start justify-between gap-3 mb-2">
-                  <div class="flex items-center gap-2.5 min-w-0">
-                    <span class="text-2xl flex-shrink-0">${n.icon || '📝'}</span>
-                    <div class="min-w-0">
+        return `
+          <div onclick="Portal.openEditNoteDrawer('${n.id}')" class="group relative rounded-3xl p-4 sm:p-5 bg-gradient-to-r ${colorClass} bg-slate-900/80 border backdrop-blur-lg hover:shadow-2xl transition-all duration-200 cursor-pointer flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between gap-3 mb-2">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="text-2xl flex-shrink-0">${n.icon || '📝'}</span>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
                       <h3 class="font-bold text-sm text-slate-100 group-hover:text-white truncate tracking-tight">${this.escapeHtml(n.title || 'Başlıksız Not')}</h3>
-                      ${n.category && n.category !== 'Tümü' ? `<span class="text-[10px] text-amber-400/80 font-semibold block">${this.escapeHtml(n.category)}</span>` : ''}
+                      ${n.pinned == 1 ? '<span class="text-amber-400 text-xs flex-shrink-0" title="Sabitlendi">📌</span>' : ''}
                     </div>
-                  </div>
-                  <div class="flex items-center gap-1">
-                    ${n.pinned == 1 ? '<span class="text-amber-400 text-xs" title="Sabitlendi">📌</span>' : ''}
+                    ${n.category && n.category !== 'Tümü' ? `<span class="text-[10px] text-amber-400/90 font-semibold block mt-0.5">${this.escapeHtml(n.category)}</span>` : ''}
                   </div>
                 </div>
-                
-                <p class="text-xs text-slate-400 group-hover:text-slate-300 leading-relaxed whitespace-pre-wrap line-clamp-4 font-sans font-normal">
-                  ${snippetHtml}
-                </p>
-              </div>
 
-              <div class="pt-3 mt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500">
-                <span>${dateStr}</span>
-                <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 font-semibold">
-                  Düzenle <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                </span>
+                <!-- HIZLI KART AKSİYONLARI -->
+                <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                  <button onclick="Portal.copyNoteContent('${n.id}', event)" title="Kopyala" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button onclick="Portal.quickPinNote('${n.id}', event)" title="Sabitle" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 ${n.pinned == 1 ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400'}">
+                    <i data-lucide="pin" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button onclick="Portal.quickDeleteNote('${n.id}', event)" title="Sil" class="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-900/60 text-slate-400 hover:text-rose-300">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
               </div>
+              
+              <p class="text-xs text-slate-400 group-hover:text-slate-300 leading-relaxed whitespace-pre-wrap font-sans font-normal mt-1">
+                ${snippetHtml}
+              </p>
+
+              <!-- İLERLEME ÇUBUĞU (TODO VARSA) -->
+              ${progress ? `
+                <div class="mt-3 pt-2 border-t border-slate-800/60">
+                  <div class="flex justify-between items-center text-[10px] text-slate-400 mb-1 font-mono">
+                    <span>Görev İlerlemesi (${progress.done}/${progress.total})</span>
+                    <span class="text-emerald-400 font-bold">%${progress.percent}</span>
+                  </div>
+                  <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300" style="width: ${progress.percent}%"></div>
+                  </div>
+                </div>
+              ` : ''}
             </div>
-          `;
-        }).join('');
-      }
+
+            <div class="pt-3 mt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500">
+              <span>Son Düzenleme: ${dateStr}</span>
+              <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 font-semibold">
+                Düzenle <i data-lucide="chevron-right" class="w-3 h-3"></i>
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
 
       if (window.lucide) window.lucide.createIcons();
     } catch (e) {
@@ -928,7 +989,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 9. SENTINEL OS & CANLI DERİN TARAMA TERMİNALİ
+  // 8. SENTINEL OS & CANLI DERİN TARAMA TERMİNALİ
   // ==========================================================
   async runSentinelCheck() {
     const term = document.getElementById('sentinelTerminalOutput');
@@ -985,7 +1046,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 10. KURUMSAL YEDEKLEME, İÇE/DIŞA AKTARMA VE FABRİKA SIFIRLAMA
+  // 9. KURUMSAL YEDEKLEME, İÇE/DIŞA AKTARMA VE FABRİKA SIFIRLAMA
   // ==========================================================
   exportBackup() {
     try {
@@ -1055,7 +1116,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 11. KALICI OTURUM KONTROLÜ
+  // 10. KALICI OTURUM KONTROLÜ
   // ==========================================================
   checkPersistentAuth() {
     try {
@@ -1117,7 +1178,7 @@ const Portal = {
   },
 
   // ==========================================================
-  // 12. SEKME & SAYFA YÖNLENDİRİCİ
+  // 11. SEKME & SAYFA YÖNLENDİRİCİ
   // ==========================================================
   switchTab(tabId) {
     try {
