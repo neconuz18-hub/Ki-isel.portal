@@ -238,9 +238,12 @@
                 </div>
 
                 <!-- ========================================================== -->
-                <!-- 2. FOTOĞRAFTAKİ BİREBİR "NOTLARIM" ENTEGRE WİDGET KARTI -->
+                <!-- 2. UZUNLAMASINA DİKEY "NOTLARIM" ENTEGRE WİDGET KARTI -->
                 <!-- ========================================================== -->
-                <div id="notesWidgetWrapper" class="glass-card rounded-3xl border border-slate-800/90 shadow-2xl overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                    
+                    <!-- SOL/ANA SÜTUN: UZUNLAMASINA NOTLARIM WİDGETI -->
+                    <div id="notesWidgetWrapper" class="glass-card rounded-3xl border border-slate-800/90 shadow-2xl overflow-hidden lg:col-span-2 flex flex-col min-h-[600px]">
                     
                     <!-- 1. ÜST WIDGET BAŞLIĞI (HEADER) -->
                     <div class="p-5 sm:p-6 pb-4 flex items-center justify-between gap-4 border-b border-slate-800/60 bg-slate-900/40">
@@ -327,16 +330,41 @@
                         </div>
                     </div>
 
-                    <!-- 4. NOTLAR LİSTESİ / IZGARASI -->
-                    <div class="p-5 sm:p-6">
-                        <div id="notionNotesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- Dinamik Render -->
+                    <!-- 4. UZUNLAMASINA DİKEY NOTLAR LİSTESİ -->
+                    <div class="p-5 sm:p-6 flex-1 overflow-y-auto max-h-[720px] custom-scrollbar">
+                        <div id="notionNotesGrid" class="flex flex-col gap-3">
+                            <!-- Dikey Uzunlamasına Render -->
                         </div>
                     </div>
 
                 </div>
 
+                <!-- SAĞ SÜTUN: HIZLI ÇALIŞMA ALANI & DETAY PANELİ -->
+                <div class="space-y-6">
+                    <!-- Hızlı Not Yazma Kartı -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                                <i data-lucide="edit-3" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Hızlı Not Karalama</h3>
+                                <p class="text-[11px] text-slate-400">Anında fikirlerinizi buraya yazın</p>
+                            </div>
+                        </div>
+                        <textarea id="quickScratchpad" oninput="localStorage.setItem('portal_scratchpad', this.value)" rows="6" placeholder="Aklınıza gelen hızlı bir düşünce veya telefon numarası..." class="w-full bg-slate-950/80 rounded-2xl p-3.5 border border-slate-800 text-slate-200 text-xs placeholder-slate-600 focus:outline-none focus:border-amber-500/50 resize-none leading-relaxed"></textarea>
+                        <div class="flex justify-between items-center text-[10px] text-slate-500">
+                            <span>Otomatik kaydedilir</span>
+                            <button onclick="Portal.saveScratchpadAsNote()" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-bold border border-amber-500/40 transition-all cursor-pointer">
+                                Notlarıma Aktar ➔
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
+        </div>
 
             <!-- TAB 2: GELİŞTİRİCİ MERKEZİ & SENTINEL OS KONTROL PANELİ -->
             <div id="tab-admin" class="tab-pane hidden space-y-6">

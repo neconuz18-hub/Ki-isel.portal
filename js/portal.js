@@ -16,7 +16,42 @@ const Portal = {
   pomodoroInterval: null,
   isPomodoroRunning: false,
   
+
+  loadScratchpad() {
+    const el = document.getElementById('quickScratchpad');
+    if (el) el.value = localStorage.getItem('portal_scratchpad') || '';
+  },
+
+  saveScratchpadAsNote() {
+    const el = document.getElementById('quickScratchpad');
+    if (!el || !el.value.trim()) {
+      this.toast('Karalama defteri boş', 'info');
+      return;
+    }
+    const text = el.value.trim();
+    const firstLine = text.split('\n')[0].substring(0, 40);
+    
+    let notes = this.getLocalNotes();
+    notes.unshift({
+      id: 'note_' + Date.now(),
+      title: firstLine || 'Hızlı Not',
+      category: 'Tümü',
+      content: text,
+      icon: '💡',
+      color: 'amber',
+      pinned: 0,
+      updated_at: new Date().toISOString()
+    });
+
+    this.saveLocalNotes(notes);
+    el.value = '';
+    localStorage.removeItem('portal_scratchpad');
+    this.loadNotes();
+    this.toast('Karalama not olarak kaydedildi! 🎯', 'success');
+  },
+
   init() {
+    this.loadScratchpad();
     try {
       this.minimizedWidgets = JSON.parse(localStorage.getItem('portal_minimized_widgets') || '[]');
       this.checkPersistentAuth();
