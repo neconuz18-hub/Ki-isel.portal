@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../core/Auth.php';
 require_once __DIR__ . '/../core/Response.php';
+require_once __DIR__ . '/../core/SentinelWorker.php';
 require_once __DIR__ . '/../models/UserModel.php';
 require_once __DIR__ . '/../models/NoteModel.php';
 require_once __DIR__ . '/../models/MenuModel.php';
@@ -34,13 +35,15 @@ if ($endpoint === 'auth') {
     }
 }
 
-if ($endpoint === 'users') {
-    if ($method === 'GET') Response::success(UserModel::getAll());
-    if ($method === 'POST') {
-        $action = $input['action'] ?? 'create';
-        if ($action === 'create') Response::success(['id' => UserModel::create($input)], 'Kullanıcı eklendi');
-        if ($action === 'delete') Response::success(UserModel::delete($input['id']), 'Kullanıcı silindi');
+if ($endpoint === 'sentinel') {
+    $action = $_GET['action'] ?? ($input['action'] ?? 'status');
+    if ($action === 'check') {
+        Response::success(SentinelWorker::runDiagnostic(), 'Sentinel denetimi tamamlandı');
     }
+    if ($action === 'logs') {
+        Response::success(['logs' => SentinelWorker::getLogSummary()], 'Sentinel logları');
+    }
+    Response::success(SentinelWorker::runDiagnostic());
 }
 
 if ($endpoint === 'notes') {
