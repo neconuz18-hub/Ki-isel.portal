@@ -39,7 +39,6 @@
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
-        /* SOL MENÜ DARALTMA (COLLAPSED) DÜZELTMELERİ */
         #mainSidebar {
             transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s ease;
             overflow-x: hidden;
@@ -61,7 +60,6 @@
             padding-left: 0 !important;
             padding-right: 0 !important;
         }
-        /* YÜZEN BALONCUK DOCK */
         #floatingWidgetDock {
             position: fixed;
             bottom: 24px;
@@ -111,7 +109,7 @@
     <!-- MOBİL OVERLAY -->
     <div id="sidebarOverlay" onclick="Portal.closeMobileSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden"></div>
 
-    <!-- 2. SOL MENÜ -->
+    <!-- 2. SOL MENÜ (DİNAMİK RENDER EDİLECEK) -->
     <aside id="mainSidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-64 max-w-[80vw] flex flex-col justify-between p-4 -translate-x-full lg:translate-x-0 flex-shrink-0">
         <div class="space-y-6">
             <div class="flex items-center space-x-3 px-2 min-w-0">
@@ -127,15 +125,9 @@
                 </div>
             </div>
 
+            <!-- DİNAMİK MENÜ LİSTESİ -->
             <nav class="space-y-1.5" id="sidebarNavList">
-                <button onclick="Portal.switchTab('dashboard')" id="nav-btn-dashboard" title="Ana Sayfa & Notlar" class="nav-item active-nav w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-blue-400 bg-blue-600/15 border border-blue-500/30 transition-all cursor-pointer">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4 flex-shrink-0"></i>
-                    <span class="truncate sidebar-text">Ana Sayfa & Notlar</span>
-                </button>
-                <button onclick="Portal.switchTab('admin')" id="nav-btn-admin" title="Geliştirici & Menü Havuzu" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all cursor-pointer">
-                    <i data-lucide="terminal" class="w-4 h-4 flex-shrink-0 text-purple-400"></i>
-                    <span class="truncate sidebar-text">Geliştirici & Menü Havuzu</span>
-                </button>
+                <!-- JS tarafından dinamik doldurulur -->
             </nav>
         </div>
 
@@ -204,6 +196,18 @@
                     </button>
                 </div>
 
+                <!-- CANLI ARAMA VE FİLTRE ÇUBUĞU -->
+                <div class="glass-card p-3 rounded-2xl border border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="relative flex-1 w-full">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="noteSearchInput" oninput="Portal.filterNotes()" placeholder="Notlarda ara... (Başlık, içerik veya etiket)" class="w-full pl-10 pr-4 py-1.5 bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
+                    </div>
+                    <div class="flex items-center gap-1.5 text-xs text-slate-400 pl-2 sm:border-l sm:border-slate-800">
+                        <span id="noteCountBadge" class="px-2.5 py-1 rounded-xl bg-slate-800/80 font-mono font-bold text-slate-300">0 Not</span>
+                    </div>
+                </div>
+
+                <!-- NOTION NOTLAR GRİDİ -->
                 <div id="notionNotesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
             </div>
 
@@ -252,11 +256,11 @@
                             📝
                         </button>
                         <div class="flex items-center gap-1.5 pl-2 border-l border-slate-800">
-                            <button onclick="Portal.setDrawerColor('blue')" class="w-4 h-4 rounded-full bg-blue-500 hover:scale-125 transition-transform"></button>
-                            <button onclick="Portal.setDrawerColor('purple')" class="w-4 h-4 rounded-full bg-purple-500 hover:scale-125 transition-transform"></button>
-                            <button onclick="Portal.setDrawerColor('emerald')" class="w-4 h-4 rounded-full bg-emerald-500 hover:scale-125 transition-transform"></button>
-                            <button onclick="Portal.setDrawerColor('amber')" class="w-4 h-4 rounded-full bg-amber-500 hover:scale-125 transition-transform"></button>
-                            <button onclick="Portal.setDrawerColor('rose')" class="w-4 h-4 rounded-full bg-rose-500 hover:scale-125 transition-transform"></button>
+                            <button onclick="Portal.setDrawerColor('blue')" class="w-4 h-4 rounded-full bg-blue-500 hover:scale-125 transition-transform" title="Mavi"></button>
+                            <button onclick="Portal.setDrawerColor('purple')" class="w-4 h-4 rounded-full bg-purple-500 hover:scale-125 transition-transform" title="Mor"></button>
+                            <button onclick="Portal.setDrawerColor('emerald')" class="w-4 h-4 rounded-full bg-emerald-500 hover:scale-125 transition-transform" title="Zümrüt"></button>
+                            <button onclick="Portal.setDrawerColor('amber')" class="w-4 h-4 rounded-full bg-amber-500 hover:scale-125 transition-transform" title="Kehribar"></button>
+                            <button onclick="Portal.setDrawerColor('rose')" class="w-4 h-4 rounded-full bg-rose-500 hover:scale-125 transition-transform" title="Gül"></button>
                         </div>
                     </div>
 
@@ -264,7 +268,7 @@
                         <button id="noteDrawerPinBtn" onclick="Portal.toggleDrawerPin()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-amber-400 border border-slate-700 transition-colors cursor-pointer" title="En Tepeye Sabitle">
                             <i data-lucide="pin" class="w-4 h-4"></i>
                         </button>
-                        <button onclick="Portal.closeNoteDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-rose-900/40 text-slate-400 hover:text-rose-400 border border-slate-700 transition-colors cursor-pointer" title="Kapat">
+                        <button onclick="Portal.closeNoteDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-rose-900/40 text-slate-400 hover:text-rose-400 border border-slate-700 transition-colors cursor-pointer" title="Kapat (ESC)">
                             <i data-lucide="x" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -289,20 +293,24 @@
                         </button>
                     </div>
 
-                    <textarea id="drawerNoteContent" rows="14" placeholder="Buraya yazmaya başlayın... Fikirler, yapılacaklar, bağlantılar veya şablonlar..." class="w-full bg-slate-950/60 rounded-2xl p-4 border border-slate-800 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-blue-500/50 leading-relaxed font-sans resize-none transition-colors"></textarea>
+                    <!-- OTOMATİK GENİŞLEYEN METİN ALANI -->
+                    <textarea id="drawerNoteContent" oninput="Portal.handleContentInput(this)" rows="12" placeholder="Buraya yazmaya başlayın... Fikirler, yapılacaklar, bağlantılar veya şablonlar... (Kaydetmek için Ctrl+Enter)" class="w-full bg-slate-950/60 rounded-2xl p-4 border border-slate-800 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-blue-500/50 leading-relaxed font-sans resize-none transition-colors overflow-hidden"></textarea>
                 </form>
             </div>
 
             <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
-                <button type="button" id="drawerDeleteBtn" onclick="Portal.deleteDrawerNote()" class="px-4 py-2 rounded-xl bg-rose-950/30 hover:bg-rose-900/50 text-rose-400 border border-rose-900/50 text-xs font-bold transition-colors cursor-pointer hidden">
-                    Notu Sil
-                </button>
-                <div class="flex items-center gap-2 ml-auto">
+                <div class="flex items-center gap-3">
+                    <button type="button" id="drawerDeleteBtn" onclick="Portal.deleteDrawerNote()" class="px-3.5 py-2 rounded-xl bg-rose-950/30 hover:bg-rose-900/50 text-rose-400 border border-rose-900/50 text-xs font-bold transition-colors cursor-pointer hidden">
+                        Sil
+                    </button>
+                    <span id="drawerWordCount" class="text-[11px] text-slate-500 font-mono">0 kelime • 0 karakter</span>
+                </div>
+                <div class="flex items-center gap-2">
                     <button type="button" onclick="Portal.closeNoteDrawer()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer transition-colors">
                         İptal
                     </button>
                     <button type="button" onclick="Portal.saveDrawerNote()" class="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-500/20 cursor-pointer transition-all">
-                        Kaydet
+                        Kaydet <span class="hidden sm:inline text-[10px] text-blue-200 font-mono opacity-80">(Ctrl+↵)</span>
                     </button>
                 </div>
             </div>

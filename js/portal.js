@@ -3,16 +3,81 @@ const Portal = {
   noteIcons: ['📝', '💡', '🚀', '📌', '⚡', '🎯', '📊', '🔥', '🌟', '📚'],
   currentIconIndex: 0,
   minimizedWidgets: JSON.parse(localStorage.getItem('portal_minimized_widgets') || '[]'),
+  searchQuery: '',
   
   init() {
     this.checkPersistentAuth();
     this.initClock();
+    this.renderSidebarNav();
     this.loadNotes();
     this.loadMenuPool();
     this.renderFloatingWidgetDock();
+    this.bindKeyboardShortcuts();
     if (window.lucide) window.lucide.createIcons();
   },
 
+  // ==========================================================
+  // 1. KLAVYE KISAYOLLARI (POWER-USER SHORTCUTS)
+  // ==========================================================
+  bindKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      // ESC: Not çekmecesini kapat
+      if (e.key === 'Escape') {
+        const drawer = document.getElementById('notionDrawer');
+        if (drawer && !drawer.classList.contains('hidden')) {
+          this.closeNoteDrawer();
+        }
+      }
+      // Ctrl + Enter veya Cmd + Enter: Notu Kaydet
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        const drawer = document.getElementById('notionDrawer');
+        if (drawer && !drawer.classList.contains('hidden')) {
+          this.saveDrawerNote();
+        }
+      }
+      // Ctrl + /: Arama kutusuna odaklan
+      if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+        e.preventDefault();
+        const searchInput = document.getElementById('noteSearchInput');
+        if (searchInput) searchInput.focus();
+      }
+    });
+  },
+
+  // ==========================================================
+  // 2. DİNAMİK SOL MENÜ SENKRONİZASYONU (SIDEBAR NAV)
+  // ==========================================================
+  renderSidebarNav() {
+    const nav = document.getElementById('sidebarNavList');
+    if (!nav) return;
+
+    const session = JSON.parse(localStorage.getItem('portal_active_session') || 'null');
+    const isAdmin = session && session.role === 'ADMIN';
+    const menus = this.getLocalMenus().filter(m => m.is_active == 1);
+
+    nav.innerHTML = menus.map(m => {
+      if (m.id === 'admin' && !isAdmin) return '';
+      const isActive = this.currentTab === m.id;
+
+      return `
+        <button 
+          onclick="Portal.switchTab('${m.id}')" 
+          id="nav-btn-${m.id}" 
+          title="${m.label}" 
+          class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer ${isActive ? 'active-nav bg-blue-600/15 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-800/60'}"
+        >
+          <i data-lucide="${m.icon}" class="w-4 h-4 flex-shrink-0 ${m.id === 'admin' ? 'text-purple-400' : ''}"></i>
+          <span class="truncate sidebar-text">${m.label}</span>
+        </button>
+      `;
+    }).join('');
+
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  // ==========================================================
+  // 3. KALICI OTURUM KONTROLÜ
+  // ==========================================================
   checkPersistentAuth() {
     const session = JSON.parse(localStorage.getItem('portal_active_session') || 'null');
     const overlay = document.getElementById('gatewayOverlay');
@@ -21,14 +86,6 @@ const Portal = {
     if (session && session.authenticated) {
       if (overlay) overlay.classList.add('hidden');
       if (badgeName) badgeName.textContent = session.name || (session.role === 'ADMIN' ? 'Sistem Yöneticisi' : 'Misafir Kullanıcı');
-      
-      if (session.role !== 'ADMIN') {
-        const adminNav = document.getElementById('nav-btn-admin');
-        if (adminNav) adminNav.classList.add('hidden');
-      } else {
-        const adminNav = document.getElementById('nav-btn-admin');
-        if (adminNav) adminNav.classList.remove('hidden');
-      }
     } else {
       if (overlay) overlay.classList.remove('hidden');
     }
@@ -46,6 +103,7 @@ const Portal = {
     if (overlay) overlay.classList.add('hidden');
     this.toast('Hoş geldiniz! (Misafir Girişi)', 'success');
     this.checkPersistentAuth();
+    this.renderSidebarNav();
   },
 
   promptAdminLogin() {
@@ -62,6 +120,7 @@ const Portal = {
       if (overlay) overlay.classList.add('hidden');
       this.toast('Yönetici girişi başarılı!', 'success');
       this.checkPersistentAuth();
+      this.renderSidebarNav();
     } else if (pin) {
       alert('Hatalı PIN!');
     }
@@ -74,90 +133,80 @@ const Portal = {
     this.toast('Oturum kapatıldı', 'info');
   },
 
-  // YÜZEN BALONCUK DOCK
-  minimizeWidget(id, label = 'Widget') {
-    if (!this.minimizedWidgets.find(w => w.id === id)) {
-      this.minimizedWidgets.push({ id, label });
-      localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
-    }
-    const wrapper = document.getElementById(id + 'WidgetWrapper');
-    if (wrapper) wrapper.classList.add('hidden');
-    this.renderFloatingWidgetDock();
-    this.toast(`${label} sağ alt baloncuk paneline eklendi`, 'info');
-  },
-
-  restoreWidget(id) {
-    this.minimizedWidgets = this.minimizedWidgets.filter(w => w.id !== id);
-    localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
-    const wrapper = document.getElementById(id + 'WidgetWrapper');
-    if (wrapper) {
-      wrapper.classList.remove('hidden');
-      wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-    this.renderFloatingWidgetDock();
-    this.toast('Widget eski yerine geri açıldı!', 'success');
-  },
-
-  renderFloatingWidgetDock() {
-    const dock = document.getElementById('floatingWidgetDock');
-    if (!dock) return;
-
-    if (this.minimizedWidgets.length === 0) {
-      dock.innerHTML = '';
-      dock.classList.add('hidden');
-      return;
-    }
-
-    dock.classList.remove('hidden');
-    dock.innerHTML = `
-      <div class="flex flex-col items-end gap-2">
-        <div class="text-[10px] font-bold text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-700/80 shadow-lg">
-          Küçültülen Widget'lar
-        </div>
-        ${this.minimizedWidgets.map(w => `
-          <button 
-            type="button" 
-            onclick="Portal.restoreWidget('${w.id}')" 
-            class="floating-pill flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600/90 to-indigo-600/90 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer border border-blue-400/40 group"
-            title="Geri açmak için tıklayın"
-          >
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>${w.label || w.id}</span>
-            <i data-lucide="maximize-2" class="w-3.5 h-3.5 opacity-70 group-hover:opacity-100"></i>
-          </button>
-        `).join('')}
-      </div>
-    `;
-    if (window.lucide) window.lucide.createIcons();
-  },
-
-  // NOTION NOTLAR MOTORU
+  // ==========================================================
+  // 4. NOTION ZENGİN NOTLAR MOTORU (CANVAS)
+  // ==========================================================
   getLocalNotes() {
-    return JSON.parse(localStorage.getItem('portal_notion_notes') || '[]');
-  },
-
-  saveLocalNotes(notes) {
-    localStorage.setItem('portal_notion_notes', JSON.stringify(notes));
-  },
-
-  loadNotes() {
-    let notes = this.getLocalNotes();
-    const grid = document.getElementById('notionNotesGrid');
-    if (!grid) return;
-
-    if (notes.length === 0) {
-      notes = [
+    const stored = localStorage.getItem('portal_notion_notes');
+    if (stored === null) {
+      // Sadece ilk kurulumda 1 adet başlangıç kılavuzu
+      const initial = [
         {
-          id: 'note_demo_1',
+          id: 'note_welcome',
           title: 'Notion Çalışma Alanına Hoş Geldiniz 🚀',
-          content: 'Bu zengin not alanında düşüncelerinizi, şablonlarınızı ve yapılacaklar listelerinizi tutabilirsiniz.\n\n[x] Notion tarzı blokları test et\n[ ] Yeni not ekle butonuna bas\n[ ] İkon ve renk seç',
+          content: 'Bu zengin not alanında düşüncelerinizi, şablonlarınızı ve yapılacaklar listelerinizi tutabilirsiniz.\n\n[x] Notion tarzı blokları test et\n[ ] Yeni not ekle butonuna bas\n[ ] İkon ve renk seç\n\n```javascript\n// Hızlı Kısayollar:\n// ESC: Kapat | Ctrl+Enter: Kaydet | Ctrl+/: Ara\n```',
           icon: '✨',
           color: 'blue',
           pinned: 1,
           updated_at: new Date().toISOString()
         }
       ];
-      this.saveLocalNotes(notes);
+      localStorage.setItem('portal_notion_notes', JSON.stringify(initial));
+      return initial;
+    }
+    return JSON.parse(stored);
+  },
+
+  saveLocalNotes(notes) {
+    localStorage.setItem('portal_notion_notes', JSON.stringify(notes));
+  },
+
+  filterNotes() {
+    const input = document.getElementById('noteSearchInput');
+    this.searchQuery = input ? input.value.trim().toLowerCase() : '';
+    this.loadNotes();
+  },
+
+  formatSnippet(rawText) {
+    if (!rawText) return '<span class="text-slate-600 italic">Boş içerik...</span>';
+    let formatted = rawText.substring(0, 160);
+    if (rawText.length > 160) formatted += '...';
+    
+    // [x] -> yeşil tik, [ ] -> gri kutu
+    formatted = formatted.replace(/\[x\]/gi, '<span class="text-emerald-400 font-bold">✓</span>');
+    formatted = formatted.replace(/\[ \]/g, '<span class="text-slate-500 font-bold">◻</span>');
+    return formatted;
+  },
+
+  loadNotes() {
+    let notes = this.getLocalNotes();
+    const countBadge = document.getElementById('noteCountBadge');
+    if (countBadge) countBadge.textContent = `${notes.length} Not`;
+
+    if (this.searchQuery) {
+      notes = notes.filter(n => 
+        (n.title && n.title.toLowerCase().includes(this.searchQuery)) ||
+        (n.content && n.content.toLowerCase().includes(this.searchQuery))
+      );
+    }
+
+    const grid = document.getElementById('notionNotesGrid');
+    if (!grid) return;
+
+    if (notes.length === 0) {
+      grid.innerHTML = `
+        <div class="col-span-full py-16 text-center rounded-3xl border border-dashed border-slate-800 bg-slate-900/30">
+          <span class="text-4xl block mb-3">🔍</span>
+          <h3 class="text-base font-bold text-slate-300 mb-1">${this.searchQuery ? 'Aramanıza uygun not bulunamadı' : 'Henüz bir not oluşturulmadı'}</h3>
+          <p class="text-xs text-slate-500 mb-4 max-w-sm mx-auto">
+            ${this.searchQuery ? 'Farklı bir arama terimi deneyin.' : 'Notion ergonomisine sahip ilk notunuzu eklemek için yukarıdaki butona tıklayın.'}
+          </p>
+          <button onclick="Portal.openNewNoteDrawer()" class="px-5 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all cursor-pointer">
+            + Yeni Not Yaz
+          </button>
+        </div>
+      `;
+      return;
     }
 
     const colorGradients = {
@@ -170,7 +219,7 @@ const Portal = {
 
     grid.innerHTML = notes.map(n => {
       const colorClass = colorGradients[n.color] || colorGradients.blue;
-      const snippet = n.content ? n.content.substring(0, 140) + (n.content.length > 140 ? '...' : '') : 'Boş içerik...';
+      const snippetHtml = this.formatSnippet(n.content);
       const dateStr = new Date(n.updated_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
 
       return `
@@ -187,7 +236,7 @@ const Portal = {
             </div>
             
             <p class="text-xs text-slate-400 group-hover:text-slate-300 leading-relaxed whitespace-pre-wrap line-clamp-4 font-sans font-normal">
-              ${snippet}
+              ${snippetHtml}
             </p>
           </div>
 
@@ -204,14 +253,30 @@ const Portal = {
     if (window.lucide) window.lucide.createIcons();
   },
 
+  handleContentInput(textarea) {
+    // Auto-grow textarea
+    textarea.style.height = 'auto';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+
+    // Live word & character count
+    const text = textarea.value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    const chars = textarea.value.length;
+    const countEl = document.getElementById('drawerWordCount');
+    if (countEl) countEl.textContent = `${words} kelime • ${chars} karakter`;
+  },
+
   openNewNoteDrawer() {
     document.getElementById('drawerNoteId').value = '';
     document.getElementById('drawerNoteTitle').value = '';
-    document.getElementById('drawerNoteContent').value = '';
+    const contentArea = document.getElementById('drawerNoteContent');
+    contentArea.value = '';
+    contentArea.style.height = 'auto';
     document.getElementById('drawerNoteColor').value = 'blue';
     document.getElementById('drawerNotePinned').value = '0';
     document.getElementById('noteDrawerEmojiBtn').textContent = '📝';
     document.getElementById('drawerDeleteBtn').classList.add('hidden');
+    document.getElementById('drawerWordCount').textContent = '0 kelime • 0 karakter';
     this.showNoteDrawer();
   },
 
@@ -222,12 +287,14 @@ const Portal = {
 
     document.getElementById('drawerNoteId').value = n.id;
     document.getElementById('drawerNoteTitle').value = n.title;
-    document.getElementById('drawerNoteContent').value = n.content || '';
+    const contentArea = document.getElementById('drawerNoteContent');
+    contentArea.value = n.content || '';
     document.getElementById('drawerNoteColor').value = n.color || 'blue';
     document.getElementById('drawerNotePinned').value = n.pinned || '0';
     document.getElementById('noteDrawerEmojiBtn').textContent = n.icon || '📝';
     document.getElementById('drawerDeleteBtn').classList.remove('hidden');
 
+    this.handleContentInput(contentArea);
     this.showNoteDrawer();
   },
 
@@ -282,6 +349,7 @@ const Portal = {
       template = '\n\n```javascript\n// Kod parçacığı\nconst test = () => {};\n```';
     }
     contentArea.value += template;
+    this.handleContentInput(contentArea);
     contentArea.focus();
   },
 
@@ -329,7 +397,9 @@ const Portal = {
     this.toast('Not silindi', 'info');
   },
 
-  // MENÜ HAVUZU
+  // ==========================================================
+  // 5. MENÜ HAVUZU & CANLI SIDEBAR BAĞLANTISI
+  // ==========================================================
   getLocalMenus() {
     const def = [
       { id: 'dashboard', label: 'Ana Sayfa & Notlar', icon: 'layout-dashboard', is_active: 1, desc: 'Notion not çalışma alanı' },
@@ -368,10 +438,13 @@ const Portal = {
     menus = menus.map(m => m.id === id ? { ...m, is_active: m.is_active == 1 ? 0 : 1 } : m);
     localStorage.setItem('portal_menu_pool', JSON.stringify(menus));
     this.loadMenuPool();
-    this.toast('Menü güncellendi', 'success');
+    this.renderSidebarNav();
+    this.toast('Menü durumu güncellendi!', 'success');
   },
 
-  // SOL MENÜ DARALTMA & SEKME GEÇİŞİ
+  // ==========================================================
+  // 6. SOL MENÜ DARALTMA & SEKME GEÇİŞİ
+  // ==========================================================
   toggleSidebar() {
     const sidebar = document.getElementById('mainSidebar');
     if (!sidebar) return;
@@ -405,6 +478,65 @@ const Portal = {
     if (navBtn) navBtn.classList.add('active-nav', 'bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/30');
 
     this.closeMobileSidebar();
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  // ==========================================================
+  // 7. YÜZEN WİDGET BALONCUKLARI DOCK'U
+  // ==========================================================
+  minimizeWidget(id, label = 'Widget') {
+    if (!this.minimizedWidgets.find(w => w.id === id)) {
+      this.minimizedWidgets.push({ id, label });
+      localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
+    }
+    const wrapper = document.getElementById(id + 'WidgetWrapper');
+    if (wrapper) wrapper.classList.add('hidden');
+    this.renderFloatingWidgetDock();
+    this.toast(`${label} sağ alt baloncuk paneline eklendi`, 'info');
+  },
+
+  restoreWidget(id) {
+    this.minimizedWidgets = this.minimizedWidgets.filter(w => w.id !== id);
+    localStorage.setItem('portal_minimized_widgets', JSON.stringify(this.minimizedWidgets));
+    const wrapper = document.getElementById(id + 'WidgetWrapper');
+    if (wrapper) {
+      wrapper.classList.remove('hidden');
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    this.renderFloatingWidgetDock();
+    this.toast('Widget eski yerine geri açıldı!', 'success');
+  },
+
+  renderFloatingWidgetDock() {
+    const dock = document.getElementById('floatingWidgetDock');
+    if (!dock) return;
+
+    if (this.minimizedWidgets.length === 0) {
+      dock.innerHTML = '';
+      dock.classList.add('hidden');
+      return;
+    }
+
+    dock.classList.remove('hidden');
+    dock.innerHTML = `
+      <div class="flex flex-col items-end gap-2">
+        <div class="text-[10px] font-bold text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-700/80 shadow-lg">
+          Küçültülen Widget'lar
+        </div>
+        ${this.minimizedWidgets.map(w => `
+          <button 
+            type="button" 
+            onclick="Portal.restoreWidget('${w.id}')" 
+            class="floating-pill flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600/90 to-indigo-600/90 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer border border-blue-400/40 group"
+            title="Geri açmak için tıklayın"
+          >
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>${w.label || w.id}</span>
+            <i data-lucide="maximize-2" class="w-3.5 h-3.5 opacity-70 group-hover:opacity-100"></i>
+          </button>
+        `).join('')}
+      </div>
+    `;
     if (window.lucide) window.lucide.createIcons();
   },
 
