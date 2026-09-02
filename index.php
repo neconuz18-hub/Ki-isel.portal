@@ -1,23 +1,17 @@
 <?php
 /**
- * Kişisel Portal — Front Controller (index.php)
+ * Kişisel Portal — Sadeleştirilmiş Front Controller (index.php)
  */
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/core/Auth.php';
 require_once __DIR__ . '/models/UserModel.php';
-require_once __DIR__ . '/models/TaskModel.php';
-require_once __DIR__ . '/models/ReminderModel.php';
-require_once __DIR__ . '/models/NoteModel.php';
-require_once __DIR__ . '/models/SubscriptionModel.php';
-require_once __DIR__ . '/models/FinanceModel.php';
-require_once __DIR__ . '/models/VaultModel.php';
 ?>
 <!DOCTYPE html>
 <html lang="tr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo APP_NAME; ?> — Universal Enterprise OS</title>
+    <title><?php echo APP_NAME; ?> — Dev Portal</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,9 +29,8 @@ require_once __DIR__ . '/models/VaultModel.php';
         }
     </script>
 
-    <!-- Lucide Icons & Sortable.js -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="js/sortable.min.js"></script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,12 +57,6 @@ require_once __DIR__ . '/models/VaultModel.php';
 
         <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
             <?php include __DIR__ . '/views/modules/dashboard.php'; ?>
-            <?php include __DIR__ . '/views/modules/tasks.php'; ?>
-            <?php include __DIR__ . '/views/modules/reminders.php'; ?>
-            <?php include __DIR__ . '/views/modules/notes.php'; ?>
-            <?php include __DIR__ . '/views/modules/finance.php'; ?>
-            <?php include __DIR__ . '/views/modules/subscriptions.php'; ?>
-            <?php include __DIR__ . '/views/modules/vault.php'; ?>
             <?php include __DIR__ . '/views/modules/admin.php'; ?>
         </main>
     </div>
