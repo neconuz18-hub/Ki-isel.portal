@@ -267,8 +267,18 @@ window.Portal = {
   quickDeleteNote(id) { let n = this.getLocalNotes(); n = n.filter(x=>x.id!==id); this.saveLocalNotes(n); this.loadNotes(); },
 
   // --- FINANCE (MIDAS) ---
+  getLocalFallbackFinance() {
+    return {
+      total_value: 65420.00, total_cost: 58000.00, total_profit: 7420.00, total_profit_percent: 12.79,
+      assets: [
+        { id: '1', symbol: 'THYAO', shares: 150, buy_price: 280.50, current_price: 312.50, current_value: 46875, profit: 4800, profit_percent: 11.4 },
+        { id: '2', symbol: 'ALTIN_GRAM', shares: 5, buy_price: 2600.00, current_price: 2865.40, current_value: 14327, profit: 1327, profit_percent: 10.2 }
+      ],
+      ipos: [{ code: 'DURK', name: 'Durukan Şekerleme', date: 'Yarın', price: '17.00 ₺', distribution: 'Eşit' }]
+    };
+  },
   loadFinanceData() {
-    const mock = {
+    const mock = this.getLocalFallbackFinance();
       total_value: 65420.00, total_cost: 58000.00, total_profit: 7420.00, total_profit_percent: 12.79,
       assets: [
         { id: '1', symbol: 'THYAO', shares: 150, buy_price: 280.50, current_price: 312.50, current_value: 46875, profit: 4800, profit_percent: 11.4 },
@@ -349,7 +359,115 @@ window.Portal = {
   },
   openModal(id) { document.getElementById(id).classList.remove('hidden'); },
   closeModal(id) { document.getElementById(id).classList.add('hidden'); },
-  bindKeyboardShortcuts() { document.addEventListener('keydown', e => { if(e.key==='Escape') { this.closeModal('addAssetModal'); } }); }
+  
+  // --- UI & LAYOUT ---
+  toggleSidebar() {
+    const sb = document.getElementById('mainSidebar');
+    const ov = document.getElementById('sidebarOverlay');
+    if(sb) sb.classList.toggle('-translate-x-full');
+    if(ov) ov.classList.toggle('hidden');
+  },
+  renderSidebarNav() {
+    const nav = document.getElementById('sidebarNavList');
+    if(!nav) return;
+    nav.innerHTML = `
+      <a href="#" onclick="Portal.switchTab('dashboard')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-600/10 text-blue-400 font-bold border border-blue-500/20">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> <span class="sidebar-text">Dashboard</span>
+      </a>
+      <a href="#" onclick="Portal.switchTab('admin')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium transition-colors">
+        <i data-lucide="settings" class="w-5 h-5"></i> <span class="sidebar-text">Ayarlar</span>
+      </a>
+    `;
+    if(window.lucide) window.lucide.createIcons();
+  },
+  switchTab(tabId) {
+    document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+    const active = document.getElementById('tab-' + tabId);
+    if(active) active.classList.remove('hidden');
+    this.currentTab = tabId;
+  },
+  logout() { this.toast('Çıkış yapılıyor...', 'info'); setTimeout(()=>window.location.reload(), 1000); },
+  runSentinelCheck() { this.toast('Sentinel aktif. Sistem taranıyor...', 'info'); this.playAudioFeedback(); },
+  resetToFactory() { if(confirm('Tüm veriler silinecek!')) { localStorage.clear(); window.location.reload(); } },
+
+  // --- MODALS & FORMS ---
+  openNewMenuModal() { this.openModal('newMenuModal'); },
+  handleCreateMenu(e) { e.preventDefault(); this.closeModal('newMenuModal'); this.toast('Modül eklendi', 'success'); },
+  openNewTaskModal() { this.openModal('newTaskModal'); },
+  handleCreateTaskGroup(e) {
+    e.preventDefault();
+    const title = document.getElementById('newTaskGroupTitle').value;
+    const first = document.getElementById('newTaskFirstItem').value;
+    let t = this.getLocalTasks();
+    let items = [];
+    if(first.trim()) items.push({text: first.trim(), done: false});
+    t.unshift({ id: 'tg_'+Date.now(), title: title, iconType: 'list', items: items });
+    this.saveLocalTasks(t); this.loadTasks(); this.closeModal('newTaskModal'); this.toast('Grup oluşturuldu', 'success');
+  },
+  toggleAllTaskGroups() {
+    const keys = Object.keys(this.openTaskGroups);
+    const anyOpen = keys.some(k => this.openTaskGroups[k] !== false);
+    let t = this.getLocalTasks();
+    t.forEach(g => { this.openTaskGroups[g.id] = !anyOpen; });
+    this.loadTasks();
+  },
+
+  // --- NOTES DRAWER ---
+  toggleWidgetSearch() {
+    const sb = document.getElementById('widgetSearchBox');
+    if(sb) { sb.classList.toggle('hidden'); if(!sb.classList.contains('hidden')) document.getElementById('noteSearchInput').focus(); }
+  },
+  toggleSortNotes() { this.sortDescending = !this.sortDescending; this.loadNotes(); this.toast('Sıralama değiştirildi', 'info'); },
+  setNoteFilterTab(tab) {
+    this.noteFilterTab = tab;
+    const a = document.getElementById('filterTabActive'); if(a) a.className = tab === 'active' ? 'p-1.5 rounded-lg bg-blue-600 text-white' : 'p-1.5 rounded-lg text-slate-400 hover:text-white';
+    const p = document.getElementById('filterTabPinned'); if(p) p.className = tab === 'pinned' ? 'p-1.5 rounded-lg bg-blue-600 text-white' : 'p-1.5 rounded-lg text-slate-400 hover:text-white';
+    this.loadNotes();
+  },
+  filterNotes() { this.searchQuery = document.getElementById('noteSearchInput').value.toLowerCase(); this.loadNotes(); },
+  
+  openNewNoteDrawer() {
+    document.getElementById('drawerNoteId').value = ''; document.getElementById('drawerNoteTitle').value = '';
+    document.getElementById('drawerNoteContent').value = ''; document.getElementById('drawerNotePinned').value = '0';
+    this.currentIconIndex = 0; document.getElementById('noteDrawerEmojiBtn').textContent = this.noteIcons[0];
+    document.getElementById('drawerWordCount').textContent = '0 kelime';
+    document.getElementById('drawerDeleteBtn').classList.add('hidden');
+    document.getElementById('notionDrawer').classList.remove('hidden');
+    setTimeout(() => document.getElementById('notionDrawerContent').classList.remove('translate-x-full'), 10);
+  },
+  openEditNoteDrawer(id) {
+    const n = this.getLocalNotes().find(x=>x.id===id); if(!n) return;
+    document.getElementById('drawerNoteId').value = n.id; document.getElementById('drawerNoteTitle').value = n.title;
+    document.getElementById('drawerNoteContent').value = n.content; document.getElementById('drawerNotePinned').value = n.pinned || 0;
+    this.currentIconIndex = this.noteIcons.indexOf(n.icon); if(this.currentIconIndex===-1) this.currentIconIndex=0;
+    document.getElementById('noteDrawerEmojiBtn').textContent = n.icon;
+    this.handleContentInput(document.getElementById('drawerNoteContent'));
+    document.getElementById('drawerDeleteBtn').classList.remove('hidden');
+    document.getElementById('notionDrawer').classList.remove('hidden');
+    setTimeout(() => document.getElementById('notionDrawerContent').classList.remove('translate-x-full'), 10);
+  },
+  closeNoteDrawer() {
+    document.getElementById('notionDrawerContent').classList.add('translate-x-full');
+    setTimeout(() => document.getElementById('notionDrawer').classList.add('hidden'), 300);
+  },
+  cycleNoteIcon() { this.currentIconIndex = (this.currentIconIndex + 1) % this.noteIcons.length; document.getElementById('noteDrawerEmojiBtn').textContent = this.noteIcons[this.currentIconIndex]; },
+  toggleDrawerPin() { const p = document.getElementById('drawerNotePinned'); p.value = p.value === '1' ? '0' : '1'; this.toast(p.value==='1'?'Sabitlendi':'Sabitlik kaldırıldı', 'info'); },
+  handleContentInput(el) { document.getElementById('drawerWordCount').textContent = (el.value.trim().split(/\s+/).filter(x=>x).length) + ' kelime'; },
+  saveDrawerNote() {
+    const id = document.getElementById('drawerNoteId').value;
+    const title = document.getElementById('drawerNoteTitle').value || 'Başlıksız Doküman';
+    const content = document.getElementById('drawerNoteContent').value;
+    const icon = document.getElementById('noteDrawerEmojiBtn').textContent;
+    const pinned = parseInt(document.getElementById('drawerNotePinned').value) || 0;
+    let notes = this.getLocalNotes();
+    if(id) { const idx = notes.findIndex(x=>x.id===id); if(idx>-1) { notes[idx] = {...notes[idx], title, content, icon, pinned, updated_at: new Date().toISOString()}; } }
+    else { notes.unshift({id: 'note_'+Date.now(), title, content, icon, pinned, color: 'blue', updated_at: new Date().toISOString()}); }
+    this.saveLocalNotes(notes); this.loadNotes(); this.closeNoteDrawer(); this.toast('Doküman kaydedildi', 'success');
+  },
+  deleteDrawerNote() { const id = document.getElementById('drawerNoteId').value; if(id) { this.quickDeleteNote(id); this.closeNoteDrawer(); this.toast('Doküman silindi', 'success'); } },
+
+  bindKeyboardShortcuts() {
+ document.addEventListener('keydown', e => { if(e.key==='Escape') { this.closeModal('addAssetModal'); } }); }
 };
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => window.Portal.init());

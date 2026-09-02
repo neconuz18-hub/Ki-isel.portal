@@ -47,6 +47,15 @@
       "antidote": "resetFocusTimer çağrıldığında interval temizlenmeli ve ses osilatörü durdurulmalıdır.",
       "check_target": "js/portal.js",
       "pattern": "clearInterval(this.focusTimerState.timerId)"
+    },
+    {
+      "id": "ERR_006_JS_SYNTAX_CORRUPTION",
+      "title": "Kısmi Kod Enjeksiyonu Sonucu JS Sözdizimi Çökmesi (Brace Mismatch)",
+      "symptom": "Ekranda UI'ın tamamen kaybolması, verilerin 0/0 görünmesi, saat ve modüllerin DOM'a yüklenememesi.",
+      "root_cause": "portal.js içine .replace() ile kod eklenirken süslü parantezlerin { } veya yapının bozulması ve JS motorunun Fatal Syntax Error vermesi.",
+      "antidote": "Karmaşık mimari güncellemelerinde ASLA .replace() kullanılmamalı. Kod bütünüyle temiz bir blok olarak yazılmalı (Pristine Rebuild) ve Audit tarafından Parantez Doğrulaması (Brace Matching) yapılmalıdır.",
+      "check_target": "js/portal.js",
+      "pattern": "window.Portal = {"
     }
   ]
 }
