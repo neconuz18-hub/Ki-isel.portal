@@ -1,109 +1,101 @@
-# 🌐 Evrensel Kişisel İşletim Sistemi (Universal Personal OS) — V2.5
+# 🌐 Evrensel Kişisel Yönetim Portalı (Enterprise Personal OS) — V3.0 PRO
 
-Bu proje; sıradan bir görev veya not alma uygulamasının ötesinde, **kullanıcının mesleğine ve yaşam tarzına göre saniyeler içinde şekil alan, yönetici ve çoklu kullanıcı destekli, yapay zeka destekli ve modüler bir Kişisel İşletim Sistemi (Personal OS)** olarak inşa edilmiştir.
-
----
-
-## 🏛️ 1. Proje Felsefesi ve Mimari Yapı
-
-Proje, herhangi bir harici backend sunucusuna veya karmaşık veritabanı kurulumuna ihtiyaç duymadan, doğrudan tarayıcı üzerinde **"Offline-First" (İnternetsiz de Çalışabilen)** ve **"Serverless"** mimari ile çalışır.
-
-### A. Giriş Kapısı & Yetkilendirme (Gateway & Auth — `auth.js`)
-* **Sistem Yöneticisi Girişi (PIN Korumalı — `1234`):** Modül havuzunu yönetme, kullanıcı tanımlama, şablon uygulama ve veri yedekleme yetkilerine sahip ana kumanda merkezi.
-* **Kayıtlı Özel Kullanıcılar:** Yöneticinin sisteme eklediği personel, öğrenci, hasta veya müvekkiller (opsiyonel PIN koruması ile).
-* **Misafir / Hızlı Giriş:** Varsayılan temel modüllerle hızlı başlangıç.
-
-### B. Çoklu Kullanıcı & Profil Yönetimi (`userManager.js`)
-* **Kullanıcı Tanımlama & CRUD:** İsim, telefon, özel PIN ve atanacak modüllerin seçimi.
-* **Hızlı Meslek Şablonu Entegrasyonu:** Tek tıkla ilgili mesleğin (Öğretmen, Doktor, Avukat vb.) tüm modüllerini kullanıcıya atama.
-* **Kullanıcı Bazlı İzolasyon:** Her kullanıcı giriş yaptığında yalnızca yöneticinin ona yetki verdiği modülleri ve sekmeleri görür.
-
-### C. Dinamik Widget Sistemi & Akıllı Dock Paneli (`app.js`)
-* **Yetki Bazlı Widget Filtreleme:** Kullanıcıya atanmamış modüllerin widget'ları ana sayfada asla görünmez.
-* **☰ 3 Çizgili Menü Açma/Kapama Çubuğu:** Masaüstü ve mobilde sol menüyü akıcı şekilde daraltıp genişleten buton.
-* **🫧 Küçültülen Widget Baloncuk Dock'u:** Widget'ın eksi (`-`) butonuna basıldığında widget kaybolmaz; üst başlıkta yarı saydam (%60) şık bir simge baloncuk olarak konumlanır.
-* **Hover Parlaması & Geri Yükleme:** Fare imleci baloncuğun üzerine geldiğinde saydamlık kalkar ve parlar. Tıklandığında widget pürüzsüz bir animasyonla ana sayfadaki eski yerine döner.
-
-### D. 5 Evrensel Çekirdek Primitif (Polymorphic Engine — `polymorphicStore.js`)
-1. **CONTACT (Kişi):** Müşteri, Hasta, Müvekkil, Öğrenci, Veli, Kiracı.
-2. **TRANSACTION (Para & Akış):** Veresiye Borcu, Tahsilat, Özel Ders Ücreti, Kapora, Aidat.
-3. **TIMELINE_EVENT (Zaman & Takvim):** Nöbet, Duruşma, Özel Ders Saati, Görüşme, Randevu.
-4. **COMPLIANCE_EXPIRY (Kritik Süre & Alarm):** Hak Düşürücü Dava Süresi, Araç Muayenesi, Kasko, Pasaport/Vize.
-5. **ENTITY (Varlık & Dosya):** Dava Dosyası, Gayrimenkul Portföyü, Hisse Senedi, Teçhizat.
+Bu proje; amatör statik betiklerin ve tarayıcıya hapsolmuş `localStorage` yapılarının ötesinde, **gerçek bir SQLite Veritabanı (PDO), sunucu taraflı oturum güvenliği (Server-Side Auth), REST API ve MVC (Model-View-Controller) mimarisiyle inşa edilmiş kurumsal düzeyde bir Kişisel İşletim Sistemi**dir.
 
 ---
 
-## 🎯 2. Sektörel ve Mesleki Modüller
+## 🏛️ 1. Mimari Tasarım & Sağlamlaştırılmış Çekirdek
 
-### 🎓 1. Eğitim Koçluğu & Özel Ders Portalı (`ogretmen`)
-* **Bugün Aranacaklar Şeridi:** Gün içerisinde ödev/çalışma kontrolü yapılması gereken öğrencilerin hızlı arama listesi.
-* **360° Öğrenci Koçluk Dosyası:** Öğrenciye tıklandığında açılan detaylı analiz paneli.
-* **Dinamik SVG Net Gelişim Eğrisi:** Öğrencinin girdiği deneme sınavlarının kronolojik net artış/azalış grafiği.
-* **Özel Ders Paket & Finans Defteri:** 10 derslik paket hapları (1, 2, 3... ✓), tamamlanan ve kalan ders saati, ücret takibi.
-* **Haftalık Soru Hedef Çubuğu (Burn-down):** "1200 / 1500 Soru (%80)" haftalık tempo göstergesi.
-* **1-Tıkla WhatsApp Veli Raporu:** Tek tuşla veliye gönderilmeye hazır formatta haftalık durum özeti kopyalama.
-
-### 📈 2. Canlı Borsa & Finans V2 (`finance`)
-* **Yahoo Finance v8 API Entegrasyonu:** Borsa İstanbul (BIST), Döviz (USD, EUR, GBP) ve ONS üzerinden matematiksel formüllerle anlık **Gram Altın, Çeyrek, Yarım ve Tam Altın** fiyatları.
-* **CORS Proxy Kaskadı:** Kesintisiz veri akışı sağlayan yedekli proxy altyapısı.
-* **Canlı Ticker Bandı:** Sayfanın en üstünde canlı piyasa verilerini gösteren ekonomi bandı.
-* **Gerçek Kar/Zarar:** Portföye girilen lot ve maliyete göre anlık kar/zarar hesaplama.
-
-### 💳 3. Abonelik & Ödeme Radarı (`subscriptions`)
-* Standartlaştırılmış widget başlığı, sürükle-bırak tutamacı, aylık sabit yük göstergesi ve yaklaşan fatura uyarıları.
-
-### 🛒 4. Bakkal & Esnaf Paketi (`veresiye`)
-* 3 saniyede hızlı veresiye pedi, müşteri borç/alacak bakiyesi ve toptancı vade takvimi.
-
-### 🩺 5. Doktor & Sağlık Çalışanı Paketi (`nobet`)
-* 24 saatlik nöbet çizelgeleri, icap görevleri ve nöbet takas takibi.
-
-### ⚖️ 6. Avukat & Hukukçu Paketi (`durusma`)
-* Duruşma ajandası, mahkeme salonu ve istinaf/temyiz için kritik süre sayacı.
-
-### 🏠 7. Emlak & Gayrimenkul Paketi (`emlak`)
-* İlan portföyü, satılık/kiralık daireler, mal sahibi irtibatı ve alıcı kriter eşleştirme.
-
-### 🛡️ 8. Asker, Polis & Güvenlik Paketi (`zimmet`)
-* Vardiya planı, zimmetli teçhizat listesi ve periyodik bakım takvimi.
-
----
-
-## 🛠️ 3. Dosya Yapısı ve Görev Dağılımı
-
-| Dosya | Görevi ve Sorumluluğu |
-| :--- | :--- |
-| **`index.html`** | Ana iskelet, TailwindCSS + Glassmorphic UI arayüzü, Gateway kilit ekranı ve modallar. |
-| **`js/auth.js`** | Oturum kontrolcüsü, Gateway kilit ekranı, PIN doğrulama ve kullanıcı yönlendirmesi. |
-| **`js/userManager.js`** | Kullanıcı CRUD, profil atamaları, modül yetkilendirmesi ve kullanıcı hafızası. |
-| **`js/admin.js`** | 5 sekmeli Süper Yönetici Paneli (Kullanıcılar, Modül Havuzu, Şablonlar, Test Fabrikası, Yedekleme). |
-| **`js/polymorphicStore.js`** | 5 çekirdek primitifi yöneten, offline-first yerel veritabanı motoru. |
-| **`js/moduleRegistry.js`** | 8 meslek şablonu, profil ayarları ve modül tanımları. |
-| **`js/menus.js`** | Kullanıcı rolüne göre dinamik filtrelenen sol menü ve Modül Mağazası. |
-| **`js/professionModules.js`** | Koçluk, Veresiye, Nöbet, Duruşma ve Emlak panelleri + GlassModal motoru. |
-| **`js/marketDataService.js`** | Canlı piyasa API servisi, CORS proxy kaskadı ve altın hesaplayıcı. |
-| **`js/finance_v2.js`** | Borsa V2 iş mantığı, portföy hesaplama ve Ticker Tape. |
-| **`js/subscriptions.js`** | Abonelik ve düzenli ödeme radarı takip motoru. |
-| **`js/app.js`** | Ana uygulama orkestratörü, widget baloncuk dock'u, menü daraltma ve sekme yönlendirici. |
+```
+panel/
+├── index.php                      # Ana Yönlendirici (Front Controller)
+├── config/
+│   ├── config.php                 # Temel Sistem Konfigürasyonu
+│   └── Database.php               # SQLite PDO Singleton & Otomatik Migration Motoru
+├── core/
+│   ├── Auth.php                   # Gerçek Sunucu Taraflı Session & PIN Güvenliği
+│   └── Response.php               # Standart JSON REST API Yanıtlayıcısı
+├── models/                        # SQLite Veri Modelleri (Repository Layer)
+│   ├── UserModel.php              # Kullanıcılar, Roller & Modül Yetkileri
+│   ├── TaskModel.php              # Görevler & Durum Yönetimi
+│   ├── ReminderModel.php          # Zamanlanmış Hatırlatıcılar
+│   ├── NoteModel.php              # Sabitlenebilir Zengin Notlar
+│   ├── SubscriptionModel.php      # Abonelik & Sabit Giderler
+│   ├── FinanceModel.php           # Borsa Portföy Pozisyonları
+│   └── VaultModel.php             # Şifreli Kasa Kayıtları
+├── api/
+│   └── index.php                  # Birleşik JSON REST API Router (/api/index.php?endpoint=...)
+├── views/                         # Sunucu Taraflı Render Edilen Temiz Şablonlar
+│   ├── layout/
+│   │   ├── header.php             # 3 Çizgili Menü, Baloncuk Dock, Canlı Saat
+│   │   ├── sidebar.php            # Dinamik & Yetkilendirilmiş Menü
+│   │   ├── modals.php             # Standartlaştırılmış Modal Dialoglar
+│   │   └── footer.php             # Script Entegrasyonu & Lucide İkonları
+│   ├── auth/
+│   │   └── gateway.php            # Güvenli Giriş Kapısı (Yönetici & Kullanıcılar)
+│   └── modules/
+│       ├── dashboard.php          # Ana Sayfa, İstatistikler & Widget Grid
+│       ├── tasks.php              # Görev Yönetimi
+│       ├── reminders.php          # Hatırlatıcılar
+│       ├── notes.php              # Hızlı Notlar
+│       ├── finance.php            # Borsa, Altın & Finans
+│       ├── subscriptions.php      # Abonelik Radarı
+│       ├── vault.php              # Güvenli Kasa
+│       └── admin.php              # Kullanıcı Yönetimi & Sistem Ayarları
+├── js/
+│   └── portal.js                  # 25 dosya yerine TEK, MODÜLER ve TEMİZ Frontend Motoru
+└── data/
+    └── portal.sqlite              # Otomatik Tablo Oluşturan İlişkisel Veritabanı
+```
 
 ---
 
-## 🚀 4. Nasıl Çalıştırılır?
+## 🌟 2. Temel Çekirdek Modüller
 
-Proje hiçbir harici kütüphane kurulumu veya harici veritabanı gerektirmez:
+1. **📊 Dashboard & Widget Panosu:**
+   - Günün özeti, başarı oranı çubuğu, hızlı görev giriş alanı (`Quick Capture`) ve dinamik widget ızgarası.
+   - **Küçültülen Widget Baloncuk Dock'u:** Widget eksi (`-`) butonuna basılınca üst başlıkta yarı saydam baloncuk olarak kalır; fare gelince parlar ve tıklanınca yerine geri açılır.
+   - **☰ 3 Çizgili Menü Butonu:** Masaüstünde ve mobilde sol menüyü akıcı şekilde açıp kapatır.
 
-1. Proje klasöründe terminali / PowerShell'i açın.
-2. Yerel sunucuyu başlatın:
-   ```bash
-   python -m http.server 5050
-   ```
-3. Tarayıcınızdan **`http://localhost:5050`** adresine gidin.
-4. **Sistem Yöneticisi** (`PIN: 1234`) veya **Kullanıcılar** arasından seçim yaparak portalı kullanmaya başlayabilirsiniz!
+2. **✅ Görev & İş Yönetimi (`tasks`):**
+   - SQLite veritabanı destekli, kategori ve öncelik bazlı görev listesi.
+
+3. **⏰ Zamanlanmış Hatırlatıcılar (`reminders`):**
+   - Saatli alarmlar ve yaklaşan randevu takibi.
+
+4. **📝 Hızlı Not Defteri (`notes`):**
+   - Sabitlenebilir zengin notlar ve fikir alanı.
+
+5. **📈 Borsa, Döviz & Altın Takipçisi (`finance`):**
+   - Canlı gram, çeyrek altın, USD/EUR kurları ve portföy pozisyon takibi.
+
+6. **💳 Abonelik & Ödeme Radarı (`subscriptions`):**
+   - Aylık/yıllık düzenli harcamalar ve yaklaşan ödeme takvimi.
+
+7. **🔒 Güvenli Kasa (`vault`):**
+   - Banka, kart ve gizli notlar için şifrelenmiş depolama alanı.
+
+8. **👥 Yönetim Merkezi (`admin`):**
+   - Yeni kullanıcı ekleme, PIN şifresi atama ve modül yetkilerini belirleme.
 
 ---
 
-## 🔒 5. Güvenlik ve Gizlilik
+## 🚀 3. Nasıl Çalıştırılır?
 
-* Tüm verileriniz tarayıcınızın **LocalStorage / IndexedDB** belleğinde tutulur.
-* Hiçbir kişisel veri, öğrenci notu, müşteri borcu veya portföy bilgisi harici bir sunucuya gönderilmez.
-* Veritabanınızı tek tıkla JSON olarak yedekleyebilir veya başka bir cihaza aktarabilirsiniz.
+Herhangi bir PHP 7.4+ veya PHP 8+ ortamında (XAMPP, WAMP, Laragon, cPanel veya PHP Dahili Sunucusu):
+
+```bash
+php -S localhost:8000
+```
+
+1. Tarayıcınızdan **`http://localhost:8000`** adresine gidin.
+2. Açılışta **Sistem Yöneticisi** (`PIN: 1234`) veya **Misafir Girişi** seçeneğini kullanarak portala erişebilirsiniz.
+3. Tablolar ilk çalıştırmada SQLite (`data/portal.sqlite`) içinde otomatik olarak oluşturulur.
+
+---
+
+## 🔒 4. Kurumsal Güvenlik
+
+* Kimlik doğrulama kontrolleri tarayıcıda değil, **PHP oturumları (`$_SESSION`)** ile sunucu tarafında doğrulanır.
+* F12 / Geliştirici konsolu üzerinden yetki yükseltme veya veri sızıntısı yapılamaz.
+* Tüm API istekleri standart HTTP durum kodları (`200`, `401`, `404`) ve JSON formatı ile yanıt verir.
