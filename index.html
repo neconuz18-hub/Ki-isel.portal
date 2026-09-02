@@ -13,7 +13,8 @@
                 extend: {
                     colors: {
                         slate: { 950: '#070a13', 900: '#0b0f19', 850: '#111726', 800: '#161f33', 700: '#23304b' },
-                        blue: { 500: '#3b82f6', 600: '#2563eb' }
+                        blue: { 500: '#3b82f6', 600: '#2563eb' },
+                        amber: { 400: '#fbbf24', 500: '#f59e0b' }
                     }
                 }
             }
@@ -28,7 +29,7 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .glass-card {
-            background: rgba(15, 23, 42, 0.65);
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -187,132 +188,159 @@
         <!-- MAIN PAGES CONTAINER -->
         <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
             
-            <!-- TAB 1: NOTION ÇALIŞMA ALANI & WIDGET DOCK'LARI -->
+            <!-- TAB 1: NOTION ÇALIŞMA ALANI & FOTOĞRAFTAKİ ENTEGRE NOTLARIM WIDGET'I -->
             <div id="tab-dashboard" class="tab-pane space-y-6">
                 
-                <!-- ÜST BANNER & YENİ NOT EKLE -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
-                    <div>
+                <!-- ÜST YARDIMCI WİDGETLAR (POMODORO & GÜNLÜK METRİK) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Odaklanma Zamanlayıcısı -->
+                    <div id="pomodoroWidgetWrapper" class="glass-card p-4 rounded-3xl border border-slate-800 flex items-center justify-between relative group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+                                <i data-lucide="timer" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Odaklanma Zamanlayıcısı</h4>
+                                <span class="text-[10px] text-slate-400 font-mono">Pomodoro 25 Dk</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="text-xl font-black text-white font-mono tracking-wider" id="pomodoroTimer">25:00</div>
+                            <button id="pomodoroStartBtn" onclick="Portal.togglePomodoro()" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all cursor-pointer">
+                                Başlat
+                            </button>
+                            <button onclick="Portal.minimizeWidget('pomodoro', 'Odaklanma Zamanlayıcısı')" class="text-slate-500 hover:text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                                <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sistem & Verimlilik Durumu -->
+                    <div id="statsWidgetWrapper" class="glass-card p-4 rounded-3xl border border-slate-800 flex items-center justify-between relative group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                                <i data-lucide="activity" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Sistem & Sağlık Durumu</h4>
+                                <span class="text-[10px] text-emerald-400 font-bold">Sentinel Watchdog Aktif</span>
+                            </div>
+                        </div>
                         <div class="flex items-center gap-2">
-                            <span class="text-2xl">⚡</span>
-                            <h2 class="text-2xl font-extrabold text-white tracking-tight">Kişisel Çalışma & Not Panosu</h2>
+                            <button onclick="Portal.openNewMenuModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1">
+                                <i data-lucide="plus" class="w-3.5 h-3.5 text-blue-400"></i> Yeni Sayfa
+                            </button>
+                            <button onclick="Portal.minimizeWidget('stats', 'Sistem Durumu')" class="text-slate-500 hover:text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                                <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+                            </button>
                         </div>
-                        <p class="text-xs text-slate-400 mt-1">Fikirlerinizi, odaklanma zamanlayıcınızı ve Notion bloklarınızı tek merkezden yönetin.</p>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <button onclick="Portal.openNewNoteDrawer()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25 flex items-center gap-2 transition-all duration-200 hover:scale-[1.02] cursor-pointer group">
-                            <div class="w-5 h-5 rounded-lg bg-white/20 flex items-center justify-center group-hover:rotate-90 transition-transform">
-                                <i data-lucide="plus" class="w-3.5 h-3.5 text-white"></i>
-                            </div>
-                            <span>Yeni Not Oluştur</span>
-                        </button>
                     </div>
                 </div>
 
                 <!-- ========================================================== -->
-                <!-- DİNAMİK WIDGET IZGARASI (KÜÇÜLTÜLEBİLİR & KORUMALI) -->
+                <!-- 2. FOTOĞRAFTAKİ BİREBİR "NOTLARIM" ENTEGRE WİDGET KARTI -->
                 <!-- ========================================================== -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div id="notesWidgetWrapper" class="glass-card rounded-3xl border border-slate-800/90 shadow-2xl overflow-hidden">
                     
-                    <!-- WIDGET 1: HIZLI METRİK VE VERİMLİLİK WIDGET'I -->
-                    <div id="statsWidgetWrapper" class="glass-card p-5 rounded-3xl border border-slate-800 space-y-3 relative group">
-                        <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
-                                    <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-                                </div>
-                                <h3 class="text-xs font-bold text-slate-200">Günlük Verimlilik</h3>
+                    <!-- 1. ÜST WIDGET BAŞLIĞI (HEADER) -->
+                    <div class="p-5 sm:p-6 pb-4 flex items-center justify-between gap-4 border-b border-slate-800/60 bg-slate-900/40">
+                        
+                        <!-- Sol: Sarı İkon Rozeti + NOTLARIM Başlığı + Sayaç -->
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/25 flex-shrink-0">
+                                <i data-lucide="file-text" class="w-6 h-6"></i>
                             </div>
-                            <button onclick="Portal.minimizeWidget('stats', 'Günlük Verimlilik')" title="Widget'ı Küçült" class="p-1 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                                <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+                            <div class="min-w-0">
+                                <h2 class="text-base sm:text-lg font-black tracking-wider text-amber-400 uppercase">NOTLARIM</h2>
+                                <span id="notesWidgetCount" class="text-xs text-amber-400/80 font-semibold block mt-0.5">0 not</span>
+                            </div>
+                        </div>
+
+                        <!-- Orta: Sürükleme / Tutamaç İkonu (Görsel Zarafet) -->
+                        <div class="hidden md:flex text-slate-600 hover:text-slate-400 cursor-grab">
+                            <i data-lucide="grip" class="w-5 h-5"></i>
+                        </div>
+
+                        <!-- Sağ Aksiyon Butonları: Arama, Filtre, Küçült, Yeni Not (+) -->
+                        <div class="flex items-center gap-2">
+                            <!-- Arama Butonu -->
+                            <button onclick="Portal.toggleWidgetSearch()" title="Notlarda Ara" class="p-2.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-all cursor-pointer">
+                                <i data-lucide="search" class="w-4 h-4"></i>
+                            </button>
+
+                            <!-- Tarih / Sıralama Filtresi -->
+                            <button onclick="Portal.toggleSortNotes()" title="Tarihe Göre Sırala" class="p-2.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-all cursor-pointer">
+                                <i data-lucide="calendar" class="w-4 h-4"></i>
+                            </button>
+
+                            <!-- Küçültme Butonu -->
+                            <button onclick="Portal.minimizeWidget('notes', 'Notlarım')" title="Widget'ı Küçült" class="p-2.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-all cursor-pointer">
+                                <i data-lucide="minus" class="w-4 h-4"></i>
+                            </button>
+
+                            <!-- + YENİ NOT EKLE BUTONU (FOTOĞRAFTAKİ DAİRESEL BUTON) -->
+                            <button onclick="Portal.openNewNoteDrawer()" title="Yeni Not Ekle" class="w-10 h-10 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 transition-all duration-200 hover:scale-105 cursor-pointer">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
                             </button>
                         </div>
-                        <div class="grid grid-cols-3 gap-2 pt-1 text-center">
-                            <div class="p-2.5 rounded-2xl bg-slate-900/80 border border-slate-800/80">
-                                <span id="widgetTotalNotes" class="text-lg font-extrabold text-blue-400 font-mono block">0</span>
-                                <span class="text-[10px] text-slate-500">Not Sayısı</span>
+                    </div>
+
+                    <!-- 2. ALT FİLTRE VE GÖRÜNÜM BARI (SUB-HEADER) -->
+                    <div class="px-5 sm:px-6 py-3 bg-slate-950/40 border-b border-slate-800/60 flex flex-wrap items-center justify-between gap-3 text-xs">
+                        
+                        <!-- Sol: Aktif Notlar / Arşiv Sekmeleri -->
+                        <div class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-2xl border border-slate-800">
+                            <button onclick="Portal.setNoteFilterTab('active')" id="filterTabActive" class="px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                                <span>Aktif Notlar</span>
+                            </button>
+                            <button onclick="Portal.setNoteFilterTab('pinned')" id="filterTabPinned" class="px-3 py-1.5 rounded-xl text-slate-400 hover:text-white font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+                                <i data-lucide="pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                                <span>Sabitlenenler</span>
+                            </button>
+                        </div>
+
+                        <!-- Sağ: Kategori Hapı & Görünüm Seçici (Grid / List) -->
+                        <div class="flex items-center gap-2">
+                            <!-- Kategori Rozeti -->
+                            <div class="px-3 py-1.5 rounded-2xl bg-slate-900 border border-slate-800 text-slate-300 font-bold flex items-center gap-1.5">
+                                <span>Tüm Notlar</span>
+                                <span id="notesSubBadgeCount" class="w-5 h-5 rounded-full bg-slate-800 text-slate-400 text-[10px] flex items-center justify-center font-mono">0</span>
                             </div>
-                            <div class="p-2.5 rounded-2xl bg-slate-900/80 border border-slate-800/80">
-                                <span id="widgetPinnedNotes" class="text-lg font-extrabold text-amber-400 font-mono block">0</span>
-                                <span class="text-[10px] text-slate-500">Sabitlenen</span>
-                            </div>
-                            <div class="p-2.5 rounded-2xl bg-slate-900/80 border border-slate-800/80">
-                                <span class="text-lg font-extrabold text-emerald-400 font-mono block">100%</span>
-                                <span class="text-[10px] text-slate-500">Sağlık</span>
+
+                            <!-- Görünüm Değiştirici -->
+                            <div class="flex items-center bg-slate-900 p-1 rounded-2xl border border-slate-800">
+                                <button onclick="Portal.setNotesViewMode('grid')" id="viewModeGrid" class="p-1.5 rounded-xl bg-blue-600 text-white transition-all cursor-pointer" title="Izgara Görünümü">
+                                    <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button onclick="Portal.setNotesViewMode('list')" id="viewModeList" class="p-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer" title="Liste Görünümü">
+                                    <i data-lucide="list" class="w-3.5 h-3.5"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- WIDGET 2: ODAKLANMA ZAMANLAYICISI (POMODORO) -->
-                    <div id="pomodoroWidgetWrapper" class="glass-card p-5 rounded-3xl border border-slate-800 space-y-3 relative group">
-                        <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
-                                    <i data-lucide="timer" class="w-4 h-4"></i>
-                                </div>
-                                <h3 class="text-xs font-bold text-slate-200">Odaklanma Zamanlayıcısı</h3>
-                            </div>
-                            <button onclick="Portal.minimizeWidget('pomodoro', 'Odaklanma Zamanlayıcısı')" title="Widget'ı Küçült" class="p-1 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                                <i data-lucide="minus" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 pt-1">
-                            <div class="text-2xl font-black text-white font-mono tracking-wider" id="pomodoroTimer">25:00</div>
-                            <div class="flex items-center gap-1.5">
-                                <button id="pomodoroStartBtn" onclick="Portal.togglePomodoro()" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all cursor-pointer">
-                                    Başlat
-                                </button>
-                                <button onclick="Portal.resetPomodoro()" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer">
-                                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-                                </button>
-                            </div>
+                    <!-- 3. ARAMA KUTUSU (GİZLENEBİLİR / AÇILABİLİR) -->
+                    <div id="widgetSearchBox" class="hidden px-5 sm:px-6 py-3 bg-slate-900/60 border-b border-slate-800/80">
+                        <div class="relative">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" id="noteSearchInput" oninput="Portal.filterNotes()" placeholder="Not başlığı veya içeriğinde ara..." class="w-full pl-10 pr-4 py-2 bg-slate-950/80 rounded-xl border border-slate-800 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/50">
                         </div>
                     </div>
 
-                    <!-- WIDGET 3: HIZLI KISAYOLLAR & AKSİYON DOCK'U -->
-                    <div id="shortcutsWidgetWrapper" class="glass-card p-5 rounded-3xl border border-slate-800 space-y-3 relative group">
-                        <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                                    <i data-lucide="zap" class="w-4 h-4"></i>
-                                </div>
-                                <h3 class="text-xs font-bold text-slate-200">Hızlı Kısayollar</h3>
-                            </div>
-                            <button onclick="Portal.minimizeWidget('shortcuts', 'Hızlı Kısayollar')" title="Widget'ı Küçült" class="p-1 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                                <i data-lucide="minus" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 pt-1">
-                            <button onclick="Portal.insertQuickTodoNote()" class="py-2 px-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800/80 text-[11px] font-bold text-slate-300 hover:text-white text-left flex items-center gap-1.5 transition-all cursor-pointer">
-                                <i data-lucide="check-square" class="w-3.5 h-3.5 text-blue-400"></i> Hızlı Görev
-                            </button>
-                            <button onclick="Portal.openNewMenuModal()" class="py-2 px-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800/80 text-[11px] font-bold text-slate-300 hover:text-white text-left flex items-center gap-1.5 transition-all cursor-pointer">
-                                <i data-lucide="folder-plus" class="w-3.5 h-3.5 text-purple-400"></i> Yeni Sayfa
-                            </button>
+                    <!-- 4. NOTLAR LİSTESİ / IZGARASI -->
+                    <div class="p-5 sm:p-6">
+                        <div id="notionNotesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Dinamik Render -->
                         </div>
                     </div>
 
                 </div>
 
-                <!-- CANLI ARAMA VE FİLTRE ÇUBUĞU -->
-                <div class="glass-card p-3 rounded-2xl border border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <div class="relative flex-1 w-full">
-                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                        <input type="text" id="noteSearchInput" oninput="Portal.filterNotes()" placeholder="Notlarda ara... (Başlık, içerik veya etiket)" class="w-full pl-10 pr-4 py-1.5 bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
-                    </div>
-                    <div class="flex items-center gap-1.5 text-xs text-slate-400 pl-2 sm:border-l sm:border-slate-800">
-                        <span id="noteCountBadge" class="px-2.5 py-1 rounded-xl bg-slate-800/80 font-mono font-bold text-slate-300">0 Not</span>
-                    </div>
-                </div>
-
-                <!-- NOTION NOTLAR GRİDİ -->
-                <div id="notionNotesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
             </div>
 
             <!-- TAB 2: GELİŞTİRİCİ MERKEZİ & SENTINEL OS KONTROL PANELİ -->
             <div id="tab-admin" class="tab-pane hidden space-y-6">
-                <!-- Üst Banner -->
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 rounded-3xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-slate-900/50 border border-purple-500/30 shadow-xl">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 rounded-2xl bg-purple-600/20 border border-purple-500/40 text-purple-400 flex items-center justify-center shadow-lg">
