@@ -18,6 +18,7 @@ window.Portal = {
     // Her başlatıcıyı tamamen izole çalıştırıyoruz
     this.safeExec('Auth', () => this.checkPersistentAuth());
     this.safeExec('Saat & Tarih', () => this.initClock());
+    this.safeExec('Günlük Brifing', () => this.initDailyBriefing());
     this.safeExec('Sol Menü', () => this.renderSidebarNav());
     this.safeExec('Görevler', () => this.loadTasks());
     this.safeExec('Notlar', () => this.loadNotes());
@@ -42,6 +43,188 @@ window.Portal = {
   // ==========================================================
   // 1. GÜVENLİK VE KAÇIŞ
   // ==========================================================
+    // ==========================================================
+  // 1.1 DEEP WORK & 40Hz GAMMA ODAK SAYACI MOTORU
+  // ==========================================================
+  focusTimerState: {
+    duration: 1500, // 25 dakika
+    remaining: 1500,
+    isRunning: false,
+    timerId: null,
+    audioCtx: null,
+    audioNodes: null,
+    isAudioActive: false
+  },
+
+  initDailyBriefing() {
+    try {
+      const now = new Date();
+      const hour = now.getHours();
+      const greetingEl = document.getElementById('greetingText');
+      const timeBadgeEl = document.getElementById('briefingTimeBadge');
+
+      let greeting = 'İyi Çalışmalar';
+      let badge = 'Gündüz Döngüsü';
+
+      if (hour >= 5 && hour < 12) {
+        greeting = 'Günaydın, Harika Bir Gün Dilerim';
+        badge = 'Sabah Strateji Döngüsü';
+      } else if (hour >= 12 && hour < 17) {
+        greeting = 'İyi Günler, Üretken Saatler';
+        badge = 'Öğleden Sonra İvmesi';
+      } else if (hour >= 17 && hour < 22) {
+        greeting = 'İyi Akşamlar, Sayın Yöneticim';
+        badge = 'Akşam Kapanış & Değerlendirme';
+      } else {
+        greeting = 'İyi Geceler, Derin Odak Zamanı';
+        badge = 'Gece Odaklanma Modu';
+      }
+
+      if (greetingEl) greetingEl.textContent = greeting;
+      if (timeBadgeEl) timeBadgeEl.textContent = badge;
+    } catch (e) {}
+  },
+
+  toggleFocusTimer() {
+    if (this.focusTimerState.isRunning) {
+      this.pauseFocusTimer();
+    } else {
+      this.startFocusTimer();
+    }
+  },
+
+  startFocusTimer() {
+    this.focusTimerState.isRunning = true;
+    const btnText = document.getElementById('focusTimerBtnText');
+    const btnIcon = document.getElementById('focusTimerBtnIcon');
+    const startBtn = document.getElementById('focusTimerStartBtn');
+
+    if (btnText) btnText.textContent = 'Duraklat';
+    if (startBtn) startBtn.className = 'flex-1 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/25 transition-all cursor-pointer flex items-center justify-center gap-1.5';
+    
+    if (this.focusTimerState.isAudioActive) {
+      this.startGammaAudio();
+    }
+
+    this.focusTimerState.timerId = setInterval(() => {
+      if (this.focusTimerState.remaining > 0) {
+        this.focusTimerState.remaining--;
+        this.updateFocusTimerDisplay();
+      } else {
+        this.completeFocusSprint();
+      }
+    }, 1000);
+
+    this.playAudioFeedback('click');
+    this.toast('25 Dakikalık Deep Work Sprinti Başladı! 🎯', 'success');
+  },
+
+  pauseFocusTimer() {
+    this.focusTimerState.isRunning = false;
+    clearInterval(this.focusTimerState.timerId);
+    this.stopGammaAudio();
+
+    const btnText = document.getElementById('focusTimerBtnText');
+    const startBtn = document.getElementById('focusTimerStartBtn');
+
+    if (btnText) btnText.textContent = 'Devam Et';
+    if (startBtn) startBtn.className = 'flex-1 py-2.5 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-500/25 transition-all cursor-pointer flex items-center justify-center gap-1.5';
+    
+    this.toast('Odaklanma duraklatıldı', 'info');
+  },
+
+  resetFocusTimer() {
+    this.focusTimerState.isRunning = false;
+    clearInterval(this.focusTimerState.timerId);
+    this.stopGammaAudio();
+    this.focusTimerState.remaining = this.focusTimerState.duration;
+    this.updateFocusTimerDisplay();
+
+    const btnText = document.getElementById('focusTimerBtnText');
+    const startBtn = document.getElementById('focusTimerStartBtn');
+
+    if (btnText) btnText.textContent = 'Sprint Başlat';
+    if (startBtn) startBtn.className = 'flex-1 py-2.5 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-500/25 transition-all cursor-pointer flex items-center justify-center gap-1.5';
+
+    this.toast('Sayaç sıfırlandı (25:00)', 'info');
+  },
+
+  updateFocusTimerDisplay() {
+    const min = Math.floor(this.focusTimerState.remaining / 60);
+    const sec = this.focusTimerState.remaining % 60;
+    const formatted = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+
+    const display = document.getElementById('focusTimerDisplay');
+    if (display) display.textContent = formatted;
+  },
+
+  completeFocusSprint() {
+    this.resetFocusTimer();
+    this.playAudioFeedback('complete');
+    this.toast('Tebrikler! 25 Dakikalık Derin Odak Sprinti Başarıyla Tamamlandı! 🏆', 'success');
+  },
+
+  toggleFocusAudio() {
+    this.focusTimerState.isAudioActive = !this.focusTimerState.isAudioActive;
+    const btn = document.getElementById('gammaAudioToggleBtn');
+    const txt = document.getElementById('gammaAudioText');
+
+    if (this.focusTimerState.isAudioActive) {
+      if (btn) btn.className = 'px-2.5 py-1 rounded-xl bg-purple-600 text-white text-[10px] font-mono font-bold border border-purple-400 flex items-center gap-1 transition-all cursor-pointer shadow-lg shadow-purple-500/30';
+      if (txt) txt.textContent = '40Hz Ses: Aktif';
+      if (this.focusTimerState.isRunning) this.startGammaAudio();
+      this.toast('40Hz Gamma Odaklama Sesi Aktifleştirildi 🎧', 'success');
+    } else {
+      if (btn) btn.className = 'px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-purple-900/40 text-purple-300 text-[10px] font-mono font-bold border border-purple-500/30 flex items-center gap-1 transition-all cursor-pointer';
+      if (txt) txt.textContent = '40Hz Ses: Kapalı';
+      this.stopGammaAudio();
+      this.toast('Odak sesi kapatıldı', 'info');
+    }
+  },
+
+  startGammaAudio() {
+    try {
+      if (this.focusTimerState.audioNodes) return;
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+
+      const ctx = new AudioCtx();
+      const osc1 = ctx.createOscillator(); // 200 Hz
+      const osc2 = ctx.createOscillator(); // 240 Hz -> 40 Hz Gamma Farkı
+      const gainNode = ctx.createGain();
+
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(200, ctx.currentTime);
+
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(240, ctx.currentTime);
+
+      gainNode.gain.setValueAtTime(0.03, ctx.currentTime); // Çok hafif arka plan
+
+      osc1.connect(gainNode);
+      osc2.connect(gainNode);
+      gainNode.connect(ctx.destination);
+
+      osc1.start();
+      osc2.start();
+
+      this.focusTimerState.audioCtx = ctx;
+      this.focusTimerState.audioNodes = { osc1, osc2, gainNode };
+    } catch (e) {}
+  },
+
+  stopGammaAudio() {
+    try {
+      if (this.focusTimerState.audioNodes) {
+        this.focusTimerState.audioNodes.osc1.stop();
+        this.focusTimerState.audioNodes.osc2.stop();
+        this.focusTimerState.audioCtx.close();
+        this.focusTimerState.audioNodes = null;
+        this.focusTimerState.audioCtx = null;
+      }
+    } catch (e) {}
+  },
+
   escapeHtml(str) {
     if (!str) return '';
     return String(str)

@@ -38,6 +38,15 @@
       "antidote": "Konsol çıktılarında daima standart ASCII karakterler [PASS], [OK], [FAIL] kullanılmalıdır.",
       "check_target": "audit.py",
       "pattern": "[PASS]"
+    },
+    {
+      "id": "ERR_005_FOCUS_TIMER_LEAK",
+      "title": "Odaklanma Sayacı Bellek Sızıntısı ve AudioContext Kilidi",
+      "symptom": "Sayaç durdurulduğunda sesin çalmaya devam etmesi veya sayacın çift hızda geri sayması.",
+      "root_cause": "clearInterval yapılmaması veya Web Audio kaynaklarının kapatılmaması.",
+      "antidote": "resetFocusTimer çağrıldığında interval temizlenmeli ve ses osilatörü durdurulmalıdır.",
+      "check_target": "js/portal.js",
+      "pattern": "clearInterval(this.focusTimerState.timerId)"
     }
   ]
 }
