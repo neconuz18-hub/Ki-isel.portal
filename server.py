@@ -9,7 +9,7 @@ import os
 import json
 import socket
 import sys
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 # Windows konsol kodlamasi guvencesi
 if hasattr(sys.stdout, 'reconfigure'):
@@ -697,7 +697,7 @@ def run_server():
     init_db()
     local_ip = get_local_ip()
     server_address = ("", PORT)
-    httpd = HTTPServer(server_address, AssistantRequestHandler)
+    httpd = ThreadingHTTPServer(server_address, AssistantRequestHandler)
     print("=" * 60)
     print("  [OK] YONETICI ASISTANI WEB SITESI SUNUCUSU AKTIF")
     print("=" * 60)
