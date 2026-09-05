@@ -25,3 +25,9 @@ original_*.py
 link_*.py
 test_81_*.py
 scratch_*.py
+
+# Claude Code yerel ayarlari
+.claude/
+
+# Yerel veritabani - calisma aninda degisiyor, sema audit.py tarafindan olusturuluyor
+data/portal.sqlite

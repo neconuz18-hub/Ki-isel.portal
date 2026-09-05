@@ -73,12 +73,28 @@ def test_syntax():
         return False
     return True
 
+# Sema, mevcut portal.sqlite ve core/MigrationEngine.php ile ayni tablolari kurar.
+# portal.sqlite artik git'te izlenmedigi icin temiz bir klonda tablolar burada olusur.
+SCHEMA = [
+    "CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, username TEXT, role TEXT, created_at TEXT)",
+    "CREATE TABLE IF NOT EXISTS notes (id TEXT PRIMARY KEY, user_id TEXT, title TEXT, content TEXT, icon TEXT, color TEXT, tags TEXT, pinned INTEGER, created_at TEXT, updated_at TEXT)",
+    "CREATE TABLE IF NOT EXISTS menu_pool (id TEXT PRIMARY KEY, label TEXT, icon TEXT, category TEXT, is_active INTEGER, order_index INTEGER, description TEXT)",
+    "CREATE TABLE IF NOT EXISTS portfolio_assets (id TEXT PRIMARY KEY, symbol TEXT NOT NULL, shares REAL NOT NULL, buy_price REAL NOT NULL, created_at TEXT)",
+    "CREATE TABLE IF NOT EXISTS watchlist (id TEXT PRIMARY KEY, symbol TEXT NOT NULL, created_at TEXT)",
+]
+
+def ensure_schema(conn):
+    for sql in SCHEMA:
+        conn.execute(sql)
+    conn.commit()
+
 def test_database_integrity():
     print_header("2. Asama: SQLite Butunluk & Sema Sagligi")
     if not os.path.exists(DB_PATH):
         print("  [!] Veritabani dosyasi henuz yok, olusturuluyor...")
     
     conn = sqlite3.connect(DB_PATH)
+    ensure_schema(conn)
     cur = conn.cursor()
     
     # Integrity Check
