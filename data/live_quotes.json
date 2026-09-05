@@ -1,0 +1,2558 @@
+{
+  "timestamp": "2026-09-02 18:28:24",
+  "count": 637,
+  "quotes": {
+    "USD_TRY": {
+      "price": 48.3,
+      "change": "+0.15%"
+    },
+    "EUR_TRY": {
+      "price": 56.2,
+      "change": "+0.25%"
+    },
+    "GBP_TRY": {
+      "price": 65.3,
+      "change": "+0.10%"
+    },
+    "BTC_USD": {
+      "price": 77013.53,
+      "change": "+1.45%"
+    },
+    "ALTIN_GRAM": {
+      "price": 6943.14,
+      "change": "+0.85%"
+    },
+    "CEYREK_ALTIN": {
+      "price": 11317.32,
+      "change": "+0.80%"
+    },
+    "THYAO": {
+      "price": 291.5,
+      "change": "-3.32%"
+    },
+    "ASELS": {
+      "price": 380.75,
+      "change": "-0.98%"
+    },
+    "GARAN": {
+      "price": 132.0,
+      "change": "-0.68%"
+    },
+    "TUPRS": {
+      "price": 392.25,
+      "change": "-2.61%"
+    },
+    "KCHOL": {
+      "price": 213.0,
+      "change": "-0.79%"
+    },
+    "BIMAS": {
+      "price": 406.25,
+      "change": "-0.49%"
+    },
+    "EREGL": {
+      "price": 37.6,
+      "change": "-0.48%"
+    },
+    "ISCTR": {
+      "price": 12.78,
+      "change": "+0.24%"
+    },
+    "AKBNK": {
+      "price": 71.5,
+      "change": "-0.63%"
+    },
+    "SISE": {
+      "price": 39.1,
+      "change": "-1.16%"
+    },
+    "SAHOL": {
+      "price": 92.5,
+      "change": "-0.75%"
+    },
+    "FROTO": {
+      "price": 76.25,
+      "change": "-1.29%"
+    },
+    "PETKM": {
+      "price": 19.95,
+      "change": "-2.30%"
+    },
+    "YKBNK": {
+      "price": 36.08,
+      "change": "-2.01%"
+    },
+    "PGSUS": {
+      "price": 149.0,
+      "change": "-1.91%"
+    },
+    "ENKAI": {
+      "price": 86.8,
+      "change": "-2.36%"
+    },
+    "ARCLK": {
+      "price": 90.25,
+      "change": "+0.00%"
+    },
+    "TCELL": {
+      "price": 97.2,
+      "change": "+0.67%"
+    },
+    "TOASO": {
+      "price": 260.5,
+      "change": "-2.80%"
+    },
+    "TTKOM": {
+      "price": 50.8,
+      "change": "-1.45%"
+    },
+    "EKGYO": {
+      "price": 20.06,
+      "change": "+1.57%"
+    },
+    "VAKBN": {
+      "price": 34.08,
+      "change": "+4.67%"
+    },
+    "HALKB": {
+      "price": 44.96,
+      "change": "+9.98%"
+    },
+    "ASTOR": {
+      "price": 316.0,
+      "change": "-0.24%"
+    },
+    "SASA": {
+      "price": 2.27,
+      "change": "-3.81%"
+    },
+    "HEKTS": {
+      "price": 2.65,
+      "change": "-2.21%"
+    },
+    "ALARK": {
+      "price": 110.4,
+      "change": "+2.32%"
+    },
+    "ODAS": {
+      "price": 7.37,
+      "change": "-1.34%"
+    },
+    "KONTR": {
+      "price": 3.3,
+      "change": "-3.79%"
+    },
+    "A1CAP": {
+      "price": 7.7,
+      "change": "-0.26%"
+    },
+    "A1YEN": {
+      "price": 2.65,
+      "change": "-2.21%"
+    },
+    "AAGYO": {
+      "price": 12.29,
+      "change": "-0.73%"
+    },
+    "ACSEL": {
+      "price": 114.3,
+      "change": "+0.26%"
+    },
+    "ADEL": {
+      "price": 31.9,
+      "change": "-2.98%"
+    },
+    "ADESE": {
+      "price": 0.85,
+      "change": "+0.00%"
+    },
+    "ADGYO": {
+      "price": 58.7,
+      "change": "+0.69%"
+    },
+    "AEFES": {
+      "price": 17.99,
+      "change": "-0.50%"
+    },
+    "AFYON": {
+      "price": 12.47,
+      "change": "-0.56%"
+    },
+    "AGESA": {
+      "price": 260.0,
+      "change": "-1.70%"
+    },
+    "AGHOL": {
+      "price": 32.64,
+      "change": "+0.80%"
+    },
+    "AGROT": {
+      "price": 1.98,
+      "change": "-1.00%"
+    },
+    "AGYO": {
+      "price": 7.19,
+      "change": "-2.04%"
+    },
+    "AHGAZ": {
+      "price": 38.7,
+      "change": "+0.52%"
+    },
+    "AHSGY": {
+      "price": 15.61,
+      "change": "-4.23%"
+    },
+    "AKCNS": {
+      "price": 240.6,
+      "change": "+0.21%"
+    },
+    "AKENR": {
+      "price": 10.36,
+      "change": "-1.15%"
+    },
+    "AKFGY": {
+      "price": 2.54,
+      "change": "-0.39%"
+    },
+    "AKFIS": {
+      "price": 17.54,
+      "change": "+3.18%"
+    },
+    "AKFYE": {
+      "price": 22.76,
+      "change": "-0.09%"
+    },
+    "AKGRT": {
+      "price": 6.09,
+      "change": "-1.30%"
+    },
+    "AKHAN": {
+      "price": 40.04,
+      "change": "-0.89%"
+    },
+    "AKMGY": {
+      "price": 254.0,
+      "change": "-1.74%"
+    },
+    "AKSA": {
+      "price": 10.71,
+      "change": "+0.09%"
+    },
+    "AKSEN": {
+      "price": 81.5,
+      "change": "+3.76%"
+    },
+    "AKSGY": {
+      "price": 9.9,
+      "change": "-0.70%"
+    },
+    "AKSUE": {
+      "price": 27.7,
+      "change": "-8.58%"
+    },
+    "AKYHO": {
+      "price": 2.02,
+      "change": "-1.94%"
+    },
+    "ALBRK": {
+      "price": 8.8,
+      "change": "+1.38%"
+    },
+    "ALBTN": {
+      "price": 30.5,
+      "change": "-3.79%"
+    },
+    "ALCAR": {
+      "price": 703.0,
+      "change": "+4.77%"
+    },
+    "ALCTL": {
+      "price": 114.6,
+      "change": "-1.29%"
+    },
+    "ALFAS": {
+      "price": 39.06,
+      "change": "-2.35%"
+    },
+    "ALGYO": {
+      "price": 3.55,
+      "change": "-1.93%"
+    },
+    "ALKA": {
+      "price": 8.07,
+      "change": "-0.49%"
+    },
+    "ALKIM": {
+      "price": 15.42,
+      "change": "-0.19%"
+    },
+    "ALKLC": {
+      "price": 427.0,
+      "change": "+0.00%"
+    },
+    "ALTNY": {
+      "price": 17.45,
+      "change": "+0.29%"
+    },
+    "ALVES": {
+      "price": 1.31,
+      "change": "-5.07%"
+    },
+    "ANELE": {
+      "price": 194.0,
+      "change": "+0.52%"
+    },
+    "ANGEN": {
+      "price": 8.9,
+      "change": "-0.67%"
+    },
+    "ANHYT": {
+      "price": 103.8,
+      "change": "-0.86%"
+    },
+    "ANSGR": {
+      "price": 26.5,
+      "change": "-1.34%"
+    },
+    "ARASE": {
+      "price": 120.2,
+      "change": "-3.84%"
+    },
+    "ARDYZ": {
+      "price": 85.0,
+      "change": "+3.22%"
+    },
+    "ARENA": {
+      "price": 20.14,
+      "change": "-0.79%"
+    },
+    "ARFYE": {
+      "price": 19.31,
+      "change": "-3.11%"
+    },
+    "ARMGD": {
+      "price": 197.9,
+      "change": "+6.57%"
+    },
+    "ARSAN": {
+      "price": 3.97,
+      "change": "-2.70%"
+    },
+    "ARTMS": {
+      "price": 40.9,
+      "change": "-3.31%"
+    },
+    "ARZUM": {
+      "price": 1.54,
+      "change": "-5.52%"
+    },
+    "ASGYO": {
+      "price": 10.95,
+      "change": "+0.00%"
+    },
+    "ASUZU": {
+      "price": 46.98,
+      "change": "-1.05%"
+    },
+    "ATAGY": {
+      "price": 9.87,
+      "change": "-0.90%"
+    },
+    "ATAKP": {
+      "price": 41.76,
+      "change": "-2.70%"
+    },
+    "ATATP": {
+      "price": 293.75,
+      "change": "-1.09%"
+    },
+    "ATATR": {
+      "price": 13.32,
+      "change": "+0.60%"
+    },
+    "ATEKS": {
+      "price": 95.0,
+      "change": "-1.55%"
+    },
+    "ATLAS": {
+      "price": 5.95,
+      "change": "-0.50%"
+    },
+    "ATSYH": {
+      "price": 120.0,
+      "change": "-6.98%"
+    },
+    "AVGYO": {
+      "price": 16.38,
+      "change": "+9.20%"
+    },
+    "AVHOL": {
+      "price": 34.2,
+      "change": "-2.23%"
+    },
+    "AVOD": {
+      "price": 3.98,
+      "change": "+2.05%"
+    },
+    "AVPGY": {
+      "price": 55.7,
+      "change": "-2.11%"
+    },
+    "AVTUR": {
+      "price": 12.0,
+      "change": "+0.17%"
+    },
+    "AYCES": {
+      "price": 449.25,
+      "change": "+0.00%"
+    },
+    "AYDEM": {
+      "price": 26.4,
+      "change": "+0.38%"
+    },
+    "AYEN": {
+      "price": 30.32,
+      "change": "-2.19%"
+    },
+    "AYES": {
+      "price": 29.56,
+      "change": "-3.02%"
+    },
+    "AYGAZ": {
+      "price": 325.0,
+      "change": "-1.96%"
+    },
+    "AZTEK": {
+      "price": 3.76,
+      "change": "+1.08%"
+    },
+    "BAGFS": {
+      "price": 26.08,
+      "change": "-0.08%"
+    },
+    "BAHKM": {
+      "price": 158.1,
+      "change": "-2.17%"
+    },
+    "BAKAB": {
+      "price": 38.24,
+      "change": "-2.70%"
+    },
+    "BALAT": {
+      "price": 68.5,
+      "change": "-0.72%"
+    },
+    "BALSU": {
+      "price": 9.9,
+      "change": "+3.13%"
+    },
+    "BANVT": {
+      "price": 149.4,
+      "change": "-1.58%"
+    },
+    "BARMA": {
+      "price": 8.1,
+      "change": "-4.71%"
+    },
+    "BASCM": {
+      "price": 13.7,
+      "change": "-0.58%"
+    },
+    "BASGZ": {
+      "price": 44.2,
+      "change": "-0.67%"
+    },
+    "BAYRK": {
+      "price": 4.19,
+      "change": "-1.18%"
+    },
+    "BEGYO": {
+      "price": 3.44,
+      "change": "-1.71%"
+    },
+    "BERA": {
+      "price": 13.6,
+      "change": "+0.15%"
+    },
+    "BESLR": {
+      "price": 12.91,
+      "change": "-0.08%"
+    },
+    "BESTE": {
+      "price": 31.88,
+      "change": "-0.38%"
+    },
+    "BETAE": {
+      "price": 84.1,
+      "change": "-3.05%"
+    },
+    "BEYAZ": {
+      "price": 21.88,
+      "change": "-2.15%"
+    },
+    "BFREN": {
+      "price": 126.1,
+      "change": "-0.79%"
+    },
+    "BIENY": {
+      "price": 21.72,
+      "change": "-1.27%"
+    },
+    "BIGCH": {
+      "price": 5.52,
+      "change": "-0.90%"
+    },
+    "BIGEN": {
+      "price": 187.0,
+      "change": "+0.54%"
+    },
+    "BIGTK": {
+      "price": 323.25,
+      "change": "-2.05%"
+    },
+    "BINBN": {
+      "price": 177.4,
+      "change": "+1.14%"
+    },
+    "BINHO": {
+      "price": 9.57,
+      "change": "-0.10%"
+    },
+    "BIOEN": {
+      "price": 18.9,
+      "change": "-2.48%"
+    },
+    "BIZIM": {
+      "price": 24.2,
+      "change": "-0.66%"
+    },
+    "BJKAS": {
+      "price": 2.18,
+      "change": "-3.11%"
+    },
+    "BKRGY": {
+      "price": 11.64,
+      "change": "-9.98%"
+    },
+    "BLCYT": {
+      "price": 2.06,
+      "change": "+4.04%"
+    },
+    "BLUME": {
+      "price": 41.0,
+      "change": "+0.00%"
+    },
+    "BMSCH": {
+      "price": 10.46,
+      "change": "-3.42%"
+    },
+    "BMSTL": {
+      "price": 43.9,
+      "change": "-1.70%"
+    },
+    "BNTAS": {
+      "price": 6.18,
+      "change": "-1.12%"
+    },
+    "BOBET": {
+      "price": 20.6,
+      "change": "-0.87%"
+    },
+    "BORLS": {
+      "price": 3.88,
+      "change": "-6.05%"
+    },
+    "BORSK": {
+      "price": 6.55,
+      "change": "+2.66%"
+    },
+    "BOSSA": {
+      "price": 6.35,
+      "change": "-2.16%"
+    },
+    "BRISA": {
+      "price": 76.5,
+      "change": "+0.59%"
+    },
+    "BRKO": {
+      "price": 12.2,
+      "change": "-2.40%"
+    },
+    "BRKSN": {
+      "price": 7.77,
+      "change": "-1.02%"
+    },
+    "BRKVY": {
+      "price": 91.5,
+      "change": "+1.61%"
+    },
+    "BRLSM": {
+      "price": 19.88,
+      "change": "-9.80%"
+    },
+    "BRMEN": {
+      "price": 12.98,
+      "change": "-0.54%"
+    },
+    "BRSAN": {
+      "price": 694.5,
+      "change": "-1.77%"
+    },
+    "BRYAT": {
+      "price": 1645.0,
+      "change": "-1.14%"
+    },
+    "BSOKE": {
+      "price": 24.34,
+      "change": "-9.45%"
+    },
+    "BTCIM": {
+      "price": 3.84,
+      "change": "-4.00%"
+    },
+    "BUCIM": {
+      "price": 5.89,
+      "change": "+0.00%"
+    },
+    "BULGS": {
+      "price": 32.56,
+      "change": "+0.62%"
+    },
+    "BURCE": {
+      "price": 33.0,
+      "change": "-4.07%"
+    },
+    "BURVA": {
+      "price": 697.0,
+      "change": "-8.11%"
+    },
+    "BVSAN": {
+      "price": 103.6,
+      "change": "-0.96%"
+    },
+    "BYDNR": {
+      "price": 38.22,
+      "change": "-2.10%"
+    },
+    "CANTE": {
+      "price": 1.33,
+      "change": "+2.31%"
+    },
+    "CASA": {
+      "price": 72.35,
+      "change": "+3.65%"
+    },
+    "CATES": {
+      "price": 68.3,
+      "change": "-5.40%"
+    },
+    "CCOLA": {
+      "price": 78.35,
+      "change": "+2.08%"
+    },
+    "CELHA": {
+      "price": 24.74,
+      "change": "+0.16%"
+    },
+    "CEMAS": {
+      "price": 4.04,
+      "change": "-1.22%"
+    },
+    "CEMTS": {
+      "price": 8.67,
+      "change": "-1.59%"
+    },
+    "CEMZY": {
+      "price": 14.9,
+      "change": "+0.34%"
+    },
+    "CEOEM": {
+      "price": 23.96,
+      "change": "-3.62%"
+    },
+    "CGCAM": {
+      "price": 32.26,
+      "change": "-5.95%"
+    },
+    "CIMSA": {
+      "price": 44.0,
+      "change": "+0.46%"
+    },
+    "CITAS": {
+      "price": 129.9,
+      "change": "+2.69%"
+    },
+    "CLEBI": {
+      "price": 1435.0,
+      "change": "-1.17%"
+    },
+    "CMBTN": {
+      "price": 1501.0,
+      "change": "-0.60%"
+    },
+    "CMENT": {
+      "price": 257.0,
+      "change": "-1.91%"
+    },
+    "CONSE": {
+      "price": 2.3,
+      "change": "+1.77%"
+    },
+    "COSMO": {
+      "price": 121.5,
+      "change": "-2.49%"
+    },
+    "CRDFA": {
+      "price": 27.0,
+      "change": "-1.82%"
+    },
+    "CRFSA": {
+      "price": 297.75,
+      "change": "-6.22%"
+    },
+    "CUSAN": {
+      "price": 24.1,
+      "change": "+0.75%"
+    },
+    "CVKMD": {
+      "price": 16.22,
+      "change": "+0.37%"
+    },
+    "CWENE": {
+      "price": 33.34,
+      "change": "-3.42%"
+    },
+    "DAGI": {
+      "price": 9.92,
+      "change": "-6.50%"
+    },
+    "DAPGM": {
+      "price": 8.04,
+      "change": "+3.61%"
+    },
+    "DARDL": {
+      "price": 1.61,
+      "change": "-0.62%"
+    },
+    "DCTTR": {
+      "price": 6.16,
+      "change": "-1.28%"
+    },
+    "DENGE": {
+      "price": 2.23,
+      "change": "-2.19%"
+    },
+    "DERHL": {
+      "price": 2.07,
+      "change": "-0.96%"
+    },
+    "DERIM": {
+      "price": 35.66,
+      "change": "-1.38%"
+    },
+    "DESA": {
+      "price": 9.6,
+      "change": "-0.31%"
+    },
+    "DESPC": {
+      "price": 40.5,
+      "change": "+1.40%"
+    },
+    "DEVA": {
+      "price": 95.0,
+      "change": "-0.68%"
+    },
+    "DGATE": {
+      "price": 93.0,
+      "change": "-0.11%"
+    },
+    "DGGYO": {
+      "price": 33.08,
+      "change": "-4.72%"
+    },
+    "DGNMO": {
+      "price": 7.55,
+      "change": "+0.00%"
+    },
+    "DIRIT": {
+      "price": 26.6,
+      "change": "-4.66%"
+    },
+    "DITAS": {
+      "price": 23.0,
+      "change": "+0.61%"
+    },
+    "DMRGD": {
+      "price": 11.35,
+      "change": "+2.25%"
+    },
+    "DMSAS": {
+      "price": 8.38,
+      "change": "+0.96%"
+    },
+    "DNISI": {
+      "price": 4.43,
+      "change": "-1.12%"
+    },
+    "DOAS": {
+      "price": 161.7,
+      "change": "-1.52%"
+    },
+    "DOCO": {
+      "price": 11117.5,
+      "change": "-1.53%"
+    },
+    "DOFER": {
+      "price": 27.68,
+      "change": "+0.87%"
+    },
+    "DOFRB": {
+      "price": 122.9,
+      "change": "+4.33%"
+    },
+    "DOGUB": {
+      "price": 66.95,
+      "change": "-0.52%"
+    },
+    "DOHOL": {
+      "price": 21.58,
+      "change": "-0.28%"
+    },
+    "DOKTA": {
+      "price": 22.4,
+      "change": "-1.75%"
+    },
+    "DSTKF": {
+      "price": 2216.0,
+      "change": "+1.19%"
+    },
+    "DUNYH": {
+      "price": 135.6,
+      "change": "-1.81%"
+    },
+    "DURDO": {
+      "price": 5.1,
+      "change": "+2.41%"
+    },
+    "DURKN": {
+      "price": 22.8,
+      "change": "+5.07%"
+    },
+    "DYOBY": {
+      "price": 13.13,
+      "change": "-1.35%"
+    },
+    "DZGYO": {
+      "price": 7.09,
+      "change": "+1.43%"
+    },
+    "EBEBK": {
+      "price": 81.5,
+      "change": "-1.33%"
+    },
+    "ECILC": {
+      "price": 72.5,
+      "change": "-3.40%"
+    },
+    "ECOGR": {
+      "price": 33.34,
+      "change": "-0.77%"
+    },
+    "ECZYT": {
+      "price": 304.75,
+      "change": "-3.25%"
+    },
+    "EDATA": {
+      "price": 17.89,
+      "change": "-0.17%"
+    },
+    "EDIP": {
+      "price": 36.0,
+      "change": "-4.96%"
+    },
+    "EFOR": {
+      "price": 16.9,
+      "change": "-7.04%"
+    },
+    "EGEEN": {
+      "price": 4870.0,
+      "change": "-2.36%"
+    },
+    "EGEGY": {
+      "price": 25.6,
+      "change": "-3.90%"
+    },
+    "EGEPO": {
+      "price": 17.19,
+      "change": "+4.06%"
+    },
+    "EGGUB": {
+      "price": 106.5,
+      "change": "-1.75%"
+    },
+    "EGPRO": {
+      "price": 37.42,
+      "change": "-1.32%"
+    },
+    "EGSER": {
+      "price": 2.89,
+      "change": "+1.05%"
+    },
+    "EKDMR": {
+      "price": 46.6,
+      "change": "-1.94%"
+    },
+    "EKIM": {
+      "price": 18.26,
+      "change": "-3.79%"
+    },
+    "EKIZ": {
+      "price": 56.8,
+      "change": "-3.15%"
+    },
+    "EKOS": {
+      "price": 4.98,
+      "change": "-2.16%"
+    },
+    "EKSUN": {
+      "price": 5.66,
+      "change": "-3.25%"
+    },
+    "ELITE": {
+      "price": 26.9,
+      "change": "-0.44%"
+    },
+    "EMKEL": {
+      "price": 13.94,
+      "change": "-2.92%"
+    },
+    "EMNIS": {
+      "price": 149.9,
+      "change": "-0.73%"
+    },
+    "EMPAE": {
+      "price": 69.3,
+      "change": "+10.00%"
+    },
+    "ENDAE": {
+      "price": 17.14,
+      "change": "-3.33%"
+    },
+    "ENERY": {
+      "price": 10.5,
+      "change": "+3.24%"
+    },
+    "ENJSA": {
+      "price": 113.2,
+      "change": "+2.17%"
+    },
+    "ENPRA": {
+      "price": 59.0,
+      "change": "-0.17%"
+    },
+    "ENSRI": {
+      "price": 4.95,
+      "change": "-1.39%"
+    },
+    "ENTRA": {
+      "price": 4.22,
+      "change": "-1.17%"
+    },
+    "EPLAS": {
+      "price": 5.5,
+      "change": "-5.17%"
+    },
+    "ERBOS": {
+      "price": 145.0,
+      "change": "-1.76%"
+    },
+    "ERCB": {
+      "price": 42.98,
+      "change": "-1.74%"
+    },
+    "ERSU": {
+      "price": 23.6,
+      "change": "+1.64%"
+    },
+    "ESCAR": {
+      "price": 44.54,
+      "change": "-1.02%"
+    },
+    "ESCOM": {
+      "price": 5.19,
+      "change": "-3.17%"
+    },
+    "ESEN": {
+      "price": 3.37,
+      "change": "-5.07%"
+    },
+    "ETILR": {
+      "price": 5.58,
+      "change": "+1.45%"
+    },
+    "ETYAT": {
+      "price": 15.4,
+      "change": "-0.32%"
+    },
+    "EUHOL": {
+      "price": 10.15,
+      "change": "+1.50%"
+    },
+    "EUKYO": {
+      "price": 13.41,
+      "change": "+1.59%"
+    },
+    "EUPWR": {
+      "price": 83.15,
+      "change": "-9.96%"
+    },
+    "EUREN": {
+      "price": 3.84,
+      "change": "-0.26%"
+    },
+    "EUYO": {
+      "price": 4.99,
+      "change": "+7.78%"
+    },
+    "EYGYO": {
+      "price": 2.65,
+      "change": "-1.85%"
+    },
+    "FADE": {
+      "price": 15.5,
+      "change": "-0.13%"
+    },
+    "FENER": {
+      "price": 3.05,
+      "change": "-1.29%"
+    },
+    "FLAP": {
+      "price": 10.89,
+      "change": "-0.55%"
+    },
+    "FMIZP": {
+      "price": 289.0,
+      "change": "-1.87%"
+    },
+    "FONET": {
+      "price": 4.87,
+      "change": "-0.61%"
+    },
+    "FORMT": {
+      "price": 1.51,
+      "change": "-1.31%"
+    },
+    "FORTE": {
+      "price": 111.5,
+      "change": "-0.27%"
+    },
+    "FRIGO": {
+      "price": 2.5,
+      "change": "+0.00%"
+    },
+    "FRMPL": {
+      "price": 32.44,
+      "change": "-0.37%"
+    },
+    "FZLGY": {
+      "price": 8.21,
+      "change": "-8.27%"
+    },
+    "GARFA": {
+      "price": 26.88,
+      "change": "-2.11%"
+    },
+    "GATEG": {
+      "price": 279.75,
+      "change": "-3.95%"
+    },
+    "GEDIK": {
+      "price": 5.8,
+      "change": "-1.53%"
+    },
+    "GEDZA": {
+      "price": 28.46,
+      "change": "-1.86%"
+    },
+    "GENIL": {
+      "price": 11.33,
+      "change": "-2.50%"
+    },
+    "GENKM": {
+      "price": 9.53,
+      "change": "-2.76%"
+    },
+    "GENTS": {
+      "price": 5.0,
+      "change": "-2.53%"
+    },
+    "GEREL": {
+      "price": 36.88,
+      "change": "-0.27%"
+    },
+    "GESAN": {
+      "price": 74.65,
+      "change": "-9.95%"
+    },
+    "GIPTA": {
+      "price": 70.6,
+      "change": "-7.59%"
+    },
+    "GLBMD": {
+      "price": 11.7,
+      "change": "+1.21%"
+    },
+    "GLCVY": {
+      "price": 51.65,
+      "change": "-1.71%"
+    },
+    "GLRMK": {
+      "price": 160.9,
+      "change": "-2.72%"
+    },
+    "GLRYH": {
+      "price": 3.01,
+      "change": "-3.22%"
+    },
+    "GLYHO": {
+      "price": 16.3,
+      "change": "-1.21%"
+    },
+    "GMTAS": {
+      "price": 45.46,
+      "change": "+2.76%"
+    },
+    "GOKNR": {
+      "price": 17.62,
+      "change": "+0.28%"
+    },
+    "GOLDA": {
+      "price": 12.7,
+      "change": "-4.73%"
+    },
+    "GOLTS": {
+      "price": 295.75,
+      "change": "-0.50%"
+    },
+    "GOODY": {
+      "price": 2.66,
+      "change": "+1.14%"
+    },
+    "GOZDE": {
+      "price": 22.0,
+      "change": "-0.45%"
+    },
+    "GRNYO": {
+      "price": 12.21,
+      "change": "-3.86%"
+    },
+    "GRSEL": {
+      "price": 304.25,
+      "change": "+1.42%"
+    },
+    "GRTHO": {
+      "price": 197.3,
+      "change": "-4.08%"
+    },
+    "GSDDE": {
+      "price": 12.92,
+      "change": "-0.77%"
+    },
+    "GSDHO": {
+      "price": 4.53,
+      "change": "-0.22%"
+    },
+    "GSRAY": {
+      "price": 1.03,
+      "change": "-2.83%"
+    },
+    "GUBRF": {
+      "price": 475.75,
+      "change": "+1.01%"
+    },
+    "GUNDG": {
+      "price": 1350.0,
+      "change": "-10.00%"
+    },
+    "GWIND": {
+      "price": 22.2,
+      "change": "-1.33%"
+    },
+    "GZNMI": {
+      "price": 54.0,
+      "change": "+0.75%"
+    },
+    "HATEK": {
+      "price": 13.27,
+      "change": "-2.21%"
+    },
+    "HATSN": {
+      "price": 65.65,
+      "change": "-9.95%"
+    },
+    "HDFGS": {
+      "price": 2.45,
+      "change": "-2.39%"
+    },
+    "HEDEF": {
+      "price": 68.3,
+      "change": "-9.95%"
+    },
+    "HKTM": {
+      "price": 13.1,
+      "change": "-3.68%"
+    },
+    "HLGYO": {
+      "price": 4.31,
+      "change": "-1.37%"
+    },
+    "HOROZ": {
+      "price": 57.6,
+      "change": "-1.54%"
+    },
+    "HRKET": {
+      "price": 91.4,
+      "change": "-2.66%"
+    },
+    "HTTBT": {
+      "price": 34.84,
+      "change": "-1.58%"
+    },
+    "HUBVC": {
+      "price": 2.67,
+      "change": "+6.37%"
+    },
+    "HUNER": {
+      "price": 3.88,
+      "change": "-2.27%"
+    },
+    "HURGZ": {
+      "price": 7.4,
+      "change": "+2.35%"
+    },
+    "ICBCT": {
+      "price": 19.43,
+      "change": "-0.56%"
+    },
+    "ICUGS": {
+      "price": 3.97,
+      "change": "-7.24%"
+    },
+    "IDGYO": {
+      "price": 2.88,
+      "change": "-4.00%"
+    },
+    "IEYHO": {
+      "price": 210.5,
+      "change": "+0.96%"
+    },
+    "IHAAS": {
+      "price": 51.65,
+      "change": "-0.67%"
+    },
+    "IHEVA": {
+      "price": 1.97,
+      "change": "+0.51%"
+    },
+    "IHGZT": {
+      "price": 1.18,
+      "change": "-0.84%"
+    },
+    "IHLAS": {
+      "price": 1.06,
+      "change": "+0.00%"
+    },
+    "IHLGM": {
+      "price": 1.58,
+      "change": "-0.63%"
+    },
+    "IHYAY": {
+      "price": 1.2,
+      "change": "-0.83%"
+    },
+    "IMASM": {
+      "price": 2.26,
+      "change": "+0.00%"
+    },
+    "INDES": {
+      "price": 11.69,
+      "change": "+1.30%"
+    },
+    "INFO": {
+      "price": 5.7,
+      "change": "+3.64%"
+    },
+    "INGRM": {
+      "price": 379.0,
+      "change": "+0.26%"
+    },
+    "INTEK": {
+      "price": 232.7,
+      "change": "-0.56%"
+    },
+    "INTEM": {
+      "price": 241.8,
+      "change": "-1.59%"
+    },
+    "INTET": {
+      "price": 64.8,
+      "change": "+9.92%"
+    },
+    "INVEO": {
+      "price": 6.8,
+      "change": "-0.58%"
+    },
+    "INVES": {
+      "price": 796.5,
+      "change": "+0.13%"
+    },
+    "ISATR": {
+      "price": 4950000.0,
+      "change": "+0.00%"
+    },
+    "ISBIR": {
+      "price": 73.7,
+      "change": "+2.01%"
+    },
+    "ISBTR": {
+      "price": 500000.0,
+      "change": "+0.00%"
+    },
+    "ISDMR": {
+      "price": 55.55,
+      "change": "+3.73%"
+    },
+    "ISFIN": {
+      "price": 19.37,
+      "change": "-0.15%"
+    },
+    "ISGSY": {
+      "price": 15.82,
+      "change": "+1.41%"
+    },
+    "ISGYO": {
+      "price": 25.1,
+      "change": "-3.39%"
+    },
+    "ISKPL": {
+      "price": 7.9,
+      "change": "-2.71%"
+    },
+    "ISKUR": {
+      "price": 4125000.0,
+      "change": "+0.00%"
+    },
+    "ISMEN": {
+      "price": 34.7,
+      "change": "+2.24%"
+    },
+    "ISSEN": {
+      "price": 7.06,
+      "change": "+1.15%"
+    },
+    "ISVEA": {
+      "price": 83.25,
+      "change": "+1.90%"
+    },
+    "ISYAT": {
+      "price": 7.39,
+      "change": "+0.14%"
+    },
+    "IZENR": {
+      "price": 7.13,
+      "change": "+0.14%"
+    },
+    "IZFAS": {
+      "price": 54.95,
+      "change": "-0.09%"
+    },
+    "IZINV": {
+      "price": 50.85,
+      "change": "-0.49%"
+    },
+    "IZMDC": {
+      "price": 10.24,
+      "change": "-9.94%"
+    },
+    "JANTS": {
+      "price": 15.18,
+      "change": "-1.11%"
+    },
+    "KAPLM": {
+      "price": 389.0,
+      "change": "-4.60%"
+    },
+    "KARCL": {
+      "price": 176.3,
+      "change": "+9.50%"
+    },
+    "KAREL": {
+      "price": 8.44,
+      "change": "-1.06%"
+    },
+    "KARSN": {
+      "price": 11.3,
+      "change": "+9.92%"
+    },
+    "KARTN": {
+      "price": 153.9,
+      "change": "-2.10%"
+    },
+    "KATMR": {
+      "price": 1.99,
+      "change": "-1.00%"
+    },
+    "KAYSE": {
+      "price": 4.04,
+      "change": "+0.25%"
+    },
+    "KBORU": {
+      "price": 18.76,
+      "change": "-3.60%"
+    },
+    "KCAER": {
+      "price": 15.3,
+      "change": "-0.39%"
+    },
+    "KENT": {
+      "price": 364.0,
+      "change": "+1.46%"
+    },
+    "KERVN": {
+      "price": 8.95,
+      "change": "-8.67%"
+    },
+    "KFEIN": {
+      "price": 8.1,
+      "change": "+0.50%"
+    },
+    "KGYO": {
+      "price": 11.89,
+      "change": "+1.19%"
+    },
+    "KIMMR": {
+      "price": 13.14,
+      "change": "-1.87%"
+    },
+    "KLGYO": {
+      "price": 4.98,
+      "change": "-0.40%"
+    },
+    "KLKIM": {
+      "price": 25.92,
+      "change": "-0.31%"
+    },
+    "KLMSN": {
+      "price": 28.0,
+      "change": "-1.75%"
+    },
+    "KLNMA": {
+      "price": 8.84,
+      "change": "-0.11%"
+    },
+    "KLRHO": {
+      "price": 65.15,
+      "change": "-1.29%"
+    },
+    "KLSER": {
+      "price": 23.38,
+      "change": "-1.93%"
+    },
+    "KLSYN": {
+      "price": 15.81,
+      "change": "+1.74%"
+    },
+    "KLYPV": {
+      "price": 61.85,
+      "change": "+0.41%"
+    },
+    "KMPUR": {
+      "price": 18.42,
+      "change": "-1.29%"
+    },
+    "KNFRT": {
+      "price": 12.33,
+      "change": "-2.76%"
+    },
+    "KOCMT": {
+      "price": 3.77,
+      "change": "-9.81%"
+    },
+    "KONKA": {
+      "price": 9.55,
+      "change": "-2.95%"
+    },
+    "KONYA": {
+      "price": 3750.0,
+      "change": "-1.32%"
+    },
+    "KOPOL": {
+      "price": 5.29,
+      "change": "-1.86%"
+    },
+    "KORDS": {
+      "price": 83.55,
+      "change": "-0.18%"
+    },
+    "KOTON": {
+      "price": 12.38,
+      "change": "-0.08%"
+    },
+    "KPEKS": {
+      "price": 99.3,
+      "change": "-9.97%"
+    },
+    "KRDMA": {
+      "price": 59.45,
+      "change": "-5.71%"
+    },
+    "KRDMB": {
+      "price": 123.0,
+      "change": "-1.44%"
+    },
+    "KRDMD": {
+      "price": 44.6,
+      "change": "+0.45%"
+    },
+    "KRGYO": {
+      "price": 2.96,
+      "change": "-4.82%"
+    },
+    "KRONT": {
+      "price": 22.5,
+      "change": "-3.43%"
+    },
+    "KRPLS": {
+      "price": 10.49,
+      "change": "+0.38%"
+    },
+    "KRSTL": {
+      "price": 8.93,
+      "change": "-2.30%"
+    },
+    "KRTEK": {
+      "price": 5.09,
+      "change": "-1.74%"
+    },
+    "KRVGD": {
+      "price": 2.22,
+      "change": "-2.20%"
+    },
+    "KSTUR": {
+      "price": 2340.0,
+      "change": "-0.51%"
+    },
+    "KTLEV": {
+      "price": 51.0,
+      "change": "-9.81%"
+    },
+    "KTSKR": {
+      "price": 78.0,
+      "change": "-1.27%"
+    },
+    "KUTPO": {
+      "price": 78.85,
+      "change": "-1.74%"
+    },
+    "KUVVA": {
+      "price": 186.5,
+      "change": "-3.77%"
+    },
+    "KUYAS": {
+      "price": 69.05,
+      "change": "+2.91%"
+    },
+    "KZBGY": {
+      "price": 1.89,
+      "change": "-0.53%"
+    },
+    "KZGYO": {
+      "price": 20.42,
+      "change": "+3.81%"
+    },
+    "LIDER": {
+      "price": 28.16,
+      "change": "-9.86%"
+    },
+    "LIDFA": {
+      "price": 2.59,
+      "change": "-0.38%"
+    },
+    "LILAK": {
+      "price": 28.4,
+      "change": "-2.00%"
+    },
+    "LINK": {
+      "price": 5.21,
+      "change": "-0.95%"
+    },
+    "LKMNH": {
+      "price": 13.49,
+      "change": "+0.22%"
+    },
+    "LMKDC": {
+      "price": 22.7,
+      "change": "-1.30%"
+    },
+    "LOGO": {
+      "price": 134.1,
+      "change": "-1.18%"
+    },
+    "LRSHO": {
+      "price": 2.44,
+      "change": "-1.21%"
+    },
+    "LUKSK": {
+      "price": 84.0,
+      "change": "-2.10%"
+    },
+    "LXGYO": {
+      "price": 9.97,
+      "change": "-2.16%"
+    },
+    "LYDHO": {
+      "price": 142.5,
+      "change": "-0.49%"
+    },
+    "LYDYE": {
+      "price": 12187.5,
+      "change": "+10.00%"
+    },
+    "MAALT": {
+      "price": 1013.0,
+      "change": "+0.90%"
+    },
+    "MACKO": {
+      "price": 35.02,
+      "change": "-2.56%"
+    },
+    "MAGEN": {
+      "price": 33.02,
+      "change": "+0.12%"
+    },
+    "MAKIM": {
+      "price": 15.19,
+      "change": "+0.07%"
+    },
+    "MAKTK": {
+      "price": 10.29,
+      "change": "+1.68%"
+    },
+    "MANAS": {
+      "price": 35.4,
+      "change": "+4.80%"
+    },
+    "MARBL": {
+      "price": 12.28,
+      "change": "-0.49%"
+    },
+    "MARMR": {
+      "price": 2.19,
+      "change": "-1.79%"
+    },
+    "MARTI": {
+      "price": 2.05,
+      "change": "+9.63%"
+    },
+    "MASFN": {
+      "price": 38.56,
+      "change": "-2.53%"
+    },
+    "MAVI": {
+      "price": 36.86,
+      "change": "-0.59%"
+    },
+    "MCARD": {
+      "price": 161.0,
+      "change": "+3.94%"
+    },
+    "MEDTR": {
+      "price": 24.96,
+      "change": "-1.19%"
+    },
+    "MEGAP": {
+      "price": 1.67,
+      "change": "-2.34%"
+    },
+    "MEGMT": {
+      "price": 44.84,
+      "change": "-0.36%"
+    },
+    "MEKAG": {
+      "price": 3.0,
+      "change": "-2.60%"
+    },
+    "MEPET": {
+      "price": 19.94,
+      "change": "-0.30%"
+    },
+    "MERCN": {
+      "price": 17.45,
+      "change": "+1.93%"
+    },
+    "MERIT": {
+      "price": 15.56,
+      "change": "+0.13%"
+    },
+    "MERKO": {
+      "price": 1.26,
+      "change": "+1.61%"
+    },
+    "METEN": {
+      "price": 19.6,
+      "change": "-5.13%"
+    },
+    "METRO": {
+      "price": 8.3,
+      "change": "-1.31%"
+    },
+    "MEYSU": {
+      "price": 11.57,
+      "change": "-0.69%"
+    },
+    "MGROS": {
+      "price": 525.0,
+      "change": "-0.76%"
+    },
+    "MHRGY": {
+      "price": 3.21,
+      "change": "-0.31%"
+    },
+    "MIATK": {
+      "price": 27.5,
+      "change": "+0.22%"
+    },
+    "MMCAS": {
+      "price": 45.0,
+      "change": "-4.82%"
+    },
+    "MNDRS": {
+      "price": 11.3,
+      "change": "+0.00%"
+    },
+    "MNDTR": {
+      "price": 4.89,
+      "change": "-0.61%"
+    },
+    "MOBTL": {
+      "price": 12.84,
+      "change": "+1.10%"
+    },
+    "MOGAN": {
+      "price": 15.51,
+      "change": "-9.72%"
+    },
+    "MOPAS": {
+      "price": 26.34,
+      "change": "+1.78%"
+    },
+    "MPARK": {
+      "price": 412.25,
+      "change": "-0.30%"
+    },
+    "MRGYO": {
+      "price": 1.66,
+      "change": "+3.11%"
+    },
+    "MRSHL": {
+      "price": 1586.0,
+      "change": "+0.06%"
+    },
+    "MSGYO": {
+      "price": 5.78,
+      "change": "+1.76%"
+    },
+    "MTRKS": {
+      "price": 31.16,
+      "change": "-2.38%"
+    },
+    "MTRYO": {
+      "price": 8.92,
+      "change": "+2.18%"
+    },
+    "MZHLD": {
+      "price": 5.3,
+      "change": "-0.93%"
+    },
+    "NATEN": {
+      "price": 5.22,
+      "change": "-1.32%"
+    },
+    "NETAS": {
+      "price": 93.5,
+      "change": "-1.79%"
+    },
+    "NETCD": {
+      "price": 121.1,
+      "change": "+1.94%"
+    },
+    "NIBAS": {
+      "price": 4.36,
+      "change": "-2.24%"
+    },
+    "NTGAZ": {
+      "price": 11.35,
+      "change": "-2.91%"
+    },
+    "NTHOL": {
+      "price": 43.5,
+      "change": "+0.55%"
+    },
+    "NUGYO": {
+      "price": 8.99,
+      "change": "+0.90%"
+    },
+    "NUHCM": {
+      "price": 211.0,
+      "change": "-0.94%"
+    },
+    "OBAMS": {
+      "price": 5.52,
+      "change": "+0.36%"
+    },
+    "OBASE": {
+      "price": 35.4,
+      "change": "-1.88%"
+    },
+    "ODINE": {
+      "price": 1631.0,
+      "change": "-9.99%"
+    },
+    "OFSYM": {
+      "price": 69.7,
+      "change": "+1.01%"
+    },
+    "ONCSM": {
+      "price": 198.4,
+      "change": "-8.11%"
+    },
+    "ONRYT": {
+      "price": 58.3,
+      "change": "+0.95%"
+    },
+    "ORCAY": {
+      "price": 3.4,
+      "change": "-0.58%"
+    },
+    "ORGE": {
+      "price": 23.12,
+      "change": "-1.78%"
+    },
+    "ORMA": {
+      "price": 154.0,
+      "change": "-2.35%"
+    },
+    "ORZAX": {
+      "price": 87.5,
+      "change": "-1.41%"
+    },
+    "OSMEN": {
+      "price": 7.01,
+      "change": "-2.64%"
+    },
+    "OSTIM": {
+      "price": 1.55,
+      "change": "+2.65%"
+    },
+    "OTKAR": {
+      "price": 316.5,
+      "change": "-1.40%"
+    },
+    "OTTO": {
+      "price": 145.0,
+      "change": "-1.02%"
+    },
+    "OYAKC": {
+      "price": 21.9,
+      "change": "+0.92%"
+    },
+    "OYAYO": {
+      "price": 41.44,
+      "change": "-2.59%"
+    },
+    "OYLUM": {
+      "price": 7.1,
+      "change": "-0.14%"
+    },
+    "OYYAT": {
+      "price": 35.3,
+      "change": "-4.59%"
+    },
+    "OZATD": {
+      "price": 4772.5,
+      "change": "-0.99%"
+    },
+    "OZGYO": {
+      "price": 2.11,
+      "change": "+1.44%"
+    },
+    "OZKGY": {
+      "price": 13.38,
+      "change": "+0.15%"
+    },
+    "OZRDN": {
+      "price": 30.4,
+      "change": "-5.71%"
+    },
+    "OZSUB": {
+      "price": 42.0,
+      "change": "-4.28%"
+    },
+    "OZYSR": {
+      "price": 11.97,
+      "change": "+0.34%"
+    },
+    "PAGYO": {
+      "price": 148.8,
+      "change": "-0.33%"
+    },
+    "PAHOL": {
+      "price": 1.31,
+      "change": "-2.24%"
+    },
+    "PAMEL": {
+      "price": 73.55,
+      "change": "-2.45%"
+    },
+    "PAPIL": {
+      "price": 12.75,
+      "change": "-1.77%"
+    },
+    "PARSN": {
+      "price": 69.85,
+      "change": "-0.21%"
+    },
+    "PASEU": {
+      "price": 195.4,
+      "change": "-10.00%"
+    },
+    "PATEK": {
+      "price": 19.56,
+      "change": "-0.20%"
+    },
+    "PCILT": {
+      "price": 33.14,
+      "change": "-0.36%"
+    },
+    "PEKGY": {
+      "price": 12.77,
+      "change": "-9.94%"
+    },
+    "PENGD": {
+      "price": 9.01,
+      "change": "+0.67%"
+    },
+    "PENTA": {
+      "price": 13.25,
+      "change": "+1.84%"
+    },
+    "PETUN": {
+      "price": 11.5,
+      "change": "-2.13%"
+    },
+    "PINSU": {
+      "price": 10.19,
+      "change": "-0.78%"
+    },
+    "PKART": {
+      "price": 128.0,
+      "change": "+1.03%"
+    },
+    "PKENT": {
+      "price": 123.7,
+      "change": "-0.64%"
+    },
+    "PLTUR": {
+      "price": 20.46,
+      "change": "+0.99%"
+    },
+    "PNLSN": {
+      "price": 40.52,
+      "change": "-0.64%"
+    },
+    "PNSUT": {
+      "price": 11.11,
+      "change": "-1.33%"
+    },
+    "POLHO": {
+      "price": 22.42,
+      "change": "+0.81%"
+    },
+    "POLTK": {
+      "price": 4065.0,
+      "change": "-1.51%"
+    },
+    "PRDGS": {
+      "price": 7.32,
+      "change": "-6.15%"
+    },
+    "PRKAB": {
+      "price": 30.58,
+      "change": "+0.13%"
+    },
+    "PRKME": {
+      "price": 18.41,
+      "change": "-1.18%"
+    },
+    "PRZMA": {
+      "price": 79.0,
+      "change": "-9.20%"
+    },
+    "PSDTC": {
+      "price": 163.1,
+      "change": "-3.78%"
+    },
+    "PSGYO": {
+      "price": 3.1,
+      "change": "-1.90%"
+    },
+    "QNBFK": {
+      "price": 40.92,
+      "change": "-1.25%"
+    },
+    "QNBTR": {
+      "price": 186.8,
+      "change": "-0.43%"
+    },
+    "QUAGR": {
+      "price": 3.16,
+      "change": "+1.61%"
+    },
+    "QUICK": {
+      "price": 64.05,
+      "change": "-1.54%"
+    },
+    "RALYH": {
+      "price": 258.25,
+      "change": "-0.10%"
+    },
+    "RAYSG": {
+      "price": 154.8,
+      "change": "-0.96%"
+    },
+    "REEDR": {
+      "price": 5.51,
+      "change": "-2.48%"
+    },
+    "RGYAS": {
+      "price": 204.7,
+      "change": "+0.64%"
+    },
+    "RNPOL": {
+      "price": 2.29,
+      "change": "-2.14%"
+    },
+    "RODRG": {
+      "price": 27.28,
+      "change": "+6.56%"
+    },
+    "RTALB": {
+      "price": 2.81,
+      "change": "-0.71%"
+    },
+    "RUBNS": {
+      "price": 32.38,
+      "change": "-1.58%"
+    },
+    "RUZYE": {
+      "price": 8.22,
+      "change": "-1.32%"
+    },
+    "RYGYO": {
+      "price": 48.22,
+      "change": "-0.12%"
+    },
+    "RYSAS": {
+      "price": 30.28,
+      "change": "+0.87%"
+    },
+    "SAFKR": {
+      "price": 17.07,
+      "change": "+1.43%"
+    },
+    "SAMAT": {
+      "price": 5.31,
+      "change": "-0.93%"
+    },
+    "SANEL": {
+      "price": 55.05,
+      "change": "-5.09%"
+    },
+    "SANFM": {
+      "price": 9.74,
+      "change": "-6.53%"
+    },
+    "SANKO": {
+      "price": 19.52,
+      "change": "+1.93%"
+    },
+    "SARAE": {
+      "price": 78.5,
+      "change": "-8.08%"
+    },
+    "SARKY": {
+      "price": 24.1,
+      "change": "-1.79%"
+    },
+    "SAYAS": {
+      "price": 55.25,
+      "change": "-2.56%"
+    },
+    "SDTTR": {
+      "price": 21.22,
+      "change": "+0.19%"
+    },
+    "SEGMN": {
+      "price": 48.16,
+      "change": "-1.27%"
+    },
+    "SEGYO": {
+      "price": 3.71,
+      "change": "-2.62%"
+    },
+    "SEKFK": {
+      "price": 4.43,
+      "change": "-0.23%"
+    },
+    "SEKUR": {
+      "price": 10.35,
+      "change": "-5.39%"
+    },
+    "SELEC": {
+      "price": 345.75,
+      "change": "+2.29%"
+    },
+    "SELVA": {
+      "price": 1.58,
+      "change": "-1.86%"
+    },
+    "SERNT": {
+      "price": 8.09,
+      "change": "+1.76%"
+    },
+    "SEYKM": {
+      "price": 4.34,
+      "change": "-2.47%"
+    },
+    "SILVR": {
+      "price": 2.19,
+      "change": "-0.45%"
+    },
+    "SKBNK": {
+      "price": 6.29,
+      "change": "-0.47%"
+    },
+    "SKTAS": {
+      "price": 3.25,
+      "change": "-3.27%"
+    },
+    "SKYLP": {
+      "price": 229.9,
+      "change": "+5.56%"
+    },
+    "SKYMD": {
+      "price": 15.58,
+      "change": "+6.57%"
+    },
+    "SMART": {
+      "price": 22.82,
+      "change": "+1.06%"
+    },
+    "SMRTG": {
+      "price": 9.99,
+      "change": "-2.06%"
+    },
+    "SMRVA": {
+      "price": 10.95,
+      "change": "-0.64%"
+    },
+    "SNGYO": {
+      "price": 3.36,
+      "change": "-0.30%"
+    },
+    "SNICA": {
+      "price": 3.13,
+      "change": "-3.10%"
+    },
+    "SNPAM": {
+      "price": 19.6,
+      "change": "-0.05%"
+    },
+    "SODSN": {
+      "price": 7.5,
+      "change": "+1.63%"
+    },
+    "SOHOE": {
+      "price": 10.54,
+      "change": "-1.86%"
+    },
+    "SOKE": {
+      "price": 11.64,
+      "change": "-1.44%"
+    },
+    "SOKM": {
+      "price": 57.1,
+      "change": "+0.97%"
+    },
+    "SONME": {
+      "price": 136.9,
+      "change": "-2.91%"
+    },
+    "SRVGY": {
+      "price": 2.46,
+      "change": "-2.38%"
+    },
+    "SSAAT": {
+      "price": 35.06,
+      "change": "-0.57%"
+    },
+    "SUMAS": {
+      "price": 267.0,
+      "change": "-2.20%"
+    },
+    "SUNTK": {
+      "price": 33.9,
+      "change": "+1.99%"
+    },
+    "SURGY": {
+      "price": 30.28,
+      "change": "-1.17%"
+    },
+    "SUWEN": {
+      "price": 6.78,
+      "change": "+9.89%"
+    },
+    "SVGYO": {
+      "price": 18.16,
+      "change": "+0.44%"
+    },
+    "TABGD": {
+      "price": 233.5,
+      "change": "+0.34%"
+    },
+    "TARKM": {
+      "price": 530.0,
+      "change": "-3.64%"
+    },
+    "TATEN": {
+      "price": 8.18,
+      "change": "-1.68%"
+    },
+    "TATGD": {
+      "price": 17.45,
+      "change": "-1.91%"
+    },
+    "TAVHL": {
+      "price": 261.0,
+      "change": "+0.29%"
+    },
+    "TBORG": {
+      "price": 147.4,
+      "change": "-10.67%"
+    },
+    "TCKRC": {
+      "price": 143.0,
+      "change": "-0.97%"
+    },
+    "TDGYO": {
+      "price": 16.76,
+      "change": "+0.12%"
+    },
+    "TEHOL": {
+      "price": 39.58,
+      "change": "+8.44%"
+    },
+    "TEKTU": {
+      "price": 7.78,
+      "change": "-3.23%"
+    },
+    "TERA": {
+      "price": 191.7,
+      "change": "+0.89%"
+    },
+    "TEZOL": {
+      "price": 8.9,
+      "change": "-5.02%"
+    },
+    "TGSAS": {
+      "price": 219.9,
+      "change": "-5.46%"
+    },
+    "TKFEN": {
+      "price": 209.3,
+      "change": "-2.33%"
+    },
+    "TKNKA": {
+      "price": 190.0,
+      "change": "+9.95%"
+    },
+    "TKNSA": {
+      "price": 16.83,
+      "change": "-0.41%"
+    },
+    "TLMAN": {
+      "price": 77.6,
+      "change": "-0.58%"
+    },
+    "TMPOL": {
+      "price": 373.75,
+      "change": "-4.17%"
+    },
+    "TMSN": {
+      "price": 72.5,
+      "change": "-2.95%"
+    },
+    "TNZTP": {
+      "price": 31.06,
+      "change": "-2.94%"
+    },
+    "TRALT": {
+      "price": 50.3,
+      "change": "+1.90%"
+    },
+    "TRCAS": {
+      "price": 46.04,
+      "change": "-3.07%"
+    },
+    "TRENJ": {
+      "price": 107.0,
+      "change": "+2.88%"
+    },
+    "TRGYO": {
+      "price": 93.95,
+      "change": "-0.48%"
+    },
+    "TRHOL": {
+      "price": 3442.5,
+      "change": "+2.76%"
+    },
+    "TRILC": {
+      "price": 1.03,
+      "change": "-3.74%"
+    },
+    "TRMET": {
+      "price": 137.7,
+      "change": "+2.23%"
+    },
+    "TSGYO": {
+      "price": 5.79,
+      "change": "-1.03%"
+    },
+    "TSKB": {
+      "price": 10.97,
+      "change": "-0.18%"
+    },
+    "TSPOR": {
+      "price": 1.02,
+      "change": "-3.77%"
+    },
+    "TTRAK": {
+      "price": 430.25,
+      "change": "+0.70%"
+    },
+    "TUCLK": {
+      "price": 3.83,
+      "change": "+0.00%"
+    },
+    "TUKAS": {
+      "price": 1.98,
+      "change": "-1.49%"
+    },
+    "TUREX": {
+      "price": 6.19,
+      "change": "-2.52%"
+    },
+    "TURGG": {
+      "price": 29.24,
+      "change": "+1.11%"
+    },
+    "TURSG": {
+      "price": 6.06,
+      "change": "-0.66%"
+    },
+    "UCAYM": {
+      "price": 22.54,
+      "change": "+0.00%"
+    },
+    "UFUK": {
+      "price": 1499.0,
+      "change": "-6.02%"
+    },
+    "ULAS": {
+      "price": 22.96,
+      "change": "+9.33%"
+    },
+    "ULKER": {
+      "price": 89.95,
+      "change": "-0.39%"
+    },
+    "ULUFA": {
+      "price": 1.65,
+      "change": "-0.60%"
+    },
+    "ULUSE": {
+      "price": 235.0,
+      "change": "-2.08%"
+    },
+    "ULUUN": {
+      "price": 8.54,
+      "change": "-0.81%"
+    },
+    "UNLU": {
+      "price": 10.6,
+      "change": "-1.49%"
+    },
+    "USAK": {
+      "price": 1.21,
+      "change": "+0.83%"
+    },
+    "USHOL": {
+      "price": 82.4,
+      "change": "-3.57%"
+    },
+    "VAKFA": {
+      "price": 10.95,
+      "change": "-1.88%"
+    },
+    "VAKFN": {
+      "price": 1.13,
+      "change": "+0.00%"
+    },
+    "VAKKO": {
+      "price": 65.5,
+      "change": "-0.46%"
+    },
+    "VANGD": {
+      "price": 90.55,
+      "change": "+1.12%"
+    },
+    "VBTYZ": {
+      "price": 37.8,
+      "change": "-0.37%"
+    },
+    "VERTU": {
+      "price": 34.26,
+      "change": "-0.98%"
+    },
+    "VERUS": {
+      "price": 700.0,
+      "change": "+2.34%"
+    },
+    "VESBE": {
+      "price": 5.8,
+      "change": "+9.85%"
+    },
+    "VESTL": {
+      "price": 24.86,
+      "change": "+10.00%"
+    },
+    "VEYAS": {
+      "price": 136.0,
+      "change": "-0.22%"
+    },
+    "VKFYO": {
+      "price": 22.32,
+      "change": "-1.93%"
+    },
+    "VKGYO": {
+      "price": 1.91,
+      "change": "+0.00%"
+    },
+    "VKING": {
+      "price": 20.68,
+      "change": "-1.34%"
+    },
+    "VRGYO": {
+      "price": 1.8,
+      "change": "-1.10%"
+    },
+    "VSNMD": {
+      "price": 41.76,
+      "change": "-2.02%"
+    },
+    "YAPRK": {
+      "price": 10.7,
+      "change": "-0.28%"
+    },
+    "YATAS": {
+      "price": 30.54,
+      "change": "+0.13%"
+    },
+    "YAYLA": {
+      "price": 20.86,
+      "change": "+0.29%"
+    },
+    "YBTAS": {
+      "price": 13.63,
+      "change": "-0.15%"
+    },
+    "YEOTK": {
+      "price": 32.7,
+      "change": "-2.39%"
+    },
+    "YESIL": {
+      "price": 1.16,
+      "change": "+0.00%"
+    },
+    "YGGYO": {
+      "price": 223.5,
+      "change": "-1.02%"
+    },
+    "YIGIT": {
+      "price": 22.1,
+      "change": "+2.22%"
+    },
+    "YKSLN": {
+      "price": 2.65,
+      "change": "-1.12%"
+    },
+    "YONGA": {
+      "price": 44.7,
+      "change": "-0.58%"
+    },
+    "YUNSA": {
+      "price": 7.47,
+      "change": "-1.97%"
+    },
+    "YYAPI": {
+      "price": 0.81,
+      "change": "+0.00%"
+    },
+    "YYLGD": {
+      "price": 9.99,
+      "change": "-0.50%"
+    },
+    "ZEDUR": {
+      "price": 7.71,
+      "change": "+0.92%"
+    },
+    "ZERGY": {
+      "price": 9.79,
+      "change": "+0.31%"
+    },
+    "ZGYO": {
+      "price": 23.8,
+      "change": "-0.58%"
+    },
+    "ZOREN": {
+      "price": 2.44,
+      "change": "+5.63%"
+    },
+    "ZRGYO": {
+      "price": 19.54,
+      "change": "+0.26%"
+    },
+    "DURK": {
+      "price": 17.0,
+      "change": "+0.00%"
+    },
+    "GNDR": {
+      "price": 35.0,
+      "change": "+0.00%"
+    },
+    "ALTIN": {
+      "price": 6943.14,
+      "change": "+0.85%"
+    }
+  }
+}

@@ -1,7 +1,6 @@
 __pycache__/
 *.pyc
 *.txt
-*.json
 *.html_bak
 *_restored.html
 *_recovered.html

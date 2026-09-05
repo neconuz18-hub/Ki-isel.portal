@@ -1,0 +1,4461 @@
+[
+  {
+    "symbol": "ALTIN",
+    "name": "Gram Altın",
+    "sector": "Maden / Döviz",
+    "price": 6943.14,
+    "change": "+0.85%"
+  },
+  {
+    "symbol": "GNDR",
+    "name": "Gündoğdu Gıda",
+    "sector": "Gıda / Perakende",
+    "price": 35.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "DURK",
+    "name": "Durukan Şekerleme",
+    "sector": "Gıda / Perakende",
+    "price": 17.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "A1CAP",
+    "name": "A1CAP | A1 Capital",
+    "sector": "Sanayi",
+    "price": 7.7,
+    "change": "-0.26%"
+  },
+  {
+    "symbol": "A1YEN",
+    "name": "A1YEN | Kartal Yenilenebili Enerji",
+    "sector": "Sanayi",
+    "price": 2.65,
+    "change": "-2.21%"
+  },
+  {
+    "symbol": "AAGYO",
+    "name": "AAGYO | Ağaoğlu GYO",
+    "sector": "Sanayi",
+    "price": 12.29,
+    "change": "-0.73%"
+  },
+  {
+    "symbol": "ACSEL",
+    "name": "ACSEL | Acıselsan Acıpayam Selüloz",
+    "sector": "Sanayi",
+    "price": 114.3,
+    "change": "+0.26%"
+  },
+  {
+    "symbol": "ADEL",
+    "name": "ADEL | Adel Kalemcilik",
+    "sector": "Sanayi",
+    "price": 31.9,
+    "change": "-2.98%"
+  },
+  {
+    "symbol": "ADESE",
+    "name": "ADESE | Adese AVM",
+    "sector": "Sanayi",
+    "price": 0.85,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ADGYO",
+    "name": "ADGYO | Adra GYO",
+    "sector": "Sanayi",
+    "price": 58.7,
+    "change": "+0.69%"
+  },
+  {
+    "symbol": "AEFES",
+    "name": "AEFES | Anadolu Efes",
+    "sector": "Sanayi",
+    "price": 17.99,
+    "change": "-0.50%"
+  },
+  {
+    "symbol": "AFYON",
+    "name": "AFYON | Afyon Çimento",
+    "sector": "Sanayi",
+    "price": 12.47,
+    "change": "-0.56%"
+  },
+  {
+    "symbol": "AGESA",
+    "name": "AGESA | Agesa Hayat ve Emeklilik",
+    "sector": "Sanayi",
+    "price": 260.0,
+    "change": "-1.70%"
+  },
+  {
+    "symbol": "AGHOL",
+    "name": "AGHOL | Anadolu Grubu Holding",
+    "sector": "Sanayi",
+    "price": 32.64,
+    "change": "+0.80%"
+  },
+  {
+    "symbol": "AGROT",
+    "name": "AGROT | Agrotech Yüksek Teknoloji",
+    "sector": "Sanayi",
+    "price": 1.98,
+    "change": "-1.00%"
+  },
+  {
+    "symbol": "AGYO",
+    "name": "AGYO | Atakule GYO",
+    "sector": "Sanayi",
+    "price": 7.19,
+    "change": "-2.04%"
+  },
+  {
+    "symbol": "AHGAZ",
+    "name": "AHGAZ | Ahlatçı Doğalgaz",
+    "sector": "Sanayi",
+    "price": 38.7,
+    "change": "+0.52%"
+  },
+  {
+    "symbol": "AHSGY",
+    "name": "AHSGY | Ahes GYO",
+    "sector": "Sanayi",
+    "price": 15.61,
+    "change": "-4.23%"
+  },
+  {
+    "symbol": "AKBNK",
+    "name": "AKBNK | Akbank",
+    "sector": "Bankacılık",
+    "price": 71.5,
+    "change": "-0.63%"
+  },
+  {
+    "symbol": "AKCNS",
+    "name": "AKCNS | Akçansa",
+    "sector": "Sanayi",
+    "price": 240.6,
+    "change": "+0.21%"
+  },
+  {
+    "symbol": "AKENR",
+    "name": "AKENR | Akenerji",
+    "sector": "Sanayi",
+    "price": 10.36,
+    "change": "-1.15%"
+  },
+  {
+    "symbol": "AKFGY",
+    "name": "AKFGY | Akfen GYO",
+    "sector": "Sanayi",
+    "price": 2.54,
+    "change": "-0.39%"
+  },
+  {
+    "symbol": "AKFIS",
+    "name": "AKFIS | Akfen İnşaat",
+    "sector": "Sanayi",
+    "price": 17.54,
+    "change": "+3.18%"
+  },
+  {
+    "symbol": "AKFYE",
+    "name": "AKFYE | Akfen Yenilenebilir Enerji",
+    "sector": "Sanayi",
+    "price": 22.76,
+    "change": "-0.09%"
+  },
+  {
+    "symbol": "AKGRT",
+    "name": "AKGRT | Aksigorta",
+    "sector": "Sanayi",
+    "price": 6.09,
+    "change": "-1.30%"
+  },
+  {
+    "symbol": "AKHAN",
+    "name": "AKHAN | Akhan Un",
+    "sector": "Sanayi",
+    "price": 40.04,
+    "change": "-0.89%"
+  },
+  {
+    "symbol": "AKMGY",
+    "name": "AKMGY | Akmerkez GYO",
+    "sector": "Sanayi",
+    "price": 254.0,
+    "change": "-1.74%"
+  },
+  {
+    "symbol": "AKSA",
+    "name": "AKSA | Aksa",
+    "sector": "Sanayi",
+    "price": 10.71,
+    "change": "+0.09%"
+  },
+  {
+    "symbol": "AKSEN",
+    "name": "AKSEN | Aksa Enerji",
+    "sector": "Sanayi",
+    "price": 81.5,
+    "change": "+3.76%"
+  },
+  {
+    "symbol": "AKSGY",
+    "name": "AKSGY | Akis GYO",
+    "sector": "Sanayi",
+    "price": 9.9,
+    "change": "-0.70%"
+  },
+  {
+    "symbol": "AKSUE",
+    "name": "AKSUE | Aksu Enerji",
+    "sector": "Sanayi",
+    "price": 27.7,
+    "change": "-8.58%"
+  },
+  {
+    "symbol": "AKYHO",
+    "name": "AKYHO | Akdeniz Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 2.02,
+    "change": "-1.94%"
+  },
+  {
+    "symbol": "ALARK",
+    "name": "ALARK | Alarko Holding",
+    "sector": "Sanayi",
+    "price": 110.4,
+    "change": "+2.32%"
+  },
+  {
+    "symbol": "ALBRK",
+    "name": "ALBRK | Albaraka Türk",
+    "sector": "Sanayi",
+    "price": 8.8,
+    "change": "+1.38%"
+  },
+  {
+    "symbol": "ALBTN",
+    "name": "ALBTN | Albayrak Hazır Beton",
+    "sector": "Sanayi",
+    "price": 30.5,
+    "change": "-3.79%"
+  },
+  {
+    "symbol": "ALCAR",
+    "name": "ALCAR | Alarko Carrier",
+    "sector": "Sanayi",
+    "price": 703.0,
+    "change": "+4.77%"
+  },
+  {
+    "symbol": "ALCTL",
+    "name": "ALCTL | Alcatel Teletaş",
+    "sector": "Sanayi",
+    "price": 114.6,
+    "change": "-1.29%"
+  },
+  {
+    "symbol": "ALFAS",
+    "name": "ALFAS | Alfa Solar",
+    "sector": "Sanayi",
+    "price": 39.06,
+    "change": "-2.35%"
+  },
+  {
+    "symbol": "ALGYO",
+    "name": "ALGYO | Alarko GYO",
+    "sector": "Sanayi",
+    "price": 3.55,
+    "change": "-1.93%"
+  },
+  {
+    "symbol": "ALKA",
+    "name": "ALKA | Alkim Kağıt",
+    "sector": "Sanayi",
+    "price": 8.07,
+    "change": "-0.49%"
+  },
+  {
+    "symbol": "ALKIM",
+    "name": "ALKIM | Alkim",
+    "sector": "Sanayi",
+    "price": 15.42,
+    "change": "-0.19%"
+  },
+  {
+    "symbol": "ALKLC",
+    "name": "ALKLC | Altınkılıç Gıda",
+    "sector": "Sanayi",
+    "price": 427.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ALTNY",
+    "name": "ALTNY | Altınay Savunma",
+    "sector": "Sanayi",
+    "price": 17.45,
+    "change": "+0.29%"
+  },
+  {
+    "symbol": "ALVES",
+    "name": "ALVES | Alves Kablo",
+    "sector": "Sanayi",
+    "price": 1.31,
+    "change": "-5.07%"
+  },
+  {
+    "symbol": "ANELE",
+    "name": "ANELE | Anel Elektrik",
+    "sector": "Sanayi",
+    "price": 194.0,
+    "change": "+0.52%"
+  },
+  {
+    "symbol": "ANGEN",
+    "name": "ANGEN | Anatolia Biyoteknoloji",
+    "sector": "Sanayi",
+    "price": 8.9,
+    "change": "-0.67%"
+  },
+  {
+    "symbol": "ANHYT",
+    "name": "ANHYT | Anadolu Hayat Emeklilik A.Ş.",
+    "sector": "Sanayi",
+    "price": 103.8,
+    "change": "-0.86%"
+  },
+  {
+    "symbol": "ANSGR",
+    "name": "ANSGR | Anadolu Sigorta",
+    "sector": "Sanayi",
+    "price": 26.5,
+    "change": "-1.34%"
+  },
+  {
+    "symbol": "ARASE",
+    "name": "ARASE | Doğu Aras Enerji",
+    "sector": "Sanayi",
+    "price": 120.2,
+    "change": "-3.84%"
+  },
+  {
+    "symbol": "ARCLK",
+    "name": "ARCLK | Arçelik",
+    "sector": "Sanayi",
+    "price": 90.25,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ARDYZ",
+    "name": "ARDYZ | ARD Grup Bilişim",
+    "sector": "Sanayi",
+    "price": 85.0,
+    "change": "+3.22%"
+  },
+  {
+    "symbol": "ARENA",
+    "name": "ARENA | Arena Bilgisayar",
+    "sector": "Sanayi",
+    "price": 20.14,
+    "change": "-0.79%"
+  },
+  {
+    "symbol": "ARFYE",
+    "name": "ARFYE | Arf Bio Enerji",
+    "sector": "Sanayi",
+    "price": 19.31,
+    "change": "-3.11%"
+  },
+  {
+    "symbol": "ARMGD",
+    "name": "ARMGD | Armada Gıda",
+    "sector": "Sanayi",
+    "price": 197.9,
+    "change": "+6.57%"
+  },
+  {
+    "symbol": "ARSAN",
+    "name": "ARSAN | Arsan Holding",
+    "sector": "Sanayi",
+    "price": 3.97,
+    "change": "-2.70%"
+  },
+  {
+    "symbol": "ARTMS",
+    "name": "ARTMS | Artemis Halı",
+    "sector": "Sanayi",
+    "price": 40.9,
+    "change": "-3.31%"
+  },
+  {
+    "symbol": "ARZUM",
+    "name": "ARZUM | Arzum Ev Aletleri",
+    "sector": "Sanayi",
+    "price": 1.54,
+    "change": "-5.52%"
+  },
+  {
+    "symbol": "ASELS",
+    "name": "ASELS | Aselsan",
+    "sector": "Sanayi",
+    "price": 380.75,
+    "change": "-0.98%"
+  },
+  {
+    "symbol": "ASGYO",
+    "name": "ASGYO | Asce GYO",
+    "sector": "Sanayi",
+    "price": 10.95,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ASTOR",
+    "name": "ASTOR | Astor Enerji",
+    "sector": "Sanayi",
+    "price": 316.0,
+    "change": "-0.24%"
+  },
+  {
+    "symbol": "ASUZU",
+    "name": "ASUZU | Anadolu Isuzu",
+    "sector": "Sanayi",
+    "price": 46.98,
+    "change": "-1.05%"
+  },
+  {
+    "symbol": "ATAGY",
+    "name": "ATAGY | Ata GYO",
+    "sector": "Sanayi",
+    "price": 9.87,
+    "change": "-0.90%"
+  },
+  {
+    "symbol": "ATAKP",
+    "name": "ATAKP | Atakey Patates",
+    "sector": "Sanayi",
+    "price": 41.76,
+    "change": "-2.70%"
+  },
+  {
+    "symbol": "ATATP",
+    "name": "ATATP | ATP Bilgisayar",
+    "sector": "Sanayi",
+    "price": 293.75,
+    "change": "-1.09%"
+  },
+  {
+    "symbol": "ATATR",
+    "name": "ATATR | Ata Turizm",
+    "sector": "Sanayi",
+    "price": 13.32,
+    "change": "+0.60%"
+  },
+  {
+    "symbol": "ATEKS",
+    "name": "ATEKS | Akın Tekstil",
+    "sector": "Sanayi",
+    "price": 95.0,
+    "change": "-1.55%"
+  },
+  {
+    "symbol": "ATLAS",
+    "name": "ATLAS | Atlas YO",
+    "sector": "Sanayi",
+    "price": 5.95,
+    "change": "-0.50%"
+  },
+  {
+    "symbol": "ATSYH",
+    "name": "ATSYH | Atlantis YO",
+    "sector": "Sanayi",
+    "price": 120.0,
+    "change": "-6.98%"
+  },
+  {
+    "symbol": "AVGYO",
+    "name": "AVGYO | Avrasya YO",
+    "sector": "Sanayi",
+    "price": 16.38,
+    "change": "+9.20%"
+  },
+  {
+    "symbol": "AVHOL",
+    "name": "AVHOL | Avrupa Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 34.2,
+    "change": "-2.23%"
+  },
+  {
+    "symbol": "AVOD",
+    "name": "AVOD | Avod Kurutulmuş Gıda",
+    "sector": "Sanayi",
+    "price": 3.98,
+    "change": "+2.05%"
+  },
+  {
+    "symbol": "AVPGY",
+    "name": "AVPGY | Avrupakent GYO",
+    "sector": "Sanayi",
+    "price": 55.7,
+    "change": "-2.11%"
+  },
+  {
+    "symbol": "AVTUR",
+    "name": "AVTUR | Avrasya Petrol&Turistik Tesis",
+    "sector": "Sanayi",
+    "price": 12.0,
+    "change": "+0.17%"
+  },
+  {
+    "symbol": "AYCES",
+    "name": "AYCES | Altınyunus Çesme",
+    "sector": "Sanayi",
+    "price": 449.25,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "AYDEM",
+    "name": "AYDEM | Aydem Enerji",
+    "sector": "Sanayi",
+    "price": 26.4,
+    "change": "+0.38%"
+  },
+  {
+    "symbol": "AYEN",
+    "name": "AYEN | Ayen Enerji",
+    "sector": "Sanayi",
+    "price": 30.32,
+    "change": "-2.19%"
+  },
+  {
+    "symbol": "AYES",
+    "name": "AYES | Ayes Çelik Hasır & Çit",
+    "sector": "Sanayi",
+    "price": 29.56,
+    "change": "-3.02%"
+  },
+  {
+    "symbol": "AYGAZ",
+    "name": "AYGAZ | Aygaz",
+    "sector": "Sanayi",
+    "price": 325.0,
+    "change": "-1.96%"
+  },
+  {
+    "symbol": "AZTEK",
+    "name": "AZTEK | Aztek Teknoloji",
+    "sector": "Sanayi",
+    "price": 3.76,
+    "change": "+1.08%"
+  },
+  {
+    "symbol": "BAGFS",
+    "name": "BAGFS | Bandırma Gübre Fabrikaları A.Ş",
+    "sector": "Sanayi",
+    "price": 26.08,
+    "change": "-0.08%"
+  },
+  {
+    "symbol": "BAHKM",
+    "name": "BAHKM | Bahadır Kimya",
+    "sector": "Sanayi",
+    "price": 158.1,
+    "change": "-2.17%"
+  },
+  {
+    "symbol": "BAKAB",
+    "name": "BAKAB | Bak Ambalaj",
+    "sector": "Sanayi",
+    "price": 38.24,
+    "change": "-2.70%"
+  },
+  {
+    "symbol": "BALAT",
+    "name": "BALAT | Balatacılar Balatacılık",
+    "sector": "Sanayi",
+    "price": 68.5,
+    "change": "-0.72%"
+  },
+  {
+    "symbol": "BALSU",
+    "name": "BALSU | Balsu Gıda",
+    "sector": "Sanayi",
+    "price": 9.9,
+    "change": "+3.13%"
+  },
+  {
+    "symbol": "BANVT",
+    "name": "BANVT | Banvit",
+    "sector": "Sanayi",
+    "price": 149.4,
+    "change": "-1.58%"
+  },
+  {
+    "symbol": "BARMA",
+    "name": "BARMA | Barem Ambalaj",
+    "sector": "Sanayi",
+    "price": 8.1,
+    "change": "-4.71%"
+  },
+  {
+    "symbol": "BASCM",
+    "name": "BASCM | Baştaş Başkent Çimento Sanayi",
+    "sector": "Sanayi",
+    "price": 13.7,
+    "change": "-0.58%"
+  },
+  {
+    "symbol": "BASGZ",
+    "name": "BASGZ | Başkent Doğalgaz",
+    "sector": "Sanayi",
+    "price": 44.2,
+    "change": "-0.67%"
+  },
+  {
+    "symbol": "BAYRK",
+    "name": "BAYRK | Bayrak EBT Taban",
+    "sector": "Sanayi",
+    "price": 4.19,
+    "change": "-1.18%"
+  },
+  {
+    "symbol": "BEGYO",
+    "name": "BEGYO | Batı Ege GYO",
+    "sector": "Sanayi",
+    "price": 3.44,
+    "change": "-1.71%"
+  },
+  {
+    "symbol": "BERA",
+    "name": "BERA | Bera Holding",
+    "sector": "Sanayi",
+    "price": 13.6,
+    "change": "+0.15%"
+  },
+  {
+    "symbol": "BESLR",
+    "name": "BESLR | Besler Gıda",
+    "sector": "Sanayi",
+    "price": 12.91,
+    "change": "-0.08%"
+  },
+  {
+    "symbol": "BESTE",
+    "name": "BESTE | Best Brands Grup",
+    "sector": "Sanayi",
+    "price": 31.88,
+    "change": "-0.38%"
+  },
+  {
+    "symbol": "BETAE",
+    "name": "BETAE | Beta Enerji",
+    "sector": "Sanayi",
+    "price": 84.1,
+    "change": "-3.05%"
+  },
+  {
+    "symbol": "BEYAZ",
+    "name": "BEYAZ | Beyaz Filo",
+    "sector": "Sanayi",
+    "price": 21.88,
+    "change": "-2.15%"
+  },
+  {
+    "symbol": "BFREN",
+    "name": "BFREN | Bosch Fren",
+    "sector": "Sanayi",
+    "price": 126.1,
+    "change": "-0.79%"
+  },
+  {
+    "symbol": "BIENY",
+    "name": "BIENY | Bien Yapı",
+    "sector": "Sanayi",
+    "price": 21.72,
+    "change": "-1.27%"
+  },
+  {
+    "symbol": "BIGCH",
+    "name": "BIGCH | BigChefs",
+    "sector": "Sanayi",
+    "price": 5.52,
+    "change": "-0.90%"
+  },
+  {
+    "symbol": "BIGEN",
+    "name": "BIGEN | Birleşim Grup Enerji",
+    "sector": "Sanayi",
+    "price": 187.0,
+    "change": "+0.54%"
+  },
+  {
+    "symbol": "BIGTK",
+    "name": "BIGTK | Big Medya",
+    "sector": "Sanayi",
+    "price": 323.25,
+    "change": "-2.05%"
+  },
+  {
+    "symbol": "BIMAS",
+    "name": "BIMAS | Bim Birleşik Mağazalar A.Ş",
+    "sector": "Sanayi",
+    "price": 406.25,
+    "change": "-0.49%"
+  },
+  {
+    "symbol": "BINBN",
+    "name": "BINBN | BinBin",
+    "sector": "Sanayi",
+    "price": 177.4,
+    "change": "+1.14%"
+  },
+  {
+    "symbol": "BINHO",
+    "name": "BINHO | 1000 Yatırımlar",
+    "sector": "Sanayi",
+    "price": 9.57,
+    "change": "-0.10%"
+  },
+  {
+    "symbol": "BIOEN",
+    "name": "BIOEN | Biotrend Enerji",
+    "sector": "Sanayi",
+    "price": 18.9,
+    "change": "-2.48%"
+  },
+  {
+    "symbol": "BIZIM",
+    "name": "BIZIM | Bizim Toptan",
+    "sector": "Sanayi",
+    "price": 24.2,
+    "change": "-0.66%"
+  },
+  {
+    "symbol": "BJKAS",
+    "name": "BJKAS | Beşiktaş",
+    "sector": "Sanayi",
+    "price": 2.18,
+    "change": "-3.11%"
+  },
+  {
+    "symbol": "BKRGY",
+    "name": "BKRGY | Bakırcı GYO",
+    "sector": "Sanayi",
+    "price": 11.64,
+    "change": "-9.98%"
+  },
+  {
+    "symbol": "BLCYT",
+    "name": "BLCYT | Bilici Yatırım",
+    "sector": "Sanayi",
+    "price": 2.06,
+    "change": "+4.04%"
+  },
+  {
+    "symbol": "BLUME",
+    "name": "BLUME | Blume Metal Kimya",
+    "sector": "Sanayi",
+    "price": 41.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BMSCH",
+    "name": "BMSCH | BMS Çelik Hasır",
+    "sector": "Sanayi",
+    "price": 10.46,
+    "change": "-3.42%"
+  },
+  {
+    "symbol": "BMSTL",
+    "name": "BMSTL | BMS Birleşik Metal",
+    "sector": "Sanayi",
+    "price": 43.9,
+    "change": "-1.70%"
+  },
+  {
+    "symbol": "BNTAS",
+    "name": "BNTAS | Bantaş Bandırma Ambalaj",
+    "sector": "Sanayi",
+    "price": 6.18,
+    "change": "-1.12%"
+  },
+  {
+    "symbol": "BOBET",
+    "name": "BOBET | Boğaziçi Beton",
+    "sector": "Sanayi",
+    "price": 20.6,
+    "change": "-0.87%"
+  },
+  {
+    "symbol": "BORLS",
+    "name": "BORLS | Borlease Otomotiv",
+    "sector": "Sanayi",
+    "price": 3.88,
+    "change": "-6.05%"
+  },
+  {
+    "symbol": "BORSK",
+    "name": "BORSK | Bor Şeker",
+    "sector": "Sanayi",
+    "price": 6.55,
+    "change": "+2.66%"
+  },
+  {
+    "symbol": "BOSSA",
+    "name": "BOSSA | Bossa",
+    "sector": "Sanayi",
+    "price": 6.35,
+    "change": "-2.16%"
+  },
+  {
+    "symbol": "BRISA",
+    "name": "BRISA | Brisa",
+    "sector": "Sanayi",
+    "price": 76.5,
+    "change": "+0.59%"
+  },
+  {
+    "symbol": "BRKO",
+    "name": "BRKO | Birko Mensucat",
+    "sector": "Sanayi",
+    "price": 12.2,
+    "change": "-2.40%"
+  },
+  {
+    "symbol": "BRKSN",
+    "name": "BRKSN | Berkosan Yalıtım",
+    "sector": "Sanayi",
+    "price": 7.77,
+    "change": "-1.02%"
+  },
+  {
+    "symbol": "BRKVY",
+    "name": "BRKVY | Birikim Varlık",
+    "sector": "Sanayi",
+    "price": 91.5,
+    "change": "+1.61%"
+  },
+  {
+    "symbol": "BRLSM",
+    "name": "BRLSM | Birlesim Mühendislik",
+    "sector": "Sanayi",
+    "price": 19.88,
+    "change": "-9.80%"
+  },
+  {
+    "symbol": "BRMEN",
+    "name": "BRMEN | Birlik Mensucat",
+    "sector": "Sanayi",
+    "price": 12.98,
+    "change": "-0.54%"
+  },
+  {
+    "symbol": "BRSAN",
+    "name": "BRSAN | Borusan Birleşik Boru Fab.",
+    "sector": "Sanayi",
+    "price": 694.5,
+    "change": "-1.77%"
+  },
+  {
+    "symbol": "BRYAT",
+    "name": "BRYAT | Borusan Yatırım",
+    "sector": "Sanayi",
+    "price": 1645.0,
+    "change": "-1.14%"
+  },
+  {
+    "symbol": "BSOKE",
+    "name": "BSOKE | Batıçim Çimento",
+    "sector": "Sanayi",
+    "price": 24.34,
+    "change": "-9.45%"
+  },
+  {
+    "symbol": "BTCIM",
+    "name": "BTCIM | Batıçim",
+    "sector": "Sanayi",
+    "price": 3.84,
+    "change": "-4.00%"
+  },
+  {
+    "symbol": "BUCIM",
+    "name": "BUCIM | Bursa Çimento",
+    "sector": "Sanayi",
+    "price": 5.89,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "BULGS",
+    "name": "BULGS | Bulls GSYO",
+    "sector": "Sanayi",
+    "price": 32.56,
+    "change": "+0.62%"
+  },
+  {
+    "symbol": "BURCE",
+    "name": "BURCE | Burçelik",
+    "sector": "Sanayi",
+    "price": 33.0,
+    "change": "-4.07%"
+  },
+  {
+    "symbol": "BURVA",
+    "name": "BURVA | Burçelik Vana Sanayii",
+    "sector": "Sanayi",
+    "price": 697.0,
+    "change": "-8.11%"
+  },
+  {
+    "symbol": "BVSAN",
+    "name": "BVSAN | Bülbüloğlu Vinç",
+    "sector": "Sanayi",
+    "price": 103.6,
+    "change": "-0.96%"
+  },
+  {
+    "symbol": "BYDNR",
+    "name": "BYDNR | Baydöner",
+    "sector": "Sanayi",
+    "price": 38.22,
+    "change": "-2.10%"
+  },
+  {
+    "symbol": "CANTE",
+    "name": "CANTE | Çan2 Termik A.S",
+    "sector": "Sanayi",
+    "price": 1.33,
+    "change": "+2.31%"
+  },
+  {
+    "symbol": "CASA",
+    "name": "CASA | Casa Emtia Petrol Kim.Tür.AŞ",
+    "sector": "Sanayi",
+    "price": 72.35,
+    "change": "+3.65%"
+  },
+  {
+    "symbol": "CATES",
+    "name": "CATES | Çates Elektrik",
+    "sector": "Sanayi",
+    "price": 68.3,
+    "change": "-5.40%"
+  },
+  {
+    "symbol": "CCOLA",
+    "name": "CCOLA | Coca-Cola İçecek A.Ş",
+    "sector": "Sanayi",
+    "price": 78.35,
+    "change": "+2.08%"
+  },
+  {
+    "symbol": "CELHA",
+    "name": "CELHA | Çelik Halat",
+    "sector": "Sanayi",
+    "price": 24.74,
+    "change": "+0.16%"
+  },
+  {
+    "symbol": "CEMAS",
+    "name": "CEMAS | Çemaş Döküm",
+    "sector": "Sanayi",
+    "price": 4.04,
+    "change": "-1.22%"
+  },
+  {
+    "symbol": "CEMTS",
+    "name": "CEMTS | Çemtas",
+    "sector": "Sanayi",
+    "price": 8.67,
+    "change": "-1.59%"
+  },
+  {
+    "symbol": "CEMZY",
+    "name": "CEMZY | Cem Zeytin",
+    "sector": "Sanayi",
+    "price": 14.9,
+    "change": "+0.34%"
+  },
+  {
+    "symbol": "CEOEM",
+    "name": "CEOEM | CEO Event Medya",
+    "sector": "Sanayi",
+    "price": 23.96,
+    "change": "-3.62%"
+  },
+  {
+    "symbol": "CGCAM",
+    "name": "CGCAM | Çağdaş Cam",
+    "sector": "Sanayi",
+    "price": 32.26,
+    "change": "-5.95%"
+  },
+  {
+    "symbol": "CIMSA",
+    "name": "CIMSA | Çimsa",
+    "sector": "Sanayi",
+    "price": 44.0,
+    "change": "+0.46%"
+  },
+  {
+    "symbol": "CITAS",
+    "name": "CITAS | Çitlekçi Gıda",
+    "sector": "Sanayi",
+    "price": 129.9,
+    "change": "+2.69%"
+  },
+  {
+    "symbol": "CLEBI",
+    "name": "CLEBI | Çelebi",
+    "sector": "Sanayi",
+    "price": 1435.0,
+    "change": "-1.17%"
+  },
+  {
+    "symbol": "CMBTN",
+    "name": "CMBTN | Çimbeton",
+    "sector": "Sanayi",
+    "price": 1501.0,
+    "change": "-0.60%"
+  },
+  {
+    "symbol": "CMENT",
+    "name": "CMENT | Çimentaş",
+    "sector": "Sanayi",
+    "price": 257.0,
+    "change": "-1.91%"
+  },
+  {
+    "symbol": "CONSE",
+    "name": "CONSE | Consus Enerji",
+    "sector": "Sanayi",
+    "price": 2.3,
+    "change": "+1.77%"
+  },
+  {
+    "symbol": "COSMO",
+    "name": "COSMO | Cosmos Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 121.5,
+    "change": "-2.49%"
+  },
+  {
+    "symbol": "CRDFA",
+    "name": "CRDFA | Creditwest Faktoring",
+    "sector": "Sanayi",
+    "price": 27.0,
+    "change": "-1.82%"
+  },
+  {
+    "symbol": "CRFSA",
+    "name": "CRFSA | Carrefoursa",
+    "sector": "Sanayi",
+    "price": 297.75,
+    "change": "-6.22%"
+  },
+  {
+    "symbol": "CUSAN",
+    "name": "CUSAN | Çuhadaroğlu Metal",
+    "sector": "Sanayi",
+    "price": 24.1,
+    "change": "+0.75%"
+  },
+  {
+    "symbol": "CVKMD",
+    "name": "CVKMD | Cvk Maden",
+    "sector": "Sanayi",
+    "price": 16.22,
+    "change": "+0.37%"
+  },
+  {
+    "symbol": "CWENE",
+    "name": "CWENE | Cw Enerji",
+    "sector": "Sanayi",
+    "price": 33.34,
+    "change": "-3.42%"
+  },
+  {
+    "symbol": "DAGI",
+    "name": "DAGI | Dagi Giyim",
+    "sector": "Sanayi",
+    "price": 9.92,
+    "change": "-6.50%"
+  },
+  {
+    "symbol": "DAPGM",
+    "name": "DAPGM | Dap Gayrimenkul",
+    "sector": "Sanayi",
+    "price": 8.04,
+    "change": "+3.61%"
+  },
+  {
+    "symbol": "DARDL",
+    "name": "DARDL | Dardanel",
+    "sector": "Sanayi",
+    "price": 1.61,
+    "change": "-0.62%"
+  },
+  {
+    "symbol": "DCTTR",
+    "name": "DCTTR | Dct Trading",
+    "sector": "Sanayi",
+    "price": 6.16,
+    "change": "-1.28%"
+  },
+  {
+    "symbol": "DENGE",
+    "name": "DENGE | Denge Holding",
+    "sector": "Sanayi",
+    "price": 2.23,
+    "change": "-2.19%"
+  },
+  {
+    "symbol": "DERHL",
+    "name": "DERHL | Derlüks Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 2.07,
+    "change": "-0.96%"
+  },
+  {
+    "symbol": "DERIM",
+    "name": "DERIM | Derimod",
+    "sector": "Sanayi",
+    "price": 35.66,
+    "change": "-1.38%"
+  },
+  {
+    "symbol": "DESA",
+    "name": "DESA | Desa Deri Sanayii",
+    "sector": "Sanayi",
+    "price": 9.6,
+    "change": "-0.31%"
+  },
+  {
+    "symbol": "DESPC",
+    "name": "DESPC | Despec Bilgisayar",
+    "sector": "Sanayi",
+    "price": 40.5,
+    "change": "+1.40%"
+  },
+  {
+    "symbol": "DEVA",
+    "name": "DEVA | Deva Holding",
+    "sector": "Sanayi",
+    "price": 95.0,
+    "change": "-0.68%"
+  },
+  {
+    "symbol": "DGATE",
+    "name": "DGATE | Datagate",
+    "sector": "Sanayi",
+    "price": 93.0,
+    "change": "-0.11%"
+  },
+  {
+    "symbol": "DGGYO",
+    "name": "DGGYO | Doğuş GYO",
+    "sector": "Sanayi",
+    "price": 33.08,
+    "change": "-4.72%"
+  },
+  {
+    "symbol": "DGNMO",
+    "name": "DGNMO | Doğanlar Mobilya",
+    "sector": "Sanayi",
+    "price": 7.55,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "DIRIT",
+    "name": "DIRIT | Diriteks Diriliş Tekstil",
+    "sector": "Sanayi",
+    "price": 26.6,
+    "change": "-4.66%"
+  },
+  {
+    "symbol": "DITAS",
+    "name": "DITAS | Ditaş BDY",
+    "sector": "Sanayi",
+    "price": 23.0,
+    "change": "+0.61%"
+  },
+  {
+    "symbol": "DMRGD",
+    "name": "DMRGD | DMR Unlu Mamüller",
+    "sector": "Sanayi",
+    "price": 11.35,
+    "change": "+2.25%"
+  },
+  {
+    "symbol": "DMSAS",
+    "name": "DMSAS | Demisaş",
+    "sector": "Sanayi",
+    "price": 8.38,
+    "change": "+0.96%"
+  },
+  {
+    "symbol": "DNISI",
+    "name": "DNISI | Dinamik Isı Yalıtım",
+    "sector": "Sanayi",
+    "price": 4.43,
+    "change": "-1.12%"
+  },
+  {
+    "symbol": "DOAS",
+    "name": "DOAS | Doğuş Otomotiv",
+    "sector": "Sanayi",
+    "price": 161.7,
+    "change": "-1.52%"
+  },
+  {
+    "symbol": "DOCO",
+    "name": "DOCO | DO & CO Aktiengesellschaft",
+    "sector": "Sanayi",
+    "price": 11117.5,
+    "change": "-1.53%"
+  },
+  {
+    "symbol": "DOFER",
+    "name": "DOFER | Dofer Yapı",
+    "sector": "Sanayi",
+    "price": 27.68,
+    "change": "+0.87%"
+  },
+  {
+    "symbol": "DOFRB",
+    "name": "DOFRB | Dof Robotik",
+    "sector": "Sanayi",
+    "price": 122.9,
+    "change": "+4.33%"
+  },
+  {
+    "symbol": "DOGUB",
+    "name": "DOGUB | Doğusan",
+    "sector": "Sanayi",
+    "price": 66.95,
+    "change": "-0.52%"
+  },
+  {
+    "symbol": "DOHOL",
+    "name": "DOHOL | Doğan Holding",
+    "sector": "Sanayi",
+    "price": 21.58,
+    "change": "-0.28%"
+  },
+  {
+    "symbol": "DOKTA",
+    "name": "DOKTA | Döktaş Dökümcülük",
+    "sector": "Sanayi",
+    "price": 22.4,
+    "change": "-1.75%"
+  },
+  {
+    "symbol": "DSTKF",
+    "name": "DSTKF | Destek Finans Faktoring",
+    "sector": "Sanayi",
+    "price": 2216.0,
+    "change": "+1.19%"
+  },
+  {
+    "symbol": "DUNYH",
+    "name": "DUNYH | Dünya Holding",
+    "sector": "Sanayi",
+    "price": 135.6,
+    "change": "-1.81%"
+  },
+  {
+    "symbol": "DURDO",
+    "name": "DURDO | Duran Doğan Basım",
+    "sector": "Sanayi",
+    "price": 5.1,
+    "change": "+2.41%"
+  },
+  {
+    "symbol": "DURKN",
+    "name": "DURKN | Durukan Şekerleme",
+    "sector": "Sanayi",
+    "price": 22.8,
+    "change": "+5.07%"
+  },
+  {
+    "symbol": "DYOBY",
+    "name": "DYOBY | DYO Boya",
+    "sector": "Sanayi",
+    "price": 13.13,
+    "change": "-1.35%"
+  },
+  {
+    "symbol": "DZGYO",
+    "name": "DZGYO | Deniz GYO",
+    "sector": "Sanayi",
+    "price": 7.09,
+    "change": "+1.43%"
+  },
+  {
+    "symbol": "EBEBK",
+    "name": "EBEBK | Ebebek",
+    "sector": "Sanayi",
+    "price": 81.5,
+    "change": "-1.33%"
+  },
+  {
+    "symbol": "ECILC",
+    "name": "ECILC | Eczacıbaşı İlaç",
+    "sector": "Sanayi",
+    "price": 72.5,
+    "change": "-3.40%"
+  },
+  {
+    "symbol": "ECOGR",
+    "name": "ECOGR | Ecogreen",
+    "sector": "Sanayi",
+    "price": 33.34,
+    "change": "-0.77%"
+  },
+  {
+    "symbol": "ECZYT",
+    "name": "ECZYT | Eczacıbaşı Yatırım",
+    "sector": "Sanayi",
+    "price": 304.75,
+    "change": "-3.25%"
+  },
+  {
+    "symbol": "EDATA",
+    "name": "EDATA | E-Data Teknoloji",
+    "sector": "Sanayi",
+    "price": 17.89,
+    "change": "-0.17%"
+  },
+  {
+    "symbol": "EDIP",
+    "name": "EDIP | Edip Gayrimenkul Yat. San.",
+    "sector": "Sanayi",
+    "price": 36.0,
+    "change": "-4.96%"
+  },
+  {
+    "symbol": "EFOR",
+    "name": "EFOR | Efor Yat. San.",
+    "sector": "Sanayi",
+    "price": 16.9,
+    "change": "-7.04%"
+  },
+  {
+    "symbol": "EGEEN",
+    "name": "EGEEN | Ege Endüstri",
+    "sector": "Sanayi",
+    "price": 4870.0,
+    "change": "-2.36%"
+  },
+  {
+    "symbol": "EGEGY",
+    "name": "EGEGY | Egeyapı GYO",
+    "sector": "Sanayi",
+    "price": 25.6,
+    "change": "-3.90%"
+  },
+  {
+    "symbol": "EGEPO",
+    "name": "EGEPO | Egepol Hastanesi",
+    "sector": "Sanayi",
+    "price": 17.19,
+    "change": "+4.06%"
+  },
+  {
+    "symbol": "EGGUB",
+    "name": "EGGUB | Ege Gübre",
+    "sector": "Sanayi",
+    "price": 106.5,
+    "change": "-1.75%"
+  },
+  {
+    "symbol": "EGPRO",
+    "name": "EGPRO | Ege Profil",
+    "sector": "Sanayi",
+    "price": 37.42,
+    "change": "-1.32%"
+  },
+  {
+    "symbol": "EGSER",
+    "name": "EGSER | Ege Seramik",
+    "sector": "Sanayi",
+    "price": 2.89,
+    "change": "+1.05%"
+  },
+  {
+    "symbol": "EKDMR",
+    "name": "EKDMR | Ekinciler",
+    "sector": "Sanayi",
+    "price": 46.6,
+    "change": "-1.94%"
+  },
+  {
+    "symbol": "EKGYO",
+    "name": "EKGYO | Emlak Konut GYO",
+    "sector": "Sanayi",
+    "price": 20.06,
+    "change": "+1.57%"
+  },
+  {
+    "symbol": "EKIM",
+    "name": "EKIM | Ekim Turizm",
+    "sector": "Sanayi",
+    "price": 18.26,
+    "change": "-3.79%"
+  },
+  {
+    "symbol": "EKIZ",
+    "name": "EKIZ | Ekiz Yağ ve Sabun",
+    "sector": "Sanayi",
+    "price": 56.8,
+    "change": "-3.15%"
+  },
+  {
+    "symbol": "EKOS",
+    "name": "EKOS | Ekos Teknoloji",
+    "sector": "Sanayi",
+    "price": 4.98,
+    "change": "-2.16%"
+  },
+  {
+    "symbol": "EKSUN",
+    "name": "EKSUN | Eksun Gıda",
+    "sector": "Sanayi",
+    "price": 5.66,
+    "change": "-3.25%"
+  },
+  {
+    "symbol": "ELITE",
+    "name": "ELITE | Elite Organik Gıda",
+    "sector": "Sanayi",
+    "price": 26.9,
+    "change": "-0.44%"
+  },
+  {
+    "symbol": "EMKEL",
+    "name": "EMKEL | Emek Elektrik",
+    "sector": "Sanayi",
+    "price": 13.94,
+    "change": "-2.92%"
+  },
+  {
+    "symbol": "EMNIS",
+    "name": "EMNIS | Eminiş Ambalaj",
+    "sector": "Sanayi",
+    "price": 149.9,
+    "change": "-0.73%"
+  },
+  {
+    "symbol": "EMPAE",
+    "name": "EMPAE | Empa Elektronik",
+    "sector": "Sanayi",
+    "price": 69.3,
+    "change": "+10.00%"
+  },
+  {
+    "symbol": "ENDAE",
+    "name": "ENDAE | Enda Enerji",
+    "sector": "Sanayi",
+    "price": 17.14,
+    "change": "-3.33%"
+  },
+  {
+    "symbol": "ENERY",
+    "name": "ENERY | Enerya Enerji",
+    "sector": "Sanayi",
+    "price": 10.5,
+    "change": "+3.24%"
+  },
+  {
+    "symbol": "ENJSA",
+    "name": "ENJSA | Enerjisa Enerji",
+    "sector": "Enerji",
+    "price": 113.2,
+    "change": "+2.17%"
+  },
+  {
+    "symbol": "ENKAI",
+    "name": "ENKAI | Enka İnşaat",
+    "sector": "Sanayi",
+    "price": 86.8,
+    "change": "-2.36%"
+  },
+  {
+    "symbol": "ENPRA",
+    "name": "ENPRA | Enpara",
+    "sector": "Sanayi",
+    "price": 59.0,
+    "change": "-0.17%"
+  },
+  {
+    "symbol": "ENSRI",
+    "name": "ENSRI | Ensari Deri",
+    "sector": "Sanayi",
+    "price": 4.95,
+    "change": "-1.39%"
+  },
+  {
+    "symbol": "ENTRA",
+    "name": "ENTRA | Ic Enterra Yenilenebilir",
+    "sector": "Sanayi",
+    "price": 4.22,
+    "change": "-1.17%"
+  },
+  {
+    "symbol": "EPLAS",
+    "name": "EPLAS | Egeplast",
+    "sector": "Sanayi",
+    "price": 5.5,
+    "change": "-5.17%"
+  },
+  {
+    "symbol": "ERBOS",
+    "name": "ERBOS | Erbosan",
+    "sector": "Sanayi",
+    "price": 145.0,
+    "change": "-1.76%"
+  },
+  {
+    "symbol": "ERCB",
+    "name": "ERCB | Erciyas Çelik Boru",
+    "sector": "Sanayi",
+    "price": 42.98,
+    "change": "-1.74%"
+  },
+  {
+    "symbol": "EREGL",
+    "name": "EREGL | Ereğli Demir Çelik",
+    "sector": "Sanayi",
+    "price": 37.6,
+    "change": "-0.48%"
+  },
+  {
+    "symbol": "ERSU",
+    "name": "ERSU | Ersu Gıda",
+    "sector": "Sanayi",
+    "price": 23.6,
+    "change": "+1.64%"
+  },
+  {
+    "symbol": "ESCAR",
+    "name": "ESCAR | Escar Filo",
+    "sector": "Sanayi",
+    "price": 44.54,
+    "change": "-1.02%"
+  },
+  {
+    "symbol": "ESCOM",
+    "name": "ESCOM | Escort Teknoloji",
+    "sector": "Sanayi",
+    "price": 5.19,
+    "change": "-3.17%"
+  },
+  {
+    "symbol": "ESEN",
+    "name": "ESEN | Esenboğa Elektrik",
+    "sector": "Sanayi",
+    "price": 3.37,
+    "change": "-5.07%"
+  },
+  {
+    "symbol": "ETILR",
+    "name": "ETILR | Etiler Gıda",
+    "sector": "Sanayi",
+    "price": 5.58,
+    "change": "+1.45%"
+  },
+  {
+    "symbol": "ETYAT",
+    "name": "ETYAT | Euro Trend Yatırım",
+    "sector": "Sanayi",
+    "price": 15.4,
+    "change": "-0.32%"
+  },
+  {
+    "symbol": "EUHOL",
+    "name": "EUHOL | Euro Yatırım",
+    "sector": "Sanayi",
+    "price": 10.15,
+    "change": "+1.50%"
+  },
+  {
+    "symbol": "EUKYO",
+    "name": "EUKYO | Euro Kapital Yatırım Ortaklığı",
+    "sector": "Sanayi",
+    "price": 13.41,
+    "change": "+1.59%"
+  },
+  {
+    "symbol": "EUPWR",
+    "name": "EUPWR | Europower Enerji",
+    "sector": "Sanayi",
+    "price": 83.15,
+    "change": "-9.96%"
+  },
+  {
+    "symbol": "EUREN",
+    "name": "EUREN | Europen Endüstri",
+    "sector": "Sanayi",
+    "price": 3.84,
+    "change": "-0.26%"
+  },
+  {
+    "symbol": "EUYO",
+    "name": "EUYO | Euro Menkul",
+    "sector": "Sanayi",
+    "price": 4.99,
+    "change": "+7.78%"
+  },
+  {
+    "symbol": "EYGYO",
+    "name": "EYGYO | EYG Gayrimenkul",
+    "sector": "Sanayi",
+    "price": 2.65,
+    "change": "-1.85%"
+  },
+  {
+    "symbol": "FADE",
+    "name": "FADE | Fade Gıda Yatırım",
+    "sector": "Sanayi",
+    "price": 15.5,
+    "change": "-0.13%"
+  },
+  {
+    "symbol": "FENER",
+    "name": "FENER | Fenerbahce Futbol A.Ş.",
+    "sector": "Sanayi",
+    "price": 3.05,
+    "change": "-1.29%"
+  },
+  {
+    "symbol": "FLAP",
+    "name": "FLAP | Flap Kongre Hiz.Oto.Tur.A.Ş",
+    "sector": "Sanayi",
+    "price": 10.89,
+    "change": "-0.55%"
+  },
+  {
+    "symbol": "FMIZP",
+    "name": "FMIZP | F-M İzmit Piston",
+    "sector": "Sanayi",
+    "price": 289.0,
+    "change": "-1.87%"
+  },
+  {
+    "symbol": "FONET",
+    "name": "FONET | Fonet Bilgi Teknolojileri",
+    "sector": "Sanayi",
+    "price": 4.87,
+    "change": "-0.61%"
+  },
+  {
+    "symbol": "FORMT",
+    "name": "FORMT | Formet Metal ve Cam Sanayii",
+    "sector": "Sanayi",
+    "price": 1.51,
+    "change": "-1.31%"
+  },
+  {
+    "symbol": "FORTE",
+    "name": "FORTE | Forte Bilgi İletişim",
+    "sector": "Sanayi",
+    "price": 111.5,
+    "change": "-0.27%"
+  },
+  {
+    "symbol": "FRIGO",
+    "name": "FRIGO | Frigo Pak Gıda",
+    "sector": "Sanayi",
+    "price": 2.5,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "FRMPL",
+    "name": "FRMPL | Formül Plastik",
+    "sector": "Sanayi",
+    "price": 32.44,
+    "change": "-0.37%"
+  },
+  {
+    "symbol": "FROTO",
+    "name": "FROTO | Ford Otosan",
+    "sector": "Sanayi",
+    "price": 76.25,
+    "change": "-1.29%"
+  },
+  {
+    "symbol": "FZLGY",
+    "name": "FZLGY | Fuzul Gayrimenkul",
+    "sector": "Sanayi",
+    "price": 8.21,
+    "change": "-8.27%"
+  },
+  {
+    "symbol": "GARAN",
+    "name": "GARAN | Garanti Bankası",
+    "sector": "Sanayi",
+    "price": 132.0,
+    "change": "-0.68%"
+  },
+  {
+    "symbol": "GARFA",
+    "name": "GARFA | Garanti BBVA Faktoring",
+    "sector": "Sanayi",
+    "price": 26.88,
+    "change": "-2.11%"
+  },
+  {
+    "symbol": "GATEG",
+    "name": "GATEG | Gate Group",
+    "sector": "Sanayi",
+    "price": 279.75,
+    "change": "-3.95%"
+  },
+  {
+    "symbol": "GEDIK",
+    "name": "GEDIK | Gedik Yatırım",
+    "sector": "Sanayi",
+    "price": 5.8,
+    "change": "-1.53%"
+  },
+  {
+    "symbol": "GEDZA",
+    "name": "GEDZA | Gediz Ambalaj Sanayi",
+    "sector": "Sanayi",
+    "price": 28.46,
+    "change": "-1.86%"
+  },
+  {
+    "symbol": "GENIL",
+    "name": "GENIL | Gen İlaç",
+    "sector": "Sanayi",
+    "price": 11.33,
+    "change": "-2.50%"
+  },
+  {
+    "symbol": "GENKM",
+    "name": "GENKM | Gentaş Kimya",
+    "sector": "Sanayi",
+    "price": 9.53,
+    "change": "-2.76%"
+  },
+  {
+    "symbol": "GENTS",
+    "name": "GENTS | Gentaş",
+    "sector": "Sanayi",
+    "price": 5.0,
+    "change": "-2.53%"
+  },
+  {
+    "symbol": "GEREL",
+    "name": "GEREL | Gersan Elektrik",
+    "sector": "Sanayi",
+    "price": 36.88,
+    "change": "-0.27%"
+  },
+  {
+    "symbol": "GESAN",
+    "name": "GESAN | Girişim Elektrik",
+    "sector": "Sanayi",
+    "price": 74.65,
+    "change": "-9.95%"
+  },
+  {
+    "symbol": "GIPTA",
+    "name": "GIPTA | Gıpta",
+    "sector": "Sanayi",
+    "price": 70.6,
+    "change": "-7.59%"
+  },
+  {
+    "symbol": "GLBMD",
+    "name": "GLBMD | Global Menkul Değerler",
+    "sector": "Sanayi",
+    "price": 11.7,
+    "change": "+1.21%"
+  },
+  {
+    "symbol": "GLCVY",
+    "name": "GLCVY | Gelecek Varlık Yön.",
+    "sector": "Sanayi",
+    "price": 51.65,
+    "change": "-1.71%"
+  },
+  {
+    "symbol": "GLRMK",
+    "name": "GLRMK | Gülermak Ağır Sanayi",
+    "sector": "Sanayi",
+    "price": 160.9,
+    "change": "-2.72%"
+  },
+  {
+    "symbol": "GLRYH",
+    "name": "GLRYH | Güler Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 3.01,
+    "change": "-3.22%"
+  },
+  {
+    "symbol": "GLYHO",
+    "name": "GLYHO | Global Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 16.3,
+    "change": "-1.21%"
+  },
+  {
+    "symbol": "GMTAS",
+    "name": "GMTAS | Gimat Mağazacılık",
+    "sector": "Sanayi",
+    "price": 45.46,
+    "change": "+2.76%"
+  },
+  {
+    "symbol": "GOKNR",
+    "name": "GOKNR | Göknur Gıda",
+    "sector": "Sanayi",
+    "price": 17.62,
+    "change": "+0.28%"
+  },
+  {
+    "symbol": "GOLDA",
+    "name": "GOLDA | Golda Gıda",
+    "sector": "Sanayi",
+    "price": 12.7,
+    "change": "-4.73%"
+  },
+  {
+    "symbol": "GOLTS",
+    "name": "GOLTS | Göltaş Çimento",
+    "sector": "Sanayi",
+    "price": 295.75,
+    "change": "-0.50%"
+  },
+  {
+    "symbol": "GOODY",
+    "name": "GOODY | Goodyear",
+    "sector": "Sanayi",
+    "price": 2.66,
+    "change": "+1.14%"
+  },
+  {
+    "symbol": "GOZDE",
+    "name": "GOZDE | Gözde Girisim Sermayesi",
+    "sector": "Sanayi",
+    "price": 22.0,
+    "change": "-0.45%"
+  },
+  {
+    "symbol": "GRNYO",
+    "name": "GRNYO | Garanti YO",
+    "sector": "Sanayi",
+    "price": 12.21,
+    "change": "-3.86%"
+  },
+  {
+    "symbol": "GRSEL",
+    "name": "GRSEL | Gürsel Taşımacılık",
+    "sector": "Sanayi",
+    "price": 304.25,
+    "change": "+1.42%"
+  },
+  {
+    "symbol": "GRTHO",
+    "name": "GRTHO | GrainTurk Tarım",
+    "sector": "Sanayi",
+    "price": 197.3,
+    "change": "-4.08%"
+  },
+  {
+    "symbol": "GSDDE",
+    "name": "GSDDE | GSD Denizcilik Gayrimenkul İnş",
+    "sector": "Sanayi",
+    "price": 12.92,
+    "change": "-0.77%"
+  },
+  {
+    "symbol": "GSDHO",
+    "name": "GSDHO | GSD Holding A.Ş.",
+    "sector": "Sanayi",
+    "price": 4.53,
+    "change": "-0.22%"
+  },
+  {
+    "symbol": "GSRAY",
+    "name": "GSRAY | Galatasaray Sportif A.Ş",
+    "sector": "Sanayi",
+    "price": 1.03,
+    "change": "-2.83%"
+  },
+  {
+    "symbol": "GUBRF",
+    "name": "GUBRF | Gübre Fabrikaları",
+    "sector": "Sanayi",
+    "price": 475.75,
+    "change": "+1.01%"
+  },
+  {
+    "symbol": "GUNDG",
+    "name": "GUNDG | Gündoğdu Gıda",
+    "sector": "Sanayi",
+    "price": 1350.0,
+    "change": "-10.00%"
+  },
+  {
+    "symbol": "GWIND",
+    "name": "GWIND | Galata Wind Enerji",
+    "sector": "Sanayi",
+    "price": 22.2,
+    "change": "-1.33%"
+  },
+  {
+    "symbol": "GZNMI",
+    "name": "GZNMI | Gezinomi Seyahat",
+    "sector": "Sanayi",
+    "price": 54.0,
+    "change": "+0.75%"
+  },
+  {
+    "symbol": "HALKB",
+    "name": "HALKB | Halkbank",
+    "sector": "Sanayi",
+    "price": 44.96,
+    "change": "+9.98%"
+  },
+  {
+    "symbol": "HATEK",
+    "name": "HATEK | Hateks Hatay Tekstil",
+    "sector": "Sanayi",
+    "price": 13.27,
+    "change": "-2.21%"
+  },
+  {
+    "symbol": "HATSN",
+    "name": "HATSN | Hat-San",
+    "sector": "Sanayi",
+    "price": 65.65,
+    "change": "-9.95%"
+  },
+  {
+    "symbol": "HDFGS",
+    "name": "HDFGS | Hedef Girişim Sermayesi",
+    "sector": "Sanayi",
+    "price": 2.45,
+    "change": "-2.39%"
+  },
+  {
+    "symbol": "HEDEF",
+    "name": "HEDEF | Hedef Holding",
+    "sector": "Sanayi",
+    "price": 68.3,
+    "change": "-9.95%"
+  },
+  {
+    "symbol": "HEKTS",
+    "name": "HEKTS | Hektaş",
+    "sector": "Sanayi",
+    "price": 2.65,
+    "change": "-2.21%"
+  },
+  {
+    "symbol": "HKTM",
+    "name": "HKTM | Hidropar",
+    "sector": "Sanayi",
+    "price": 13.1,
+    "change": "-3.68%"
+  },
+  {
+    "symbol": "HLGYO",
+    "name": "HLGYO | Halk GYO",
+    "sector": "Sanayi",
+    "price": 4.31,
+    "change": "-1.37%"
+  },
+  {
+    "symbol": "HOROZ",
+    "name": "HOROZ | Horoz Lojistik",
+    "sector": "Sanayi",
+    "price": 57.6,
+    "change": "-1.54%"
+  },
+  {
+    "symbol": "HRKET",
+    "name": "HRKET | Hareket Proje",
+    "sector": "Sanayi",
+    "price": 91.4,
+    "change": "-2.66%"
+  },
+  {
+    "symbol": "HTTBT",
+    "name": "HTTBT | Hitit Bilgisayar",
+    "sector": "Sanayi",
+    "price": 34.84,
+    "change": "-1.58%"
+  },
+  {
+    "symbol": "HUBVC",
+    "name": "HUBVC | Hub Girişim Ser. Y.O.",
+    "sector": "Sanayi",
+    "price": 2.67,
+    "change": "+6.37%"
+  },
+  {
+    "symbol": "HUNER",
+    "name": "HUNER | Hun Enerji",
+    "sector": "Sanayi",
+    "price": 3.88,
+    "change": "-2.27%"
+  },
+  {
+    "symbol": "HURGZ",
+    "name": "HURGZ | Hürriyet",
+    "sector": "Sanayi",
+    "price": 7.4,
+    "change": "+2.35%"
+  },
+  {
+    "symbol": "ICBCT",
+    "name": "ICBCT | ICBC Turkey Bank",
+    "sector": "Sanayi",
+    "price": 19.43,
+    "change": "-0.56%"
+  },
+  {
+    "symbol": "ICUGS",
+    "name": "ICUGS | Icu Girişim Ser. Y.O.",
+    "sector": "Sanayi",
+    "price": 3.97,
+    "change": "-7.24%"
+  },
+  {
+    "symbol": "IDGYO",
+    "name": "IDGYO | İdealist GYO",
+    "sector": "Sanayi",
+    "price": 2.88,
+    "change": "-4.00%"
+  },
+  {
+    "symbol": "IEYHO",
+    "name": "IEYHO | Işıklar Enerji ve Yapı Holding",
+    "sector": "Sanayi",
+    "price": 210.5,
+    "change": "+0.96%"
+  },
+  {
+    "symbol": "IHAAS",
+    "name": "IHAAS | İhlas Haber Ajansı",
+    "sector": "Sanayi",
+    "price": 51.65,
+    "change": "-0.67%"
+  },
+  {
+    "symbol": "IHEVA",
+    "name": "IHEVA | İhlas Ev Aletleri",
+    "sector": "Sanayi",
+    "price": 1.97,
+    "change": "+0.51%"
+  },
+  {
+    "symbol": "IHGZT",
+    "name": "IHGZT | İhlas Gazetecilik",
+    "sector": "Sanayi",
+    "price": 1.18,
+    "change": "-0.84%"
+  },
+  {
+    "symbol": "IHLAS",
+    "name": "IHLAS | İhlas Holding",
+    "sector": "Sanayi",
+    "price": 1.06,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "IHLGM",
+    "name": "IHLGM | İhlas Gayrimenkul",
+    "sector": "Sanayi",
+    "price": 1.58,
+    "change": "-0.63%"
+  },
+  {
+    "symbol": "IHYAY",
+    "name": "IHYAY | İhlas Yayın Holding",
+    "sector": "Sanayi",
+    "price": 1.2,
+    "change": "-0.83%"
+  },
+  {
+    "symbol": "IMASM",
+    "name": "IMASM | İmaş Makine",
+    "sector": "Sanayi",
+    "price": 2.26,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "INDES",
+    "name": "INDES | İndeks Bilgisayar",
+    "sector": "Sanayi",
+    "price": 11.69,
+    "change": "+1.30%"
+  },
+  {
+    "symbol": "INFO",
+    "name": "INFO | İnfo Yatırım",
+    "sector": "Sanayi",
+    "price": 5.7,
+    "change": "+3.64%"
+  },
+  {
+    "symbol": "INGRM",
+    "name": "INGRM | İngram Bilişim",
+    "sector": "Sanayi",
+    "price": 379.0,
+    "change": "+0.26%"
+  },
+  {
+    "symbol": "INTEK",
+    "name": "INTEK | Innosa Teknoloji",
+    "sector": "Sanayi",
+    "price": 232.7,
+    "change": "-0.56%"
+  },
+  {
+    "symbol": "INTEM",
+    "name": "INTEM | İntema",
+    "sector": "Sanayi",
+    "price": 241.8,
+    "change": "-1.59%"
+  },
+  {
+    "symbol": "INTET",
+    "name": "INTET | Intetra Teknoloji",
+    "sector": "Sanayi",
+    "price": 64.8,
+    "change": "+9.92%"
+  },
+  {
+    "symbol": "INVEO",
+    "name": "INVEO | İnveo Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 6.8,
+    "change": "-0.58%"
+  },
+  {
+    "symbol": "INVES",
+    "name": "INVES | Investco Holding",
+    "sector": "Sanayi",
+    "price": 796.5,
+    "change": "+0.13%"
+  },
+  {
+    "symbol": "ISATR",
+    "name": "ISATR | İş Bankası (A)",
+    "sector": "Sanayi",
+    "price": 4950000.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ISBIR",
+    "name": "ISBIR | İşbir Holding",
+    "sector": "Sanayi",
+    "price": 73.7,
+    "change": "+2.01%"
+  },
+  {
+    "symbol": "ISBTR",
+    "name": "ISBTR | İş Bankası (B)",
+    "sector": "Sanayi",
+    "price": 500000.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ISCTR",
+    "name": "ISCTR | İş Bankası (C)",
+    "sector": "Sanayi",
+    "price": 12.78,
+    "change": "+0.24%"
+  },
+  {
+    "symbol": "ISDMR",
+    "name": "ISDMR | İskenderun Demir Çelik",
+    "sector": "Sanayi",
+    "price": 55.55,
+    "change": "+3.73%"
+  },
+  {
+    "symbol": "ISFIN",
+    "name": "ISFIN | İş Finansal Kiralama",
+    "sector": "Sanayi",
+    "price": 19.37,
+    "change": "-0.15%"
+  },
+  {
+    "symbol": "ISGSY",
+    "name": "ISGSY | İş Girişim",
+    "sector": "Sanayi",
+    "price": 15.82,
+    "change": "+1.41%"
+  },
+  {
+    "symbol": "ISGYO",
+    "name": "ISGYO | İş GYO",
+    "sector": "Sanayi",
+    "price": 25.1,
+    "change": "-3.39%"
+  },
+  {
+    "symbol": "ISKPL",
+    "name": "ISKPL | Işıklar Plastik",
+    "sector": "Sanayi",
+    "price": 7.9,
+    "change": "-2.71%"
+  },
+  {
+    "symbol": "ISKUR",
+    "name": "ISKUR | İş Bankası Kurucu",
+    "sector": "Sanayi",
+    "price": 4125000.0,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "ISMEN",
+    "name": "ISMEN | İş Yatırım",
+    "sector": "Sanayi",
+    "price": 34.7,
+    "change": "+2.24%"
+  },
+  {
+    "symbol": "ISSEN",
+    "name": "ISSEN | İşbir Sentetik",
+    "sector": "Sanayi",
+    "price": 7.06,
+    "change": "+1.15%"
+  },
+  {
+    "symbol": "ISVEA",
+    "name": "ISVEA | İsvea Seramik",
+    "sector": "Sanayi",
+    "price": 83.25,
+    "change": "+1.90%"
+  },
+  {
+    "symbol": "ISYAT",
+    "name": "ISYAT | İs YO",
+    "sector": "Sanayi",
+    "price": 7.39,
+    "change": "+0.14%"
+  },
+  {
+    "symbol": "IZENR",
+    "name": "IZENR | İzdemir Enerji",
+    "sector": "Sanayi",
+    "price": 7.13,
+    "change": "+0.14%"
+  },
+  {
+    "symbol": "IZFAS",
+    "name": "IZFAS | İzmir Fırça",
+    "sector": "Sanayi",
+    "price": 54.95,
+    "change": "-0.09%"
+  },
+  {
+    "symbol": "IZINV",
+    "name": "IZINV | İz Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 50.85,
+    "change": "-0.49%"
+  },
+  {
+    "symbol": "IZMDC",
+    "name": "IZMDC | İzmir Demir Çelik",
+    "sector": "Sanayi",
+    "price": 10.24,
+    "change": "-9.94%"
+  },
+  {
+    "symbol": "JANTS",
+    "name": "JANTS | Jantsa Jant",
+    "sector": "Sanayi",
+    "price": 15.18,
+    "change": "-1.11%"
+  },
+  {
+    "symbol": "KAPLM",
+    "name": "KAPLM | Kaplamin",
+    "sector": "Sanayi",
+    "price": 389.0,
+    "change": "-4.60%"
+  },
+  {
+    "symbol": "KARCL",
+    "name": "KARCL | Kardemir Çelik Sanayi",
+    "sector": "Sanayi",
+    "price": 176.3,
+    "change": "+9.50%"
+  },
+  {
+    "symbol": "KAREL",
+    "name": "KAREL | Karel Elektronik",
+    "sector": "Sanayi",
+    "price": 8.44,
+    "change": "-1.06%"
+  },
+  {
+    "symbol": "KARSN",
+    "name": "KARSN | Karsan Otomotiv",
+    "sector": "Sanayi",
+    "price": 11.3,
+    "change": "+9.92%"
+  },
+  {
+    "symbol": "KARTN",
+    "name": "KARTN | Kartonsan",
+    "sector": "Sanayi",
+    "price": 153.9,
+    "change": "-2.10%"
+  },
+  {
+    "symbol": "KATMR",
+    "name": "KATMR | Katmerciler Araç Üstü Ekipman",
+    "sector": "Sanayi",
+    "price": 1.99,
+    "change": "-1.00%"
+  },
+  {
+    "symbol": "KAYSE",
+    "name": "KAYSE | Kayseri Şeker",
+    "sector": "Sanayi",
+    "price": 4.04,
+    "change": "+0.25%"
+  },
+  {
+    "symbol": "KBORU",
+    "name": "KBORU | Kuzey Boru",
+    "sector": "Sanayi",
+    "price": 18.76,
+    "change": "-3.60%"
+  },
+  {
+    "symbol": "KCAER",
+    "name": "KCAER | Kocaer Çelik Sanayi",
+    "sector": "Sanayi",
+    "price": 15.3,
+    "change": "-0.39%"
+  },
+  {
+    "symbol": "KCHOL",
+    "name": "KCHOL | Koç Holding",
+    "sector": "Sanayi",
+    "price": 213.0,
+    "change": "-0.79%"
+  },
+  {
+    "symbol": "KENT",
+    "name": "KENT | Kent Gıda",
+    "sector": "Sanayi",
+    "price": 364.0,
+    "change": "+1.46%"
+  },
+  {
+    "symbol": "KERVN",
+    "name": "KERVN | Kervansaray Yat. Holding",
+    "sector": "Sanayi",
+    "price": 8.95,
+    "change": "-8.67%"
+  },
+  {
+    "symbol": "KFEIN",
+    "name": "KFEIN | Kafein Yazılım",
+    "sector": "Sanayi",
+    "price": 8.1,
+    "change": "+0.50%"
+  },
+  {
+    "symbol": "KGYO",
+    "name": "KGYO | Koray GYO",
+    "sector": "Sanayi",
+    "price": 11.89,
+    "change": "+1.19%"
+  },
+  {
+    "symbol": "KIMMR",
+    "name": "KIMMR | Ersan Alışveriş Hizmetleri",
+    "sector": "Sanayi",
+    "price": 13.14,
+    "change": "-1.87%"
+  },
+  {
+    "symbol": "KLGYO",
+    "name": "KLGYO | Kiler GYO",
+    "sector": "Sanayi",
+    "price": 4.98,
+    "change": "-0.40%"
+  },
+  {
+    "symbol": "KLKIM",
+    "name": "KLKIM | Kalekim Kimyevi Maddeler",
+    "sector": "Sanayi",
+    "price": 25.92,
+    "change": "-0.31%"
+  },
+  {
+    "symbol": "KLMSN",
+    "name": "KLMSN | Klimasan",
+    "sector": "Sanayi",
+    "price": 28.0,
+    "change": "-1.75%"
+  },
+  {
+    "symbol": "KLNMA",
+    "name": "KLNMA | T. Kalkınma Bankası",
+    "sector": "Sanayi",
+    "price": 8.84,
+    "change": "-0.11%"
+  },
+  {
+    "symbol": "KLRHO",
+    "name": "KLRHO | Kiler Holding",
+    "sector": "Sanayi",
+    "price": 65.15,
+    "change": "-1.29%"
+  },
+  {
+    "symbol": "KLSER",
+    "name": "KLSER | Kaleseramik",
+    "sector": "Sanayi",
+    "price": 23.38,
+    "change": "-1.93%"
+  },
+  {
+    "symbol": "KLSYN",
+    "name": "KLSYN | Koleksiyon Mobilya",
+    "sector": "Sanayi",
+    "price": 15.81,
+    "change": "+1.74%"
+  },
+  {
+    "symbol": "KLYPV",
+    "name": "KLYPV | Kalyon Güneş Teknolojileri",
+    "sector": "Sanayi",
+    "price": 61.85,
+    "change": "+0.41%"
+  },
+  {
+    "symbol": "KMPUR",
+    "name": "KMPUR | Kimteks Poliüretan",
+    "sector": "Sanayi",
+    "price": 18.42,
+    "change": "-1.29%"
+  },
+  {
+    "symbol": "KNFRT",
+    "name": "KNFRT | Konfrut Gıda",
+    "sector": "Sanayi",
+    "price": 12.33,
+    "change": "-2.76%"
+  },
+  {
+    "symbol": "KOCMT",
+    "name": "KOCMT | Koç Metalurji",
+    "sector": "Sanayi",
+    "price": 3.77,
+    "change": "-9.81%"
+  },
+  {
+    "symbol": "KONKA",
+    "name": "KONKA | Konya Kağıt",
+    "sector": "Sanayi",
+    "price": 9.55,
+    "change": "-2.95%"
+  },
+  {
+    "symbol": "KONTR",
+    "name": "KONTR | Kontrolmatik Teknoloji",
+    "sector": "Sanayi",
+    "price": 3.3,
+    "change": "-3.79%"
+  },
+  {
+    "symbol": "KONYA",
+    "name": "KONYA | Konya Çimento",
+    "sector": "Sanayi",
+    "price": 3750.0,
+    "change": "-1.32%"
+  },
+  {
+    "symbol": "KOPOL",
+    "name": "KOPOL | Koza Polyester",
+    "sector": "Sanayi",
+    "price": 5.29,
+    "change": "-1.86%"
+  },
+  {
+    "symbol": "KORDS",
+    "name": "KORDS | Kordsa Teknik Tekstil",
+    "sector": "Sanayi",
+    "price": 83.55,
+    "change": "-0.18%"
+  },
+  {
+    "symbol": "KOTON",
+    "name": "KOTON | Koton",
+    "sector": "Sanayi",
+    "price": 12.38,
+    "change": "-0.08%"
+  },
+  {
+    "symbol": "KPEKS",
+    "name": "KPEKS | Kapeks Kimya",
+    "sector": "Sanayi",
+    "price": 99.3,
+    "change": "-9.97%"
+  },
+  {
+    "symbol": "KRDMA",
+    "name": "KRDMA | Kardemir (A)",
+    "sector": "Sanayi",
+    "price": 59.45,
+    "change": "-5.71%"
+  },
+  {
+    "symbol": "KRDMB",
+    "name": "KRDMB | Kardemir (B)",
+    "sector": "Sanayi",
+    "price": 123.0,
+    "change": "-1.44%"
+  },
+  {
+    "symbol": "KRDMD",
+    "name": "KRDMD | Kardemir (D)",
+    "sector": "Sanayi",
+    "price": 44.6,
+    "change": "+0.45%"
+  },
+  {
+    "symbol": "KRGYO",
+    "name": "KRGYO | Korfez GYO",
+    "sector": "Sanayi",
+    "price": 2.96,
+    "change": "-4.82%"
+  },
+  {
+    "symbol": "KRONT",
+    "name": "KRONT | Kron Teknoloji",
+    "sector": "Sanayi",
+    "price": 22.5,
+    "change": "-3.43%"
+  },
+  {
+    "symbol": "KRPLS",
+    "name": "KRPLS | Koroplast Temizlik Ambalaj",
+    "sector": "Sanayi",
+    "price": 10.49,
+    "change": "+0.38%"
+  },
+  {
+    "symbol": "KRSTL",
+    "name": "KRSTL | Kristal Kola",
+    "sector": "Sanayi",
+    "price": 8.93,
+    "change": "-2.30%"
+  },
+  {
+    "symbol": "KRTEK",
+    "name": "KRTEK | Karsu Tekstil",
+    "sector": "Sanayi",
+    "price": 5.09,
+    "change": "-1.74%"
+  },
+  {
+    "symbol": "KRVGD",
+    "name": "KRVGD | Kervan Gıda",
+    "sector": "Sanayi",
+    "price": 2.22,
+    "change": "-2.20%"
+  },
+  {
+    "symbol": "KSTUR",
+    "name": "KSTUR | Kuştur Turizm",
+    "sector": "Sanayi",
+    "price": 2340.0,
+    "change": "-0.51%"
+  },
+  {
+    "symbol": "KTLEV",
+    "name": "KTLEV | Katılımevim",
+    "sector": "Sanayi",
+    "price": 51.0,
+    "change": "-9.81%"
+  },
+  {
+    "symbol": "KTSKR",
+    "name": "KTSKR | Kütahya Şeker",
+    "sector": "Sanayi",
+    "price": 78.0,
+    "change": "-1.27%"
+  },
+  {
+    "symbol": "KUTPO",
+    "name": "KUTPO | Kütahya Porselen",
+    "sector": "Sanayi",
+    "price": 78.85,
+    "change": "-1.74%"
+  },
+  {
+    "symbol": "KUVVA",
+    "name": "KUVVA | Kuvva Gıda",
+    "sector": "Sanayi",
+    "price": 186.5,
+    "change": "-3.77%"
+  },
+  {
+    "symbol": "KUYAS",
+    "name": "KUYAS | Kuyas Yatırım AŞ",
+    "sector": "Sanayi",
+    "price": 69.05,
+    "change": "+2.91%"
+  },
+  {
+    "symbol": "KZBGY",
+    "name": "KZBGY | Kızılbük GYO",
+    "sector": "Sanayi",
+    "price": 1.89,
+    "change": "-0.53%"
+  },
+  {
+    "symbol": "KZGYO",
+    "name": "KZGYO | Kuzugrup GYO",
+    "sector": "Sanayi",
+    "price": 20.42,
+    "change": "+3.81%"
+  },
+  {
+    "symbol": "LIDER",
+    "name": "LIDER | Lider Turizm",
+    "sector": "Sanayi",
+    "price": 28.16,
+    "change": "-9.86%"
+  },
+  {
+    "symbol": "LIDFA",
+    "name": "LIDFA | Lider Faktoring",
+    "sector": "Sanayi",
+    "price": 2.59,
+    "change": "-0.38%"
+  },
+  {
+    "symbol": "LILAK",
+    "name": "LILAK | Lila Kağıt",
+    "sector": "Sanayi",
+    "price": 28.4,
+    "change": "-2.00%"
+  },
+  {
+    "symbol": "LINK",
+    "name": "LINK | Link Bilgisayar",
+    "sector": "Sanayi",
+    "price": 5.21,
+    "change": "-0.95%"
+  },
+  {
+    "symbol": "LKMNH",
+    "name": "LKMNH | Lokman Hekim Engurusag",
+    "sector": "Sanayi",
+    "price": 13.49,
+    "change": "+0.22%"
+  },
+  {
+    "symbol": "LMKDC",
+    "name": "LMKDC | Limak Doğu Anadolu Çimento",
+    "sector": "Sanayi",
+    "price": 22.7,
+    "change": "-1.30%"
+  },
+  {
+    "symbol": "LOGO",
+    "name": "LOGO | Logo Yazılım",
+    "sector": "Sanayi",
+    "price": 134.1,
+    "change": "-1.18%"
+  },
+  {
+    "symbol": "LRSHO",
+    "name": "LRSHO | Loras Holding",
+    "sector": "Sanayi",
+    "price": 2.44,
+    "change": "-1.21%"
+  },
+  {
+    "symbol": "LUKSK",
+    "name": "LUKSK | Lüks Kadife",
+    "sector": "Sanayi",
+    "price": 84.0,
+    "change": "-2.10%"
+  },
+  {
+    "symbol": "LXGYO",
+    "name": "LXGYO | Luxera GYO",
+    "sector": "Sanayi",
+    "price": 9.97,
+    "change": "-2.16%"
+  },
+  {
+    "symbol": "LYDHO",
+    "name": "LYDHO | Lydia Holding",
+    "sector": "Sanayi",
+    "price": 142.5,
+    "change": "-0.49%"
+  },
+  {
+    "symbol": "LYDYE",
+    "name": "LYDYE | Lydia Yeşil Enerji",
+    "sector": "Sanayi",
+    "price": 12187.5,
+    "change": "+10.00%"
+  },
+  {
+    "symbol": "MAALT",
+    "name": "MAALT | Marmaris Altınyunus",
+    "sector": "Sanayi",
+    "price": 1013.0,
+    "change": "+0.90%"
+  },
+  {
+    "symbol": "MACKO",
+    "name": "MACKO | Maçkolik",
+    "sector": "Sanayi",
+    "price": 35.02,
+    "change": "-2.56%"
+  },
+  {
+    "symbol": "MAGEN",
+    "name": "MAGEN | Margün Enerji",
+    "sector": "Sanayi",
+    "price": 33.02,
+    "change": "+0.12%"
+  },
+  {
+    "symbol": "MAKIM",
+    "name": "MAKIM | Makim Makina",
+    "sector": "Sanayi",
+    "price": 15.19,
+    "change": "+0.07%"
+  },
+  {
+    "symbol": "MAKTK",
+    "name": "MAKTK | Makina Takım",
+    "sector": "Sanayi",
+    "price": 10.29,
+    "change": "+1.68%"
+  },
+  {
+    "symbol": "MANAS",
+    "name": "MANAS | Manas Enerji Yönetimi",
+    "sector": "Sanayi",
+    "price": 35.4,
+    "change": "+4.80%"
+  },
+  {
+    "symbol": "MARBL",
+    "name": "MARBL | Tureks Turunç",
+    "sector": "Sanayi",
+    "price": 12.28,
+    "change": "-0.49%"
+  },
+  {
+    "symbol": "MARMR",
+    "name": "MARMR | Marmara Holding",
+    "sector": "Sanayi",
+    "price": 2.19,
+    "change": "-1.79%"
+  },
+  {
+    "symbol": "MARTI",
+    "name": "MARTI | Martı Otel İşletmeleri",
+    "sector": "Sanayi",
+    "price": 2.05,
+    "change": "+9.63%"
+  },
+  {
+    "symbol": "MASFN",
+    "name": "MASFN | Masfen Enerji",
+    "sector": "Sanayi",
+    "price": 38.56,
+    "change": "-2.53%"
+  },
+  {
+    "symbol": "MAVI",
+    "name": "MAVI | Mavi Giyim Sanayi Tic.A.S",
+    "sector": "Sanayi",
+    "price": 36.86,
+    "change": "-0.59%"
+  },
+  {
+    "symbol": "MCARD",
+    "name": "MCARD | MetropolCard",
+    "sector": "Sanayi",
+    "price": 161.0,
+    "change": "+3.94%"
+  },
+  {
+    "symbol": "MEDTR",
+    "name": "MEDTR | Meditera Tıbbi Malzeme",
+    "sector": "Sanayi",
+    "price": 24.96,
+    "change": "-1.19%"
+  },
+  {
+    "symbol": "MEGAP",
+    "name": "MEGAP | Mega Polietilen Köpük",
+    "sector": "Sanayi",
+    "price": 1.67,
+    "change": "-2.34%"
+  },
+  {
+    "symbol": "MEGMT",
+    "name": "MEGMT | Mega Metal",
+    "sector": "Sanayi",
+    "price": 44.84,
+    "change": "-0.36%"
+  },
+  {
+    "symbol": "MEKAG",
+    "name": "MEKAG | Meka Beton",
+    "sector": "Sanayi",
+    "price": 3.0,
+    "change": "-2.60%"
+  },
+  {
+    "symbol": "MEPET",
+    "name": "MEPET | MEPET Metro",
+    "sector": "Sanayi",
+    "price": 19.94,
+    "change": "-0.30%"
+  },
+  {
+    "symbol": "MERCN",
+    "name": "MERCN | Mercan Kimya",
+    "sector": "Sanayi",
+    "price": 17.45,
+    "change": "+1.93%"
+  },
+  {
+    "symbol": "MERIT",
+    "name": "MERIT | Merit Turizm Yatırım",
+    "sector": "Sanayi",
+    "price": 15.56,
+    "change": "+0.13%"
+  },
+  {
+    "symbol": "MERKO",
+    "name": "MERKO | Merko Gıda",
+    "sector": "Sanayi",
+    "price": 1.26,
+    "change": "+1.61%"
+  },
+  {
+    "symbol": "METEN",
+    "name": "METEN | Metgün Enerji",
+    "sector": "Sanayi",
+    "price": 19.6,
+    "change": "-5.13%"
+  },
+  {
+    "symbol": "METRO",
+    "name": "METRO | Metro Tic. Mali Yat.",
+    "sector": "Sanayi",
+    "price": 8.3,
+    "change": "-1.31%"
+  },
+  {
+    "symbol": "MEYSU",
+    "name": "MEYSU | Meysu Gıda",
+    "sector": "Sanayi",
+    "price": 11.57,
+    "change": "-0.69%"
+  },
+  {
+    "symbol": "MGROS",
+    "name": "MGROS | Migros",
+    "sector": "Sanayi",
+    "price": 525.0,
+    "change": "-0.76%"
+  },
+  {
+    "symbol": "MHRGY",
+    "name": "MHRGY | Mhr GYO",
+    "sector": "Sanayi",
+    "price": 3.21,
+    "change": "-0.31%"
+  },
+  {
+    "symbol": "MIATK",
+    "name": "MIATK | Mia Teknoloji",
+    "sector": "Sanayi",
+    "price": 27.5,
+    "change": "+0.22%"
+  },
+  {
+    "symbol": "MMCAS",
+    "name": "MMCAS | MMC San.ve Tic. Yatırımlar A.Ş",
+    "sector": "Sanayi",
+    "price": 45.0,
+    "change": "-4.82%"
+  },
+  {
+    "symbol": "MNDRS",
+    "name": "MNDRS | Menderes Tekstil",
+    "sector": "Sanayi",
+    "price": 11.3,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "MNDTR",
+    "name": "MNDTR | Mondi Tire",
+    "sector": "Sanayi",
+    "price": 4.89,
+    "change": "-0.61%"
+  },
+  {
+    "symbol": "MOBTL",
+    "name": "MOBTL | Mobitel İletişim",
+    "sector": "Sanayi",
+    "price": 12.84,
+    "change": "+1.10%"
+  },
+  {
+    "symbol": "MOGAN",
+    "name": "MOGAN | Mogan Enerji",
+    "sector": "Sanayi",
+    "price": 15.51,
+    "change": "-9.72%"
+  },
+  {
+    "symbol": "MOPAS",
+    "name": "MOPAS | Mopaş",
+    "sector": "Sanayi",
+    "price": 26.34,
+    "change": "+1.78%"
+  },
+  {
+    "symbol": "MPARK",
+    "name": "MPARK | MLP Sağlık Hizmetleri",
+    "sector": "Sanayi",
+    "price": 412.25,
+    "change": "-0.30%"
+  },
+  {
+    "symbol": "MRGYO",
+    "name": "MRGYO | Martı GYO",
+    "sector": "Sanayi",
+    "price": 1.66,
+    "change": "+3.11%"
+  },
+  {
+    "symbol": "MRSHL",
+    "name": "MRSHL | Marshall",
+    "sector": "Sanayi",
+    "price": 1586.0,
+    "change": "+0.06%"
+  },
+  {
+    "symbol": "MSGYO",
+    "name": "MSGYO | Mistral GYO",
+    "sector": "Sanayi",
+    "price": 5.78,
+    "change": "+1.76%"
+  },
+  {
+    "symbol": "MTRKS",
+    "name": "MTRKS | Matriks Finansal Teknolojiler",
+    "sector": "Sanayi",
+    "price": 31.16,
+    "change": "-2.38%"
+  },
+  {
+    "symbol": "MTRYO",
+    "name": "MTRYO | Metro YO",
+    "sector": "Sanayi",
+    "price": 8.92,
+    "change": "+2.18%"
+  },
+  {
+    "symbol": "MZHLD",
+    "name": "MZHLD | Mazhar Zorlu Holding",
+    "sector": "Sanayi",
+    "price": 5.3,
+    "change": "-0.93%"
+  },
+  {
+    "symbol": "NATEN",
+    "name": "NATEN | Naturel Yenilenebilir Enerji",
+    "sector": "Sanayi",
+    "price": 5.22,
+    "change": "-1.32%"
+  },
+  {
+    "symbol": "NETAS",
+    "name": "NETAS | Netaş",
+    "sector": "Sanayi",
+    "price": 93.5,
+    "change": "-1.79%"
+  },
+  {
+    "symbol": "NETCD",
+    "name": "NETCD | Netcad Yazılım",
+    "sector": "Sanayi",
+    "price": 121.1,
+    "change": "+1.94%"
+  },
+  {
+    "symbol": "NIBAS",
+    "name": "NIBAS | Niğde Beton Sanayi",
+    "sector": "Sanayi",
+    "price": 4.36,
+    "change": "-2.24%"
+  },
+  {
+    "symbol": "NTGAZ",
+    "name": "NTGAZ | Naturel Gaz",
+    "sector": "Sanayi",
+    "price": 11.35,
+    "change": "-2.91%"
+  },
+  {
+    "symbol": "NTHOL",
+    "name": "NTHOL | Net Holding",
+    "sector": "Sanayi",
+    "price": 43.5,
+    "change": "+0.55%"
+  },
+  {
+    "symbol": "NUGYO",
+    "name": "NUGYO | Nurol GYO",
+    "sector": "Sanayi",
+    "price": 8.99,
+    "change": "+0.90%"
+  },
+  {
+    "symbol": "NUHCM",
+    "name": "NUHCM | Nuh Çimento",
+    "sector": "Sanayi",
+    "price": 211.0,
+    "change": "-0.94%"
+  },
+  {
+    "symbol": "OBAMS",
+    "name": "OBAMS | Oba Makarnacılık",
+    "sector": "Sanayi",
+    "price": 5.52,
+    "change": "+0.36%"
+  },
+  {
+    "symbol": "OBASE",
+    "name": "OBASE | Obase Bilgisayar Danışmanlık",
+    "sector": "Sanayi",
+    "price": 35.4,
+    "change": "-1.88%"
+  },
+  {
+    "symbol": "ODAS",
+    "name": "ODAS | Odaş Elektrik Üretim",
+    "sector": "Sanayi",
+    "price": 7.37,
+    "change": "-1.34%"
+  },
+  {
+    "symbol": "ODINE",
+    "name": "ODINE | Odine Solutions",
+    "sector": "Sanayi",
+    "price": 1631.0,
+    "change": "-9.99%"
+  },
+  {
+    "symbol": "OFSYM",
+    "name": "OFSYM | Ofis Yem",
+    "sector": "Sanayi",
+    "price": 69.7,
+    "change": "+1.01%"
+  },
+  {
+    "symbol": "ONCSM",
+    "name": "ONCSM | Oncosem",
+    "sector": "Sanayi",
+    "price": 198.4,
+    "change": "-8.11%"
+  },
+  {
+    "symbol": "ONRYT",
+    "name": "ONRYT | Onur Yüksek Teknoloji",
+    "sector": "Sanayi",
+    "price": 58.3,
+    "change": "+0.95%"
+  },
+  {
+    "symbol": "ORCAY",
+    "name": "ORCAY | Ortaköy Çay Sanayi",
+    "sector": "Sanayi",
+    "price": 3.4,
+    "change": "-0.58%"
+  },
+  {
+    "symbol": "ORGE",
+    "name": "ORGE | ORGE Enerji Elektrik",
+    "sector": "Sanayi",
+    "price": 23.12,
+    "change": "-1.78%"
+  },
+  {
+    "symbol": "ORMA",
+    "name": "ORMA | Orma Orman Mahsulleri",
+    "sector": "Sanayi",
+    "price": 154.0,
+    "change": "-2.35%"
+  },
+  {
+    "symbol": "ORZAX",
+    "name": "ORZAX | Orzaks İlaç",
+    "sector": "Sanayi",
+    "price": 87.5,
+    "change": "-1.41%"
+  },
+  {
+    "symbol": "OSMEN",
+    "name": "OSMEN | Osmanlı Menkul Değ.",
+    "sector": "Sanayi",
+    "price": 7.01,
+    "change": "-2.64%"
+  },
+  {
+    "symbol": "OSTIM",
+    "name": "OSTIM | Ostim Endüst. Yatırımlar",
+    "sector": "Sanayi",
+    "price": 1.55,
+    "change": "+2.65%"
+  },
+  {
+    "symbol": "OTKAR",
+    "name": "OTKAR | Otokar",
+    "sector": "Sanayi",
+    "price": 316.5,
+    "change": "-1.40%"
+  },
+  {
+    "symbol": "OTTO",
+    "name": "OTTO | Otto Holding",
+    "sector": "Sanayi",
+    "price": 145.0,
+    "change": "-1.02%"
+  },
+  {
+    "symbol": "OYAKC",
+    "name": "OYAKC | Oyak Çimento",
+    "sector": "Sanayi",
+    "price": 21.9,
+    "change": "+0.92%"
+  },
+  {
+    "symbol": "OYAYO",
+    "name": "OYAYO | Oyak Yatırım Ortaklığı",
+    "sector": "Sanayi",
+    "price": 41.44,
+    "change": "-2.59%"
+  },
+  {
+    "symbol": "OYLUM",
+    "name": "OYLUM | Oylum Sınai Yatırımlar",
+    "sector": "Sanayi",
+    "price": 7.1,
+    "change": "-0.14%"
+  },
+  {
+    "symbol": "OYYAT",
+    "name": "OYYAT | Oyak Yatırım",
+    "sector": "Sanayi",
+    "price": 35.3,
+    "change": "-4.59%"
+  },
+  {
+    "symbol": "OZATD",
+    "name": "OZATD | Özata Denizcilik",
+    "sector": "Sanayi",
+    "price": 4772.5,
+    "change": "-0.99%"
+  },
+  {
+    "symbol": "OZGYO",
+    "name": "OZGYO | Özderici GYO",
+    "sector": "Sanayi",
+    "price": 2.11,
+    "change": "+1.44%"
+  },
+  {
+    "symbol": "OZKGY",
+    "name": "OZKGY | Özak GYO",
+    "sector": "Sanayi",
+    "price": 13.38,
+    "change": "+0.15%"
+  },
+  {
+    "symbol": "OZRDN",
+    "name": "OZRDN | Özerden Plastik",
+    "sector": "Sanayi",
+    "price": 30.4,
+    "change": "-5.71%"
+  },
+  {
+    "symbol": "OZSUB",
+    "name": "OZSUB | Özsu Balık",
+    "sector": "Sanayi",
+    "price": 42.0,
+    "change": "-4.28%"
+  },
+  {
+    "symbol": "OZYSR",
+    "name": "OZYSR | Özyaşar Tel",
+    "sector": "Sanayi",
+    "price": 11.97,
+    "change": "+0.34%"
+  },
+  {
+    "symbol": "PAGYO",
+    "name": "PAGYO | Panora GYO",
+    "sector": "Sanayi",
+    "price": 148.8,
+    "change": "-0.33%"
+  },
+  {
+    "symbol": "PAHOL",
+    "name": "PAHOL | Pasifik Holding",
+    "sector": "Sanayi",
+    "price": 1.31,
+    "change": "-2.24%"
+  },
+  {
+    "symbol": "PAMEL",
+    "name": "PAMEL | Pamel Yenilenebilir Elekt.",
+    "sector": "Sanayi",
+    "price": 73.55,
+    "change": "-2.45%"
+  },
+  {
+    "symbol": "PAPIL",
+    "name": "PAPIL | Papilon Savunma",
+    "sector": "Sanayi",
+    "price": 12.75,
+    "change": "-1.77%"
+  },
+  {
+    "symbol": "PARSN",
+    "name": "PARSN | Parsan",
+    "sector": "Sanayi",
+    "price": 69.85,
+    "change": "-0.21%"
+  },
+  {
+    "symbol": "PASEU",
+    "name": "PASEU | Pasifik Eurasia",
+    "sector": "Sanayi",
+    "price": 195.4,
+    "change": "-10.00%"
+  },
+  {
+    "symbol": "PATEK",
+    "name": "PATEK | Pasifik Teknoloji",
+    "sector": "Sanayi",
+    "price": 19.56,
+    "change": "-0.20%"
+  },
+  {
+    "symbol": "PCILT",
+    "name": "PCILT | PC İletişim ve Medya",
+    "sector": "Sanayi",
+    "price": 33.14,
+    "change": "-0.36%"
+  },
+  {
+    "symbol": "PEKGY",
+    "name": "PEKGY | Peker GYO",
+    "sector": "Sanayi",
+    "price": 12.77,
+    "change": "-9.94%"
+  },
+  {
+    "symbol": "PENGD",
+    "name": "PENGD | Penguen Gıda",
+    "sector": "Sanayi",
+    "price": 9.01,
+    "change": "+0.67%"
+  },
+  {
+    "symbol": "PENTA",
+    "name": "PENTA | Penta Teknoloji",
+    "sector": "Sanayi",
+    "price": 13.25,
+    "change": "+1.84%"
+  },
+  {
+    "symbol": "PETKM",
+    "name": "PETKM | Petkim",
+    "sector": "Sanayi",
+    "price": 19.95,
+    "change": "-2.30%"
+  },
+  {
+    "symbol": "PETUN",
+    "name": "PETUN | Pınar Et ve Un",
+    "sector": "Sanayi",
+    "price": 11.5,
+    "change": "-2.13%"
+  },
+  {
+    "symbol": "PGSUS",
+    "name": "PGSUS | Pegasus Hava Taşımacılığı",
+    "sector": "Sanayi",
+    "price": 149.0,
+    "change": "-1.91%"
+  },
+  {
+    "symbol": "PINSU",
+    "name": "PINSU | Pınar Su",
+    "sector": "Sanayi",
+    "price": 10.19,
+    "change": "-0.78%"
+  },
+  {
+    "symbol": "PKART",
+    "name": "PKART | Plastikkart A.Ş",
+    "sector": "Sanayi",
+    "price": 128.0,
+    "change": "+1.03%"
+  },
+  {
+    "symbol": "PKENT",
+    "name": "PKENT | Petrokent",
+    "sector": "Sanayi",
+    "price": 123.7,
+    "change": "-0.64%"
+  },
+  {
+    "symbol": "PLTUR",
+    "name": "PLTUR | Platform Turizm",
+    "sector": "Sanayi",
+    "price": 20.46,
+    "change": "+0.99%"
+  },
+  {
+    "symbol": "PNLSN",
+    "name": "PNLSN | Panelsan Çatı Cephe",
+    "sector": "Sanayi",
+    "price": 40.52,
+    "change": "-0.64%"
+  },
+  {
+    "symbol": "PNSUT",
+    "name": "PNSUT | Pınar Süt",
+    "sector": "Sanayi",
+    "price": 11.11,
+    "change": "-1.33%"
+  },
+  {
+    "symbol": "POLHO",
+    "name": "POLHO | Polisan Holding",
+    "sector": "Sanayi",
+    "price": 22.42,
+    "change": "+0.81%"
+  },
+  {
+    "symbol": "POLTK",
+    "name": "POLTK | Politeknik Metal",
+    "sector": "Sanayi",
+    "price": 4065.0,
+    "change": "-1.51%"
+  },
+  {
+    "symbol": "PRDGS",
+    "name": "PRDGS | Pardus Girişim",
+    "sector": "Sanayi",
+    "price": 7.32,
+    "change": "-6.15%"
+  },
+  {
+    "symbol": "PRKAB",
+    "name": "PRKAB | Prysmian Kablo",
+    "sector": "Sanayi",
+    "price": 30.58,
+    "change": "+0.13%"
+  },
+  {
+    "symbol": "PRKME",
+    "name": "PRKME | Park Elek. Madencilik",
+    "sector": "Sanayi",
+    "price": 18.41,
+    "change": "-1.18%"
+  },
+  {
+    "symbol": "PRZMA",
+    "name": "PRZMA | Prizma Pres Matbaacılık",
+    "sector": "Sanayi",
+    "price": 79.0,
+    "change": "-9.20%"
+  },
+  {
+    "symbol": "PSDTC",
+    "name": "PSDTC | Pergamon Status",
+    "sector": "Sanayi",
+    "price": 163.1,
+    "change": "-3.78%"
+  },
+  {
+    "symbol": "PSGYO",
+    "name": "PSGYO | Pasifik GYO",
+    "sector": "Sanayi",
+    "price": 3.1,
+    "change": "-1.90%"
+  },
+  {
+    "symbol": "QNBFK",
+    "name": "QNBFK | QNB Finans Fin. Kir.",
+    "sector": "Sanayi",
+    "price": 40.92,
+    "change": "-1.25%"
+  },
+  {
+    "symbol": "QNBTR",
+    "name": "QNBTR | QNB Bank",
+    "sector": "Sanayi",
+    "price": 186.8,
+    "change": "-0.43%"
+  },
+  {
+    "symbol": "QUAGR",
+    "name": "QUAGR | QUA Granite",
+    "sector": "Sanayi",
+    "price": 3.16,
+    "change": "+1.61%"
+  },
+  {
+    "symbol": "QUICK",
+    "name": "QUICK | Quick Sigorta",
+    "sector": "Sanayi",
+    "price": 64.05,
+    "change": "-1.54%"
+  },
+  {
+    "symbol": "RALYH",
+    "name": "RALYH | Ral Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 258.25,
+    "change": "-0.10%"
+  },
+  {
+    "symbol": "RAYSG",
+    "name": "RAYSG | Ray Sigorta",
+    "sector": "Sanayi",
+    "price": 154.8,
+    "change": "-0.96%"
+  },
+  {
+    "symbol": "REEDR",
+    "name": "REEDR | Reeder",
+    "sector": "Sanayi",
+    "price": 5.51,
+    "change": "-2.48%"
+  },
+  {
+    "symbol": "RGYAS",
+    "name": "RGYAS | Rönesans Gayrimenkul",
+    "sector": "Sanayi",
+    "price": 204.7,
+    "change": "+0.64%"
+  },
+  {
+    "symbol": "RNPOL",
+    "name": "RNPOL | Rainbow Polikarbonat",
+    "sector": "Sanayi",
+    "price": 2.29,
+    "change": "-2.14%"
+  },
+  {
+    "symbol": "RODRG",
+    "name": "RODRG | Rodrigo Tekstil",
+    "sector": "Sanayi",
+    "price": 27.28,
+    "change": "+6.56%"
+  },
+  {
+    "symbol": "RTALB",
+    "name": "RTALB | RTA laboratuvarlari",
+    "sector": "Sanayi",
+    "price": 2.81,
+    "change": "-0.71%"
+  },
+  {
+    "symbol": "RUBNS",
+    "name": "RUBNS | Rubenis Tekstil",
+    "sector": "Sanayi",
+    "price": 32.38,
+    "change": "-1.58%"
+  },
+  {
+    "symbol": "RUZYE",
+    "name": "RUZYE | Ruzy Madencilik ve Enerji",
+    "sector": "Sanayi",
+    "price": 8.22,
+    "change": "-1.32%"
+  },
+  {
+    "symbol": "RYGYO",
+    "name": "RYGYO | Reysaş GYO",
+    "sector": "Sanayi",
+    "price": 48.22,
+    "change": "-0.12%"
+  },
+  {
+    "symbol": "RYSAS",
+    "name": "RYSAS | Reysaş Taşımacılık",
+    "sector": "Sanayi",
+    "price": 30.28,
+    "change": "+0.87%"
+  },
+  {
+    "symbol": "SAFKR",
+    "name": "SAFKR | Safkar Ege Soğutmacılık",
+    "sector": "Sanayi",
+    "price": 17.07,
+    "change": "+1.43%"
+  },
+  {
+    "symbol": "SAHOL",
+    "name": "SAHOL | Sabancı Holding",
+    "sector": "Sanayi",
+    "price": 92.5,
+    "change": "-0.75%"
+  },
+  {
+    "symbol": "SAMAT",
+    "name": "SAMAT | Saray Matbaacılık",
+    "sector": "Sanayi",
+    "price": 5.31,
+    "change": "-0.93%"
+  },
+  {
+    "symbol": "SANEL",
+    "name": "SANEL | San-El Muhendislik",
+    "sector": "Sanayi",
+    "price": 55.05,
+    "change": "-5.09%"
+  },
+  {
+    "symbol": "SANFM",
+    "name": "SANFM | Sanifoam Sünger Sanayi",
+    "sector": "Sanayi",
+    "price": 9.74,
+    "change": "-6.53%"
+  },
+  {
+    "symbol": "SANKO",
+    "name": "SANKO | Sanko Pazarlama",
+    "sector": "Sanayi",
+    "price": 19.52,
+    "change": "+1.93%"
+  },
+  {
+    "symbol": "SARAE",
+    "name": "SARAE | Şa-Ra Enerji",
+    "sector": "Sanayi",
+    "price": 78.5,
+    "change": "-8.08%"
+  },
+  {
+    "symbol": "SARKY",
+    "name": "SARKY | Sarkuysan",
+    "sector": "Sanayi",
+    "price": 24.1,
+    "change": "-1.79%"
+  },
+  {
+    "symbol": "SASA",
+    "name": "SASA | Sasa Polyester Sanayi A.Ş.",
+    "sector": "Sanayi",
+    "price": 2.27,
+    "change": "-3.81%"
+  },
+  {
+    "symbol": "SAYAS",
+    "name": "SAYAS | Say Yenilenebilir Enerji",
+    "sector": "Sanayi",
+    "price": 55.25,
+    "change": "-2.56%"
+  },
+  {
+    "symbol": "SDTTR",
+    "name": "SDTTR | SDT Uzay",
+    "sector": "Sanayi",
+    "price": 21.22,
+    "change": "+0.19%"
+  },
+  {
+    "symbol": "SEGMN",
+    "name": "SEGMN | Seğmen Gıda",
+    "sector": "Sanayi",
+    "price": 48.16,
+    "change": "-1.27%"
+  },
+  {
+    "symbol": "SEGYO",
+    "name": "SEGYO | Şeker GYO",
+    "sector": "Sanayi",
+    "price": 3.71,
+    "change": "-2.62%"
+  },
+  {
+    "symbol": "SEKFK",
+    "name": "SEKFK | Şeker Finansal Kiralama A.Ş",
+    "sector": "Sanayi",
+    "price": 4.43,
+    "change": "-0.23%"
+  },
+  {
+    "symbol": "SEKUR",
+    "name": "SEKUR | Sekuro Plastik",
+    "sector": "Sanayi",
+    "price": 10.35,
+    "change": "-5.39%"
+  },
+  {
+    "symbol": "SELEC",
+    "name": "SELEC | Selçuk Ecza Deposu",
+    "sector": "Sanayi",
+    "price": 345.75,
+    "change": "+2.29%"
+  },
+  {
+    "symbol": "SELVA",
+    "name": "SELVA | Selva Gıda",
+    "sector": "Sanayi",
+    "price": 1.58,
+    "change": "-1.86%"
+  },
+  {
+    "symbol": "SERNT",
+    "name": "SERNT | Seranit Granit",
+    "sector": "Sanayi",
+    "price": 8.09,
+    "change": "+1.76%"
+  },
+  {
+    "symbol": "SEYKM",
+    "name": "SEYKM | Seyitler Kimya",
+    "sector": "Sanayi",
+    "price": 4.34,
+    "change": "-2.47%"
+  },
+  {
+    "symbol": "SILVR",
+    "name": "SILVR | Silverline",
+    "sector": "Sanayi",
+    "price": 2.19,
+    "change": "-0.45%"
+  },
+  {
+    "symbol": "SISE",
+    "name": "SISE | Şişecam",
+    "sector": "Sanayi",
+    "price": 39.1,
+    "change": "-1.16%"
+  },
+  {
+    "symbol": "SKBNK",
+    "name": "SKBNK | Şekerbank",
+    "sector": "Bankacılık",
+    "price": 6.29,
+    "change": "-0.47%"
+  },
+  {
+    "symbol": "SKTAS",
+    "name": "SKTAS | Söktaş",
+    "sector": "Sanayi",
+    "price": 3.25,
+    "change": "-3.27%"
+  },
+  {
+    "symbol": "SKYLP",
+    "name": "SKYLP | Skyalp Fin. Tek.ve Danışmanlık",
+    "sector": "Sanayi",
+    "price": 229.9,
+    "change": "+5.56%"
+  },
+  {
+    "symbol": "SKYMD",
+    "name": "SKYMD | Şeker Yatırım",
+    "sector": "Sanayi",
+    "price": 15.58,
+    "change": "+6.57%"
+  },
+  {
+    "symbol": "SMART",
+    "name": "SMART | Smartiks Yazılım",
+    "sector": "Sanayi",
+    "price": 22.82,
+    "change": "+1.06%"
+  },
+  {
+    "symbol": "SMRTG",
+    "name": "SMRTG | Smart Güneş Enerjisi",
+    "sector": "Sanayi",
+    "price": 9.99,
+    "change": "-2.06%"
+  },
+  {
+    "symbol": "SMRVA",
+    "name": "SMRVA | Sümer Varlık Yönetim",
+    "sector": "Sanayi",
+    "price": 10.95,
+    "change": "-0.64%"
+  },
+  {
+    "symbol": "SNGYO",
+    "name": "SNGYO | Sinpas GYO",
+    "sector": "Sanayi",
+    "price": 3.36,
+    "change": "-0.30%"
+  },
+  {
+    "symbol": "SNICA",
+    "name": "SNICA | Sanica Isı Sanayi",
+    "sector": "Sanayi",
+    "price": 3.13,
+    "change": "-3.10%"
+  },
+  {
+    "symbol": "SNPAM",
+    "name": "SNPAM | Sönmez Pamuklu",
+    "sector": "Sanayi",
+    "price": 19.6,
+    "change": "-0.05%"
+  },
+  {
+    "symbol": "SODSN",
+    "name": "SODSN | Sodaş Sodyum Sanayii",
+    "sector": "Sanayi",
+    "price": 7.5,
+    "change": "+1.63%"
+  },
+  {
+    "symbol": "SOHOE",
+    "name": "SOHOE | Soho Giyim",
+    "sector": "Sanayi",
+    "price": 10.54,
+    "change": "-1.86%"
+  },
+  {
+    "symbol": "SOKE",
+    "name": "SOKE | Söke Değirmencilik",
+    "sector": "Sanayi",
+    "price": 11.64,
+    "change": "-1.44%"
+  },
+  {
+    "symbol": "SOKM",
+    "name": "SOKM | Şok Marketler",
+    "sector": "Sanayi",
+    "price": 57.1,
+    "change": "+0.97%"
+  },
+  {
+    "symbol": "SONME",
+    "name": "SONME | Sönmez Filament",
+    "sector": "Sanayi",
+    "price": 136.9,
+    "change": "-2.91%"
+  },
+  {
+    "symbol": "SRVGY",
+    "name": "SRVGY | Servet GYO",
+    "sector": "Sanayi",
+    "price": 2.46,
+    "change": "-2.38%"
+  },
+  {
+    "symbol": "SSAAT",
+    "name": "SSAAT | Saat ve Saat",
+    "sector": "Sanayi",
+    "price": 35.06,
+    "change": "-0.57%"
+  },
+  {
+    "symbol": "SUMAS",
+    "name": "SUMAS | Sumas Mobilya",
+    "sector": "Sanayi",
+    "price": 267.0,
+    "change": "-2.20%"
+  },
+  {
+    "symbol": "SUNTK",
+    "name": "SUNTK | Sun Tekstil",
+    "sector": "Sanayi",
+    "price": 33.9,
+    "change": "+1.99%"
+  },
+  {
+    "symbol": "SURGY",
+    "name": "SURGY | Sur GYO",
+    "sector": "Sanayi",
+    "price": 30.28,
+    "change": "-1.17%"
+  },
+  {
+    "symbol": "SUWEN",
+    "name": "SUWEN | Suwen Tekstil",
+    "sector": "Sanayi",
+    "price": 6.78,
+    "change": "+9.89%"
+  },
+  {
+    "symbol": "SVGYO",
+    "name": "SVGYO | Savur GYO",
+    "sector": "Sanayi",
+    "price": 18.16,
+    "change": "+0.44%"
+  },
+  {
+    "symbol": "TABGD",
+    "name": "TABGD | Tab Gıda",
+    "sector": "Sanayi",
+    "price": 233.5,
+    "change": "+0.34%"
+  },
+  {
+    "symbol": "TARKM",
+    "name": "TARKM | Tarkim",
+    "sector": "Sanayi",
+    "price": 530.0,
+    "change": "-3.64%"
+  },
+  {
+    "symbol": "TATEN",
+    "name": "TATEN | Tatlıpınar Enerji",
+    "sector": "Sanayi",
+    "price": 8.18,
+    "change": "-1.68%"
+  },
+  {
+    "symbol": "TATGD",
+    "name": "TATGD | Tat Gıda",
+    "sector": "Sanayi",
+    "price": 17.45,
+    "change": "-1.91%"
+  },
+  {
+    "symbol": "TAVHL",
+    "name": "TAVHL | TAV Holding",
+    "sector": "Sanayi",
+    "price": 261.0,
+    "change": "+0.29%"
+  },
+  {
+    "symbol": "TBORG",
+    "name": "TBORG | Tuborg",
+    "sector": "Sanayi",
+    "price": 147.4,
+    "change": "-10.67%"
+  },
+  {
+    "symbol": "TCELL",
+    "name": "TCELL | Turkcell",
+    "sector": "Sanayi",
+    "price": 97.2,
+    "change": "+0.67%"
+  },
+  {
+    "symbol": "TCKRC",
+    "name": "TCKRC | Kıraç Galvaniz",
+    "sector": "Sanayi",
+    "price": 143.0,
+    "change": "-0.97%"
+  },
+  {
+    "symbol": "TDGYO",
+    "name": "TDGYO | Trend GYO",
+    "sector": "Sanayi",
+    "price": 16.76,
+    "change": "+0.12%"
+  },
+  {
+    "symbol": "TEHOL",
+    "name": "TEHOL | Tera Holding",
+    "sector": "Sanayi",
+    "price": 39.58,
+    "change": "+8.44%"
+  },
+  {
+    "symbol": "TEKTU",
+    "name": "TEKTU | Tek-Art Turizm",
+    "sector": "Sanayi",
+    "price": 7.78,
+    "change": "-3.23%"
+  },
+  {
+    "symbol": "TERA",
+    "name": "TERA | Tera Yatırım",
+    "sector": "Sanayi",
+    "price": 191.7,
+    "change": "+0.89%"
+  },
+  {
+    "symbol": "TEZOL",
+    "name": "TEZOL | Europap Tezol",
+    "sector": "Sanayi",
+    "price": 8.9,
+    "change": "-5.02%"
+  },
+  {
+    "symbol": "TGSAS",
+    "name": "TGSAS | TGS Dış Ticaret",
+    "sector": "Sanayi",
+    "price": 219.9,
+    "change": "-5.46%"
+  },
+  {
+    "symbol": "THYAO",
+    "name": "THYAO | Türk Hava Yolları",
+    "sector": "Sanayi",
+    "price": 291.5,
+    "change": "-3.32%"
+  },
+  {
+    "symbol": "TKFEN",
+    "name": "TKFEN | Tekfen Holding",
+    "sector": "Sanayi",
+    "price": 209.3,
+    "change": "-2.33%"
+  },
+  {
+    "symbol": "TKNKA",
+    "name": "TKNKA | Teknika Plastik",
+    "sector": "Sanayi",
+    "price": 190.0,
+    "change": "+9.95%"
+  },
+  {
+    "symbol": "TKNSA",
+    "name": "TKNSA | Teknosa İç ve Dış Tic.",
+    "sector": "Sanayi",
+    "price": 16.83,
+    "change": "-0.41%"
+  },
+  {
+    "symbol": "TLMAN",
+    "name": "TLMAN | Trabzon Liman İşletmeciliği",
+    "sector": "Sanayi",
+    "price": 77.6,
+    "change": "-0.58%"
+  },
+  {
+    "symbol": "TMPOL",
+    "name": "TMPOL | TE-MAPOL Polimer Plastik",
+    "sector": "Sanayi",
+    "price": 373.75,
+    "change": "-4.17%"
+  },
+  {
+    "symbol": "TMSN",
+    "name": "TMSN | Tümosan Motor ve Traktör",
+    "sector": "Sanayi",
+    "price": 72.5,
+    "change": "-2.95%"
+  },
+  {
+    "symbol": "TNZTP",
+    "name": "TNZTP | Tapdi Oksijen",
+    "sector": "Sanayi",
+    "price": 31.06,
+    "change": "-2.94%"
+  },
+  {
+    "symbol": "TOASO",
+    "name": "TOASO | Tofaş Fabrika",
+    "sector": "Sanayi",
+    "price": 260.5,
+    "change": "-2.80%"
+  },
+  {
+    "symbol": "TRALT",
+    "name": "TRALT | Türk Altın",
+    "sector": "Sanayi",
+    "price": 50.3,
+    "change": "+1.90%"
+  },
+  {
+    "symbol": "TRCAS",
+    "name": "TRCAS | Turcas Holding",
+    "sector": "Sanayi",
+    "price": 46.04,
+    "change": "-3.07%"
+  },
+  {
+    "symbol": "TRENJ",
+    "name": "TRENJ | TR Doğal Enerji Kaynakları",
+    "sector": "Enerji",
+    "price": 107.0,
+    "change": "+2.88%"
+  },
+  {
+    "symbol": "TRGYO",
+    "name": "TRGYO | Torunlar GYO",
+    "sector": "Sanayi",
+    "price": 93.95,
+    "change": "-0.48%"
+  },
+  {
+    "symbol": "TRHOL",
+    "name": "TRHOL | Tera Finansal Yat. Holding",
+    "sector": "Sanayi",
+    "price": 3442.5,
+    "change": "+2.76%"
+  },
+  {
+    "symbol": "TRILC",
+    "name": "TRILC | Turk İlaç ve Serum Sanayi",
+    "sector": "Sanayi",
+    "price": 1.03,
+    "change": "-3.74%"
+  },
+  {
+    "symbol": "TRMET",
+    "name": "TRMET | TR Anadolu Metal",
+    "sector": "Sanayi",
+    "price": 137.7,
+    "change": "+2.23%"
+  },
+  {
+    "symbol": "TSGYO",
+    "name": "TSGYO | TSKB GYO",
+    "sector": "Sanayi",
+    "price": 5.79,
+    "change": "-1.03%"
+  },
+  {
+    "symbol": "TSKB",
+    "name": "TSKB | TSKB",
+    "sector": "Sanayi",
+    "price": 10.97,
+    "change": "-0.18%"
+  },
+  {
+    "symbol": "TSPOR",
+    "name": "TSPOR | Trabzonspor A.Ş",
+    "sector": "Sanayi",
+    "price": 1.02,
+    "change": "-3.77%"
+  },
+  {
+    "symbol": "TTKOM",
+    "name": "TTKOM | Türk Telekom",
+    "sector": "Sanayi",
+    "price": 50.8,
+    "change": "-1.45%"
+  },
+  {
+    "symbol": "TTRAK",
+    "name": "TTRAK | Türk Traktör",
+    "sector": "Sanayi",
+    "price": 430.25,
+    "change": "+0.70%"
+  },
+  {
+    "symbol": "TUCLK",
+    "name": "TUCLK | Tuğçelik Alüminyum ve Metal",
+    "sector": "Sanayi",
+    "price": 3.83,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "TUKAS",
+    "name": "TUKAS | Tukaş",
+    "sector": "Sanayi",
+    "price": 1.98,
+    "change": "-1.49%"
+  },
+  {
+    "symbol": "TUPRS",
+    "name": "TUPRS | Tüpraş",
+    "sector": "Sanayi",
+    "price": 392.25,
+    "change": "-2.61%"
+  },
+  {
+    "symbol": "TUREX",
+    "name": "TUREX | Tureks Tur.Taşımacılık",
+    "sector": "Sanayi",
+    "price": 6.19,
+    "change": "-2.52%"
+  },
+  {
+    "symbol": "TURGG",
+    "name": "TURGG | Türker Proje Gay.Gel.",
+    "sector": "Sanayi",
+    "price": 29.24,
+    "change": "+1.11%"
+  },
+  {
+    "symbol": "TURSG",
+    "name": "TURSG | Türkiye Sigorta",
+    "sector": "Sanayi",
+    "price": 6.06,
+    "change": "-0.66%"
+  },
+  {
+    "symbol": "UCAYM",
+    "name": "UCAYM | Üçay Mühendislik",
+    "sector": "Sanayi",
+    "price": 22.54,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "UFUK",
+    "name": "UFUK | Ufuk Yat.Yön.ve Gay. AŞ.",
+    "sector": "Sanayi",
+    "price": 1499.0,
+    "change": "-6.02%"
+  },
+  {
+    "symbol": "ULAS",
+    "name": "ULAS | Ulaşlar Turizm Yatırımları",
+    "sector": "Sanayi",
+    "price": 22.96,
+    "change": "+9.33%"
+  },
+  {
+    "symbol": "ULKER",
+    "name": "ULKER | Ülker Bisküvi",
+    "sector": "Sanayi",
+    "price": 89.95,
+    "change": "-0.39%"
+  },
+  {
+    "symbol": "ULUFA",
+    "name": "ULUFA | Ulusal Faktoring",
+    "sector": "Sanayi",
+    "price": 1.65,
+    "change": "-0.60%"
+  },
+  {
+    "symbol": "ULUSE",
+    "name": "ULUSE | Ulusoy Elektrik",
+    "sector": "Sanayi",
+    "price": 235.0,
+    "change": "-2.08%"
+  },
+  {
+    "symbol": "ULUUN",
+    "name": "ULUUN | Ulusoy Un",
+    "sector": "Sanayi",
+    "price": 8.54,
+    "change": "-0.81%"
+  },
+  {
+    "symbol": "UNLU",
+    "name": "UNLU | Ünlü Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 10.6,
+    "change": "-1.49%"
+  },
+  {
+    "symbol": "USAK",
+    "name": "USAK | Uşak Seramik",
+    "sector": "Sanayi",
+    "price": 1.21,
+    "change": "+0.83%"
+  },
+  {
+    "symbol": "USHOL",
+    "name": "USHOL | Marka Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 82.4,
+    "change": "-3.57%"
+  },
+  {
+    "symbol": "VAKBN",
+    "name": "VAKBN | Vakıfbank",
+    "sector": "Sanayi",
+    "price": 34.08,
+    "change": "+4.67%"
+  },
+  {
+    "symbol": "VAKFA",
+    "name": "VAKFA | Vakıf Faktoring",
+    "sector": "Sanayi",
+    "price": 10.95,
+    "change": "-1.88%"
+  },
+  {
+    "symbol": "VAKFN",
+    "name": "VAKFN | Vakıf Fin. Kir.",
+    "sector": "Sanayi",
+    "price": 1.13,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "VAKKO",
+    "name": "VAKKO | Vakko Tekstil",
+    "sector": "Sanayi",
+    "price": 65.5,
+    "change": "-0.46%"
+  },
+  {
+    "symbol": "VANGD",
+    "name": "VANGD | Vanet Gıda Sanayi",
+    "sector": "Sanayi",
+    "price": 90.55,
+    "change": "+1.12%"
+  },
+  {
+    "symbol": "VBTYZ",
+    "name": "VBTYZ | VBT Yazılım",
+    "sector": "Sanayi",
+    "price": 37.8,
+    "change": "-0.37%"
+  },
+  {
+    "symbol": "VERTU",
+    "name": "VERTU | Verusatürk Girişim Sermayesi",
+    "sector": "Sanayi",
+    "price": 34.26,
+    "change": "-0.98%"
+  },
+  {
+    "symbol": "VERUS",
+    "name": "VERUS | Verusa Holding",
+    "sector": "Sanayi",
+    "price": 700.0,
+    "change": "+2.34%"
+  },
+  {
+    "symbol": "VESBE",
+    "name": "VESBE | Vestel Beyaz Esya",
+    "sector": "Sanayi",
+    "price": 5.8,
+    "change": "+9.85%"
+  },
+  {
+    "symbol": "VESTL",
+    "name": "VESTL | Vestel Elektronik",
+    "sector": "Sanayi",
+    "price": 24.86,
+    "change": "+10.00%"
+  },
+  {
+    "symbol": "VEYAS",
+    "name": "VEYAS | Vangölü Enerj",
+    "sector": "Sanayi",
+    "price": 136.0,
+    "change": "-0.22%"
+  },
+  {
+    "symbol": "VKFYO",
+    "name": "VKFYO | Vakıf YO",
+    "sector": "Sanayi",
+    "price": 22.32,
+    "change": "-1.93%"
+  },
+  {
+    "symbol": "VKGYO",
+    "name": "VKGYO | Vakıf GYO",
+    "sector": "Sanayi",
+    "price": 1.91,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "VKING",
+    "name": "VKING | Viking Kağıt",
+    "sector": "Sanayi",
+    "price": 20.68,
+    "change": "-1.34%"
+  },
+  {
+    "symbol": "VRGYO",
+    "name": "VRGYO | Vera GYO",
+    "sector": "Sanayi",
+    "price": 1.8,
+    "change": "-1.10%"
+  },
+  {
+    "symbol": "VSNMD",
+    "name": "VSNMD | Vişne Madencilik",
+    "sector": "Sanayi",
+    "price": 41.76,
+    "change": "-2.02%"
+  },
+  {
+    "symbol": "YAPRK",
+    "name": "YAPRK | Yaprak Süt & Besi Çiftlikleri",
+    "sector": "Sanayi",
+    "price": 10.7,
+    "change": "-0.28%"
+  },
+  {
+    "symbol": "YATAS",
+    "name": "YATAS | Yataş Yatak",
+    "sector": "Sanayi",
+    "price": 30.54,
+    "change": "+0.13%"
+  },
+  {
+    "symbol": "YAYLA",
+    "name": "YAYLA | Yayla Enerji Uretim Turizm",
+    "sector": "Sanayi",
+    "price": 20.86,
+    "change": "+0.29%"
+  },
+  {
+    "symbol": "YBTAS",
+    "name": "YBTAS | Yibitaş İnş. Malzemeleri",
+    "sector": "Sanayi",
+    "price": 13.63,
+    "change": "-0.15%"
+  },
+  {
+    "symbol": "YEOTK",
+    "name": "YEOTK | YEO Teknoloji",
+    "sector": "Sanayi",
+    "price": 32.7,
+    "change": "-2.39%"
+  },
+  {
+    "symbol": "YESIL",
+    "name": "YESIL | Yeşil Yatırım Holding",
+    "sector": "Sanayi",
+    "price": 1.16,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "YGGYO",
+    "name": "YGGYO | Yeni Gimat GYO",
+    "sector": "Sanayi",
+    "price": 223.5,
+    "change": "-1.02%"
+  },
+  {
+    "symbol": "YIGIT",
+    "name": "YIGIT | Yiğit Akü",
+    "sector": "Sanayi",
+    "price": 22.1,
+    "change": "+2.22%"
+  },
+  {
+    "symbol": "YKBNK",
+    "name": "YKBNK | Yapı Kredi Bankası",
+    "sector": "Bankacılık",
+    "price": 36.08,
+    "change": "-2.01%"
+  },
+  {
+    "symbol": "YKSLN",
+    "name": "YKSLN | Yükselen Çelik",
+    "sector": "Sanayi",
+    "price": 2.65,
+    "change": "-1.12%"
+  },
+  {
+    "symbol": "YONGA",
+    "name": "YONGA | Yonga Mobilya Sanayi",
+    "sector": "Sanayi",
+    "price": 44.7,
+    "change": "-0.58%"
+  },
+  {
+    "symbol": "YUNSA",
+    "name": "YUNSA | Yünsa",
+    "sector": "Sanayi",
+    "price": 7.47,
+    "change": "-1.97%"
+  },
+  {
+    "symbol": "YYAPI",
+    "name": "YYAPI | Yesil Yapi",
+    "sector": "Sanayi",
+    "price": 0.81,
+    "change": "+0.00%"
+  },
+  {
+    "symbol": "YYLGD",
+    "name": "YYLGD | Yayla Agro Gıda",
+    "sector": "Sanayi",
+    "price": 9.99,
+    "change": "-0.50%"
+  },
+  {
+    "symbol": "ZEDUR",
+    "name": "ZEDUR | Zedur Enerji",
+    "sector": "Sanayi",
+    "price": 7.71,
+    "change": "+0.92%"
+  },
+  {
+    "symbol": "ZERGY",
+    "name": "ZERGY | Zeray GYO",
+    "sector": "Sanayi",
+    "price": 9.79,
+    "change": "+0.31%"
+  },
+  {
+    "symbol": "ZGYO",
+    "name": "ZGYO | Z GYO",
+    "sector": "Sanayi",
+    "price": 23.8,
+    "change": "-0.58%"
+  },
+  {
+    "symbol": "ZOREN",
+    "name": "ZOREN | Zorlu Enerji",
+    "sector": "Sanayi",
+    "price": 2.44,
+    "change": "+5.63%"
+  },
+  {
+    "symbol": "ZRGYO",
+    "name": "ZRGYO | Ziraat GYO",
+    "sector": "Sanayi",
+    "price": 19.54,
+    "change": "+0.26%"
+  },
+  {
+    "symbol": "ALTIN_GRAM",
+    "name": "Gram Altın (24 Ayar)",
+    "sector": "Maden / Döviz",
+    "price": 6943.14,
+    "change": "+0.85%"
+  },
+  {
+    "symbol": "USD_TRY",
+    "name": "Amerikan Doları",
+    "sector": "Maden / Döviz",
+    "price": 48.3,
+    "change": "+0.15%"
+  },
+  {
+    "symbol": "EUR_TRY",
+    "name": "Euro",
+    "sector": "Maden / Döviz",
+    "price": 56.2,
+    "change": "+0.25%"
+  },
+  {
+    "symbol": "CEYREK_ALTIN",
+    "name": "Çeyrek Altın",
+    "sector": "Maden / Döviz",
+    "price": 11317.32,
+    "change": "+0.80%"
+  },
+  {
+    "symbol": "BTC_USD",
+    "name": "Bitcoin",
+    "sector": "Maden / Döviz",
+    "price": 77010.0,
+    "change": "+1.45%"
+  }
+]
