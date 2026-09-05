@@ -257,6 +257,53 @@ def get_yahoo_chart(ticker):
         pass
     return None
 
+def get_yahoo_historical_candles(ticker, range_str="1mo", interval="1d"):
+    try:
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?interval={interval}&range={range_str}"
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode("utf-8"))
+            res = data.get("chart", {}).get("result", [])
+            if res:
+                meta = res[0].get("meta", {})
+                timestamps = res[0].get("timestamp", [])
+                indicators = res[0].get("indicators", {}).get("quote", [{}])[0]
+                opens = indicators.get("open", [])
+                highs = indicators.get("high", [])
+                lows = indicators.get("low", [])
+                closes = indicators.get("close", [])
+                volumes = indicators.get("volume", [])
+                
+                candles = []
+                for i, ts in enumerate(timestamps):
+                    if i < len(closes) and closes[i] is not None:
+                        c = round(closes[i], 2)
+                        o = round(opens[i], 2) if (i < len(opens) and opens[i] is not None) else c
+                        h = round(highs[i], 2) if (i < len(highs) and highs[i] is not None) else max(o, c)
+                        l = round(lows[i], 2) if (i < len(lows) and lows[i] is not None) else min(o, c)
+                        v = int(volumes[i]) if (i < len(volumes) and volumes[i] is not None) else 0
+                        candles.append({
+                            "time": ts,
+                            "open": o,
+                            "high": h,
+                            "low": l,
+                            "close": c,
+                            "volume": v
+                        })
+                return {
+                    "success": True,
+                    "symbol": ticker,
+                    "currentPrice": meta.get("regularMarketPrice"),
+                    "prevClose": meta.get("chartPreviousClose") or meta.get("previousClose"),
+                    "candles": candles
+                }
+    except Exception as e:
+        return {"success": False, "error": str(e), "candles": []}
+    return {"success": False, "error": "Veri bulunamadi", "candles": []}
+
 
 # ==========================================
 # MARKET NEWS & SENTIMENT ANALYSIS ENGINE
@@ -534,6 +581,42 @@ class AssistantRequestHandler(SimpleHTTPRequestHandler):
             sym_list = [s.strip() for s in symbols_param.split(",") if s.strip()] if symbols_param else []
             
             result = fetch_market_signals(sym_list)
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(json.dumps(result, ensure_ascii=False).encode("utf-8"))
+            return
+        elif self.path == "/api/ipos" or self.path.startswith("/api/ipos?"):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            try:
+                with open("data/ipos.json", "r", encoding="utf-8") as f_ipo:
+                    ipos_data = json.load(f_ipo)
+                self.wfile.write(json.dumps(ipos_data, ensure_ascii=False).encode("utf-8"))
+            except Exception as e:
+                self.wfile.write(json.dumps({"error": str(e)}, ensure_ascii=False).encode("utf-8"))
+            return
+        elif self.path.startswith("/api/chart-history"):
+            parsed = urllib.parse.urlparse(self.path)
+            params = urllib.parse.parse_qs(parsed.query)
+            sym = params.get("symbol", ["THYAO"])[0].strip().upper()
+            range_param = params.get("range", ["1mo"])[0].strip()
+            interval_param = params.get("interval", ["1d"])[0].strip()
+            
+            ticker = sym if ("." in sym or "=" in sym or "-" in sym) else f"{sym}.IS"
+            if sym == "ALTIN_GRAM" or sym == "ALTIN":
+                ticker = "XAUTRY=X"
+            elif sym == "USD_TRY":
+                ticker = "USDTRY=X"
+            elif sym == "EUR_TRY":
+                ticker = "EURTRY=X"
+            elif sym == "BTC_USD":
+                ticker = "BTC-USD"
+                
+            result = get_yahoo_historical_candles(ticker, range_param, interval_param)
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Access-Control-Allow-Origin", "*")

@@ -3,20 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal OS | Kişisel Yönetim & Kasa Üssü</title>
+    <title>necoPRO | Kişisel Yönetim & Kasa Üssü</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/lightweight-charts.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700;800&display=swap');
-        :root { --bg-base: #020617; --bg-panel: #0f172a; --border-color: #1e293b; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-base); color: #f8fafc; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap');
+        :root {
+            --bg-base: #060913;
+            --bg-panel: #0b1120;
+            --bg-surface: #10172a;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(99, 102, 241, 0.35);
+        }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: var(--bg-base); 
+            color: #f8fafc; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .font-mono { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum" 1, "zero" 1;
+        }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-        .glass-panel { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(30, 41, 59, 0.8); }
-        .glass-card { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(30, 41, 59, 0.5); }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Modern Layered Obsidian Glass Surfaces */
+        .glass-panel { 
+            background: rgba(11, 17, 32, 0.85); 
+            backdrop-filter: blur(24px); 
+            -webkit-backdrop-filter: blur(24px); 
+            border: 1px solid rgba(255, 255, 255, 0.07); 
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+        }
+        .glass-card { 
+            background: linear-gradient(180deg, rgba(18, 26, 47, 0.65) 0%, rgba(11, 17, 32, 0.55) 100%); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.07); 
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        /* FinTech Radiant Cards & Glows */
+        .fin-glow-emerald {
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+        }
+        .fin-glow-indigo {
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.14) 0%, transparent 70%);
+        }
+        .fin-glow-amber {
+            background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+        }
+        .fin-card-elevated {
+            background: linear-gradient(135deg, rgba(20, 30, 55, 0.7) 0%, rgba(12, 18, 34, 0.6) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 14px 35px -10px rgba(0, 0, 0, 0.6);
+        }
+        .fin-card-elevated:hover {
+            transform: translateY(-2px);
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.18), 0 20px 40px -12px rgba(0, 0, 0, 0.7), 0 0 20px -5px rgba(99, 102, 241, 0.18);
+        }
     </style>
 </head>
 <body class="h-screen flex overflow-hidden selection:bg-blue-500/30 selection:text-blue-200">
@@ -28,15 +88,19 @@
     <!-- SOL SİDEBAR (SADECE GERÇEK SAYFALAR) -->
     <aside id="mainSidebar" class="w-72 flex-shrink-0 glass-panel border-r border-slate-800/80 flex flex-col transition-all duration-300 absolute lg:relative z-50 h-full -translate-x-full lg:translate-x-0">
         <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800/80">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                    <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
-                </div>
-                <div>
-                    <h1 class="text-sm font-extrabold tracking-tight text-white flex items-center gap-2">Personal OS <span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[9px] font-mono">v4.5</span></h1>
-                    <p class="text-[10px] text-slate-400 font-medium">Kişisel Yönetim & Kasa</p>
-                </div>
-            </div>
+            <div id="osBrandHeader" onclick="Portal._syncTelemetry()" class="flex items-center gap-3 select-none group cursor-pointer" title="necoPRO">
+                  <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-slate-700 flex items-center justify-center transition-all duration-300 flex-shrink-0" style="box-shadow: 0 0 10px #eab308, inset 0 0 5px #3b82f6;">
+                      <i data-lucide="shield-check" class="w-5 h-5 text-yellow-100" style="filter: drop-shadow(0 0 5px #fde047) drop-shadow(0 0 10px #eab308);"></i>
+                  </div>
+                  <div>
+                      <h1 class="text-lg font-black tracking-widest flex items-center gap-1.5 uppercase">
+                          <span class="text-yellow-100" style="text-shadow: 0 0 5px #fde047, 0 0 12px #eab308, 0 0 25px #ca8a04;">neco</span>
+                          <span class="text-blue-100" style="text-shadow: 0 0 5px #93c5fd, 0 0 12px #3b82f6, 0 0 25px #2563eb;">PRO</span>
+                          <span class="px-1.5 py-0.5 ml-1 rounded border border-blue-400 text-blue-100 text-[9px] font-mono tracking-normal" style="box-shadow: 0 0 8px #3b82f6, inset 0 0 4px #3b82f6; text-shadow: 0 0 4px #93c5fd;">v4.5</span>
+                      </h1>
+                      <p class="text-[9px] text-yellow-100/80 font-medium uppercase tracking-wider mt-0.5" style="text-shadow: 0 0 4px #eab308;">Kişisel Yönetim & Kasa</p>
+                  </div>
+              </div>
         </div>
 
         <nav class="flex-1 overflow-y-auto p-4 space-y-1.5" id="sidebarNavList">
@@ -72,8 +136,14 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4 sm:gap-6">
-                <div class="text-right hidden sm:block">
+            <div class="flex items-center gap-3 sm:gap-5">
+                <!-- CANLI HAVA DURUMU PİLL WİDGETİ (81 İL DESTEKLİ & CANLI GÖRÜNÜM) -->
+                <div id="liveWeather" onclick="Portal.openWeatherModal()" class="group hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-slate-900/90 to-slate-950/90 border border-slate-700/80 hover:border-blue-500/60 shadow-lg shadow-black/40 text-xs text-slate-200 cursor-pointer transition-all hover:scale-[1.03] active:scale-95">
+                    <i data-lucide="cloud-sun" class="w-4 h-4 text-amber-400 animate-pulse"></i>
+                    <span class="font-bold text-white text-xs">Yükleniyor...</span>
+                </div>
+
+                <div class="text-right hidden md:block">
                     <div class="text-xs font-bold text-white font-mono tracking-widest flex items-center justify-end gap-2">
                         <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
                         <span id="liveDate">Yükleniyor...</span>
@@ -97,54 +167,31 @@
             <!-- ========================================================== -->
             <div id="tab-dashboard" class="tab-pane max-w-7xl mx-auto space-y-6">
                 
-                <!-- HIZLI KOMUT ÇUBUĞU (QUICK CAPTURE) -->
-                <div class="relative group">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all opacity-50"></div>
-                    <div class="relative flex items-center glass-card rounded-2xl p-2 border border-slate-700/80 shadow-2xl focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/50 transition-all">
-                        <div class="pl-3 pr-2 text-slate-500 flex items-center justify-center">
-                            <div class="px-2 py-1 rounded bg-slate-800/80 text-[10px] font-mono font-bold text-slate-400 border border-slate-700 flex items-center gap-1">
-                                <i data-lucide="command" class="w-3 h-3"></i>K
-                            </div>
-                        </div>
-                        <input 
-                            type="text" 
-                            id="quickCaptureInput"
-                            onkeydown="Portal.handleQuickCapture(event)"
-                            placeholder="Işık Hızında Yakala: 'Yarın 14:00 Raporu hazırla !acil' veya 'Not: Fikirlerim...' (Enter'a bas)" 
-                            class="flex-1 bg-transparent border-none text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-0 px-2 font-medium h-10"
-                            autocomplete="off"
-                        >
-                        <div class="pr-2 flex items-center gap-2">
-                            <button onclick="Portal.handleQuickCapture({key: 'Enter'})" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold flex items-center gap-1 transition-colors cursor-pointer">
-                                Enter <i data-lucide="corner-down-left" class="w-3 h-3"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <!-- ÜST METRİKLER (HUD) -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 flex items-center justify-between group hover:border-emerald-500/30 transition-colors">
+                    <div onclick="Portal.toggleFocusTimer()" class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 flex items-center justify-between group hover:border-emerald-500/30 transition-all cursor-pointer hover:scale-[1.02] active:scale-95" title="Odak Sprintini Başlat">
                         <div>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Günlük Momentum</span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-emerald-300 transition-colors">Günlük Momentum</span>
                             <h3 id="statMomentumScore" class="text-xl font-extrabold font-mono text-emerald-400 mt-0.5">%100 Odak</h3>
                         </div>
                         <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <i data-lucide="trending-up" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 flex items-center justify-between group hover:border-blue-500/30 transition-colors">
+                    <div onclick="Portal.openNewTaskModal()" class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 flex items-center justify-between group hover:border-blue-500/30 transition-all cursor-pointer hover:scale-[1.02] active:scale-95" title="Görev Ekle / Yönet">
                         <div>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tamamlanan Eylemler</span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-blue-300 transition-colors">Tamamlanan Eylemler</span>
                             <h3 id="statCompletedTasks" class="text-xl font-extrabold font-mono text-white mt-0.5">0 / 0</h3>
                         </div>
                         <div class="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <i data-lucide="check-circle-2" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 flex items-center justify-between group hover:border-amber-500/30 transition-colors">
+                    <div onclick="Portal.openNewNoteDrawer()" class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 flex items-center justify-between group hover:border-amber-500/30 transition-all cursor-pointer hover:scale-[1.02] active:scale-95" title="Not Oluştur / Görüntüle">
                         <div>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Zihin Notları</span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-amber-300 transition-colors">Zihin Notları</span>
                             <h3 id="statTotalNotes" class="text-xl font-extrabold font-mono text-amber-400 mt-0.5">0 Not</h3>
                         </div>
                         <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -206,11 +253,11 @@
 
                     <div class="glass-card p-6 rounded-3xl border border-slate-800 flex flex-col justify-between bg-gradient-to-r from-slate-900/90 via-purple-950/20 to-slate-900/90 shadow-xl">
                         <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
+                            <div onclick="Portal.toggleFocusTimer()" class="flex items-center gap-2.5 cursor-pointer group select-none" title="Odak Sayacını Başlat / Duraklat">
+                                <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold group-hover:scale-110 transition-transform">
                                     <i data-lucide="zap" class="w-4 h-4"></i>
                                 </div>
-                                <span class="text-[10px] font-bold text-white uppercase font-mono tracking-wider">Deep Work Sprint</span>
+                                <span class="text-[10px] font-bold text-white uppercase font-mono tracking-wider group-hover:text-purple-300 transition-colors flex items-center gap-1">Deep Work Sprint <i data-lucide="play-circle" class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity"></i></span>
                             </div>
                             <button id="gammaAudioToggleBtn" onclick="Portal.toggleFocusAudio()" class="px-2 py-1 rounded-xl bg-slate-800 hover:bg-purple-900/40 text-purple-300 text-[9px] font-mono font-bold border border-purple-500/30 flex items-center gap-1 transition-all cursor-pointer">
                                 <i data-lucide="headphones" class="w-3 h-3"></i>
@@ -239,19 +286,23 @@
                     <!-- SOL WIDGET: GÖREVLER -->
                     <div class="glass-card rounded-3xl border border-slate-800 flex flex-col" id="tasksWidgetWrapper">
                         <div class="p-4 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-slate-900/50 rounded-t-3xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                            <div onclick="Portal.openNewTaskModal()" class="flex items-center gap-3 cursor-pointer group select-none transition-transform hover:scale-[1.01] active:scale-95" title="Görev Ekle / Yönet">
+                                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
                                     <i data-lucide="list-todo" class="w-5 h-5 text-white"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-black text-sm text-white tracking-tight">EYLEM & ÖNCELİK MATRİSİ</h3>
-                                    <p class="text-[10px] text-slate-400 font-medium">Stratejik kişisel görev motoru</p>
+                                    <h3 class="font-black text-sm text-white tracking-tight group-hover:text-blue-400 transition-colors flex items-center gap-1.5">GÖREVLER & HEDEFLER <i data-lucide="plus-circle" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity"></i></h3>
+                                    <p class="text-[10px] text-slate-400 font-medium group-hover:text-slate-300 transition-colors">Günlük yapılacaklar ve odak planı</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-1.5">
-                                <button onclick="Portal.toggleAllTaskGroups()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Tümünü Aç/Kapat"><i data-lucide="code-2" class="w-4 h-4"></i></button>
-                                <button onclick="Portal.openNewTaskModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Yeni Grup Ekle"><i data-lucide="plus" class="w-4 h-4"></i></button>
-                                <button onclick="Portal.loadTasks()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Yenile"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                                <!-- Tamamlananlar Arşiv Butonu (Sadece Simge) -->
+                                <button onclick="Portal.toggleTaskArchiveView()" id="taskArchiveToggleBtn" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all relative cursor-pointer" title="Tamamlanan Görevler Arşivi">
+                                    <i data-lucide="archive" class="w-4 h-4 text-emerald-400"></i>
+                                </button>
+                                <button onclick="Portal.toggleAllTaskGroups()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer" title="Tüm Grupları Aç/Kapat"><i data-lucide="chevrons-up-down" class="w-4 h-4"></i></button>
+                                <button onclick="Portal.openNewTaskModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer" title="Yeni Grup Ekle"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                                <button onclick="Portal.loadTasks()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer" title="Yenile"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
                             </div>
                         </div>
                         <div class="p-4 sm:p-5 space-y-4 max-h-[500px] overflow-y-auto" id="tasksAccordionContainer"></div>
@@ -264,17 +315,18 @@
                     <!-- SAĞ WIDGET: NOTLAR (NOTION BLOKLARI) -->
                     <div class="glass-card rounded-3xl border border-slate-800 flex flex-col" id="notesWidgetWrapper">
                         <div class="p-4 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-slate-900/50 rounded-t-3xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                            <div onclick="Portal.openNewNoteDrawer()" class="flex items-center gap-3 cursor-pointer group select-none transition-transform hover:scale-[1.01] active:scale-95" title="Yeni Not Aç / Yaz">
+                                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
                                     <i data-lucide="network" class="w-5 h-5 text-white"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-black text-sm text-white tracking-tight">ZİHİN & NOTOSFER ÜSSÜ</h3>
-                                    <p id="notesWidgetCount" class="text-[10px] text-slate-400 font-medium">0 Doküman</p>
+                                    <h3 class="font-black text-sm text-white tracking-tight group-hover:text-amber-400 transition-colors flex items-center gap-1.5">NOTLAR & DOKÜMANLAR <i data-lucide="plus-circle" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity"></i></h3>
+                                    <p id="notesWidgetCount" class="text-[10px] text-slate-400 font-medium group-hover:text-slate-300 transition-colors">0 Doküman</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-1.5">
-                                <button onclick="Portal.toggleWidgetSearch()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"><i data-lucide="search" class="w-4 h-4"></i></button>
+                                <button onclick="Portal.loadNotes(); Portal.toast('Notlar listesi yenilendi.', 'info');" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Notları Yenile"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                                <button onclick="Portal.toggleWidgetSearch()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Not Ara"><i data-lucide="search" class="w-4 h-4"></i></button>
                                 <button onclick="Portal.toggleSortNotes()" class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Sıralama Değiştir"><i data-lucide="calendar-arrow-down" class="w-4 h-4"></i></button>
                                 <button onclick="Portal.openNewNoteDrawer()" class="p-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-colors shadow-lg shadow-blue-500/20" title="Yeni Not"><i data-lucide="plus" class="w-4 h-4"></i></button>
                             </div>
@@ -282,18 +334,22 @@
                         
                         <div id="widgetSearchBox" class="hidden p-3 border-b border-slate-800/80 bg-slate-900/80">
                             <div class="relative">
-                                <input type="text" id="noteSearchInput" oninput="Portal.filterNotes()" placeholder="Dokümanlarda ara..." class="w-full px-9 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+                                <input type="text" id="noteSearchInput" oninput="Portal.filterNotes()" onkeydown="if(event.key==='Enter') this.blur()" placeholder="Dokümanlarda ara..." class="w-full px-9 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
                                 <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
                             </div>
                         </div>
 
-                        <div class="p-2 border-b border-slate-800/80 bg-slate-900/30 flex items-center justify-between">
-                            <div class="flex items-center gap-1">
-                                <button id="filterTabActive" onclick="Portal.setNoteFilterTab('active')" class="p-1.5 rounded-lg bg-blue-600 text-white transition-colors"><i data-lucide="layers" class="w-3.5 h-3.5"></i></button>
-                                <button id="filterTabPinned" onclick="Portal.setNoteFilterTab('pinned')" class="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors"><i data-lucide="pin" class="w-3.5 h-3.5"></i></button>
+                        <div class="p-2 border-b border-slate-800/80 bg-slate-900/30 flex items-center justify-between gap-2 overflow-x-auto">
+                            <div class="flex items-center gap-1.5 flex-nowrap">
+                                <button id="filterTabActive" onclick="Portal.setNoteCategory('ALL')" class="px-2 py-1 rounded-lg bg-blue-600 text-white font-mono text-[10px] font-bold transition-all shadow-sm cursor-pointer whitespace-nowrap">Tümü</button>
+                                <button id="filterTabPinned" onclick="Portal.setNoteFilterTab('pinned')" class="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer" title="Sadece Sabitlenenler"><i data-lucide="pin" class="w-3.5 h-3.5"></i></button>
+                                <button id="filterCat_is" onclick="Portal.setNoteCategory('İş')" class="px-2 py-0.5 rounded-lg bg-slate-950/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 text-[10px] font-mono transition-colors cursor-pointer whitespace-nowrap">💼 İş</button>
+                                <button id="filterCat_finans" onclick="Portal.setNoteCategory('Finans')" class="px-2 py-0.5 rounded-lg bg-slate-950/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 text-[10px] font-mono transition-colors cursor-pointer whitespace-nowrap">📈 Finans</button>
+                                <button id="filterCat_fikir" onclick="Portal.setNoteCategory('Fikir')" class="px-2 py-0.5 rounded-lg bg-slate-950/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 text-[10px] font-mono transition-colors cursor-pointer whitespace-nowrap">💡 Fikir</button>
+                                <button id="filterCat_kisisel" onclick="Portal.setNoteCategory('Kişisel')" class="px-2 py-0.5 rounded-lg bg-slate-950/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 text-[10px] font-mono transition-colors cursor-pointer whitespace-nowrap">👤 Kişisel</button>
                             </div>
-                            <div class="px-2 py-0.5 rounded-md bg-slate-800 text-[9px] font-mono text-slate-400 font-bold flex items-center gap-1">
-                                Tüm Dokümanlar <span id="notesSubBadgeCount" class="text-white">0</span>
+                            <div class="px-2 py-0.5 rounded-md bg-slate-800 text-[9px] font-mono text-slate-400 font-bold flex items-center gap-1 flex-shrink-0">
+                                <span id="notesSubBadgeCount" class="text-white">0</span>
                             </div>
                         </div>
 
@@ -310,44 +366,68 @@
                 <!-- ANA SAYFADA ALT BORSA & PORTFÖY WIDGETİ -->
                 <div class="space-y-6 pt-4 border-t border-slate-850">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2 glass-card p-6 rounded-3xl border border-slate-800 flex flex-col justify-between bg-gradient-to-r from-slate-900/90 via-emerald-950/20 to-slate-900/90 shadow-xl">
-                            <div class="flex items-center justify-between pb-4 border-b border-slate-800/80">
-                                <div class="flex items-center gap-3.5">
-                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                        <div class="relative overflow-hidden lg:col-span-2 fin-card-elevated p-6 rounded-3xl border border-white/10 flex flex-col justify-between shadow-2xl">
+                            <div class="pointer-events-none absolute -top-20 -right-20 w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl"></div>
+                            <div class="relative z-10 flex items-center justify-between pb-4 border-b border-white/[0.08]">
+                                <div onclick="Portal.switchTab('finance')" class="flex items-center gap-3.5 cursor-pointer group select-none transition-transform hover:scale-[1.01] active:scale-95" title="Borsa Terminaline Git">
+                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-400 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/25 ring-2 ring-emerald-400/30 group-hover:scale-105 transition-transform">
                                         <i data-lucide="trending-up" class="w-6 h-6"></i>
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-2">
-                                            <h2 class="text-base font-extrabold text-white">BORSA & PORTFÖY TERMİNALİ</h2>
-                                            <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">MİDAS PRO</span>
+                                            <h2 class="text-base font-extrabold text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">BORSA & PORTFÖY TERMİNALİ <i data-lucide="arrow-up-right" class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"></i></h2>
+                                            <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">CANLI RADAR</span>
                                         </div>
-                                        <span class="text-xs text-slate-400">Canlı BIST, Emtia ve Kişisel Varlık Takibi</span>
+                                        <span class="text-xs text-slate-400 group-hover:text-slate-300 transition-colors">Canlı BIST, Emtia ve Kişisel Varlık Takibi</span>
                                     </div>
                                 </div>
-                                <button onclick="Portal.openAddAssetModal()" class="px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer">
-                                    <i data-lucide="plus" class="w-4 h-4"></i>
-                                    <span class="hidden sm:inline">Hisse Ekle</span>
-                                </button>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="Portal.refreshAllLiveQuotes()" class="p-2 sm:px-3.5 sm:py-2 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs flex items-center gap-1.5 border border-white/10 transition-all cursor-pointer" title="Canlı Verileri Yenile">
+                                        <i data-lucide="refresh-cw" class="w-4 h-4 finance-refresh-icon"></i>
+                                        <span class="hidden sm:inline">Verileri Yenile</span>
+                                    </button>
+                                    <button onclick="Portal.openAddAssetModal('portfolio')" class="px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-600/25 border border-emerald-400/30 transition-all cursor-pointer">
+                                        <i data-lucide="plus" class="w-4 h-4"></i>
+                                        <span class="hidden sm:inline">Hisse Ekle</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5">
-                                <div><span class="text-[11px] text-slate-400 uppercase font-mono tracking-wider">Toplam Portföy Değeri</span><h3 id="financeTotalValue" class="text-2xl sm:text-3xl font-black text-white font-mono mt-1">0,00 ₺</h3></div>
-                                <div><span class="text-[11px] text-slate-400 uppercase font-mono tracking-wider">Toplam Maliyet</span><h3 id="financeTotalCost" class="text-xl font-bold text-slate-300 font-mono mt-1">0,00 ₺</h3></div>
-                                <div><span class="text-[11px] text-slate-400 uppercase font-mono tracking-wider">Net Kâr / Zarar</span><div id="financeProfitBadge" class="flex items-center gap-2 mt-1"><h3 id="financeTotalProfit" class="text-xl font-extrabold font-mono text-emerald-400">+0,00 ₺</h3><span id="financeProfitPercent" class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">+%0.00</span></div></div>
+                            <div class="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5">
+                                <div><span class="text-[11px] text-slate-400 uppercase font-mono tracking-wider font-semibold">Toplam Portföy Değeri</span><h3 id="financeTotalValue" class="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight mt-1">0,00 ₺</h3></div>
+                                <div><span class="text-[11px] text-slate-400 uppercase font-mono tracking-wider font-semibold">Toplam Maliyet</span><h3 id="financeTotalCost" class="text-xl font-bold text-slate-200 font-mono tracking-tight mt-1">0,00 ₺</h3></div>
+                                <div><span class="text-[11px] text-slate-400 uppercase font-mono tracking-wider font-semibold">Net Kâr / Zarar</span><div id="financeProfitBadge" class="flex items-center gap-2 mt-1"><h3 id="financeTotalProfit" class="text-xl font-extrabold font-mono text-emerald-400 tracking-tight">+0,00 ₺</h3><span id="financeProfitPercent" class="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">+%0.00</span></div></div>
                             </div>
                         </div>
                         <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-3 flex flex-col justify-between shadow-xl">
                             <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
                                 <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5 font-mono"><i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i> PİYASA NABZI</span>
-                                <span class="text-[10px] text-emerald-400 font-mono font-bold">● Canlı Akış</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[10px] text-emerald-400 font-mono font-bold">● Canlı Akış</span>
+                                    <button onclick="Portal.refreshAllLiveQuotes()" class="p-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition-all cursor-pointer" title="Piyasa Fiyatlarını Yenile">
+                                        <i data-lucide="refresh-cw" class="w-3 h-3 finance-refresh-icon"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="space-y-2" id="financeMarketTickers"></div>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                         <div class="lg:col-span-2 glass-card p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-                            <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
-                                <h3 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i> Portföyümdeki Varlıklar</h3>
-                                <span class="text-xs text-slate-400 font-mono" id="financeAssetCount">0 Varlık</span>
+                            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800/80">
+                                <div onclick="Portal.switchTab('finance'); Portal.switchFinanceTab('portfolio')" class="flex items-center gap-2 cursor-pointer group select-none" title="Tam Portföy Terminaline Git">
+                                    <h3 class="text-sm font-bold text-white flex items-center gap-2 group-hover:text-emerald-300 transition-colors"><i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform"></i> Portföyümdeki Varlıklar <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity"></i></h3>
+                                    <span class="text-xs text-slate-400 font-mono" id="financeAssetCount">0 Varlık</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+                                        <button type="button" onclick="Portal.setPortfolioFilter('ALL')" id="portFilterBtn_ALL" class="port-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold text-[11px] transition-all cursor-pointer">Tümü</button>
+                                        <button type="button" onclick="Portal.setPortfolioFilter('BORSA')" id="portFilterBtn_BORSA" class="port-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white font-medium text-[11px] transition-all cursor-pointer">📈 Borsa</button>
+                                        <button type="button" onclick="Portal.setPortfolioFilter('DOVIZ')" id="portFilterBtn_DOVIZ" class="port-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white font-medium text-[11px] transition-all cursor-pointer">🪙 Döviz & Emtia</button>
+                                    </div>
+                                    <button onclick="Portal.refreshAllLiveQuotes()" class="p-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-all cursor-pointer" title="Portföy Fiyatlarını Yenile">
+                                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5 finance-refresh-icon"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left text-xs">
@@ -358,8 +438,13 @@
                         </div>
                         <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
                             <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
-                                <h3 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="rocket" class="w-4 h-4 text-purple-400"></i> Halka Arz Radarı</h3>
-                                <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold">BIST IPO</span>
+                                <div onclick="Portal.switchTab('finance'); Portal.switchFinanceTab('ipos')" class="flex items-center gap-2 cursor-pointer group select-none" title="Halka Arz Takvimine Git">
+                                    <h3 class="text-sm font-bold text-white flex items-center gap-2 group-hover:text-purple-300 transition-colors"><i data-lucide="rocket" class="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform"></i> Halka Arz Radarı <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity"></i></h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold group-hover:bg-purple-500/30">BIST IPO</span>
+                                </div>
+                                <button onclick="Portal.loadFinanceData(); Portal.toast('Halka arz takvimi yenilendi.', 'info');" class="p-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition-all cursor-pointer" title="Halka Arzları Yenile">
+                                    <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                                </button>
                             </div>
                             <div class="space-y-3" id="ipoListContainer"></div>
                         </div>
@@ -369,58 +454,617 @@
             </div>
 
             <!-- ========================================================== -->
-            <!-- TAB 2: ŞİFRELİ & KORUNAKLI KİŞİSEL KASA (VAULT) -->
+            <!-- TAB 2: TAM KAPSAMLI BORSA & FİNANS TERMİNALİ -->
             <!-- ========================================================== -->
-            <div id="tab-vault" class="tab-pane hidden max-w-5xl mx-auto space-y-6">
-                <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 shadow-2xl">
-                    <div class="flex items-center justify-between pb-6 border-b border-slate-800">
-                        <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/25">
-                                <i data-lucide="lock" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-lg font-black text-white flex items-center gap-2">ŞİFRELİ KİŞİSEL KASA (VAULT) <span class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">PIN KORUMALI</span></h2>
-                                <p class="text-xs text-slate-400">Hassas Kimlik, Şifre, Banka ve Şahsi Bilgiler Kasası</p>
-                            </div>
-                        </div>
-                        <button onclick="Portal.lockVault()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer">
-                            <i data-lucide="lock" class="w-3.5 h-3.5"></i> Kasayı Kilitle
-                        </button>
-                    </div>
+            <div id="tab-finance" class="tab-pane hidden max-w-7xl mx-auto space-y-6">
+    
+    <!-- CLEAN MINIMALIST HEADER -->
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-slate-800 text-emerald-400 flex items-center justify-center border border-slate-700 flex-shrink-0">
+                <i data-lucide="trending-up" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h2 class="text-lg font-bold text-white tracking-tight">Borsa & Yatırım Terminali</h2>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-medium border border-emerald-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Canlı BIST
+                    </span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">BIST 100, İzleme Listesi, Portföy, Keşif & Halka Arz Radarı</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="Portal.toggleFloatingCalculator()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 text-xs font-semibold transition-all flex items-center gap-2 border border-slate-700 cursor-pointer" title="Hesap Makinesini Aç (Taşınabilir & Boyutlandırılabilir)">
+                <i data-lucide="calculator" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Hesap Makinesi</span>
+            </button>
+            <button onclick="Portal.refreshAllLiveQuotes()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-2 border border-slate-700 cursor-pointer" title="Verileri Yenile">
+                <i data-lucide="refresh-cw" class="w-4 h-4 finance-refresh-icon"></i>
+                <span class="hidden sm:inline">Yenile</span>
+            </button>
+            <button onclick="Portal.openAddAssetModal('portfolio')" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 cursor-pointer shadow-sm shadow-emerald-900/50">
+                <i data-lucide="plus" class="w-4 h-4"></i> Varlık Ekle
+            </button>
+        </div>
+    </div>
 
-                    <!-- KASA KİLİTLİ GÖRÜNÜMÜ -->
-                    <div id="vaultLockedView" class="py-12 flex flex-col items-center justify-center text-center space-y-4">
-                        <div class="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
-                            <i data-lucide="key-round" class="w-8 h-8"></i>
+    <!-- PİYASA NABZI (STATİK HUD & BIST SPOTLIGHT - SIFIR KAYDIRMA, FERAH VE NET) -->
+    <div class="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3 flex flex-col md:flex-row items-center justify-between gap-3 shadow-sm backdrop-blur-md">
+        <!-- 4 Temel Makro Gösterge (Sabit, Titremeyen, Tek Tıkla Grafik) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full md:w-auto flex-1" id="terminalMarketPulse"></div>
+
+        <!-- Hızlı Arama & Radar Filtre Aksiyonları -->
+        <div class="flex items-center gap-2 w-full md:w-auto justify-end border-t md:border-t-0 pt-2 md:pt-0 border-slate-800/80">
+            <button onclick="Portal.setFinanceSubTab('explorer'); setTimeout(() => document.getElementById('explorerSearchInput')?.focus(), 150);" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-800 transition-all flex items-center gap-2 cursor-pointer shadow-sm" title="100+ BIST Hissesi ve Sektörleri Keşfet">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span class="hidden sm:inline">BIST Keşif (100+)</span>
+                <span class="sm:hidden">Keşfet</span>
+            </button>
+            <button onclick="Portal.refreshAllLiveQuotes()" class="p-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-all cursor-pointer" title="Canlı Verileri Yenile">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 finance-refresh-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- CLEAN TAB GEÇİŞLERİ (BORSA, PORTFÖY & PİYASALAR) -->
+    <div class="flex items-center justify-between gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto">
+        <div class="flex items-center gap-1">
+            <button id="financeBtn_watchlist" onclick="Portal.setFinanceSubTab('watchlist')" class="finance-sub-btn px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-md">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                İzleme Listesi
+            </button>
+            <button id="financeBtn_portfolio" onclick="Portal.setFinanceSubTab('portfolio')" class="finance-sub-btn px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.05] font-semibold text-xs transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
+                <i data-lucide="briefcase" class="w-3.5 h-3.5"></i>
+                Portföyüm
+            </button>
+            <button id="financeBtn_explorer" onclick="Portal.setFinanceSubTab('explorer')" class="finance-sub-btn px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.05] font-semibold text-xs transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
+                <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                BIST Keşif (100+)
+            </button>
+            <button id="financeBtn_ipos" onclick="Portal.setFinanceSubTab('ipos')" class="finance-sub-btn px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.05] font-semibold text-xs transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i>
+                Halka Arz Radarı
+            </button>
+            <button id="financeBtn_calculator" onclick="Portal.setFinanceSubTab('calculator')" class="finance-sub-btn px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.05] font-semibold text-xs transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
+                <i data-lucide="percent" class="w-3.5 h-3.5 text-amber-400"></i>
+                Getiri Simülatörü
+            </button>
+            <button id="financeBtn_history" onclick="Portal.setFinanceSubTab('history')" class="finance-sub-btn px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.05] font-semibold text-xs transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
+                <i data-lucide="history" class="w-3.5 h-3.5"></i>
+                İşlem Geçmişi
+            </button>
+        </div>
+        <div>
+            <button onclick="Portal.switchTab('budget')" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap border border-indigo-500/20 shadow-sm" title="Nakit Akışı ve Borç Yönetimine Geç">
+                <i data-lucide="wallet" class="w-3.5 h-3.5"></i>
+                <span class="hidden md:inline">Nakit Akışı & Ödemeler</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 1. İZLEME LİSTESİ (VARSAYILAN AKTİF PANE) -->
+    <div id="financeSub_watchlist" class="finance-sub-pane space-y-4">
+        <div class="flex items-center justify-between">
+            <h3 class="font-semibold text-white text-sm">İzleme Listesi</h3>
+            <button onclick="Portal.openAddAssetModal('watch')" class="text-emerald-400 hover:text-emerald-300 text-xs font-medium flex items-center gap-1 transition-colors cursor-pointer">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Ekle
+            </button>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="terminalWatchlistGrid"></div>
+    </div>
+
+    <!-- 2. PORTFÖY VE KÂR/ZARAR ALANI -->
+    <div id="financeSub_portfolio" class="finance-sub-pane hidden space-y-6">
+        <!-- CLEAN METRIC CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">Toplam Değer</div>
+                <h3 id="terminalTotalValue" class="text-2xl font-bold text-white font-mono tracking-tight">0,00 ₺</h3>
+            </div>
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">Maliyet</div>
+                <h3 id="terminalTotalCost" class="text-xl font-semibold text-slate-300 font-mono tracking-tight">0,00 ₺</h3>
+            </div>
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">Net Kâr / Zarar</div>
+                <h3 id="terminalTotalProfit" class="text-xl font-semibold text-emerald-400 font-mono tracking-tight">+0,00 ₺</h3>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800/60">
+                <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+                    <button type="button" onclick="Portal.setPortfolioFilter('ALL')" id="termPortFilterBtn_ALL" class="term-port-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-white font-medium text-xs transition-all cursor-pointer shadow-sm">Tümü</button>
+                    <button type="button" onclick="Portal.setPortfolioFilter('BORSA')" id="termPortFilterBtn_BORSA" class="term-port-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium text-xs transition-all cursor-pointer">Borsa</button>
+                    <button type="button" onclick="Portal.setPortfolioFilter('DOVIZ')" id="termPortFilterBtn_DOVIZ" class="term-port-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium text-xs transition-all cursor-pointer">Döviz</button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-500 font-medium text-[10px]">
+                            <th class="py-3 px-3">Varlık</th>
+                            <th class="py-3 px-3">Adet</th>
+                            <th class="py-3 px-3">Maliyet</th>
+                            <th class="py-3 px-3">Fiyat</th>
+                            <th class="py-3 px-3">Değer</th>
+                            <th class="py-3 px-3">Getiri</th>
+                            <th class="py-3 px-3 text-right">Aksiyon</th>
+                        </tr>
+                    </thead>
+                    <tbody id="terminalPortfolioTableBody" class="divide-y divide-slate-800/60"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. KEŞİF RADARI -->
+    <div id="financeSub_explorer" class="finance-sub-pane hidden space-y-4">
+        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full md:w-80">
+                <input type="text" id="explorerSearchInput" oninput="Portal.renderExplorerGrid()" placeholder="Ara..." class="w-full px-9 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
+            </div>
+            <div class="flex items-center gap-1 overflow-x-auto w-full md:w-auto pb-1 no-scrollbar">
+                <button onclick="Portal.filterExplorerSectors('ALL')" data-sector="ALL" class="sector-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-white font-medium text-xs shadow-sm cursor-pointer">Tümü</button>
+                <button onclick="Portal.filterExplorerSectors('Bankacılık')" data-sector="Bankacılık" class="sector-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium text-xs cursor-pointer">Bankacılık</button>
+                <button onclick="Portal.filterExplorerSectors('Teknoloji')" data-sector="Teknoloji" class="sector-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium text-xs cursor-pointer">Teknoloji</button>
+                <button onclick="Portal.filterExplorerSectors('Enerji')" data-sector="Enerji" class="sector-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium text-xs cursor-pointer">Enerji</button>
+                <button onclick="Portal.filterExplorerSectors('Sanayi')" data-sector="Sanayi" class="sector-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium text-xs cursor-pointer">Sanayi</button>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="terminalExplorerGrid"></div>
+    </div>
+
+    <!-- 4. HALKA ARZ RADARI (2026 GÜNCEL SPK TAKVİMİ) -->
+    <div id="financeSub_ipos" class="finance-sub-pane hidden space-y-4">
+        <!-- FİLTRELEME & ARAMA ÇUBUĞU -->
+        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full md:w-80">
+                <input 
+                    type="text" 
+                    id="ipoSearchInput" 
+                    oninput="Portal.renderIpos()" 
+                    placeholder="Halka arz şirket veya kod ara..." 
+                    class="w-full px-9 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                >
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
+            </div>
+            <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 no-scrollbar">
+                <button onclick="Portal.setIpoFilter('ALL')" id="ipoFilter_ALL" class="ipo-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-white font-medium text-xs shadow-sm cursor-pointer whitespace-nowrap">Tümü</button>
+                <button onclick="Portal.setIpoFilter('TRADING')" id="ipoFilter_TRADING" class="ipo-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium text-xs cursor-pointer whitespace-nowrap">📈 Yeni İşlemde</button>
+                <button onclick="Portal.setIpoFilter('UPCOMING')" id="ipoFilter_UPCOMING" class="ipo-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium text-xs cursor-pointer whitespace-nowrap">⏳ Onay Bekleyen (Taslak)</button>
+                <button onclick="Portal.setIpoFilter('KATILIM')" id="ipoFilter_KATILIM" class="ipo-filter-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium text-xs cursor-pointer whitespace-nowrap">🌱 Katılım Endeksi</button>
+                <button onclick="Portal.fetchIpos(true)" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer ml-1" title="Halka Arzları Yenile">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5 ipo-refresh-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- DİNAMİK HALKA ARZ KARTLARI GRİDİ -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="terminalIpoGrid"></div>
+    </div>
+
+    <!-- 5. HESAPLAYICI -->
+    <div id="financeSub_calculator" class="finance-sub-pane hidden max-w-2xl mx-auto">
+        <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-5">
+            <h3 class="font-semibold text-sm text-white">Getiri Hesaplayıcı</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label class="text-[11px] text-slate-400 block mb-1">Adet</label>
+                    <input type="number" id="calcSharesInput" oninput="Portal.calculateTargetProfit()" placeholder="100" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono text-xs outline-none focus:border-slate-600">
+                </div>
+                <div>
+                    <label class="text-[11px] text-slate-400 block mb-1">Alış (₺)</label>
+                    <input type="number" step="any" id="calcBuyPriceInput" oninput="Portal.calculateTargetProfit()" placeholder="280.50" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono text-xs outline-none focus:border-slate-600">
+                </div>
+                <div>
+                    <label class="text-[11px] text-slate-400 block mb-1">Hedef (₺)</label>
+                    <input type="number" step="any" id="calcTargetPriceInput" oninput="Portal.calculateTargetProfit()" placeholder="350.00" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono text-xs outline-none focus:border-slate-600">
+                </div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 grid grid-cols-3 gap-4 text-center">
+                <div><span class="text-[10px] text-slate-500">Maliyet</span><h4 id="calcResultCost" class="text-xs font-semibold text-slate-300 font-mono mt-1">0,00 ₺</h4></div>
+                <div><span class="text-[10px] text-slate-500">Hedef Değer</span><h4 id="calcResultTarget" class="text-xs font-semibold text-white font-mono mt-1">0,00 ₺</h4></div>
+                <div><span class="text-[10px] text-slate-500">Net Kâr</span><h4 id="calcResultProfit" class="text-xs font-semibold text-emerald-400 font-mono mt-1">+0,00 ₺</h4></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. GEÇMİŞ -->
+    <div id="financeSub_history" class="finance-sub-pane hidden space-y-4">
+        <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800/60">
+                <h3 class="font-semibold text-sm text-white">İşlem Günlüğü</h3>
+                <div class="flex items-center gap-2">
+                    <button onclick="Portal.exportTradeHistoryCSV()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-medium transition-colors cursor-pointer flex items-center gap-1">
+                        <i data-lucide="download" class="w-3 h-3"></i> CSV İndir
+                    </button>
+                    <button onclick="Portal.clearTradeHistory()" class="text-rose-400 hover:text-rose-300 text-[11px] font-medium transition-colors cursor-pointer">
+                        Temizle
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-500 font-medium text-[10px]">
+                            <th class="py-2 px-2">Zaman</th>
+                            <th class="py-2 px-2">İşlem</th>
+                            <th class="py-2 px-2">Varlık</th>
+                            <th class="py-2 px-2">Lot</th>
+                            <th class="py-2 px-2">Fiyat</th>
+                            <th class="py-2 px-2">Tutar</th>
+                            <th class="py-2 px-2">Not</th>
+                        </tr>
+                    </thead>
+                    <tbody id="terminalTradeHistoryTableBody" class="divide-y divide-slate-800/60"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+            <!-- ========================================================== -->
+            <!-- TAB: NAKİT AKIŞI, BORÇ & YÜKÜMLÜLÜK YÖNETİMİ (BUDGET) -->
+            <!-- ========================================================== -->
+            <div id="tab-budget" class="tab-pane hidden max-w-7xl mx-auto space-y-6">
+
+                <!-- CLEAN BUDGET HEADER -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 flex-shrink-0">
+                            <i data-lucide="wallet" class="w-6 h-6"></i>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-white">Kişisel Kasa Kilitli</h3>
-                            <p class="text-xs text-slate-400 max-w-sm mt-1">Özel profil, şifre ve kimlik kayıtlarınıza erişmek için 4 haneli PIN kodunuzu girin.</p>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-lg font-bold text-white tracking-tight">Nakit Akışı & Ödeme Planı</h2>
+                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 text-[10px] font-medium border border-indigo-500/20">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span> Finansal Pusula
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-0.5">Serbest Nakit, Taksitler, Borç Kapatma (Kartopu) & Sabit Giderler</p>
                         </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <input type="password" id="vaultPinInput" maxlength="6" placeholder="PIN (Varsayılan: 1234)" class="px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-center font-mono tracking-widest text-white text-sm focus:border-amber-500 focus:outline-none w-48">
-                            <button onclick="Portal.unlockVault()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/25 transition-all cursor-pointer">
-                                Kilidi Aç
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="Portal.openBudgetModal('debt')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs transition-all flex items-center gap-2 cursor-pointer shadow-md">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>Plan / Taksit Ekle</span>
+                        </button>
+                        <button onclick="Portal.toggleFloatingCalculator()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 text-xs font-semibold transition-all flex items-center gap-2 border border-slate-700 cursor-pointer" title="Hesap Makinesini Aç">
+                            <i data-lucide="calculator" class="w-4 h-4"></i>
+                            <span class="hidden sm:inline">Hesap Makinesi</span>
+                        </button>
+                        <button onclick="Portal.switchTab('finance')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 hover:text-emerald-300 text-xs font-semibold transition-all flex items-center gap-2 border border-slate-700 cursor-pointer" title="Borsa Terminaline Dön">
+                            <i data-lucide="trending-up" class="w-4 h-4"></i>
+                            <span class="hidden sm:inline">Borsa Terminali</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3 SÜTUNLU GRID (PUSULA - YÜKÜMLÜLÜKLER - SABİTLER) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- SOL / ÜST SÜTUN: PUSULA (ÖZET & SERBEST NAKİT & KARTOPU VURGUSU) [lg:col-span-4] -->
+                    <div class="lg:col-span-4 space-y-5">
+                        <!-- SERBEST NAKİT AKIŞI KARTI -->
+                        <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 p-6 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden">
+                            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-mono flex items-center gap-1.5">
+                                    <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-400"></i> SERBEST NAKİT
+                                </span>
+                                <span id="budgetCashflowBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dengede</span>
+                            </div>
+
+                            <div class="my-4">
+                                <div class="text-[11px] text-slate-400">Bu Ay Güvenle Harcanabilir</div>
+                                <h2 id="budgetSafeToSpend" class="text-3xl font-black text-emerald-400 font-mono tracking-tight mt-1">₺0</h2>
+                                <p class="text-[10px] text-slate-500 mt-1">Net Gelir - (Sabitler + Taksitler)</p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800/60 text-xs">
+                                <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/50">
+                                    <span class="text-[10px] text-slate-400 block">Dahil Olan Çıkış</span>
+                                    <span id="budgetTotalOutflow" class="font-bold text-rose-400 font-mono mt-0.5 block">₺0</span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/50">
+                                    <span class="text-[10px] text-slate-400 block">Aktif Net Gelir</span>
+                                    <span id="budgetTotalIncomeDisplay" class="font-bold text-blue-400 font-mono mt-0.5 block">₺0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PSİKOLOJİK KARTOPU ODAK KARTI (HIZLI ZAFER) -->
+                        <div class="bg-slate-900/90 p-5 rounded-3xl border border-slate-800 shadow-sm relative overflow-hidden" id="snowballFocusContainer">
+                            <div class="flex items-center justify-between pb-2 border-b border-slate-800/70">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                                    <h4 class="text-xs font-bold text-white tracking-wide">Öncelikli Tamamlama Hedefi</h4>
+                                </div>
+                                <span class="text-[10px] text-amber-400 font-mono font-bold bg-amber-400/10 px-2 py-0.5 rounded-md border border-amber-400/20">Kartopu</span>
+                            </div>
+                            <div id="snowballFocusCard" class="mt-3">
+                                <div class="text-xs text-slate-500 italic py-2 text-center">Aktif ödeme planı bulunmuyor.</div>
+                            </div>
+                        </div>
+
+                        <!-- HIZLI AKSİYONLAR & HESAP MAKİNESİ TETİKLEYİCİ -->
+                        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800/70 flex items-center justify-between gap-3">
+                            <button onclick="Portal.openBudgetModal('debt')" class="flex-1 py-2.5 px-3 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 font-bold text-xs border border-indigo-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                                <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-indigo-400"></i> Plan / Taksit Ekle
+                            </button>
+                            <button onclick="Portal.toggleFloatingCalculator()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 border border-slate-700 transition-all cursor-pointer" title="Hesap Makinesini Aç">
+                                <i data-lucide="calculator" class="w-4 h-4"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- KASA AÇIK GÖRÜNÜMÜ -->
-                    <div id="vaultUnlockedView" class="hidden space-y-6 pt-6">
-                        <div class="flex justify-between items-center">
-                            <h4 class="font-bold text-sm text-white flex items-center gap-2"><i data-lucide="file-key" class="w-4 h-4 text-amber-400"></i> Şahsi & Gizli Kayıtlar</h4>
-                            <button onclick="Portal.openNewVaultItemModal()" class="px-3.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 transition-colors flex items-center gap-1.5 cursor-pointer">
-                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Yeni Kayıt Ekle
+                    <!-- ORTA SÜTUN: ÖDEME PLANLARI, KREDİ KARTLARI & ALTIN/DÖVİZ YÜKÜMLÜLÜKLERİ [lg:col-span-5] -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="flex items-center justify-between pb-1">
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-sm font-bold text-white">Yükümlülükler & Taksitler</h3>
+                                <span id="budgetDebtCountBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">0 Kayıt</span>
+                            </div>
+                            <button onclick="Portal.openBudgetModal('debt')" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 cursor-pointer transition-colors">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Yeni Plan
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="vaultItemsGrid"></div>
+                        <!-- BORÇ KARTLARI LİSTESİ -->
+                        <div id="budgetDebtsList" class="space-y-3">
+                            <!-- Dinamik JS ile doldurulur -->
+                        </div>
                     </div>
+
+                    <!-- SAĞ SÜTUN: SABİTLER (GELİRLER VE SABİT GİDERLER) + TİK (X+Y) SİSTEMİ [lg:col-span-3] -->
+                    <div class="lg:col-span-3 space-y-5">
+                        <!-- SABİT GELİRLER BÖLÜMÜ -->
+                        <div class="bg-slate-900/90 p-4 rounded-3xl border border-slate-800 shadow-sm space-y-3">
+                            <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
+                                <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
+                                    <i data-lucide="arrow-down-left" class="w-3.5 h-3.5 text-blue-400"></i> Sabit Gelirler
+                                </h4>
+                                <button onclick="Portal.openBudgetModal('income')" class="text-[11px] font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-0.5 cursor-pointer">
+                                    <i data-lucide="plus" class="w-3 h-3"></i> Ekle
+                                </button>
+                            </div>
+                            <div id="budgetIncomesList" class="space-y-2">
+                                <!-- JS ile render edilir -->
+                            </div>
+                        </div>
+
+                        <!-- SABİT GİDERLER & FATURALAR (X+Y TİK SİSTEMİ BURADA) -->
+                        <div class="bg-slate-900/90 p-4 rounded-3xl border border-slate-800 shadow-sm space-y-3">
+                            <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
+                                <div>
+                                    <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
+                                        <i data-lucide="receipt" class="w-3.5 h-3.5 text-amber-400"></i> Sabit Giderler
+                                    </h4>
+                                    <span class="text-[9px] text-slate-500">Tikler toplama dahil eder</span>
+                                </div>
+                                <button onclick="Portal.openBudgetModal('fixed')" class="text-[11px] font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-0.5 cursor-pointer">
+                                    <i data-lucide="plus" class="w-3 h-3"></i> Ekle
+                                </button>
+                            </div>
+                            <div id="budgetFixedExpensesList" class="space-y-2">
+                                <!-- JS ile render edilir -->
+                            </div>
+                        </div>
+
+                        <!-- BİLGİ / REHBER KUTUSU -->
+                        <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/60 text-[11px] text-slate-400 space-y-1">
+                            <span class="font-bold text-slate-300 flex items-center gap-1">
+                                <i data-lucide="sparkles" class="w-3 h-3 text-amber-400"></i> Akıllı İpucu:
+                            </span>
+                            <p class="text-[10px] text-slate-500 leading-relaxed">
+                                Sabit giderlerin yanındaki tikleri kaldırarak, sadece taksitlerinizin net nakit akışınıza etkisini anlık izleyebilirsiniz.
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
             <!-- ========================================================== -->
-            <!-- TAB 3: GELİŞTİRİCİ & AYARLAR -->
+              <!-- TAB 3: ŞİFRELİ & KORUNAKLI KİŞİSEL KASA (VAULT) -->
+              <!-- ========================================================== -->
+              <div id="tab-vault" class="tab-pane hidden space-y-6 max-w-7xl mx-auto">
+
+                  <!-- KASA HEADER VE ÜST AKSİYON BARI (ANA SAYFA GİBİ FERAH VE GENİŞ) -->
+                  <div class="glass-card p-6 rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+                      <div class="flex items-center gap-3.5">
+                          <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/10 flex-shrink-0">
+                              <i data-lucide="shield-check" class="w-6 h-6"></i>
+                          </div>
+                          <div>
+                              <h2 class="text-lg sm:text-xl font-black text-white flex items-center gap-2.5">
+                                  KİŞİSEL KORUNAKLI KASA 
+                                  <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">AES-256 GCM</span>
+                              </h2>
+                              <p class="text-xs text-slate-400 mt-0.5">Şahsi Kimlik, Banka IBAN, Parola ve Gizli Evrak Deposu</p>
+                          </div>
+                      </div>
+
+                      <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                          <button onclick="Portal.changeVaultPin()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm">
+                              <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i> PIN Değiştir
+                          </button>
+                          <button onclick="Portal.lockVault()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 border border-slate-800 hover:border-rose-500/30 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm">
+                              <i data-lucide="lock" class="w-3.5 h-3.5 text-rose-400"></i> Kasayı Kilitle
+                          </button>
+                      </div>
+                  </div>
+
+                  <!-- KASA KİLİTLİ GÖRÜNÜMÜ -->
+                  <div id="vaultLockedView" class="glass-card p-12 rounded-3xl border border-slate-800 bg-slate-950 flex flex-col items-center justify-center text-center space-y-4 shadow-xl max-w-xl mx-auto my-8">
+                      <div class="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 shadow-inner">
+                          <i data-lucide="lock" class="w-8 h-8"></i>
+                      </div>
+                      <div>
+                          <h3 class="text-base font-bold text-white">Güvenli Giriş Doğrulaması</h3>
+                          <p class="text-xs text-slate-400 max-w-sm mt-1">Kişisel şifreli kayıtlara erişmek için güvenlik PIN kodunuzu girin.</p>
+                      </div>
+                      <div class="flex items-center gap-2 pt-2">
+                          <input type="password" id="vaultPinInput" maxlength="6" onkeydown="if(event.key==='Enter') Portal.unlockVault()" placeholder="PIN Kodunuz" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-center font-mono tracking-widest text-white text-sm focus:border-amber-500 focus:outline-none w-48 shadow-inner">
+                          <button onclick="Portal.unlockVault()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/25 transition-all cursor-pointer">
+                              Giriş Yap
+                          </button>
+                      </div>
+                  </div>
+
+                  <!-- KASA AÇIK GÖRÜNÜMÜ (ANA SAYFADAKİ GİBİ MODÜLER VE AYRI WIDGETLAR) -->
+                  <div id="vaultUnlockedView" class="hidden space-y-6">
+
+                      <!-- 1. ÜST METRİK HUD (KAYIT SAYILARI VE DURUM) -->
+                      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                          <div class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 bg-slate-900/60 flex items-center justify-between">
+                              <div>
+                                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">KİMLİK & ŞAHSİ</span>
+                                  <h3 class="text-xl font-extrabold font-mono text-blue-400 mt-0.5" id="vaultCountId">0 Kayıt</h3>
+                              </div>
+                              <div class="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                                  <i data-lucide="id-card" class="w-5 h-5"></i>
+                              </div>
+                          </div>
+
+                          <div class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 bg-slate-900/60 flex items-center justify-between">
+                              <div>
+                                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">BANKA & FİNANS</span>
+                                  <h3 class="text-xl font-extrabold font-mono text-emerald-400 mt-0.5" id="vaultCountBank">0 Kayıt</h3>
+                              </div>
+                              <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                  <i data-lucide="credit-card" class="w-5 h-5"></i>
+                              </div>
+                          </div>
+
+                          <div class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 bg-slate-900/60 flex items-center justify-between">
+                              <div>
+                                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">HESAP & ŞİFRELER</span>
+                                  <h3 class="text-xl font-extrabold font-mono text-amber-400 mt-0.5" id="vaultCountPass">0 Kayıt</h3>
+                              </div>
+                              <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                                  <i data-lucide="key" class="w-5 h-5"></i>
+                              </div>
+                          </div>
+
+                          <div class="glass-card p-4 sm:p-5 rounded-3xl border border-slate-800 bg-slate-900/60 flex items-center justify-between">
+                              <div>
+                                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">GİZLİ ŞAHSİ NOTLAR</span>
+                                  <h3 class="text-xl font-extrabold font-mono text-purple-400 mt-0.5" id="vaultCountNotes">0 Kayıt</h3>
+                              </div>
+                              <div class="w-10 h-10 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+                                  <i data-lucide="file-text" class="w-5 h-5"></i>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- 2. ARAMA VE YENİ KAYIT HIZLI BAR -->
+                      <div class="glass-card p-3 rounded-2xl border border-slate-800/80 bg-slate-950 flex items-center justify-between gap-3">
+                          <div class="relative flex-1">
+                              <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                              <input 
+                                  type="text" 
+                                  id="vaultSearchInput" 
+                                  oninput="Portal.renderVaultItems()" 
+                                  placeholder="Kasada ara (TC, IBAN, Banka, Parola, Başlık)..." 
+                                  class="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50"
+                              >
+                          </div>
+                          <button onclick="Portal.openNewVaultItemModal()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer flex-shrink-0 shadow-md">
+                              <i data-lucide="plus" class="w-4 h-4"></i> Yeni Kayıt Ekle
+                          </button>
+                      </div>
+
+                      <!-- 3. ANA SAYFADAKİ GİBİ AYRI WIDGETLAR (GRID) -->
+                      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                          <!-- WIDGET 1: KİMLİK & ŞAHSİ BİLGİLER -->
+                          <div class="glass-card p-5 sm:p-6 rounded-3xl border border-slate-800 bg-slate-900/80 shadow-lg flex flex-col justify-between space-y-4">
+                              <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                                  <div class="flex items-center gap-2.5">
+                                      <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                                          <i data-lucide="id-card" class="w-4 h-4"></i>
+                                      </div>
+                                      <div>
+                                          <h3 class="font-bold text-sm text-white">Kimlik & Resmi Şahsi Bilgiler</h3>
+                                          <p class="text-[10px] text-slate-400">T.C. No, Pasaport, Ehliyet, Seri No</p>
+                                      </div>
+                                  </div>
+                                  <button onclick="Portal.openNewVaultItemModal('Kimlik & Şahsi')" class="px-2.5 py-1 rounded-lg bg-blue-500/15 hover:bg-blue-500/25 text-blue-300 border border-blue-500/30 text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer" title="Yeni Kimlik Bilgisi Ekle">
+                                      <i data-lucide="plus" class="w-3.5 h-3.5"></i> Ekle
+                                  </button>
+                              </div>
+                              <div class="space-y-3 min-h-[100px]" id="vaultWidget_id"></div>
+                          </div>
+
+                          <!-- WIDGET 2: BANKA & FİNANS -->
+                          <div class="glass-card p-5 sm:p-6 rounded-3xl border border-slate-800 bg-slate-900/80 shadow-lg flex flex-col justify-between space-y-4">
+                              <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                                  <div class="flex items-center gap-2.5">
+                                      <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                          <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                      </div>
+                                      <div>
+                                          <h3 class="font-bold text-sm text-white">Banka Hesapları & IBAN Kasası</h3>
+                                          <p class="text-[10px] text-slate-400">Banka hesapları, IBAN'lar, Kart Bilgileri</p>
+                                      </div>
+                                  </div>
+                                  <button onclick="Portal.openNewVaultItemModal('Banka & Finans')" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer" title="Yeni Banka/IBAN Kaydı Ekle">
+                                      <i data-lucide="plus" class="w-3.5 h-3.5"></i> Ekle
+                                  </button>
+                              </div>
+                              <div class="space-y-3 min-h-[100px]" id="vaultWidget_bank"></div>
+                          </div>
+
+                          <!-- WIDGET 3: HESAP & ŞİFRELER -->
+                          <div class="glass-card p-5 sm:p-6 rounded-3xl border border-slate-800 bg-slate-900/80 shadow-lg flex flex-col justify-between space-y-4">
+                              <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                                  <div class="flex items-center gap-2.5">
+                                      <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                                          <i data-lucide="key" class="w-4 h-4"></i>
+                                      </div>
+                                      <div>
+                                          <h3 class="font-bold text-sm text-white">Kritik Hesaplar & Şifre Kasası</h3>
+                                          <p class="text-[10px] text-slate-400">Master şifreler, erişim anahtarları</p>
+                                      </div>
+                                  </div>
+                                  <button onclick="Portal.openNewVaultItemModal('Hesap & Şifre')" class="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer" title="Yeni Şifre Kaydı Ekle">
+                                      <i data-lucide="plus" class="w-3.5 h-3.5"></i> Ekle
+                                  </button>
+                              </div>
+                              <div class="space-y-3 min-h-[100px]" id="vaultWidget_pass"></div>
+                          </div>
+
+                          <!-- WIDGET 4: GİZLİ ŞAHSİ NOTLAR -->
+                          <div class="glass-card p-5 sm:p-6 rounded-3xl border border-slate-800 bg-slate-900/80 shadow-lg flex flex-col justify-between space-y-4">
+                              <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                                  <div class="flex items-center gap-2.5">
+                                      <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+                                          <i data-lucide="file-text" class="w-4 h-4"></i>
+                                      </div>
+                                      <div>
+                                          <h3 class="font-bold text-sm text-white">Gizli Şahsi Notlar & Evraklar</h3>
+                                          <p class="text-[10px] text-slate-400">Özel şahsi notlar, gizli stratejiler</p>
+                                      </div>
+                                  </div>
+                                  <button onclick="Portal.openNewVaultItemModal('Özel Not')" class="px-2.5 py-1 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer" title="Yeni Gizli Not Ekle">
+                                      <i data-lucide="plus" class="w-3.5 h-3.5"></i> Ekle
+                                  </button>
+                              </div>
+                              <div class="space-y-3 min-h-[100px]" id="vaultWidget_notes"></div>
+                          </div>
+
+                      </div>
+
+                  </div>
+              </div>
+
+              <!-- TAB 4: GELİŞTİRİCİ & AYARLAR -->
             <!-- ========================================================== -->
             <div id="tab-admin" class="tab-pane hidden max-w-5xl mx-auto space-y-6">
                 <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-800">
@@ -453,8 +1097,8 @@
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
             <h3 class="font-bold text-white">Yeni Strateji Grubu Oluştur</h3>
             <form onsubmit="Portal.handleCreateTaskGroup(event)" class="space-y-4 text-xs">
-                <div><label class="font-bold text-slate-300 block mb-1">Grup Başlığı</label><input type="text" id="newTaskGroupTitle" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white outline-none focus:border-blue-500"></div>
-                <div><label class="font-bold text-slate-300 block mb-1">İlk Eylem (Opsiyonel)</label><input type="text" id="newTaskFirstItem" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white outline-none focus:border-blue-500"></div>
+                <div><label class="font-bold text-slate-300 block mb-1">Grup Başlığı</label><input type="text" id="newTaskGroupTitle" required onkeydown="if(event.key==='Enter'){event.preventDefault(); this.form.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));}" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white outline-none focus:border-blue-500"></div>
+                <div><label class="font-bold text-slate-300 block mb-1">İlk Eylem (Opsiyonel)</label><input type="text" id="newTaskFirstItem" onkeydown="if(event.key==='Enter'){event.preventDefault(); this.form.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));}" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white outline-none focus:border-blue-500"></div>
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
                     <button type="button" onclick="Portal.closeModal('newTaskModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 cursor-pointer">İptal</button>
                     <button type="submit" class="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold cursor-pointer">Kaydet</button>
@@ -472,7 +1116,14 @@
                     <input type="text" id="drawerNoteTitle" placeholder="Başlıksız Doküman" class="bg-transparent border-none text-lg font-bold text-white placeholder-slate-500 focus:outline-none w-64">
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="Portal.toggleDrawerPin()" title="Sabitle" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"><i data-lucide="pin" class="w-4 h-4"></i></button>
+                    <select id="drawerNoteCategory" class="px-2 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer">
+                        <option value="Genel">📁 Genel</option>
+                        <option value="İş">💼 İş</option>
+                        <option value="Finans">📈 Finans</option>
+                        <option value="Fikir">💡 Fikir</option>
+                        <option value="Kişisel">👤 Kişisel</option>
+                    </select>
+                    <button onclick="Portal.toggleDrawerPin()" title="Sabitle" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"><i data-lucide="pin" class="w-4 h-4"></i></button>
                     <button onclick="Portal.saveDrawerNote()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-lg shadow-blue-500/20 cursor-pointer">Kaydet</button>
                     <button onclick="Portal.closeNoteDrawer()" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
                 </div>
@@ -488,39 +1139,144 @@
         </div>
     </div>
 
-    <!-- 3. HİSSE EKLEME MODALI (AUTOCOMPLETE) -->
+    <!-- 3. HİSSE / VARLIK EKLEME MODALI (İZLEME LİSTESİ VEYA PORTFÖY MODU) -->
     <div id="addAssetModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black"><i data-lucide="search" class="w-4 h-4"></i></div>
-                    <div><h3 class="font-bold text-sm text-white">Portföye Varlık Ekle</h3><p class="text-[11px] text-slate-400">Şirket adı veya kod yazın (Örn: THYAO, Altın)</p></div>
+                    <div class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-black"><i data-lucide="plus-circle" class="w-4 h-4"></i></div>
+                    <div><h3 class="font-bold text-sm text-white">Varlık / Hisse Ekle</h3><p class="text-[11px] text-slate-400">İzleme listesine veya doğrudan portföyünüze ekleyin</p></div>
                 </div>
                 <button onclick="Portal.closeModal('addAssetModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
+
+            <!-- MOD SEÇİCİ (İZLEME LİSTESİ Mİ, PORTFÖY MÜ?) -->
+            <div class="flex items-center gap-2 p-1 rounded-2xl bg-slate-950 border border-slate-800">
+                <button type="button" id="modalModeWatchBtn" onclick="Portal.setFinanceAddMode('watch')" class="flex-1 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs transition-all shadow-md">
+                    👁️ İzleme Listesi (Sadece Canlı Takip)
+                </button>
+                <button type="button" id="modalModePortBtn" onclick="Portal.setFinanceAddMode('portfolio')" class="flex-1 py-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white font-medium text-xs transition-all">
+                    💼 Portföyüm (Lot & Maliyet ile)
+                </button>
+            </div>
+
             <form onsubmit="Portal.handleSaveAsset(event)" class="space-y-4 text-xs">
                 <div class="relative">
-                    <label class="font-bold text-slate-300 block mb-1">Varlık Ara *</label>
+                    <label class="font-bold text-slate-300 block mb-1">Varlık / Hisse Ara *</label>
                     <div class="relative">
-                        <input type="text" id="assetSearchInput" autocomplete="off" oninput="Portal.handleStockSearch(this.value)" onfocus="Portal.handleStockSearch(this.value)" placeholder="ASELS, Altın, THY..." class="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-slate-100 font-bold focus:outline-none focus:border-emerald-500 text-sm">
+                        <input type="text" id="assetSearchInput" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('modalAssetSubmitBtn').click();}" autocomplete="off" oninput="Portal.handleStockSearch(this.value)" onfocus="Portal.handleStockSearch(this.value)" placeholder="ASELS, Altın, THY, Dolar..." class="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-slate-100 font-bold focus:outline-none focus:border-blue-500 text-sm">
                         <input type="hidden" id="assetSymbolInput">
                     </div>
                     <div id="stockSearchDropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-slate-950 border border-slate-700/90 rounded-2xl shadow-2xl max-h-60 overflow-y-auto z-50 divide-y divide-slate-850"></div>
                 </div>
-                <div id="selectedAssetCard" class="hidden p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 flex items-center justify-between">
+                <div id="selectedAssetCard" class="hidden p-3.5 rounded-2xl bg-blue-950/30 border border-blue-500/30 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 font-black flex items-center justify-center font-mono text-xs" id="selectedAssetBadge">TH</div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-300 font-black flex items-center justify-center font-mono text-xs" id="selectedAssetBadge">TH</div>
                         <div><h4 class="font-bold text-white text-xs" id="selectedAssetName">Türk Hava Yolları</h4><span class="text-[10px] text-emerald-400 font-mono font-bold" id="selectedAssetPrice">Anlık: 312,50 ₺</span></div>
                     </div>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono">Seçildi ✓</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono">Seçildi ✓</span>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div><label class="font-bold text-slate-300 block mb-1">Lot/Adet *</label><input type="number" step="any" id="assetSharesInput" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm"></div>
-                    <div><label class="font-bold text-slate-300 block mb-1">Alış Maliyeti *</label><input type="number" step="any" id="assetBuyPriceInput" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm"></div>
+                
+                <!-- PORTFÖY MODUNDA GÖRÜNEN LOT VE MALİYET ALANLARI -->
+                <div id="modalPortfolioFields" class="hidden grid grid-cols-2 gap-3">
+                    <div><label class="font-bold text-slate-300 block mb-1">Lot / Adet</label><input type="number" step="any" id="assetSharesInput" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('modalAssetSubmitBtn').click();}" placeholder="Örn: 10" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm"></div>
+                    <div><label class="font-bold text-slate-300 block mb-1">Alış Maliyeti (₺)</label><input type="number" step="any" id="assetBuyPriceInput" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('modalAssetSubmitBtn').click();}" placeholder="Örn: 300.00" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-mono focus:outline-none focus:border-emerald-500 text-sm"></div>
                 </div>
+
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
                     <button type="button" onclick="Portal.closeModal('addAssetModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold cursor-pointer">İptal</button>
-                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer shadow-lg shadow-emerald-500/25">Kaydet</button>
+                    <button type="submit" id="modalAssetSubmitBtn" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold cursor-pointer shadow-lg shadow-blue-500/25">İzleme Listesine Ekle 👁️</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3.5. VARLIK DÜZENLEME & ALIM-SATIM MODALI -->
+    <div id="editAssetModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-black">
+                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-white" id="editModalTitle">Pozisyonu Güncelle</h3>
+                        <p class="text-[11px] text-slate-400" id="editModalSub">Lot ve maliyet düzenle veya satış yap</p>
+                    </div>
+                </div>
+                <button onclick="Portal.closeModal('editAssetModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <!-- İŞLEM SEÇİCİ (GÜNCELLEME Mİ, KISMİ/TAM SATIŞ MI?) -->
+            <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs">
+                <button type="button" id="editTabBtn_update" onclick="Portal.setEditAssetMode('update')" class="flex-1 py-2 rounded-xl bg-blue-600 text-white font-bold transition-all shadow-md">
+                    📝 Pozisyonu Düzenle
+                </button>
+                <button type="button" id="editTabBtn_sell" onclick="Portal.setEditAssetMode('sell')" class="flex-1 py-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white font-medium transition-all">
+                    💰 Satış / Kâr Realize
+                </button>
+            </div>
+
+            <form onsubmit="Portal.handleSaveEditedAsset(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="editAssetId">
+                <input type="hidden" id="editAssetSymbol">
+
+                <!-- Varlık Bilgi Kartı -->
+                <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span id="editAssetBadge" class="w-9 h-9 rounded-xl bg-blue-600/20 text-blue-400 font-mono text-xs font-bold flex items-center justify-center">TH</span>
+                        <div>
+                            <h4 id="editAssetSymbolDisplay" class="font-black text-white text-xs">THYAO</h4>
+                            <span id="editAssetNameDisplay" class="text-[10px] text-slate-400">Türk Hava Yolları</span>
+                        </div>
+                    </div>
+                    <div class="text-right font-mono">
+                        <span class="text-[9px] text-slate-500 block">Canlı Fiyat</span>
+                        <span id="editAssetLivePriceDisplay" class="text-xs font-bold text-emerald-400">0.00 ₺</span>
+                    </div>
+                </div>
+
+                <!-- 1. Pozisyon Düzenleme Alanları -->
+                <div id="editModeUpdateFields" class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-300 block mb-1">Mevcut Lot</label>
+                            <input type="number" step="any" id="editSharesInput" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono text-sm focus:border-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-300 block mb-1">Alış Maliyeti (₺)</label>
+                            <input type="number" step="any" id="editBuyPriceInput" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono text-sm focus:border-blue-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Satış / Kâr Realizasyonu Alanları -->
+                <div id="editModeSellFields" class="hidden space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-bold text-slate-300 block mb-1">Satılacak Lot</label>
+                            <input type="number" step="any" id="sellSharesInput" oninput="Portal.calcSellProfitPreview()" placeholder="Örn: 50" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono text-sm focus:border-rose-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-300 block mb-1">Satış Fiyatı (₺)</label>
+                            <input type="number" step="any" id="sellPriceInput" oninput="Portal.calcSellProfitPreview()" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono text-sm focus:border-rose-500 outline-none">
+                        </div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center justify-between text-xs font-mono">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block">Kalan Lot:</span>
+                            <span id="sellRemainingShares" class="text-white font-bold">0 Lot</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] text-slate-400 block">Realize Kâr/Zarar:</span>
+                            <span id="sellRealizedProfitPreview" class="text-emerald-400 font-bold">+0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="Portal.closeModal('editAssetModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold cursor-pointer">İptal</button>
+                    <button type="submit" id="editModalSubmitBtn" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all shadow-md cursor-pointer">Değişiklikleri Kaydet</button>
                 </div>
             </form>
         </div>
@@ -540,7 +1296,7 @@
                         <option value="Özel Not">Gizli Şahsi Not</option>
                     </select>
                 </div>
-                <div><label class="font-bold text-slate-300 block mb-1">Başlık</label><input type="text" id="vaultItemTitle" required placeholder="Örn: Garanti Ana IBAN" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white outline-none"></div>
+                <div><label class="font-bold text-slate-300 block mb-1">Başlık</label><input type="text" id="vaultItemTitle" required onkeydown="if(event.key==='Enter'){event.preventDefault(); this.form.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));}" placeholder="Örn: Garanti Ana IBAN" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white outline-none"></div>
                 <div><label class="font-bold text-slate-300 block mb-1">Gizli İçerik / Veri</label><textarea id="vaultItemValue" required placeholder="Örn: TR12 0006 ... veya Şifre: X#91k" class="w-full h-24 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono outline-none"></textarea></div>
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
                     <button type="button" onclick="Portal.closeModal('newVaultItemModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 cursor-pointer">İptal</button>
@@ -550,8 +1306,385 @@
         </div>
     </div>
 
+    <!-- 5. TEKNİK GRAFİK & TRADINGVIEW MODALI -->
+    <div id="stockChartModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4">
+        <div class="bg-slate-900 border border-white/10 rounded-3xl max-w-5xl w-full h-[90vh] max-h-[760px] flex flex-col shadow-2xl overflow-hidden relative">
+            <!-- MODAL HEADER -->
+            <div class="p-3.5 sm:px-6 sm:py-3.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-3 bg-slate-950/80">
+                <div class="flex items-center gap-3">
+                    <div id="chartModalAvatar" class="w-10 h-10 rounded-2xl bg-indigo-500/15 ring-1 ring-indigo-500/30 text-indigo-300 flex items-center justify-center font-mono text-sm font-black shadow-inner">
+                        TH
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 id="chartModalSymbol" class="font-black text-base text-white font-mono tracking-tight">THYAO</h3>
+                            <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-mono text-[10px] font-bold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> CANLI PİYASA
+                            </span>
+                            <span id="chartModalSectorBadge" class="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.06] text-slate-300 border border-white/10 font-mono hidden sm:inline-block">Sanayi</span>
+                        </div>
+                        <p id="chartModalTitle" class="text-xs text-slate-400 truncate max-w-[280px] sm:max-w-md">Türk Hava Yolları Anonim Ortaklığı</p>
+                    </div>
+                </div>
+
+                <!-- KONTROL ARAÇLARI (ZAMAN ARALIĞI & GRAFİK TİPİ & TV LİNKİ) -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <!-- Zaman Aralığı Butonları -->
+                    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-white/10 text-xs font-mono">
+                        <button type="button" onclick="Portal.setChartTimeframe('1wk')" id="chartTf_1wk" class="chart-tf-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all">1H</button>
+                        <button type="button" onclick="Portal.setChartTimeframe('1mo')" id="chartTf_1mo" class="chart-tf-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold transition-all shadow-sm">1A</button>
+                        <button type="button" onclick="Portal.setChartTimeframe('3mo')" id="chartTf_3mo" class="chart-tf-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all">3A</button>
+                        <button type="button" onclick="Portal.setChartTimeframe('1y')" id="chartTf_1y" class="chart-tf-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all">1Y</button>
+                    </div>
+
+                    <!-- Mum / Çizgi Tipi Seçici -->
+                    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-white/10 text-xs font-mono">
+                        <button type="button" onclick="Portal.setChartStyle('candlestick')" id="chartStyle_candle" class="chart-style-btn px-2.5 py-1 rounded-lg bg-slate-800 text-white font-bold transition-all shadow-sm" title="Mum Grafik">📊 Mum</button>
+                        <button type="button" onclick="Portal.setChartStyle('area')" id="chartStyle_area" class="chart-style-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all" title="Alan / Çizgi Grafik">📈 Çizgi</button>
+                    </div>
+
+                    <!-- TradingView Dış Bağlantı Butonu -->
+                    <a id="chartTradingViewLink" target="_blank" href="https://www.tradingview.com" class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 hover:text-indigo-200 border border-indigo-500/25 text-xs font-bold transition-all flex items-center gap-1.5" title="TradingView üzerinde tam ekran aç">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">TradingView</span>
+                    </a>
+
+                    <!-- Kapat Butonu -->
+                    <button onclick="Portal.closeModal('stockChartModal')" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- GRAFİK GÖVDESİ & HUD (CANLI DEĞERLER ÇUBUĞU) -->
+            <div class="flex-1 bg-[#060a14] flex flex-col min-h-0 relative p-2 sm:p-4">
+                <!-- OHLC Canlı Hover HUD -->
+                <div id="chartHudBar" class="flex flex-wrap items-center justify-between gap-3 px-3 py-1.5 mb-2 rounded-xl bg-slate-900/60 border border-white/5 text-[11px] font-mono text-slate-400">
+                    <div class="flex items-center gap-3">
+                        <span id="hudDate" class="text-slate-300 font-bold">Tarih: -</span>
+                        <span class="text-slate-500">|</span>
+                        <span>Açılış: <b id="hudOpen" class="text-white">-</b></span>
+                        <span>Yüksek: <b id="hudHigh" class="text-emerald-400">-</b></span>
+                        <span>Düşük: <b id="hudLow" class="text-rose-400">-</b></span>
+                        <span>Kapanış: <b id="hudClose" class="text-white">-</b></span>
+                    </div>
+                    <div>
+                        <span id="hudVolume" class="text-slate-400">Hacim: <b class="text-slate-200">-</b></span>
+                    </div>
+                </div>
+
+                <!-- NATIVE LIGHTWEIGHT CHARTS CONTAINER -->
+                <div id="nativeChartContainer" class="w-full flex-1 min-h-[360px] relative rounded-2xl overflow-hidden"></div>
+
+                <!-- YÜKLENİYOR OVERLAY -->
+                <div id="chartLoadingOverlay" class="absolute inset-0 z-20 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3 rounded-2xl">
+                    <div class="w-10 h-10 rounded-full border-2 border-indigo-500/20 border-t-indigo-500 animate-spin"></div>
+                    <span class="text-xs font-mono font-bold text-slate-300">Piyasa Verileri Yükleniyor...</span>
+                </div>
+            </div>
+
+            <!-- GRAFİK ALTI CANLI FİYAT VE HIZLI AKSİYON BARI -->
+            <div id="chartModalPriceBar" class="p-3 sm:px-6 bg-slate-950 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-4 font-mono">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-slate-400 uppercase font-semibold">Anlık Canlı Fiyat</span>
+                        <div class="flex items-center gap-2">
+                            <span id="chartModalCurrentPrice" class="text-2xl font-black text-white">0,00 ₺</span>
+                            <span id="chartModalPriceChange" class="text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-mono">+0.00%</span>
+                        </div>
+                    </div>
+                    <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
+                    <div class="flex flex-col hidden sm:flex">
+                        <span class="text-[10px] text-slate-400 uppercase font-semibold">Kategori / Sektör</span>
+                        <span id="chartModalSector" class="text-xs font-bold text-slate-200">BIST Hisse</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="chartModalAddWatchBtn" onclick="Portal.chartModalToggleWatchlist()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer">
+                        <i data-lucide="eye" class="w-3.5 h-3.5"></i> <span id="chartModalWatchText">İzlemeye Al</span>
+                    </button>
+                    <button id="chartModalAddPortBtn" onclick="Portal.chartModalAddToPortfolio()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-600/25 border border-emerald-400/30 transition-all cursor-pointer">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> Portföye Ekle
+                    </button>
+                    <button id="chartModalCalcBtn" onclick="Portal.chartModalSendToCalc()" class="px-3.5 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white font-bold text-xs flex items-center gap-1.5 border border-indigo-500/30 transition-all cursor-pointer" title="Getiri Simülasyonu">
+                        <i data-lucide="calculator" class="w-3.5 h-3.5"></i> Hedef Hesapla
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. ŞEHİR / HAVA DURUMU SEÇİM MODALI (81 İL) -->
+    <div id="weatherModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-black">
+                        <i data-lucide="cloud-sun" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-white">Canlı Hava Durumu Konumu (81 İl)</h3>
+                        <p class="text-[11px] text-slate-400">Hava durumunu anlık takip etmek istediğiniz şehri seçin</p>
+                    </div>
+                </div>
+                <button onclick="Portal.closeModal('weatherModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="relative">
+                <input 
+                    type="text" 
+                    id="weatherCitySearch" 
+                    oninput="Portal.renderWeatherCityList(this.value)" 
+                    placeholder="Şehir ara (Örn: Ankara, İzmir, Bursa, Antalya, Rize)..." 
+                    class="w-full px-9 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                >
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-500"></i>
+            </div>
+
+            <div class="flex-1 overflow-y-auto max-h-[360px] grid grid-cols-2 sm:grid-cols-3 gap-2 p-1" id="weatherCityList"></div>
+
+            <div class="pt-3 border-t border-slate-800 flex justify-end">
+                <button onclick="Portal.closeModal('weatherModal')" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs cursor-pointer">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÖDEME DÜŞME MODALI (GELİŞMİŞ & HIZLI ÖDEME) -->
+    <div id="paymentModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-3xl p-6 border border-slate-800 bg-slate-900/95 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="badge-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-white" id="paymentModalTitle">Ödeme Düş</h3>
+                        <p class="text-[11px] text-slate-400" id="paymentModalSubtitle">Kalan bakiyeyi güncelleyin</p>
+                    </div>
+                </div>
+                <button onclick="Portal.closeModal('paymentModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <input type="hidden" id="paymentTargetDebtId">
+
+            <div class="space-y-3">
+                <div class="p-3 rounded-2xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                    <span class="text-slate-400">Mevcut Kalan:</span>
+                    <span id="paymentCurrentRemainingDisplay" class="font-bold text-rose-400">₺0</span>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-400 mb-1">Yapılan Ödeme Tutarı (₺)</label>
+                    <input type="number" step="any" id="paymentAmountInput" placeholder="0.00" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm font-bold text-emerald-400 font-mono focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div class="flex items-center gap-2 pt-1">
+                    <button type="button" onclick="Portal.fillFullPayment()" class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 text-[11px] font-medium transition-colors cursor-pointer">
+                        Tamamını Kapat
+                    </button>
+                    <button type="button" onclick="Portal.fillMonthlyPayment()" id="paymentMonthlyQuickBtn" class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 text-[11px] font-medium transition-colors cursor-pointer">
+                        Aylık Taksit Tutarı
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2">
+                <button onclick="Portal.closeModal('paymentModal')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold cursor-pointer">Vazgeç</button>
+                <button onclick="Portal.confirmDebtPayment()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md cursor-pointer flex items-center gap-1.5">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i> Ödemeyi Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- İÇ TAKSİT EKLEME MODALI (EKSTRE DETAYLARI İÇİN) -->
+    <div id="budgetSubItemModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-3xl p-6 border border-slate-800 bg-slate-900/95 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                        <i data-lucide="layers" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-white">İç Taksit / Harcama Ekle</h3>
+                        <p class="text-[11px] text-slate-400" id="subItemModalPlanName">Ekstre detay kaydı</p>
+                    </div>
+                </div>
+                <button onclick="Portal.closeModal('budgetSubItemModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <input type="hidden" id="subItemTargetDebtId">
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-400 mb-1">Taksit / Harcama Açıklaması</label>
+                    <input type="text" id="subItemTitleInput" placeholder="Örn: Telefon Taksiti, Sigorta, Kulaklık..." class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-400 mb-1">Aylık Taksit (₺)</label>
+                        <input type="number" step="any" id="subItemAmountInput" placeholder="0.00" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-400 mb-1">Vade / Durum</label>
+                        <input type="text" id="subItemTermInput" placeholder="Örn: 2/6 Ay" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2">
+                <button onclick="Portal.closeModal('budgetSubItemModal')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold cursor-pointer">İptal</button>
+                <button onclick="Portal.confirmAddSubItem()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md cursor-pointer">
+                    Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- YÜZEN, SÜRÜKLENEBİLİR VE BOYUTLANDIRILABİLİR HESAP MAKİNESİ (MODAL DEĞİL, BAĞIMSIZ PENCERE) -->
+    <div id="floatingCalculatorWindow" class="hidden fixed z-[90] shadow-2xl rounded-2xl border border-slate-700/80 bg-slate-900/95 backdrop-blur-xl flex flex-col overflow-hidden select-none" style="top: 100px; right: 40px; width: 300px; min-width: 240px; min-height: 380px; resize: both; overflow: hidden;">
+        <!-- PENCERE BAŞLIĞI / TUTACAĞI (DRAGGABLE HEADER) -->
+        <div id="calculatorDragHandle" class="h-10 px-3.5 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between cursor-move flex-shrink-0">
+            <div class="flex items-center gap-2 pointer-events-none">
+                <i data-lucide="calculator" class="w-4 h-4 text-amber-400"></i>
+                <span class="text-xs font-bold text-slate-200 tracking-wide">Hesap Makinesi</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <button onclick="Portal.minimizeFloatingCalculator()" class="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Küçült">
+                    <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="Portal.closeFloatingCalculator()" class="p-1 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Kapat">
+                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- HESAP MAKİNESİ EKRANI -->
+        <div class="p-3 bg-slate-950/90 border-b border-slate-800/80 flex flex-col justify-end text-right flex-shrink-0">
+            <div id="calcHistoryDisplay" class="text-[10px] text-slate-500 font-mono h-4 overflow-hidden truncate"></div>
+            <div id="calcScreenDisplay" class="text-2xl font-black text-white font-mono tracking-tight truncate select-all">0</div>
+        </div>
+
+        <!-- TUŞ TAKIMI (GRID) -->
+        <div class="p-2.5 grid grid-cols-4 gap-1.5 flex-1 bg-slate-900/90">
+            <button onclick="Portal.calculatorClear()" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-rose-500/20 text-rose-400 font-bold text-xs transition-colors cursor-pointer">C</button>
+            <button onclick="Portal.calculatorBackspace()" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors cursor-pointer">⌫</button>
+            <button onclick="Portal.calculatorOp('%')" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors cursor-pointer">%</button>
+            <button onclick="Portal.calculatorOp('/')" class="p-2.5 rounded-xl bg-blue-600/30 hover:bg-blue-600/50 text-blue-400 font-bold text-sm transition-colors cursor-pointer">÷</button>
+
+            <button onclick="Portal.calculatorNum('7')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">7</button>
+            <button onclick="Portal.calculatorNum('8')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">8</button>
+            <button onclick="Portal.calculatorNum('9')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">9</button>
+            <button onclick="Portal.calculatorOp('*')" class="p-2.5 rounded-xl bg-blue-600/30 hover:bg-blue-600/50 text-blue-400 font-bold text-sm transition-colors cursor-pointer">×</button>
+
+            <button onclick="Portal.calculatorNum('4')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">4</button>
+            <button onclick="Portal.calculatorNum('5')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">5</button>
+            <button onclick="Portal.calculatorNum('6')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">6</button>
+            <button onclick="Portal.calculatorOp('-')" class="p-2.5 rounded-xl bg-blue-600/30 hover:bg-blue-600/50 text-blue-400 font-bold text-sm transition-colors cursor-pointer">-</button>
+
+            <button onclick="Portal.calculatorNum('1')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">1</button>
+            <button onclick="Portal.calculatorNum('2')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">2</button>
+            <button onclick="Portal.calculatorNum('3')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">3</button>
+            <button onclick="Portal.calculatorOp('+')" class="p-2.5 rounded-xl bg-blue-600/30 hover:bg-blue-600/50 text-blue-400 font-bold text-sm transition-colors cursor-pointer">+</button>
+
+            <button onclick="Portal.calculatorNum('0')" class="col-span-2 p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">0</button>
+            <button onclick="Portal.calculatorNum('.')" class="p-2.5 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer">.</button>
+            <button onclick="Portal.calculatorEquals()" class="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md transition-colors cursor-pointer">=</button>
+        </div>
+    </div>
+
+    <!-- BÜTÇE & BORÇ EKLEME MODALI -->
+    <div id="budgetModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-3xl p-6 border border-slate-800 bg-slate-900/95 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div id="budgetModalIconBox" class="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                        <i data-lucide="wallet" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-white" id="budgetModalTitle">Finansal Kayıt Ekle</h3>
+                        <p class="text-[11px] text-slate-400" id="budgetModalDesc">Gelir, borç veya sabit gider tanımlayın</p>
+                    </div>
+                </div>
+                <button onclick="Portal.closeModal('budgetModal')" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4" id="budgetModalForm">
+                <input type="hidden" id="budgetRecordType" value="debt">
+
+                <!-- TİP SEÇİMİ (EĞER SERBEST AÇILDIYSA) -->
+                <div class="flex items-center gap-1.5 p-1 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+                    <button type="button" onclick="Portal.setBudgetModalType('debt')" id="btnBudgetType_debt" class="flex-1 py-1.5 rounded-lg text-slate-400 font-medium">Ödeme Planı</button>
+                    <button type="button" onclick="Portal.setBudgetModalType('income')" id="btnBudgetType_income" class="flex-1 py-1.5 rounded-lg text-slate-400 font-medium">Sabit Gelir</button>
+                    <button type="button" onclick="Portal.setBudgetModalType('fixed')" id="btnBudgetType_fixed" class="flex-1 py-1.5 rounded-lg text-slate-400 font-medium">Sabit Gider</button>
+                </div>
+
+                <!-- ALANLAR -->
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-400 mb-1">Başlık / Tanım</label>
+                    <input type="text" id="budgetTitleInput" placeholder="Örn: Garanti Bonus, Konut Kredisi, Ev Kirası, Maaş..." class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+
+                <!-- BORÇ ÖZEL KATEGORİSİ (SADECE DEBT İÇİN) -->
+                <div id="budgetDebtCategoryGroup">
+                    <label class="block text-[11px] font-medium text-slate-400 mb-1">Ödeme Türü</label>
+                    <select id="budgetDebtCategorySelect" onchange="Portal.onBudgetCategoryChange(this.value)" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500">
+                        <option value="card">💳 Kredi Kartı (Ekstre & Taksitler)</option>
+                        <option value="loan">🏦 Banka Kredisi (Ev, Taşıt, İhtiyaç)</option>
+                        <option value="gold_fx">🪙 Altın / Döviz Yükümlülüğü (Özel)</option>
+                        <option value="personal">🤝 Bireysel / Emanet Ödeme (TL)</option>
+                    </select>
+                </div>
+
+                <!-- TUTAR ALANLARI -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-400 mb-1" id="budgetMainAmountLabel">Aylık Taksit / Ödeme (₺)</label>
+                        <input type="number" step="any" id="budgetMonthlyAmountInput" placeholder="0.00" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div id="budgetTotalRemainingGroup">
+                        <label class="block text-[11px] font-medium text-slate-400 mb-1">Kalan Toplam Tutar (₺)</label>
+                        <input type="number" step="any" id="budgetTotalAmountInput" placeholder="0.00" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white font-mono focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <!-- ALTIN / DÖVİZ EK ALANLARI -->
+                <div id="budgetGoldFxGroup" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded-2xl bg-slate-950/60 border border-amber-500/20">
+                    <div>
+                        <label class="block text-[10px] font-medium text-amber-300/80 mb-1">Miktar & Birim</label>
+                        <input type="text" id="budgetAssetQtyInput" placeholder="Örn: 25 Gram, 1000 USD..." class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-medium text-amber-300/80 mb-1">Özel Birim Kur (Opsiyonel)</label>
+                        <input type="number" step="any" id="budgetAssetCustomRateInput" placeholder="Boş ise güncel kur" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white font-mono focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- NOT / AÇIKLAMA -->
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-400 mb-1">Not / Hatırlatıcı</label>
+                    <input type="text" id="budgetNotesInput" placeholder="Örn: Her ayın 15'inde, Ahmet amcaya ödenecek..." class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2">
+                <button onclick="Portal.closeModal('budgetModal')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold cursor-pointer">İptal</button>
+                <button onclick="Portal.saveBudgetRecord()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md cursor-pointer">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
     <!-- TOAST BİLDİRİMLERİ -->
     <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-2"></div>
     <script src="js/portal.js"></script>
 </body>
 </html>
+
